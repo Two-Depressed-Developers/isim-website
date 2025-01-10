@@ -5,7 +5,7 @@ services:
   #   build:
   #     context: .
   #     dockerfile: Dockerfile.dev
-  #   container_name: docker-nextjs-dev
+  #   container_name: isim-nextjs-dev
   #   environment:
   #     - WATCHPACK_POLLING=true
   #   volumes:
@@ -21,7 +21,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.prod
-    container_name: demo-docker-nextjs
+    container_name: isim-nextjs-prod
     ports:
       - "3000:3000"
     env_file:

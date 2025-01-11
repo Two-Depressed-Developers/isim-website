@@ -14,10 +14,10 @@ export interface IMember {
   photo: {
     url: string;
     alternativeText: string;
-  },
-  USOSLink: ILink,
-  BADAPLink: ILink,
-  SKOSLink: ILink
+  };
+  USOSLink: ILink;
+  BADAPLink: ILink;
+  SKOSLink: ILink;
 }
 
 export interface IGroup {

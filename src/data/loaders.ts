@@ -1,11 +1,10 @@
-import qs from 'qs';
+import qs from "qs";
 
-import { getStrapiURL, flattenAttributes } from '@/lib/utils';
+import { getStrapiURL, flattenAttributes } from "@/lib/utils";
 
 const baseAPIUrl = getStrapiURL();
 
 async function fetchData(url: string) {
-
   const headers = {
     method: "GET",
     headers: {
@@ -23,8 +22,7 @@ async function fetchData(url: string) {
   }
 }
 
-export async function getGroupsData(){
-
+export async function getGroupsData() {
   const url = new URL("/api/groups", baseAPIUrl);
 
   const populateOptions = {

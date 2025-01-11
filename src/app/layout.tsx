@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import {  Roboto } from "next/font/google";
+import { Roboto } from "next/font/google";
 import "./globals.css";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
@@ -21,7 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${roboto.variable} antialiased flex flex-col min-h-screen`}
+        className={`${roboto.variable} flex min-h-screen flex-col antialiased`}
       >
         <Nav />
         <main className="flex-grow">{children}</main>

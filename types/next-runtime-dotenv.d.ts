@@ -1,6 +1,6 @@
-declare module 'next-runtime-dotenv' {
+declare module "next-runtime-dotenv" {
   interface DotenvOptions {
-    public?: string[]; 
+    public?: string[];
     server?: string[];
   }
 

@@ -1,4 +1,4 @@
-import { Member } from "@/app/staff/types";
+import { Member } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { Mail, Phone, Earth } from "lucide-react";
 import { StrapiImage } from "./StrapiImage";
@@ -24,7 +24,11 @@ const MemberCard = ({ member }: MemberProps) => {
       )}
 
       <div className="flex flex-grow flex-col justify-start gap-y-1">
-        <div>
+        <CustomLink
+          href={`/staff/${member.documentId}`}
+          isExternal={false}
+          className="flex flex-col gap-1"
+        >
           {member.title && (
             <h3 className="text-lg font-bold">{member.title}</h3>
           )}
@@ -33,7 +37,7 @@ const MemberCard = ({ member }: MemberProps) => {
               {`${member.firstName || ""} ${member.lastName || ""}`.trim()}
             </p>
           )}
-        </div>
+        </CustomLink>
 
         <div className="mt-2 flex flex-col gap-1">
           {member.phone && (

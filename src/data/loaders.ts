@@ -53,3 +53,31 @@ export async function getGroupsData() {
 
   return await fetchData(url.href);
 }
+
+export async function getMemberData(id: string) {
+  const url = new URL(`/api/members/${id}`, baseAPIUrl);
+
+  const populateOptions = {
+    fields: ["firstName", "lastName", "title", "phone", "email"],
+    populate: {
+      photo: {
+        fields: ["url", "alternativeText"],
+      },
+      USOSLink: {
+        populate: true,
+      },
+      BADAPLink: {
+        populate: true,
+      },
+      SKOSLink: {
+        populate: true,
+      },
+    },
+  };
+
+  url.search = qs.stringify({
+    populate: populateOptions,
+  });
+
+  return await fetchData(url.href);
+}

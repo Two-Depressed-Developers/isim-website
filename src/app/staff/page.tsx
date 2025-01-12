@@ -1,5 +1,5 @@
 import { getGroupsData } from "@/data/loaders";
-import { type Group as GroupType } from "./types";
+import { type Group as GroupType } from "@/lib/types";
 import Group from "@/components/Group";
 
 export default async function Staff() {

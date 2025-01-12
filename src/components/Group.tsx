@@ -1,4 +1,4 @@
-import { type Group } from "@/app/staff/types";
+import { type Group } from "@/lib/types";
 import Member from "./Member";
 import CustomLink from "./CustomLink";
 

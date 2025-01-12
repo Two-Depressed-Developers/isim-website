@@ -6,6 +6,7 @@ export interface Link {
 
 export interface Member {
   id: number;
+  documentId: string;
   firstName: string;
   lastName: string;
   title: string;
@@ -22,6 +23,7 @@ export interface Member {
 
 export interface Group {
   id: number;
+  documentId: string;
   name: string;
   siteLink: Link;
   supervisor: Member;

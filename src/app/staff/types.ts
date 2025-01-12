@@ -1,10 +1,10 @@
-export interface ILink {
+export interface Link {
   URL: string;
   text: string;
   isExternal: boolean;
 }
 
-export interface IMember {
+export interface Member {
   id: number;
   firstName: string;
   lastName: string;
@@ -15,15 +15,15 @@ export interface IMember {
     url: string;
     alternativeText: string;
   };
-  USOSLink: ILink;
-  BADAPLink: ILink;
-  SKOSLink: ILink;
+  USOSLink: Link;
+  BADAPLink: Link;
+  SKOSLink: Link;
 }
 
-export interface IGroup {
+export interface Group {
   id: number;
   name: string;
-  siteLink: ILink;
-  supervisor: IMember;
-  members: IMember[];
+  siteLink: Link;
+  supervisor: Member;
+  members: Member[];
 }

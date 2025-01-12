@@ -24,7 +24,7 @@ export default function RootLayout({
         className={`${roboto.variable} flex min-h-screen flex-col antialiased`}
       >
         <Nav />
-        <main className="flex-grow">{children}</main>
+        <main className="grow">{children}</main>
         <Footer />
       </body>
     </html>

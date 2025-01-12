@@ -1,11 +1,11 @@
-import { IMember } from "@/app/staff/types";
+import { Member } from "@/app/staff/types";
 import { Button } from "@/components/ui/button";
 import { Mail, Phone, Earth } from "lucide-react";
-import Image from "next/image";
 import { StrapiImage } from "./StrapiImage";
+import CustomLink from "./CustomLink";
 
 interface MemberProps {
-  member: IMember;
+  member: Member;
 }
 
 const MemberCard = ({ member }: MemberProps) => {
@@ -39,23 +39,25 @@ const MemberCard = ({ member }: MemberProps) => {
           {member.phone && (
             <div className="flex items-center gap-2 text-gray-600 transition-all hover:text-gray-800">
               <Phone className="h-4 w-4" />
-              <a
+              <CustomLink
                 href={`tel:${member.phone}`.replace(/\s/g, "")}
+                isExternal={false}
                 className="underline decoration-dotted underline-offset-4 hover:decoration-solid"
               >
                 {member.phone}
-              </a>
+              </CustomLink>
             </div>
           )}
           {member.email && (
             <div className="flex items-center gap-2 text-gray-600 transition-all hover:text-gray-800">
               <Mail className="h-4 w-4" />
-              <a
+              <CustomLink
                 href={`mailto:${member.email}`}
+                isExternal={false}
                 className="underline decoration-dotted underline-offset-4 hover:decoration-solid"
               >
                 {member.email}
-              </a>
+              </CustomLink>
             </div>
           )}
         </div>
@@ -66,14 +68,13 @@ const MemberCard = ({ member }: MemberProps) => {
               asChild
               className="flex items-center gap-2 bg-gradient-to-r from-[#383556] to-[#444160] text-white hover:opacity-90"
             >
-              <a
+              <CustomLink
                 href={member.USOSLink.URL}
-                target="_blank"
-                rel="noopener noreferrer"
+                isExternal={member.USOSLink.isExternal}
               >
                 <Earth className="h-2 w-2" />
                 {member.USOSLink.text}
-              </a>
+              </CustomLink>
             </Button>
           )}
           {member.BADAPLink?.URL && (
@@ -81,14 +82,13 @@ const MemberCard = ({ member }: MemberProps) => {
               asChild
               className="flex items-center gap-2 bg-black text-white hover:bg-gray-800"
             >
-              <a
-                href={member.BADAPLink.URL}
-                target="_blank"
-                rel="noopener noreferrer"
+              <CustomLink
+                href={member.USOSLink.URL}
+                isExternal={member.USOSLink.isExternal}
               >
                 <Earth className="h-2 w-2" />
                 {member.BADAPLink.text}
-              </a>
+              </CustomLink>
             </Button>
           )}
           {member.SKOSLink?.URL && (
@@ -96,14 +96,13 @@ const MemberCard = ({ member }: MemberProps) => {
               asChild
               className="flex items-center gap-2 bg-[#00693c] text-white hover:bg-[#00532e]"
             >
-              <a
-                href={member.SKOSLink.URL}
-                target="_blank"
-                rel="noopener noreferrer"
+              <CustomLink
+                href={member.USOSLink.URL}
+                isExternal={member.USOSLink.isExternal}
               >
                 <Earth className="h-2 w-2" />
                 {member.SKOSLink.text}
-              </a>
+              </CustomLink>
             </Button>
           )}
         </div>

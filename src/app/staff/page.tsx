@@ -11,9 +11,17 @@ enum GroupsSortingTypes {
   Position,
 }
 
+const sortMembersWithSupervisorFirst = (members: Member[], supervisorId: number | null): Member[] => {
+  if (!supervisorId) return members;
+  return members.sort((a, b) => (a.id === supervisorId ? -1 : b.id === supervisorId ? 1 : 0));
+};
+
 const transformGroupsData = (groups: GroupType[], sortingType: GroupsSortingTypes) : GroupType[] => {
   if (sortingType === GroupsSortingTypes.Teams) {
-    return groups;
+    return groups.map((group) => ({
+      ...group,
+      members: sortMembersWithSupervisorFirst(group.members, group.supervisor?.id || null),
+    }));
   } else if (sortingType === GroupsSortingTypes.Position) {
     const groupedByPosition: Record<string, GroupType> = {};
   
@@ -32,7 +40,10 @@ const transformGroupsData = (groups: GroupType[], sortingType: GroupsSortingType
       });
     });
 
-    return Object.values(groupedByPosition);
+    return Object.values(groupedByPosition).map((group) => ({
+      ...group,
+      members: sortMembersWithSupervisorFirst(group.members, group.id),
+    }));
   }
 
   return groups;
@@ -48,12 +59,6 @@ export default function Staff() {
   useEffect(() => {
     const fetchData = async () => {
       const strapiData = await getGroupsData();
-
-      if(strapiData.data.supervisor && Array.isArray(strapiData.data.members))
-        strapiData.data.members = 
-        [strapiData.data.supervisor, ...strapiData.data.members.filter((member : Member) => 
-          member.id !== strapiData.data.supervisor.id)
-        ].filter(Boolean);
 
       setGroups(strapiData.data);
       setSortedGroups(strapiData.data);
@@ -96,7 +101,7 @@ export default function Staff() {
     if (filteredMembers.length > 0) {
       return {
         ...group,
-        members: filteredMembers,
+        members: sortMembersWithSupervisorFirst(filteredMembers, group.supervisor?.id || null),
       };
     }
     return null;

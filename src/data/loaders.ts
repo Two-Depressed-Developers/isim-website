@@ -26,7 +26,7 @@ export async function getGroupsData() {
   const url = new URL("/api/groups", baseAPIUrl);
 
   const populateOptions = {
-    fields: ["firstName", "lastName", "title", "phone", "email"],
+    fields: ["firstName", "lastName", "title", "phone", "email", "position"],
     populate: {
       photo: {
         fields: ["url", "alternativeText"],
@@ -59,20 +59,37 @@ export async function getMemberData(id: string) {
 
   const populateOptions = {
     fields: ["firstName", "lastName", "title", "phone", "email"],
-    populate: {
-      photo: {
-        fields: ["url", "alternativeText"],
-      },
-      USOSLink: {
-        populate: true,
-      },
-      BADAPLink: {
-        populate: true,
-      },
-      SKOSLink: {
-        populate: true,
-      },
+    photo: {
+      fields: ["url", "alternativeText"],
     },
+    USOSLink: {
+      populate: true,
+    },
+    BADAPLink: {
+      populate: true,
+    },
+    SKOSLink: {
+      populate: true,
+    },
+    PortfolioLink: {
+      populate: true,
+    },
+    Research: {
+      populate: {
+        PublicationsLink: {
+          populate: true,
+        },
+        ORCIDLink: {
+          populate: true,
+        },
+        ResearchgateLink: {
+          populate: true,
+        },
+        ReasercherIdLink: {
+          populate: true,
+        },
+      },
+    }
   };
 
   url.search = qs.stringify({

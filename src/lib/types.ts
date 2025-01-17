@@ -4,6 +4,14 @@ export interface Link {
   isExternal: boolean;
 }
 
+export interface MemberResearch {
+  id: number;
+  PublicationsLink: Link;
+  ORCIDLink: Link;
+  ResearchgateLink: Link;
+  ReasercherIdLink: Link;
+}
+
 export interface Member {
   id: number;
   documentId: string;
@@ -12,20 +20,24 @@ export interface Member {
   title: string;
   phone: string;
   email: string;
+  position: string;
   photo: {
     url: string;
     alternativeText: string;
   };
+  forStudents: string;
   USOSLink: Link;
   BADAPLink: Link;
   SKOSLink: Link;
+  PortfolioLink: Link;
+  Research: MemberResearch;
 }
 
 export interface Group {
   id: number;
   documentId: string;
   name: string;
-  siteLink: Link;
-  supervisor: Member;
+  siteLink?: Link;
+  supervisor?: Member;
   members: Member[];
 }

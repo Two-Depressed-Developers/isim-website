@@ -10,7 +10,7 @@ interface MemberProps {
 
 const MemberCard = ({ member }: MemberProps) => {
   return (
-    <div className="flex flex-row gap-6 rounded-lg border-2 border-gray-100 bg-white p-3 shadow-md transition-all hover:scale-105 hover:cursor-pointer hover:shadow-lg">
+    <div className="flex flex-row gap-6 rounded-lg bg-[#F9F9F9] p-4 transition-all hover:scale-105 hover:cursor-pointer hover:shadow-lg">
       {member.photo?.url && (
         <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-full">
           <StrapiImage

@@ -21,6 +21,7 @@ export interface Member {
   phone: string;
   email: string;
   position: string;
+  room: string;
   photo: {
     url: string;
     alternativeText: string;

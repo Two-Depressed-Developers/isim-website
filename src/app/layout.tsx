@@ -7,6 +7,7 @@ import Footer from "../components/Footer";
 const roboto = Roboto({
   weight: ["400", "500", "700", "900"],
   variable: "--font-roboto",
+  subsets: ["latin-ext"],
 });
 export const metadata: Metadata = {
   title: "Create Next App",

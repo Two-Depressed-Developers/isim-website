@@ -17,9 +17,15 @@ const nextConfig: NextConfig = runtimeDotenv({
       },
       {
         protocol: "https",
+        hostname: "strapi.mslezak.com",
+        pathname: "/uploads/**",
+      },
+      {
+        protocol: "https",
         hostname: "placehold.co",
       },
     ],
+    
   },
 });
 

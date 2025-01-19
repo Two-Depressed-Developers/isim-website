@@ -1,23 +1,25 @@
-import { Member } from "@/lib/types";
-import WhiteCard from "../WhiteCard";
-import { StrapiImage } from "@/components/StrapiImage";
-import MemberInfoLink, { InfoLinkTypes } from "../MemberInfoLink";
-import { Button } from "@/components/ui/button";
-import CustomLink from "@/components/CustomLink";
 import { Earth } from "lucide-react";
 
+import WhiteCard from "../WhiteCard";
+import MemberInfoLink from "../MemberInfoLink";
+import { StrapiImage } from "@/components/StrapiImage";
+import { Button } from "@/components/ui/button";
+import CustomLink from "@/components/CustomLink";
+
+import { cn } from "@/lib/utils";
+import type { MemberData } from "@/lib/types";
+
 interface MemberMainInfoCardProps {
-  member: Member;
+  member: MemberData;
   className?: string;
 }
 
-const MemberMainInfoCard = ({member, className} : MemberMainInfoCardProps) => {
-
+const MemberMainInfoCard = ({ member, className }: MemberMainInfoCardProps) => {
   const buttonLinks = [
     {
       data: member.PortfolioLink,
       altText: "Homepage",
-      bgColor: "bg-[#0493dc]", 
+      bgColor: "bg-[#0493dc]",
     },
     {
       data: member.USOSLink,
@@ -37,45 +39,46 @@ const MemberMainInfoCard = ({member, className} : MemberMainInfoCardProps) => {
   ];
 
   return (
-    <WhiteCard className={`flex flex-col gap-y-6 h-fit ${className}`}>
+    <WhiteCard className={cn("flex h-fit flex-col gap-y-6", className)}>
+      {member.photo?.url && (
         <StrapiImage
-          src={member.photo.url}
-          alt={member.photo.alternativeText || "Member photo"}
-          className="w-64 h-64 object-cover rounded-md shadow-md mx-auto"
+          src={member.photo?.url}
+          alt={member.photo?.alternativeText || "Member photo"}
+          className="mx-auto h-64 w-64 rounded-md object-cover shadow-md"
           height={256}
           width={256}
         />
-        <div className="flex flex-col gap-y-4">
-          <h3 className="text-2xl font-bold">Contact</h3>
-          <div className="flex flex-col gap-y-2">
-            <MemberInfoLink type={InfoLinkTypes.Email} value={member.email} />
-            <MemberInfoLink type={InfoLinkTypes.Phone} value={member.phone} />
-            <MemberInfoLink type={InfoLinkTypes.Room} value={member.room} />
-          </div>
-          <div className="flex flex-col gap-y-2">
-            {buttonLinks &&
-              buttonLinks.map((buttonLink, index) =>
-                buttonLink.data ? (
-                  <Button
-                    asChild
-                    key={index}
-                    className={`flex items-center gap-2 ${buttonLink.bgColor} text-white hover:opacity-90 shadow-sm`}
-                  >
-                    <CustomLink
-                      href={buttonLink.data.URL}
-                      isExternal={buttonLink.data.isExternal}
-                    >
-                      <Earth className="h-2 w-2" />
-                      {buttonLink.data.text ?? buttonLink.altText}
-                    </CustomLink>
-                  </Button>
-                ) : null
-              )}
-          </div>
+      )}
+      <div className="flex flex-col gap-y-4">
+        <h3 className="text-2xl font-bold">Contact</h3>
+        <div className="flex flex-col gap-y-2">
+          {member.email && <MemberInfoLink type="Email" value={member.email} />}
+          {member.phone && <MemberInfoLink type="Phone" value={member.phone} />}
+          {member.room && <MemberInfoLink type="Room" value={member.room} />}
         </div>
-      </WhiteCard>
-  )
-
-}
+        <div className="flex flex-col gap-y-2">
+          {buttonLinks &&
+            buttonLinks.map((buttonLink, index) =>
+              buttonLink.data ? (
+                <Button
+                  asChild
+                  key={index}
+                  className={`flex items-center gap-2 ${buttonLink.bgColor} text-white shadow-sm hover:opacity-90`}
+                >
+                  <CustomLink
+                    href={buttonLink.data.URL}
+                    isExternal={buttonLink.data.isExternal}
+                  >
+                    <Earth className="h-2 w-2" />
+                    {buttonLink.data.text ?? buttonLink.altText}
+                  </CustomLink>
+                </Button>
+              ) : null,
+            )}
+        </div>
+      </div>
+    </WhiteCard>
+  );
+};
 
 export default MemberMainInfoCard;

@@ -1,37 +1,52 @@
-"use client"
-import { getGroupsData } from "@/data/loaders";
-import { Member, type Group as GroupType } from "@/lib/types";
+"use client";
+
+import { useEffect, useState } from "react";
 import Group from "@/components/Group";
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 
-enum GroupsSortingTypes {
-  Teams,
-  Position,
-}
+import { getGroupsData } from "@/data/loaders";
+import type { MemberData, Group as GroupType } from "@/lib/types";
 
-const sortMembersWithSupervisorFirst = (members: Member[], supervisorId: number | null): Member[] => {
+type GroupsSortingTypes = "Teams" | "Position";
+
+const sortMembersWithSupervisorFirst = (
+  members: MemberData[] | undefined,
+  supervisorId: number | null,
+): MemberData[] => {
+  if (!members) return [];
   if (!supervisorId) return members;
-  return members.sort((a, b) => (a.id === supervisorId ? -1 : b.id === supervisorId ? 1 : 0));
+
+  return members.sort((a, b) =>
+    a.id === supervisorId ? -1 : b.id === supervisorId ? 1 : 0,
+  );
 };
 
-const transformGroupsData = (groups: GroupType[], sortingType: GroupsSortingTypes) : GroupType[] => {
-  if (sortingType === GroupsSortingTypes.Teams) {
+const transformGroupsData = (
+  groups: GroupType[],
+  sortingType: GroupsSortingTypes,
+): GroupType[] => {
+  if (sortingType === "Teams") {
     return groups.map((group) => ({
       ...group,
-      members: sortMembersWithSupervisorFirst(group.members, group.supervisor?.id || null),
+      members: sortMembersWithSupervisorFirst(
+        group.members || [],
+        group.supervisor?.id || null,
+      ),
     }));
-  } else if (sortingType === GroupsSortingTypes.Position) {
+  } else if (sortingType === "Position") {
     const groupedByPosition: Record<string, GroupType> = {};
-  
+
     groups.forEach((group) => {
+      if (!group.members) return;
+
       group.members.forEach((member) => {
+        if (!member.position) return;
         if (!groupedByPosition[member.position]) {
           // TODO: Do poprawy
           groupedByPosition[member.position] = {
             id: member.id,
-            documentId: `${member.position}`, 
+            documentId: `${member.position}`,
             name: member.position,
             members: [],
           };
@@ -47,10 +62,10 @@ const transformGroupsData = (groups: GroupType[], sortingType: GroupsSortingType
   }
 
   return groups;
-}
+};
 
 export default function Staff() {
-  const [sortingType, setSortingType] = useState<GroupsSortingTypes>(GroupsSortingTypes.Teams);
+  const [sortingType, setSortingType] = useState<GroupsSortingTypes>("Teams");
   const [groups, setGroups] = useState<GroupType[] | null>(null);
   const [sortedGroups, setSortedGroups] = useState<GroupType[] | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -88,60 +103,72 @@ export default function Staff() {
     setSortingType(type);
   };
 
-  const handleSearchQueryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSearchQueryChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     setSearchQuery(event.target.value);
   };
 
-  const filteredGroups = sortedGroups?.map((group) => {
-    const query = debouncedQuery.toLowerCase();
-    const filteredMembers = group.members.filter((member) =>
-      member.firstName.toLowerCase().includes(query) || member.lastName.toLowerCase().includes(query)
-    );
+  const filteredGroups = sortedGroups
+    ?.map((group) => {
+      const query = debouncedQuery.toLowerCase();
+      if (!group.members) return null;
 
-    if (filteredMembers.length > 0) {
-      return {
-        ...group,
-        members: sortMembersWithSupervisorFirst(filteredMembers, group.supervisor?.id || null),
-      };
-    }
-    return null;
-  }).filter(Boolean);
+      const filteredMembers = group.members.filter(
+        (member) =>
+          member.firstName.toLowerCase().includes(query) ||
+          member.lastName.toLowerCase().includes(query),
+      );
+
+      if (filteredMembers.length > 0) {
+        return {
+          ...group,
+          members: sortMembersWithSupervisorFirst(
+            filteredMembers,
+            group.supervisor?.id || null,
+          ),
+        };
+      }
+      return null;
+    })
+    .filter(Boolean);
 
   return (
-    <div className="mx-auto flex max-w-7xl flex-col ">
-      <div className="flex-grow p-8 flex flex-col gap-y-4">
+    <div className="mx-auto flex max-w-7xl flex-col">
+      <div className="flex flex-grow flex-col gap-y-4 p-8">
         <h1 className="text-3xl font-bold">Our Staff</h1>
         <div className="flex flex-row justify-between gap-x-4">
           <div className="flex flex-row gap-4">
-            <Button 
-              className={`hover:opacity-90 shadow-sm ${sortingType === GroupsSortingTypes.Teams ? "bg-primary" : "bg-gray-500"}`}
-              onClick={() => handleChangeSorting(GroupsSortingTypes.Teams)}
+            <Button
+              className={`shadow-sm hover:opacity-90 ${sortingType === "Teams" ? "bg-primary" : "bg-gray-500"}`}
+              onClick={() => handleChangeSorting("Teams")}
             >
               Teams
             </Button>
-            <Button 
-              className={`hover:opacity-90 shadow-sm ${sortingType === GroupsSortingTypes.Position ? "bg-primary" : "bg-gray-500"}`}
-              onClick={() => handleChangeSorting(GroupsSortingTypes.Position)}
+            <Button
+              className={`shadow-sm hover:opacity-90 ${sortingType === "Position" ? "bg-primary" : "bg-gray-500"}`}
+              onClick={() => handleChangeSorting("Position")}
             >
               Position
             </Button>
           </div>
-          <Input 
-            placeholder="Search" 
+          <Input
+            placeholder="Search"
             className="max-w-64 bg-white shadow-sm"
             value={searchQuery}
             onChange={handleSearchQueryChange}
           />
         </div>
         <div className="flex flex-col gap-4">
-          {(filteredGroups && filteredGroups.length > 0) ? filteredGroups.map((group) => (
-            group && <Group key={group.id} group={group} />
-          )) : (
-            <div className="flex items-center justify-center h-16">
+          {filteredGroups && filteredGroups.length > 0 ? (
+            filteredGroups.map(
+              (group) => group && <Group key={group.id} group={group} />,
+            )
+          ) : (
+            <div className="flex h-16 items-center justify-center">
               <p>No results found</p>
             </div>
-          )
-        }
+          )}
         </div>
       </div>
     </div>

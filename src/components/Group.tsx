@@ -1,38 +1,41 @@
-import { type Group } from "@/lib/types";
 import Member from "./Member";
 import CustomLink from "./CustomLink";
 import WhiteCard from "./custom/WhiteCard";
 
+import { type Group as GroupType } from "@/lib/types";
+
 interface GroupProps {
-  group: Group;
+  group: GroupType;
 }
 
 const Group = (props: GroupProps) => {
-  const { name, siteLink } = props.group;
+  const { name, siteLink, members } = props.group;
 
   return (
     <WhiteCard className="flex flex-col gap-y-4">
-        {props.group.siteLink ? (
-          <CustomLink
-            className="text-2xl font-bold underline"
-            href={siteLink!.URL}
-            isExternal={siteLink!.isExternal}
-          >
-            {siteLink!.text ?? name}
-          </CustomLink>
-        ) : (
-          <h2 className="mb-2 text-2xl font-bold">{props.group.name}</h2>
-        )}
+      {props.group.siteLink ? (
+        <CustomLink
+          className="text-2xl font-bold underline"
+          href={siteLink!.URL}
+          isExternal={siteLink!.isExternal}
+        >
+          {siteLink!.text ?? name}
+        </CustomLink>
+      ) : (
+        <h2 className="mb-2 text-2xl font-bold">{props.group.name}</h2>
+      )}
 
-        {props.group.members.length > 0 ? (
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-            {props.group.members.map((member) => <Member key={member.id} member={member} />)}
-          </div>
-        ) : (
-          <div className="flex items-center justify-center h-16">
-            <p className="text-gray-500">No members in this group</p>
-          </div>
-        )}
+      {members && members.length > 0 ? (
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+          {members.map((member) => (
+            <Member key={member.id} member={member} />
+          ))}
+        </div>
+      ) : (
+        <div className="flex h-16 items-center justify-center">
+          <p className="text-gray-500">No members in this group</p>
+        </div>
+      )}
     </WhiteCard>
   );
 };

@@ -30,9 +30,9 @@ export function flattenAttributes(data: any): any {
     return data.map((item) => flattenAttributes(item));
   }
 
-  let flattened: { [key: string]: any } = {};
+  const flattened: { [key: string]: any } = {};
 
-  for (let key in data) {
+  for (const key in data) {
     if (!data.hasOwnProperty(key)) continue;
 
     if (

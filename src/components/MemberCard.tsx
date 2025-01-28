@@ -17,7 +17,7 @@ const MemberCard = ({ member }: MemberProps) => {
       isExternal={false}
       className="flex flex-col gap-1"
     >
-      <div className="grid grid-cols-[80px_1px_1fr] grid-rows-2 items-center gap-x-6 rounded-2xl p-6 shadow-md">
+      <div className="grid grid-cols-[80px_1px_1fr] grid-rows-2 items-center gap-x-6 rounded-2xl bg-white p-6 shadow-md">
         {member.photo?.url ? (
           <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-full shadow-sm">
             <StrapiImage

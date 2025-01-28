@@ -159,7 +159,7 @@ export default function Staff() {
             onChange={handleSearchQueryChange}
           />
         </div>
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-16">
           {filteredGroups && filteredGroups.length > 0 ? (
             filteredGroups.map(
               (group) => group && <Group key={group.id} group={group} />,

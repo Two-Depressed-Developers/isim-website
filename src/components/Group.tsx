@@ -1,4 +1,4 @@
-import Member from "./Member";
+import MemberCard from "./MemberCard";
 import CustomLink from "./CustomLink";
 import WhiteCard from "./custom/WhiteCard";
 
@@ -28,7 +28,7 @@ const Group = (props: GroupProps) => {
       {members && members.length > 0 ? (
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
           {members.map((member) => (
-            <Member key={member.id} member={member} />
+            <MemberCard key={member.id} member={member} />
           ))}
         </div>
       ) : (

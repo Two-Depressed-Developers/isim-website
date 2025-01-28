@@ -16,7 +16,7 @@ const isValidUrl = (url: string): boolean => {
 };
 
 export default function CustomLink(props: CustomLinkProps) {
-  const { href, isExternal, children, className, ...rest } = props;
+  const { href, isExternal, className, ...rest } = props;
 
   const sanitizedHref =
     isExternal && !isValidUrl(href.toString()) ? `https://${href}` : href;
@@ -30,8 +30,6 @@ export default function CustomLink(props: CustomLinkProps) {
         rel: "noopener noreferrer",
       })}
       {...rest}
-    >
-      {children}
-    </Link>
+    />
   );
 }

@@ -1,9 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
+
 import Group from "@/components/Group";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import ActionBar from "@/components/ActionBar";
 
 import { getGroupsData } from "@/data/loaders";
 import type { MemberData, Group as GroupType } from "@/lib/types";
@@ -136,40 +138,40 @@ export default function Staff() {
   return (
     <div className="mx-auto flex max-w-7xl flex-col">
       <div className="flex flex-grow flex-col gap-y-4 p-8">
-        <h1 className="text-3xl font-bold">Our Staff</h1>
+        <h1 className="text-6xl font-semibold leading-[48px]">Our Staff</h1>
+        <div className="-mt-2 h-1 w-28 rounded-full bg-primary" />
+        <ActionBar />
         <div className="flex flex-row justify-between gap-x-4">
-          <div className="flex flex-row gap-4">
-            <Button
-              className={`shadow-sm hover:opacity-90 ${sortingType === "Teams" ? "bg-primary" : "bg-gray-500"}`}
-              onClick={() => handleChangeSorting("Teams")}
-            >
-              Teams
-            </Button>
-            <Button
-              className={`shadow-sm hover:opacity-90 ${sortingType === "Position" ? "bg-primary" : "bg-gray-500"}`}
-              onClick={() => handleChangeSorting("Position")}
-            >
-              Position
-            </Button>
+          <Button
+            className={`shadow-sm hover:opacity-90 ${sortingType === "Teams" ? "bg-primary" : "bg-gray-500"}`}
+            onClick={() => handleChangeSorting("Teams")}
+          >
+            Teams
+          </Button>
+          <Button
+            className={`shadow-sm hover:opacity-90 ${sortingType === "Position" ? "bg-primary" : "bg-gray-500"}`}
+            onClick={() => handleChangeSorting("Position")}
+          >
+            Position
+          </Button>
+        </div>
+        <Input
+          placeholder="Search"
+          className="max-w-64 bg-white shadow-sm"
+          value={searchQuery}
+          onChange={handleSearchQueryChange}
+        />
+      </div>
+      <div className="flex flex-col gap-16">
+        {filteredGroups && filteredGroups.length > 0 ? (
+          filteredGroups.map(
+            (group) => group && <Group key={group.id} group={group} />,
+          )
+        ) : (
+          <div className="flex h-16 items-center justify-center">
+            <p>No results found</p>
           </div>
-          <Input
-            placeholder="Search"
-            className="max-w-64 bg-white shadow-sm"
-            value={searchQuery}
-            onChange={handleSearchQueryChange}
-          />
-        </div>
-        <div className="flex flex-col gap-16">
-          {filteredGroups && filteredGroups.length > 0 ? (
-            filteredGroups.map(
-              (group) => group && <Group key={group.id} group={group} />,
-            )
-          ) : (
-            <div className="flex h-16 items-center justify-center">
-              <p>No results found</p>
-            </div>
-          )}
-        </div>
+        )}
       </div>
     </div>
   );

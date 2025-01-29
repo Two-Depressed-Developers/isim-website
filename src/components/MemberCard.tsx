@@ -35,7 +35,7 @@ const MemberCard = ({ member }: MemberProps) => {
           orientation="vertical"
           className="row-span-2 w-[3px] grid-flow-col-dense rounded-3xl bg-primary"
         />
-        <div className="">
+        <div>
           {member.title && (
             <h3 className="text-lg font-bold">{member.title}</h3>
           )}

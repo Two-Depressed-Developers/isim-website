@@ -1,16 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 import Group from "@/components/Group";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import ActionBar from "@/components/ActionBar";
 
 import { getGroupsData } from "@/data/loaders";
+import { useDebounce } from "@/lib/hooks";
 import type { MemberData, Group as GroupType } from "@/lib/types";
 
-type GroupsSortingTypes = "Teams" | "Position";
+type SortingType = "position" | "team";
+type LayoutType = "grid" | "details" | "list";
 
 const sortMembersWithSupervisorFirst = (
   members: MemberData[] | undefined,
@@ -26,9 +27,9 @@ const sortMembersWithSupervisorFirst = (
 
 const transformGroupsData = (
   groups: GroupType[],
-  sortingType: GroupsSortingTypes,
+  sortingType: SortingType,
 ): GroupType[] => {
-  if (sortingType === "Teams") {
+  if (sortingType === "team") {
     return groups.map((group) => ({
       ...group,
       members: sortMembersWithSupervisorFirst(
@@ -36,42 +37,45 @@ const transformGroupsData = (
         group.supervisor?.id || null,
       ),
     }));
-  } else if (sortingType === "Position") {
-    const groupedByPosition: Record<string, GroupType> = {};
-
-    groups.forEach((group) => {
-      if (!group.members) return;
-
-      group.members.forEach((member) => {
-        if (!member.position) return;
-        if (!groupedByPosition[member.position]) {
-          // TODO: Do poprawy
-          groupedByPosition[member.position] = {
-            id: member.id,
-            documentId: `${member.position}`,
-            name: member.position,
-            members: [],
-          };
-        }
-        groupedByPosition[member.position].members?.push(member);
-      });
-    });
-
-    return Object.values(groupedByPosition).map((group) => ({
-      ...group,
-      members: sortMembersWithSupervisorFirst(group.members, group.id),
-    }));
   }
 
-  return groups;
+  const groupedByPosition: Record<string, GroupType> = {};
+
+  groups.forEach((group) => {
+    if (!group.members) return;
+
+    group.members.forEach((member) => {
+      if (!member.position) return;
+      if (!groupedByPosition[member.position]) {
+        // TODO: Do poprawy
+        groupedByPosition[member.position] = {
+          id: member.id,
+          documentId: `${member.position}`,
+          name: member.position,
+          members: [],
+        };
+      }
+      groupedByPosition[member.position].members?.push(member);
+    });
+  });
+
+  return Object.values(groupedByPosition).map((group) => ({
+    ...group,
+    members: sortMembersWithSupervisorFirst(group.members, group.id),
+  }));
 };
 
 export default function Staff() {
-  const [sortingType, setSortingType] = useState<GroupsSortingTypes>("Teams");
+  const searchParams = useSearchParams();
+
+  const sortingType = (searchParams.get("sort") as SortingType) || "team";
+  const layout = (searchParams.get("layout") as LayoutType) || "grid";
+  const search = searchParams.get("search") || "";
+
   const [groups, setGroups] = useState<GroupType[] | null>(null);
   const [sortedGroups, setSortedGroups] = useState<GroupType[] | null>(null);
-  const [searchQuery, setSearchQuery] = useState<string>("");
-  const [debouncedQuery, setDebouncedQuery] = useState<string>("");
+
+  const debouncedQuery = useDebounce(search, 600);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -89,27 +93,6 @@ export default function Staff() {
       setSortedGroups(transformedData);
     }
   }, [groups, sortingType]);
-
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedQuery(searchQuery);
-    }, 600);
-
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [searchQuery]);
-
-  const handleChangeSorting = (type: GroupsSortingTypes) => {
-    if (sortingType === type) return;
-    setSortingType(type);
-  };
-
-  const handleSearchQueryChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    setSearchQuery(event.target.value);
-  };
 
   const filteredGroups = sortedGroups
     ?.map((group) => {
@@ -136,36 +119,19 @@ export default function Staff() {
     .filter(Boolean);
 
   return (
-    <div className="mx-auto flex max-w-7xl flex-col">
-      <div className="flex flex-grow flex-col gap-y-4 p-8">
-        <h1 className="text-6xl font-semibold leading-[48px]">Our Staff</h1>
-        <div className="-mt-2 h-1 w-28 rounded-full bg-primary" />
-        <ActionBar />
-        <div className="flex flex-row justify-between gap-x-4">
-          <Button
-            className={`shadow-sm hover:opacity-90 ${sortingType === "Teams" ? "bg-primary" : "bg-gray-500"}`}
-            onClick={() => handleChangeSorting("Teams")}
-          >
-            Teams
-          </Button>
-          <Button
-            className={`shadow-sm hover:opacity-90 ${sortingType === "Position" ? "bg-primary" : "bg-gray-500"}`}
-            onClick={() => handleChangeSorting("Position")}
-          >
-            Position
-          </Button>
-        </div>
-        <Input
-          placeholder="Search"
-          className="max-w-64 bg-white shadow-sm"
-          value={searchQuery}
-          onChange={handleSearchQueryChange}
-        />
+    <div className="mx-auto flex max-w-7xl flex-col space-y-8 p-8">
+      <div>
+        <h1 className="mb-2 text-6xl font-semibold leading-[48px]">
+          Our Staff
+        </h1>
+        <div className="h-1 w-28 rounded-full bg-primary" />
       </div>
+      <ActionBar />
       <div className="flex flex-col gap-16">
         {filteredGroups && filteredGroups.length > 0 ? (
           filteredGroups.map(
-            (group) => group && <Group key={group.id} group={group} />,
+            (group) =>
+              group && <Group key={group.id} group={group} layout={layout} />,
           )
         ) : (
           <div className="flex h-16 items-center justify-center">

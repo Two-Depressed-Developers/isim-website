@@ -5,7 +5,7 @@
 @layer base {
   :root {
     --radius: 0.5rem;
-    --background: 210 29% 97%;
+    --background: 0 0% 98%;
     --light-gray-text: 0 0% 63%;
     --gray-text: 0 0% 31%;
     --inactive: 0 0% 89.8%;

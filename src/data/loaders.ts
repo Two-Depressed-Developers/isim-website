@@ -1,7 +1,12 @@
 import qs from "qs";
 
 import { getStrapiURL, flattenAttributes } from "@/lib/utils";
-import type { GroupData, MemberData } from "@/lib/types";
+import type {
+  FooterData,
+  GroupData,
+  HeaderData,
+  MemberData,
+} from "@/lib/types";
 
 const baseAPIUrl = getStrapiURL();
 
@@ -99,4 +104,83 @@ export async function getMemberData(id: string): Promise<MemberData> {
   });
 
   return await fetchData(url.href);
+}
+
+export async function getHeaderData() {
+  const url = new URL("/api/global-page", baseAPIUrl);
+
+  const populateOptions = {
+    header: {
+      populate: {
+        logo: {
+          populate: {
+            image: {
+              fields: ["url"],
+            },
+            link: {
+              populate: {
+                page: true,
+              },
+            },
+          },
+        },
+        links: {
+          populate: {
+            subLinks: true,
+            page: true,
+          },
+        },
+      },
+    },
+  };
+
+  url.search = qs.stringify({ populate: populateOptions });
+
+  try {
+    const data = await fetchData(url.href);
+    return { ...data.header, error: false } as HeaderData;
+  } catch (error) {
+    return { error: true } as HeaderData;
+  }
+}
+
+export async function getFooterData() {
+  const url = new URL("/api/global-page", baseAPIUrl);
+
+  const populateOptions = {
+    footer: {
+      populate: {
+        universityLogo: {
+          populate: {
+            image: {
+              fields: ["url"],
+            },
+            link: true,
+          },
+        },
+        sections: {
+          populate: {
+            images: {
+              populate: {
+                image: {
+                  fields: ["url"],
+                },
+                link: true,
+              },
+            },
+            cta: true,
+          },
+        },
+      },
+    },
+  };
+
+  url.search = qs.stringify({ populate: populateOptions });
+
+  try {
+    const data = await fetchData(url.href);
+    return { ...data.footer, error: false } as FooterData;
+  } catch (error) {
+    return { error: true } as FooterData;
+  }
 }

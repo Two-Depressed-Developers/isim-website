@@ -73,7 +73,7 @@ export default async function Page({
                       href={researchLink.data?.URL ?? "#"}
                       isExternal={researchLink.data?.isExternal ?? false}
                     >
-                      {researchLink.data?.text ?? researchLink.altText}
+                      {researchLink.data?.label ?? researchLink.altText}
                     </CustomLink>
                   </Button>
                 ))}

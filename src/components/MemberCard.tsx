@@ -12,7 +12,7 @@ interface MemberProps {
 const MemberCard = ({ member }: MemberProps) => {
   return (
     <CustomLink
-      href={`/staff/${member.documentId}`}
+      href={`/about-us/staff/${member.documentId}`}
       isExternal={false}
       className="flex flex-col gap-1"
     >

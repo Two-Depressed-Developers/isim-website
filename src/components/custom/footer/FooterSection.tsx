@@ -1,5 +1,6 @@
 import { StrapiImage } from "@/components/StrapiImage";
 import { SimpleSection } from "@/lib/types";
+import Image from "next/image";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -25,12 +26,21 @@ const FooterSection = ({ section }: FooterSectionProps) => {
               href={image.link?.URL ?? "#"}
               target={image.link?.openInNewWindow ? "_blank" : "_self"}
             >
-              <StrapiImage
-                src={image.image.url}
-                alt={image.alt}
-                width={24}
-                height={24}
-              />
+              {!image.image.url.startsWith("/upload") ? (
+                <Image
+                  src={`/images/${image.image.url}`}
+                  alt={image.alt}
+                  width={24}
+                  height={24}
+                />
+              ) : (
+                <StrapiImage
+                  src={image.image.url}
+                  alt={image.alt}
+                  width={24}
+                  height={24}
+                />
+              )}
             </Link>
           ))}
         </div>

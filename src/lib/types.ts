@@ -13,29 +13,29 @@ export type Link = {
   openInNewWindow: boolean;
   subLinks?: Link[];
   page?: Page;
-}
+};
 
 export type ImageLink = {
   id: number;
   alt: string;
   image: {
     url: string;
-  }
+  };
   link: Link;
-}
+};
 
 export type SimpleSection = {
   id: number;
   title: string;
   text: string;
   images: ImageLink[];
-  cta: Link;
-}
+  cta?: Link;
+};
 
 export type Page = {
   name: string;
   slug: string;
-}
+};
 
 export type MemberResearch = {
   id: number;
@@ -88,19 +88,19 @@ export type Footer = {
   copyrightText: string;
   universityLogo: ImageLink;
   sections: SimpleSection[];
-}
+};
 
 export type FooterData = Footer & {
   error: boolean;
-}
+};
 
 export type Header = {
   logo: ImageLink;
   links: Link[];
-}
+};
 
 export type HeaderData = Header & {
   error: boolean;
-}
+};
 
 // TODO: Add error for xxxData types

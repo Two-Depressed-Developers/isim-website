@@ -1,8 +1,8 @@
-import { getFooterData } from "@/data/loaders";
 import { FooterData } from "@/lib/types";
 import FooterSection from "./custom/footer/FooterSection";
 import FooterUniversityLogo from "./custom/footer/FooterUniversityLogo";
 import FooterCopyright from "./custom/footer/FooterCopyright";
+import { getFooterData } from "@/data/layoutLoaders";
 
 const Footer = async () => {
   const footerData: FooterData = await getFooterData();

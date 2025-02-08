@@ -10,14 +10,7 @@ import type {
 
 const baseAPIUrl = getStrapiURL();
 
-async function fetchData(url: string) {
-  // const headers = {
-  //   method: "GET",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  // };
-
+export async function fetchData(url: string) {
   try {
     const response = await fetch(url);
     const data = await response.json();
@@ -104,83 +97,4 @@ export async function getMemberData(id: string): Promise<MemberData> {
   });
 
   return await fetchData(url.href);
-}
-
-export async function getHeaderData() {
-  const url = new URL("/api/global-page", baseAPIUrl);
-
-  const populateOptions = {
-    header: {
-      populate: {
-        logo: {
-          populate: {
-            image: {
-              fields: ["url"],
-            },
-            link: {
-              populate: {
-                page: true,
-              },
-            },
-          },
-        },
-        links: {
-          populate: {
-            subLinks: true,
-            page: true,
-          },
-        },
-      },
-    },
-  };
-
-  url.search = qs.stringify({ populate: populateOptions });
-
-  try {
-    const data = await fetchData(url.href);
-    return { ...data.header, error: false } as HeaderData;
-  } catch (error) {
-    return { error: true } as HeaderData;
-  }
-}
-
-export async function getFooterData() {
-  const url = new URL("/api/global-page", baseAPIUrl);
-
-  const populateOptions = {
-    footer: {
-      populate: {
-        universityLogo: {
-          populate: {
-            image: {
-              fields: ["url"],
-            },
-            link: true,
-          },
-        },
-        sections: {
-          populate: {
-            images: {
-              populate: {
-                image: {
-                  fields: ["url"],
-                },
-                link: true,
-              },
-            },
-            cta: true,
-          },
-        },
-      },
-    },
-  };
-
-  url.search = qs.stringify({ populate: populateOptions });
-
-  try {
-    const data = await fetchData(url.href);
-    return { ...data.footer, error: false } as FooterData;
-  } catch (error) {
-    return { error: true } as FooterData;
-  }
 }

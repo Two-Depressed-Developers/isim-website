@@ -33,9 +33,7 @@ export const MemberRow = ({
         )}
       </TableCell>
       <TableCell className="text-xl font-semibold">{member.title}</TableCell>
-      <TableCell className="text-xl font-semibold">
-        {member.firstName} {member.lastName}
-      </TableCell>
+      <TableCell className="text-xl font-semibold">{member.fullName}</TableCell>
       <TableCell>
         <div className="space-y-1">
           {member.phone && <ContactLink type="phone" value={member.phone} />}

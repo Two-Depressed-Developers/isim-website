@@ -12,8 +12,14 @@ const nextConfig: NextConfig = runtimeDotenv({
       {
         protocol: "http",
         hostname: "localhost",
-        port: "*",
+        port: "1337",
         pathname: "/uploads/**/*",
+      },
+      {
+        protocol: "http",
+        hostname: "localhost",
+        port: "3000",
+        pathname: "/public",
       },
       {
         protocol: "https",

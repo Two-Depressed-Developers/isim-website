@@ -9,6 +9,7 @@ import ActionBar from "@/components/ActionBar";
 import { getGroupsData } from "@/data/loaders";
 import { useDebounce } from "@/lib/hooks";
 import type { MemberData, Group as GroupType } from "@/lib/types";
+import { useBreadcrumbs } from "@/context/BreadcrumbsContext";
 
 type SortingType = "position" | "team";
 type LayoutType = "grid" | "details" | "list";
@@ -52,6 +53,7 @@ const transformGroupsData = (
           id: member.id,
           documentId: `${member.position}`,
           name: member.position,
+          description: "",
           members: [],
         };
       }
@@ -67,6 +69,8 @@ const transformGroupsData = (
 
 export default function Staff() {
   const searchParams = useSearchParams();
+  const { setTitle } = useBreadcrumbs();
+  setTitle("Our Staff");
 
   const sortingType = (searchParams.get("sort") as SortingType) || "team";
   const layout = (searchParams.get("layout") as LayoutType) || "grid";
@@ -99,10 +103,8 @@ export default function Staff() {
       const query = debouncedQuery.toLowerCase();
       if (!group.members) return null;
 
-      const filteredMembers = group.members.filter(
-        (member) =>
-          member.firstName.toLowerCase().includes(query) ||
-          member.lastName.toLowerCase().includes(query),
+      const filteredMembers = group.members.filter((member) =>
+        member.fullName.toLowerCase().includes(query),
       );
 
       if (filteredMembers.length > 0) {
@@ -119,26 +121,28 @@ export default function Staff() {
     .filter(Boolean);
 
   return (
-    <div className="mx-auto flex max-w-7xl flex-col space-y-8 p-8">
-      <div>
-        <h1 className="mb-2 text-6xl font-semibold leading-[48px]">
-          Our Staff
-        </h1>
-        <div className="h-1 w-28 rounded-full bg-primary" />
+    <>
+      <div className="mx-auto flex max-w-7xl flex-col space-y-8 p-8">
+        <div>
+          <h1 className="mb-2 text-6xl font-semibold leading-[48px]">
+            Our Staff
+          </h1>
+          <div className="h-1 w-28 rounded-full bg-primary" />
+        </div>
+        <ActionBar />
+        <div className="flex flex-col gap-16">
+          {filteredGroups && filteredGroups.length > 0 ? (
+            filteredGroups.map(
+              (group) =>
+                group && <Group key={group.id} group={group} layout={layout} />,
+            )
+          ) : (
+            <div className="flex h-16 items-center justify-center">
+              <p>No results found</p>
+            </div>
+          )}
+        </div>
       </div>
-      <ActionBar />
-      <div className="flex flex-col gap-16">
-        {filteredGroups && filteredGroups.length > 0 ? (
-          filteredGroups.map(
-            (group) =>
-              group && <Group key={group.id} group={group} layout={layout} />,
-          )
-        ) : (
-          <div className="flex h-16 items-center justify-center">
-            <p>No results found</p>
-          </div>
-        )}
-      </div>
-    </div>
+    </>
   );
 }

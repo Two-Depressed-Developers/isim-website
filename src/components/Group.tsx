@@ -81,9 +81,7 @@ const DetailsLayout = ({ members }: { members: MemberData[] }) => {
             <TableHead className="w-[250px] font-bold text-black">
               Title
             </TableHead>
-            <TableHead className="font-bold text-black">
-              First and last name
-            </TableHead>
+            <TableHead className="font-bold text-black">Full name</TableHead>
             <TableHead className="font-bold text-black">Contact</TableHead>
           </TableRow>
         </TableHeader>
@@ -111,7 +109,7 @@ const ListLayout = ({ members }: { members: MemberData[] }) => {
             >
               <TableCell className="w-full py-2">
                 <p className="text-lg font-bold">
-                  {member.title} {member.firstName} {member.lastName}
+                  {member.title} {member.fullName}
                 </p>
                 {member.phone && (
                   <ContactLink type="phone" value={member.phone} />

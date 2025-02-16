@@ -5,6 +5,14 @@ type Pagination = {
   total: number;
 };
 
+export type SimpleLink = {
+  id: number;
+  URL: string;
+  label: string;
+  isExternal: boolean;
+  openInNewWindow: boolean;
+};
+
 export type Link = {
   id: number;
   URL: string;
@@ -45,11 +53,15 @@ export type MemberResearch = {
   ReasercherIdLink?: Link;
 };
 
+export type MemberSection = (MemberResearch | SimpleSection) & {
+  __component: string;
+};
+
 type Member = {
   id: number;
   documentId: string;
-  firstName: string;
-  lastName: string;
+  fullName: string;
+  slug: string;
   title: string;
   phone?: string;
   email?: string;
@@ -59,12 +71,11 @@ type Member = {
     url: string;
     alternativeText: string;
   };
-  forStudents?: string;
-  USOSLink?: Link;
-  BADAPLink?: Link;
-  SKOSLink?: Link;
-  PortfolioLink?: Link;
-  Research?: MemberResearch;
+  USOSLink?: SimpleLink;
+  BADAPLink?: SimpleLink;
+  SKOSLink?: SimpleLink;
+  PortfolioLink?: SimpleLink;
+  sections?: MemberSection[];
 };
 
 export type MemberData = Member & {
@@ -75,7 +86,8 @@ export type Group = {
   id: number;
   documentId: string;
   name: string;
-  siteLink?: Link;
+  description: string;
+  siteLink?: SimpleLink;
   supervisor?: MemberData;
   members?: MemberData[];
 };

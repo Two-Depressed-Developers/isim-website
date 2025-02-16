@@ -70,7 +70,7 @@ const MemberMainInfoCard = ({ member, className }: MemberMainInfoCardProps) => {
                     isExternal={buttonLink.data.isExternal}
                   >
                     <Earth className="h-2 w-2" />
-                    {buttonLink.data.text ?? buttonLink.altText}
+                    {buttonLink.data.label ?? buttonLink.altText}
                   </CustomLink>
                 </Button>
               ) : null,

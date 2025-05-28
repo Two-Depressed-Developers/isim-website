@@ -1,12 +1,7 @@
 import qs from "qs";
 
 import { getStrapiURL, flattenAttributes } from "@/lib/utils";
-import type {
-  FooterData,
-  GroupData,
-  HeaderData,
-  MemberData,
-} from "@/lib/types";
+import type { GroupData, MemberData } from "@/lib/types";
 
 const baseAPIUrl = getStrapiURL();
 

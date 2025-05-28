@@ -8,7 +8,7 @@ const Footer = async () => {
   const footerData: FooterData = await getFooterData();
 
   return (
-    <footer className="bg-[#F0F0F0]">
+    <footer className="bg-light-gray">
       <div className="mx-auto flex max-w-7xl flex-row justify-between p-8">
         <div className="flex space-x-16">
           {footerData.sections.map((section) => (

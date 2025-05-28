@@ -115,4 +115,11 @@ export type HeaderData = Header & {
   error: boolean;
 };
 
+export type Breadcumb = {
+  label: string;
+  URL: string;
+  isLink: boolean;
+  isPageMatch: boolean;
+};
+
 // TODO: Add error for xxxData types

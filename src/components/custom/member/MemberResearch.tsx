@@ -40,7 +40,7 @@ const MemberResearch = ({ researchData }: MemberResearchProps) => {
             <Button
               asChild
               key={index}
-              className="flex items-center gap-2 bg-[#E9E9E9] text-black shadow-sm hover:bg-[#D1D1D1] hover:opacity-90"
+              className="flex items-center gap-2 bg-light-gray text-black shadow-sm hover:bg-inactive hover:opacity-90"
             >
               <CustomLink
                 href={researchLink.data?.URL ?? "#"}

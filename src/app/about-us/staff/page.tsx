@@ -9,7 +9,6 @@ import ActionBar from "@/components/ActionBar";
 import { getGroupsData } from "@/data/loaders";
 import { useDebounce } from "@/lib/hooks";
 import type { MemberData, Group as GroupType } from "@/lib/types";
-import { useBreadcrumbs } from "@/context/BreadcrumbsContext";
 
 type SortingType = "position" | "team";
 type LayoutType = "grid" | "details" | "list";
@@ -69,8 +68,6 @@ const transformGroupsData = (
 
 export default function Staff() {
   const searchParams = useSearchParams();
-  const { setTitle } = useBreadcrumbs();
-  setTitle("Our Staff");
 
   const sortingType = (searchParams.get("sort") as SortingType) || "team";
   const layout = (searchParams.get("layout") as LayoutType) || "grid";

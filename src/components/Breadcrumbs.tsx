@@ -9,36 +9,58 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { useBreadcrumbs } from "@/context/BreadcrumbsContext";
-import { getHeaderData } from "@/data/layoutLoaders";
-import { HeaderData, Link } from "@/lib/types";
+import type { Breadcumb, Page } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
+import React from "react";
 
 interface BreadcrumbsProps {
   className?: string;
+  pagesData?: Page[];
 }
 
-function matchPathToTitle(path: string, headerData: HeaderData): Link[] {
-  const flatLinks: Link[] = headerData.links.flatMap((link) =>
-    link.subLinks ? link.subLinks : [link],
-  );
+function generateBreadcrumbItems(path: string, pages: Page[]): Breadcumb[] {
+  const breadcrumbs: Breadcumb[] = [];
+  let currentPath = "";
+  const pathSegments = path.split("/").filter(segment => segment !== "");
 
-  const pathArray = path.split("/");
-  const linkArray = flatLinks.filter((link) =>
-    pathArray.includes(link.URL.replace("/", "")),
-  );
-  return linkArray;
+  pathSegments.forEach((segment, index) => {
+    currentPath += `/${segment}`;
+    const matchedPage = pages.find((p) => p.slug === segment);
+
+    let label = segment; 
+    if (matchedPage) {
+      label = matchedPage.name; 
+    }
+    const isLink = index < pathSegments.length - 1;
+
+    breadcrumbs.push({
+      label: label,
+      URL: currentPath,
+      isLink: isLink,
+      isPageMatch: !!matchedPage, 
+    });
+  });
+
+  return breadcrumbs;
 }
 
-const Breadcrumbs = async ({ className }: BreadcrumbsProps) => {
-  const headerData = await getHeaderData();
+const Breadcrumbs = ({ className, pagesData }: BreadcrumbsProps) => {
   const { title } = useBreadcrumbs();
   const path = usePathname();
 
-  const linksArray = matchPathToTitle(path, headerData);
+  if(!pagesData || pagesData.length === 0 || path === "" || path === "/") {
+    return null;
+  }
+  
+  const breadData = generateBreadcrumbItems(path, pagesData);
+
+  if (breadData.length === 0) {
+    return null;
+  }
 
   return (
-    <div className={cn("bg-[#F0F0F0] py-4", className)}>
+    <div className={cn("bg-light-gray py-4", className)}>
       <Breadcrumb className="mx-auto max-w-7xl px-8">
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -46,45 +68,44 @@ const Breadcrumbs = async ({ className }: BreadcrumbsProps) => {
               Home
             </BreadcrumbLink>
           </BreadcrumbItem>
-          <BreadcrumbSeparator className="text-light-gray-text">
-            /
-          </BreadcrumbSeparator>
-          {linksArray.map((link, index) => (
-            <>
-              <BreadcrumbItem>
-                <BreadcrumbLink href={link.URL} className="text-primary">
-                  {link.label}
-                </BreadcrumbLink>
-              </BreadcrumbItem>
-              {index < linksArray.length - 1 && (
-                <BreadcrumbSeparator className="text-light-gray-text">
-                  /
-                </BreadcrumbSeparator>
-              )}
-            </>
-          ))}
-          <BreadcrumbItem>
-            <BreadcrumbPage>{title}</BreadcrumbPage>
-          </BreadcrumbItem>
-          {/* <BreadcrumbItem>
-            <BreadcrumbLink href="/" className="text-primary">
-              Home
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator className="text-light-gray-text">
-            /
-          </BreadcrumbSeparator>
-          <BreadcrumbItem>
-            <BreadcrumbLink href="/components" className="text-primary">
-              Components
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator className="text-light-gray-text">
-            /
-          </BreadcrumbSeparator>
-          <BreadcrumbItem>
-            <BreadcrumbPage>{title}</BreadcrumbPage>
-          </BreadcrumbItem> */}
+          {breadData.length > 0 && (
+            <BreadcrumbSeparator className="text-light-gray-text">
+              /
+            </BreadcrumbSeparator>
+          )}
+          {breadData.map((bread, index) => {
+            let currentLabel = bread.label;
+
+            if (index === breadData.length - 1) { 
+              if (bread.isPageMatch) {
+              } else {
+                if (title) {
+                  currentLabel = title;
+                }
+              }
+            }
+
+            return (
+              <React.Fragment key={bread.URL}>
+                <BreadcrumbItem>
+                  {!bread.isLink ? (
+                    <BreadcrumbPage className="text-foreground">
+                      {currentLabel}
+                    </BreadcrumbPage>
+                  ) : (
+                    <BreadcrumbLink href={bread.URL} className="text-primary">
+                      {currentLabel}
+                    </BreadcrumbLink>
+                  )}
+                </BreadcrumbItem>
+                {index < breadData.length - 1 && (
+                  <BreadcrumbSeparator className="text-light-gray-text">
+                    /
+                  </BreadcrumbSeparator>
+                )}
+              </React.Fragment>
+            );
+          })}
         </BreadcrumbList>
       </Breadcrumb>
     </div>

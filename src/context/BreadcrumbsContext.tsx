@@ -6,8 +6,8 @@ type BreadcrumbsContextType = {
   setTitle: (title: string) => void;
 };
 
-const BreadcrumbsContext = createContext<BreadcrumbsContextType | undefined>(
-  undefined,
+const BreadcrumbsContext = createContext<BreadcrumbsContextType | null>(
+  null,
 );
 
 export function BreadcrumbsProvider({

@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 import withRuntimeDotenv from "next-runtime-dotenv";
 
 const runtimeDotenv = withRuntimeDotenv({
-  public: ["NEXT_PUBLIC_API_URL"],
+  public: ["NEXT_PUBLIC_STRAPI_API_URL"],
 });
 
 const nextConfig: NextConfig = runtimeDotenv({
@@ -12,8 +12,14 @@ const nextConfig: NextConfig = runtimeDotenv({
       {
         protocol: "http",
         hostname: "localhost",
-        port: "*",
+        port: "1337",
         pathname: "/uploads/**/*",
+      },
+      {
+        protocol: "http",
+        hostname: "localhost",
+        port: "3000",
+        pathname: "/public",
       },
       {
         protocol: "https",

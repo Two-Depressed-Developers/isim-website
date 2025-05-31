@@ -1,8 +1,7 @@
-import { FooterData, HeaderData } from "@/lib/types";
+import type { FooterData, HeaderData, Page } from "@/lib/types";
 import qs from "qs";
 import { fetchData } from "./loaders";
 import { getStrapiURL } from "@/lib/utils";
-import { isExternal } from "util/types";
 
 const baseAPIUrl = getStrapiURL();
 
@@ -182,7 +181,7 @@ export async function getHeaderData() {
       return getHardcodedHeaderData();
     }
     return { ...data.header, error: data.error != null } as HeaderData;
-  } catch (error) {
+  } catch {
     return getHardcodedHeaderData();
   }
 }
@@ -226,7 +225,23 @@ export async function getFooterData() {
       return getHardcodedFooterData();
     }
     return { ...data.footer, error: data.error != null } as FooterData;
-  } catch (error) {
+  } catch {
     return getHardcodedFooterData();
   }
+}
+
+export async function getPagesData() {
+  const url = new URL("/api/pages", baseAPIUrl);
+
+  const populateOptions = {
+    fields: ["name", "slug"],
+  };
+
+  url.search = qs.stringify({
+    populate: populateOptions,
+  });
+
+  const response = await fetchData(url.href);
+
+  return response.data as Page[];
 }

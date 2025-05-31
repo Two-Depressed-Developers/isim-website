@@ -1,12 +1,7 @@
 import qs from "qs";
 
 import { getStrapiURL, flattenAttributes } from "@/lib/utils";
-import type {
-  FooterData,
-  GroupData,
-  HeaderData,
-  MemberData,
-} from "@/lib/types";
+import type { GroupData, MemberData } from "@/lib/types";
 
 const baseAPIUrl = getStrapiURL();
 
@@ -26,7 +21,7 @@ export async function getGroupsData(): Promise<GroupData> {
   const url = new URL("/api/groups", baseAPIUrl);
 
   const populateOptions = {
-    fields: ["firstName", "lastName", "title", "phone", "email", "position"],
+    fields: ["fullName", "slug", "title", "phone", "email", "position"],
     populate: {
       photo: {
         fields: ["url", "alternativeText"],
@@ -45,7 +40,7 @@ export async function getGroupsData(): Promise<GroupData> {
 
   url.search = qs.stringify({
     populate: {
-      siteLink: true,
+      link: true,
       supervisor: populateOptions,
       members: populateOptions,
     },
@@ -54,11 +49,11 @@ export async function getGroupsData(): Promise<GroupData> {
   return await fetchData(url.href);
 }
 
-export async function getMemberData(id: string): Promise<MemberData> {
-  const url = new URL(`/api/members/${id}`, baseAPIUrl);
+export async function getMemberData(slug: string): Promise<MemberData> {
+  const url = new URL(`/api/members`, baseAPIUrl);
 
   const populateOptions = {
-    fields: ["firstName", "lastName", "title", "phone", "email"],
+    fields: ["fullName", "slug", "title", "phone", "email", "room", "position"],
     photo: {
       fields: ["url", "alternativeText"],
     },
@@ -74,27 +69,17 @@ export async function getMemberData(id: string): Promise<MemberData> {
     PortfolioLink: {
       populate: true,
     },
-    Research: {
-      populate: {
-        PublicationsLink: {
-          populate: true,
-        },
-        ORCIDLink: {
-          populate: true,
-        },
-        ResearchgateLink: {
-          populate: true,
-        },
-        ReasercherIdLink: {
-          populate: true,
-        },
-      },
-    },
+    sections: true,
   };
 
   url.search = qs.stringify({
     populate: populateOptions,
+    filters: {
+      slug: slug,
+    },
   });
 
-  return await fetchData(url.href);
+  const response = await fetchData(url.href);
+
+  return response?.data?.[0] ?? ({ error: true } as MemberData);
 }

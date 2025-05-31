@@ -11,7 +11,7 @@ interface FooterSectionProps {
 
 const FooterSection = ({ section }: FooterSectionProps) => {
   return (
-    <div className="flex flex-col space-y-2 text-[#666]">
+    <div className="flex flex-col space-y-2 text-gray-text">
       {section.title && <h4 className="text-lg font-bold">{section.title}</h4>}
       {section.text && (
         <ReactMarkdown remarkPlugins={[remarkGfm]} className="text-sm">

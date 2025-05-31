@@ -12,7 +12,7 @@ interface MemberProps {
 const MemberCard = ({ member }: MemberProps) => {
   return (
     <CustomLink
-      href={`/about-us/staff/${member.documentId}`}
+      href={`/staff-members/${member.slug}`}
       isExternal={false}
       className="flex flex-col gap-1"
     >
@@ -38,9 +38,9 @@ const MemberCard = ({ member }: MemberProps) => {
           {member.title && (
             <h3 className="text-lg font-bold">{member.title}</h3>
           )}
-          {(member.firstName || member.lastName) && (
+          {member.fullName && (
             <p className="text-[32px] font-semibold leading-[40px]">
-              {`${member.firstName || ""} ${member.lastName || ""}`.trim()}
+              {`${member.fullName || ""}`.trim()}
             </p>
           )}
         </div>

@@ -14,6 +14,8 @@ export default {
         foreground: "hsl(var(--foreground))",
         "light-gray-text": "hsl(var(--light-gray-text))",
         "gray-text": "hsl(var(--gray-text))",
+        "light-gray": "hsl(var(--light-gray))",
+        "light-gray-border": "hsl(var(--light-gray-border))",
         inactive: "hsl(var(--inactive))",
         card: {
           DEFAULT: "hsl(var(--card))",

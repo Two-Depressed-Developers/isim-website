@@ -4,11 +4,12 @@ import "./globals.css";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
-import { getGlobalPageData } from "@/data/loaders";
-import { cn } from "@/lib/utils";
+import { BreadcrumbsProvider } from "@/context/BreadcrumbsContext";
+import BreadcrumbsDataLoader from "@/components/custom/breadcrumb/BreadcrumbsDataLoader";
 
 const k2d = K2D({
   weight: ["400", "500", "600"],
+  subsets: ['latin']
 });
 
 export const metadata: Metadata = {
@@ -21,15 +22,19 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
   return (
     <html lang="en">
       <body
-        className={`${k2d.className} flex min-h-screen flex-col antialiased bg-background`}
+        className={`${k2d.className} flex min-h-screen flex-col bg-background antialiased`}
       >
-        <Header/>
-        <main className="grow">{children}</main>
-        <Footer/>
+        <Header />
+        <main className="grow">
+          <BreadcrumbsProvider>
+            <BreadcrumbsDataLoader />
+            {children}
+          </BreadcrumbsProvider>
+        </main>
+        <Footer />
       </body>
     </html>
   );

@@ -16,6 +16,7 @@ export function getStrapiMedia(url: string | null) {
   return `${getStrapiURL()}${url}`;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function flattenAttributes(data: any): any {
   if (
     typeof data !== "object" ||
@@ -30,6 +31,7 @@ export function flattenAttributes(data: any): any {
     return data.map((item) => flattenAttributes(item));
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const flattened: { [key: string]: any } = {};
 
   for (const key in data) {

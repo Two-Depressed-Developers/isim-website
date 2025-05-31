@@ -5,8 +5,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 
 import { BreadcrumbsProvider } from "@/context/BreadcrumbsContext";
-import { Suspense } from "react";
-import BreadcrumbsDataLoader from "@/components/BreadcrumbsDataLoader";
+import BreadcrumbsDataLoader from "@/components/custom/breadcrumb/BreadcrumbsDataLoader";
 
 const k2d = K2D({
   weight: ["400", "500", "600"],
@@ -30,9 +29,7 @@ export default function RootLayout({
         <Header />
         <main className="grow">
           <BreadcrumbsProvider>
-            <Suspense>
-              <BreadcrumbsDataLoader />
-            </Suspense>
+            <BreadcrumbsDataLoader />
             {children}
           </BreadcrumbsProvider>
         </main>

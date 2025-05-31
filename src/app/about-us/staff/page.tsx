@@ -118,7 +118,6 @@ export default function Staff() {
     .filter(Boolean);
 
   return (
-    <>
       <div className="mx-auto flex max-w-7xl flex-col space-y-8 p-8">
         <div>
           <h1 className="mb-2 text-6xl font-semibold leading-[48px]">
@@ -140,6 +139,5 @@ export default function Staff() {
           )}
         </div>
       </div>
-    </>
   );
 }

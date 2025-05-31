@@ -9,10 +9,12 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { useBreadcrumbs } from "@/context/BreadcrumbsContext";
-import type { Breadcumb, Page } from "@/lib/types";
+import type { Page } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import React from "react";
+import type { Breadcumb } from "./Beadcrumb.types";
+import Link from "next/link";
 
 interface BreadcrumbsProps {
   className?: string;
@@ -63,16 +65,21 @@ const Breadcrumbs = ({ className, pagesData }: BreadcrumbsProps) => {
     <div className={cn("bg-light-gray py-4", className)}>
       <Breadcrumb className="mx-auto max-w-7xl px-8">
         <BreadcrumbList>
+
           <BreadcrumbItem>
-            <BreadcrumbLink href="/" className="text-primary">
-              Home
+            <BreadcrumbLink asChild>
+              <Link href="/" className="text-primary"> 
+                Home
+              </Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
+
           {breadData.length > 0 && (
             <BreadcrumbSeparator className="text-light-gray-text">
               /
             </BreadcrumbSeparator>
           )}
+
           {breadData.map((bread, index) => {
             let currentLabel = bread.label;
 
@@ -89,23 +96,32 @@ const Breadcrumbs = ({ className, pagesData }: BreadcrumbsProps) => {
               <React.Fragment key={bread.URL}>
                 <BreadcrumbItem>
                   {!bread.isLink ? (
+
                     <BreadcrumbPage className="text-foreground">
                       {currentLabel}
                     </BreadcrumbPage>
+
                   ) : (
-                    <BreadcrumbLink href={bread.URL} className="text-primary">
-                      {currentLabel}
+
+                    <BreadcrumbLink asChild>
+                      <Link href={bread.URL} className="text-primary"> 
+                        {currentLabel}
+                      </Link>
                     </BreadcrumbLink>
+
                   )}
                 </BreadcrumbItem>
+
                 {index < breadData.length - 1 && (
                   <BreadcrumbSeparator className="text-light-gray-text">
                     /
                   </BreadcrumbSeparator>
                 )}
+                
               </React.Fragment>
             );
           })}
+
         </BreadcrumbList>
       </Breadcrumb>
     </div>

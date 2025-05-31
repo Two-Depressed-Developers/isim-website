@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 import withRuntimeDotenv from "next-runtime-dotenv";
 
 const runtimeDotenv = withRuntimeDotenv({
-  public: ["NEXT_PUBLIC_API_URL"],
+  public: ["NEXT_PUBLIC_STRAPI_API_URL"],
 });
 
 const nextConfig: NextConfig = runtimeDotenv({

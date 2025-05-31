@@ -9,6 +9,7 @@ import BreadcrumbsDataLoader from "@/components/custom/breadcrumb/BreadcrumbsDat
 
 const k2d = K2D({
   weight: ["400", "500", "600"],
+  subsets: ['latin']
 });
 
 export const metadata: Metadata = {

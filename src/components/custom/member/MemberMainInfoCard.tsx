@@ -24,7 +24,7 @@ const MemberMainInfoCard = ({ member, className }: MemberMainInfoCardProps) => {
     {
       data: member.USOSLink,
       altText: "USOS",
-      bgColor: "bg-gradient-to-r from-[#383556] to-[#444160]",
+      bgColor: "bg-linear-to-r from-[#383556] to-[#444160]",
     },
     {
       data: member.BADAPLink,
@@ -63,7 +63,7 @@ const MemberMainInfoCard = ({ member, className }: MemberMainInfoCardProps) => {
                 <Button
                   asChild
                   key={index}
-                  className={`flex items-center gap-2 ${buttonLink.bgColor} text-white shadow-sm hover:opacity-90`}
+                  className={`flex items-center gap-2 ${buttonLink.bgColor} text-white shadow-xs hover:opacity-90`}
                 >
                   <CustomLink
                     href={buttonLink.data.URL}

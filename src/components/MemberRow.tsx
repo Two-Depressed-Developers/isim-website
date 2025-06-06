@@ -19,7 +19,7 @@ export const MemberRow = ({
     >
       <TableCell>
         {member.photo?.url ? (
-          <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-full shadow-sm">
+          <div className="h-20 w-20 shrink-0 overflow-hidden rounded-full shadow-xs">
             <StrapiImage
               src={member.photo.url}
               className="h-full w-full object-cover"
@@ -29,7 +29,7 @@ export const MemberRow = ({
             />
           </div>
         ) : (
-          <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-full bg-gray-200"></div>
+          <div className="h-20 w-20 shrink-0 overflow-hidden rounded-full bg-gray-200"></div>
         )}
       </TableCell>
       <TableCell className="text-xl font-semibold">{member.title}</TableCell>

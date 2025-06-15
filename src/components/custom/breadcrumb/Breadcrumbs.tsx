@@ -47,7 +47,7 @@ function generateBreadcrumbItems(path: string, pages: Page[]): Breadcumb[] {
   return breadcrumbs;
 }
 
-const pathWithouutBreadcrumbs = ["/", "/login"];
+const pathWithoutBreadcrumbs = ["/", "/login"];
 
 const Breadcrumbs = ({ className, pagesData }: BreadcrumbsProps) => {
   const { title } = useBreadcrumbs();
@@ -57,7 +57,7 @@ const Breadcrumbs = ({ className, pagesData }: BreadcrumbsProps) => {
     !pagesData ||
     pagesData.length === 0 ||
     path === "" ||
-    pathWithouutBreadcrumbs.includes(path)
+    pathWithoutBreadcrumbs.includes(path)
   ) {
     return null;
   }

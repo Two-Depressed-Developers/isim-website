@@ -28,7 +28,7 @@ export default async function Page({
 
       <MemberMainInfoCard member={member} />
 
-      <div className="flex flex-grow flex-col gap-y-4">
+      <div className="flex grow flex-col gap-y-4">
         <div className="hidden p-4 md:block">
           <h2 className="text-2xl font-medium">{member.title}</h2>
           <h1 className="text-4xl font-bold">{`${member.fullName}`}</h1>

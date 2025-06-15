@@ -53,7 +53,7 @@ export default function ActionBar() {
   };
 
   return (
-    <div className="flex gap-2 rounded-2xl bg-white p-4 shadow-sm">
+    <div className="flex gap-2 rounded-2xl bg-white p-4 shadow-xs">
       <Button
         onClick={() => {
           setSortingType("position");

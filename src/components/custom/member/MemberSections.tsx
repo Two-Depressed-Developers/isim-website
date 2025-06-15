@@ -21,7 +21,7 @@ const MemberSections = ({ memberSections }: MemberSectionsProps) => {
   if (!memberSections) return null;
 
   return (
-    <div className="flex flex-grow flex-col gap-y-4">
+    <div className="flex grow flex-col gap-y-4">
       {memberSections.map((section) => (
         <div key={section.id}>{blockRenderer(section)}</div>
       ))}

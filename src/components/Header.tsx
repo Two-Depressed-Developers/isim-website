@@ -18,6 +18,7 @@ const Header = async () => {
               alt={headerData.logo.alt}
               width={160}
               height={80}
+              className="h-auto w-auto"
             />
           ) : (
             <StrapiImage

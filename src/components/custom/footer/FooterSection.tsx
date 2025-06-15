@@ -32,6 +32,7 @@ const FooterSection = ({ section }: FooterSectionProps) => {
                   alt={image.alt}
                   width={24}
                   height={24}
+                  className="h-auto w-auto"
                 />
               ) : (
                 <StrapiImage

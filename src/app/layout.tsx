@@ -1,15 +1,11 @@
 import type { Metadata } from "next";
 import { K2D } from "next/font/google";
 import "./globals.css";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-
-import { BreadcrumbsProvider } from "@/context/BreadcrumbsContext";
-import BreadcrumbsDataLoader from "@/components/custom/breadcrumb/BreadcrumbsDataLoader";
+import { SessionProvider } from "next-auth/react";
 
 const k2d = K2D({
   weight: ["400", "500", "600"],
-  subsets: ['latin']
+  subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
@@ -27,14 +23,7 @@ export default function RootLayout({
       <body
         className={`${k2d.className} flex min-h-screen flex-col bg-background antialiased`}
       >
-        <Header />
-        <main className="grow">
-          <BreadcrumbsProvider>
-            <BreadcrumbsDataLoader />
-            {children}
-          </BreadcrumbsProvider>
-        </main>
-        <Footer />
+        <SessionProvider>{children}</SessionProvider>
       </body>
     </html>
   );

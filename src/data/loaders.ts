@@ -83,3 +83,10 @@ export async function getMemberData(slug: string): Promise<MemberData> {
 
   return response?.data?.[0] ?? ({ error: true } as MemberData);
 }
+
+export async function getMemberSchema() {
+  const contentTypeId = "api::member.member";
+  const url = new URL(`/api/schemas/${contentTypeId}`, baseAPIUrl);
+
+  return await fetchData(url.href);
+}

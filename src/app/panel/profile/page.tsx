@@ -1,11 +1,11 @@
 import { auth } from "@/lib/auth";
-import { getMemberData } from "@/data/loaders";
+import { getMemberData, getMemberSchema } from "@/data/loaders";
 import ProfileForm from "@/components/custom/panel/profile/ProfileForm";
 
 export default async function ProfilePage() {
   const session = await auth();
 
-  const slug = session?.user?.memberProfileSlug;
+  const slug = session?.user?.memberProfileSlug || "krzysztof-regulski"; // !
   if (!slug) {
     return (
       <div className="flex flex-col items-center justify-center p-4">
@@ -20,7 +20,10 @@ export default async function ProfilePage() {
     );
   }
 
+  const memberSchema = await getMemberSchema();
   const member = await getMemberData(slug);
+
+  console.log("Member schema:", memberSchema);
 
   if (member.error) {
     return (

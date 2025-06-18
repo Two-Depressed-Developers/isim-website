@@ -1,9 +1,10 @@
 import { auth } from "@/lib/auth";
 import { getMemberData, getMemberSchema } from "@/data/loaders";
 import ProfileForm from "@/components/custom/panel/profile/ProfileForm";
+import { Session } from "next-auth";
 
 export default async function ProfilePage() {
-  const session = await auth();
+  const session = await auth() || { cookie: true, user: null } as Session;
 
   const slug = session?.user?.memberProfileSlug || "krzysztof-regulski"; // !
   if (!slug) {
@@ -20,10 +21,11 @@ export default async function ProfilePage() {
     );
   }
 
-  const memberSchema = await getMemberSchema();
+  const memberSchema = (await getMemberSchema()) || {
+    error: "Cannot load member schema",
+  };
   const member = await getMemberData(slug);
 
-  console.log("Member schema:", memberSchema);
 
   if (member.error) {
     return (
@@ -38,7 +40,7 @@ export default async function ProfilePage() {
 
   return (
     <div className="flex flex-col items-center justify-center p-4">
-      <ProfileForm member={member} session={session} />
+      <ProfileForm member={member} schema={memberSchema} session={session} />
     </div>
   );
 }

@@ -1,40 +1,24 @@
 "use client";
 
-import { useForm } from "react-hook-form";
 import { MemberData } from "@/lib/types";
 import { memberFormSchema } from "@/lib/schemas";
-import { zodResolver } from "@hookform/resolvers/zod";
 import type * as z from "zod";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import axios from "axios";
 
-import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { Session } from "next-auth";
+import DynamicForm from "./DynamicForm";
 
 type ProfileFormProps = {
   member: MemberData;
+  schema: Record<string, unknown>;
   session?: Session;
 };
 
-export default function ProfileForm({ member, session }: ProfileFormProps) {
-  const form = useForm<z.infer<typeof memberFormSchema>>({
-    resolver: zodResolver(memberFormSchema),
-    defaultValues: {
-      fullName: member.fullName ?? "",
-      email: member.email ?? "",
-      phone: member.phone ?? "",
-    },
-  });
-
+export default function ProfileForm({
+  member,
+  schema,
+  session,
+}: ProfileFormProps) {
   const onSubmit = async (data: z.infer<typeof memberFormSchema>) => {
     console.log("Form submitted with data:", data);
 
@@ -65,59 +49,5 @@ export default function ProfileForm({ member, session }: ProfileFormProps) {
     console.log("Response from server:", res.data);
   };
 
-  return (
-    <Card className="mx-auto mt-8 w-full max-w-md">
-      <CardHeader className="text-center text-2xl font-bold">
-        Edytuj swój profil
-      </CardHeader>
-      <CardContent>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <FormField
-              control={form.control}
-              name="fullName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Imię i nazwisko</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Jan Kowalski" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input placeholder="example@com.pl" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="phone"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Telefon</FormLabel>
-                  <FormControl>
-                    <Input placeholder="+48 123 456 789" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button type="submit" className="w-full">
-              Zapisz zmiany
-            </Button>
-          </form>
-        </Form>
-      </CardContent>
-    </Card>
-  );
+  return <DynamicForm schema={schema} onSubmit={onSubmit} />;
 }

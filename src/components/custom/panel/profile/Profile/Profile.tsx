@@ -6,7 +6,7 @@ import type * as z from "zod";
 
 import { Session } from "next-auth";
 import DynamicForm from "../DynamicForm/DynamicForm";
-import { FormSchema } from "../DynamicForm/DynamicForm.types";
+import { FormSchema, isVisibleField } from "../DynamicForm/DynamicForm.types";
 import { mapStrapiFieldToFormField } from "../DynamicForm/DynamicForm.utils";
 
 type ProfileFormProps = {
@@ -52,7 +52,40 @@ export default function Profile({ member, schema, session }: ProfileFormProps) {
     ),
   };
 
-  const transformedDefaultValues = {};
+  console.log(member);
+
+  const transformedDefaultValues = transformedSchema.fields
+    .filter(isVisibleField)
+    .reduce(
+      (acc, field) => {
+        const fieldName = field.name;
+
+        if (
+          fieldName.endsWith("Link") &&
+          member[fieldName as keyof MemberData]
+        ) {
+          const linkData = member[fieldName as keyof MemberData] as any;
+          acc[fieldName] = linkData?.URL || "";
+        } else if (fieldName === "photo" && member.photo) {
+          const photoUrl =
+            member.photo.url.startsWith("http") ||
+            member.photo.url.startsWith("https")
+              ? member.photo.url
+              : `${process.env.NEXT_PUBLIC_STRAPI_API_URL}${member.photo.url}`;
+          acc[fieldName] = photoUrl;
+        } else if (
+          member[fieldName as keyof MemberData] &&
+          !fieldName.endsWith("Link")
+        ) {
+          acc[fieldName] = member[fieldName as keyof MemberData];
+        } else {
+          acc[fieldName] = "";
+        }
+
+        return acc;
+      },
+      {} as Record<string, any>,
+    );
 
   return (
     <DynamicForm

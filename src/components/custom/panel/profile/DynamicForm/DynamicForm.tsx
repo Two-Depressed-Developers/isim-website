@@ -50,6 +50,8 @@ export default function DynamicForm({
   const categorizedFields = groupFieldsByCategory(visibleFields);
   const sortedCategories = getSortedCategories(categorizedFields);
 
+  const isDirty = form.formState.isDirty;
+
   return (
     <div className="mx-auto w-full max-w-4xl px-4">
       <div className="mb-8">
@@ -74,11 +76,11 @@ export default function DynamicForm({
               type="button"
               variant="outline"
               onClick={() => form.reset()}
-              disabled={isLoading}
+              disabled={isLoading || !isDirty}
             >
               Reset
             </Button>
-            <Button type="submit" disabled={isLoading}>
+            <Button type="submit" disabled={isLoading || !isDirty}>
               {isLoading ? "Saving..." : "Save"}
             </Button>
           </div>

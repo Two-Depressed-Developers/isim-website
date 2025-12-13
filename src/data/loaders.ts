@@ -1,20 +1,20 @@
 import qs from "qs";
+import axios from "axios";
 
 import { getStrapiURL, flattenAttributes } from "@/lib/utils";
 import type { GroupData, MemberData } from "@/lib/types";
 
 const baseAPIUrl = getStrapiURL();
 
-export async function fetchData(url: string) {
-  try {
-    const response = await fetch(url);
-    const data = await response.json();
+const api = axios.create({
+  baseURL: baseAPIUrl,
+});
 
-    return flattenAttributes(data);
-  } catch (error) {
-    console.error("Error fetching data:", error);
-    throw error;
-  }
+export async function fetchData(url: string) {
+  const response = await api.get(url);
+
+  console.log("response", url);
+  return flattenAttributes(response.data);
 }
 
 export async function getGroupsData(): Promise<GroupData> {

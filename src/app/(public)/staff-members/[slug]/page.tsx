@@ -17,8 +17,7 @@ export default async function Page({
   }
 
   return (
-    <div className="mx-auto flex max-w-7xl flex-col gap-4 p-4 md:flex-row md:p-8">
-
+    <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 p-4 md:flex-row md:p-8">
       <BreadcrumbTitleSetter title={member.fullName} />
 
       <div className="p-4 md:hidden">

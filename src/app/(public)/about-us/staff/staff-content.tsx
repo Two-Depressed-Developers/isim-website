@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 
 import Group from "@/components/Group";
 import ActionBar from "@/components/ActionBar";
 
-import { getGroupsData } from "@/data/loaders";
+import { useGroupsData } from "@/data/queries";
 import { useDebounce } from "@/lib/hooks";
 import type { MemberData, Group as GroupType } from "@/lib/types";
 
@@ -73,71 +73,81 @@ export default function StaffContent() {
   const layout = (searchParams.get("layout") as LayoutType) || "grid";
   const search = searchParams.get("search") || "";
 
-  const [groups, setGroups] = useState<GroupType[] | null>(null);
-  const [sortedGroups, setSortedGroups] = useState<GroupType[] | null>(null);
-
   const debouncedQuery = useDebounce(search, 600);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const strapiData = await getGroupsData();
+  const { data: groupsData, isLoading, error } = useGroupsData();
 
-      setGroups(strapiData.data);
-      setSortedGroups(strapiData.data);
-    };
-    fetchData();
-  }, []);
+  const groups = groupsData?.data ?? null;
 
-  useEffect(() => {
-    if (groups) {
-      const transformedData = transformGroupsData(groups, sortingType);
-      setSortedGroups(transformedData);
-    }
+  const sortedGroups = useMemo(() => {
+    if (!groups) return null;
+    return transformGroupsData(groups, sortingType);
   }, [groups, sortingType]);
 
-  const filteredGroups = sortedGroups
-    ?.map((group) => {
-      const query = debouncedQuery.toLowerCase();
-      if (!group.members) return null;
+  const filteredGroups = useMemo(() => {
+    if (!sortedGroups) return [];
 
-      const filteredMembers = group.members.filter((member) =>
-        member.fullName.toLowerCase().includes(query),
-      );
+    const query = debouncedQuery.toLowerCase();
 
-      if (filteredMembers.length > 0) {
-        return {
-          ...group,
-          members: sortMembersWithSupervisorFirst(
-            filteredMembers,
-            group.supervisor?.id || null,
-          ),
-        };
-      }
-      return null;
-    })
-    .filter(Boolean);
+    return sortedGroups
+      .map((group) => {
+        if (!group.members) return null;
+
+        const filteredMembers = group.members.filter((member) =>
+          member.fullName.toLowerCase().includes(query),
+        );
+
+        if (filteredMembers.length > 0) {
+          return {
+            ...group,
+            members: sortMembersWithSupervisorFirst(
+              filteredMembers,
+              group.supervisor?.id || null,
+            ),
+          };
+        }
+        return null;
+      })
+      .filter(Boolean);
+  }, [sortedGroups, debouncedQuery]);
+
+  if (isLoading) {
+    return (
+      <div className="mx-auto flex max-w-7xl flex-col items-center justify-center p-8">
+        <p>Loading...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="mx-auto flex max-w-7xl flex-col items-center justify-center p-8">
+        <p>Error loading data</p>
+      </div>
+    );
+  }
 
   return (
-      <div className="mx-auto flex max-w-7xl flex-col space-y-8 p-8">
-        <div>
-          <h1 className="mb-2 text-6xl font-semibold leading-[48px]">
-            Our Staff
-          </h1>
-          <div className="h-1 w-28 rounded-full bg-primary" />
-        </div>
-        <ActionBar />
-        <div className="flex flex-col gap-16">
-          {filteredGroups && filteredGroups.length > 0 ? (
-            filteredGroups.map(
-              (group) =>
-                group && <Group key={group.id} group={group} layout={layout} />,
-            )
-          ) : (
-            <div className="flex h-16 items-center justify-center">
-              <p>No results found</p>
-            </div>
-          )}
-        </div>
+    <div className="mx-auto flex w-full max-w-7xl flex-col space-y-8 p-8">
+      <div>
+        <h1 className="mb-2 text-6xl leading-[48px] font-semibold">
+          Our Staff
+        </h1>
+        <div className="bg-primary h-1 w-28 rounded-full" />
       </div>
+      <ActionBar />
+      <div className="flex flex-col gap-16">
+        {filteredGroups && filteredGroups.length > 0 ? (
+          filteredGroups.map(
+            (group) =>
+              group && <Group key={group.id} group={group} layout={layout} />,
+          )
+        ) : (
+          <div className="flex h-16 items-center justify-center">
+            <p>No results found</p>
+          </div>
+        )}
+      </div>
+    </div>
   );
 }

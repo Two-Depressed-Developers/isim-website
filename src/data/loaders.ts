@@ -16,6 +16,33 @@ export async function fetchData(url: string) {
   return flattenAttributes(response.data);
 }
 
+export async function uploadFile(
+  file: File,
+  accessToken: string,
+  linkOptions?: {
+    ref: string;
+    refId: string;
+    field: string;
+  },
+): Promise<{ id: number; documentId: string; url: string }> {
+  const formData = new FormData();
+  formData.append("files", file);
+
+  if (linkOptions) {
+    formData.append("ref", linkOptions.ref);
+    formData.append("refId", linkOptions.refId);
+    formData.append("field", linkOptions.field);
+  }
+
+  const response = await axios.post(`${baseAPIUrl}/api/upload`, formData, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  return response.data[0];
+}
+
 export async function getGroupsData(): Promise<GroupData> {
   const url = new URL("/api/groups", baseAPIUrl);
 
@@ -109,7 +136,7 @@ export async function updateMember(
 
     return flattenAttributes(response.data);
   } catch (error) {
-    console.log("Error updating member:", error);
+    console.error("Error updating member:", error);
     throw error;
   }
 }

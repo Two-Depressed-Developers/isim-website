@@ -22,12 +22,14 @@ type CategorySectionProps = {
   categoryKey: string;
   fields: VisibleFormField[];
   control: Control<any>;
+  onPhotoUpload?: (file: File) => Promise<{ id: number; url: string }>;
 };
 
 export default function CategorySection({
   categoryKey,
   fields,
   control,
+  onPhotoUpload,
 }: CategorySectionProps) {
   const config = FIELD_CATEGORIES[categoryKey];
 
@@ -55,6 +57,7 @@ export default function CategorySection({
                 <FieldComponents.FileUpload
                   field={field}
                   formField={formField}
+                  onUpload={onPhotoUpload}
                 />
               </FormControl>
               <FormMessage />

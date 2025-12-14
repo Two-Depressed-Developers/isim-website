@@ -6,10 +6,10 @@ const EXCLUDED_FIELDS = new Set([
   "documentId",
   "slug",
   "sections",
-  "photo",
   "createdAt",
   "updatedAt",
   "publishedAt",
+  "photo",
 ]);
 
 const extractLabelFromFieldName = (fieldName: string): string => {
@@ -29,14 +29,23 @@ const transformLinkField = (
     openInNewWindow?: boolean;
   } | null;
 
-  if (!value) {
+  if (!value || value === "") {
+    if (originalLinkData?.id) {
+      return {
+        id: originalLinkData.id,
+        URL: "",
+        label: "",
+        isExternal: false,
+        openInNewWindow: false,
+      };
+    }
     return null;
   }
 
   return {
-    id: originalLinkData?.id,
+    ...(originalLinkData?.id && { id: originalLinkData.id }),
     URL: value,
-    label: originalLinkData?.label || extractLabelFromFieldName(fieldName),
+    label: extractLabelFromFieldName(fieldName),
     isExternal: originalLinkData?.isExternal ?? false,
     openInNewWindow: originalLinkData?.openInNewWindow ?? false,
   };
@@ -46,14 +55,15 @@ export const prepareDataForSubmission = (
   data: Record<string, unknown>,
   member: MemberData,
 ): Record<string, unknown> => {
-  return Object.entries(data).reduce(
+  const result = Object.entries(data).reduce(
     (acc, [key, value]) => {
       if (EXCLUDED_FIELDS.has(key)) {
         return acc;
       }
 
       if (key.endsWith("Link") && typeof value === "string") {
-        acc[key] = transformLinkField(key, value, member);
+        const transformed = transformLinkField(key, value, member);
+        acc[key] = transformed;
       } else {
         acc[key] = value;
       }
@@ -62,6 +72,8 @@ export const prepareDataForSubmission = (
     },
     {} as Record<string, unknown>,
   );
+
+  return result;
 };
 
 export const extractDefaultValues = (

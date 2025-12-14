@@ -22,6 +22,7 @@ interface DynamicFormProps {
   onSubmit: (data: any) => Promise<void>;
   initialData?: any;
   isLoading?: boolean;
+  onPhotoUpload?: (file: File) => Promise<{ id: number; url: string }>;
 }
 
 const SKIPPED_FIELDS = new Set(["sections", "slug"]);
@@ -35,6 +36,7 @@ export default function DynamicForm({
   onSubmit,
   initialData,
   isLoading = false,
+  onPhotoUpload,
 }: DynamicFormProps) {
   const visibleFields = schema.fields
     .filter(isVisibleField)
@@ -68,6 +70,7 @@ export default function DynamicForm({
               categoryKey={categoryKey}
               fields={categorizedFields[categoryKey]}
               control={form.control}
+              onPhotoUpload={onPhotoUpload}
             />
           ))}
 

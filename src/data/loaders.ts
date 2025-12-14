@@ -2,7 +2,7 @@ import qs from "qs";
 import axios from "axios";
 
 import { getStrapiURL, flattenAttributes } from "@/lib/utils";
-import type { GroupData, MemberData } from "@/lib/types";
+import type { CalendarEvent, GroupData, MemberData } from "@/lib/types";
 
 const baseAPIUrl = getStrapiURL();
 
@@ -13,7 +13,6 @@ const api = axios.create({
 export async function fetchData(url: string) {
   const response = await api.get(url);
 
-  console.log("response", url);
   return flattenAttributes(response.data);
 }
 
@@ -82,4 +81,20 @@ export async function getMemberData(slug: string): Promise<MemberData> {
   const response = await fetchData(url.href);
 
   return response?.data?.[0] ?? ({ error: true } as MemberData);
+}
+
+export async function getCalendarEvents(): Promise<CalendarEvent[]> {
+  const url = new URL("/api/calendar-events", baseAPIUrl);
+
+  const populateOptions = {
+    fields: ["title", "startDate", "endDate", "description", "color"],
+  };
+
+  url.search = qs.stringify({
+    populate: populateOptions,
+  });
+
+  const response = await fetchData(url.href);
+
+  return response?.data ?? [];
 }

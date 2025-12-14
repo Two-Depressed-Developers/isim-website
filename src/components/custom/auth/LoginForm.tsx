@@ -48,7 +48,7 @@ export function LoginForm({
                   alt="AGH Logo"
                   width={12}
                   height={12}
-                  className="h-auto w-auto"
+                  className="h-auto w-3"
                 />
                 Login with AGH Account
               </Button>

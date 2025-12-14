@@ -13,7 +13,7 @@ const nextConfig: NextConfig = runtimeDotenv({
         protocol: "http",
         hostname: "localhost",
         port: "1337",
-        pathname: "/uploads/**/*",
+        pathname: "/uploads/**",
       },
       {
         protocol: "http",

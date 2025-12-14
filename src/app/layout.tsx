@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { K2D } from "next/font/google";
 import "./globals.css";
 import { SessionProvider } from "next-auth/react";
+import QueryProvider from "@/providers/QueryProvider";
 
 const k2d = K2D({
   weight: ["400", "500", "600"],
@@ -21,9 +22,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${k2d.className} flex min-h-screen flex-col bg-background antialiased`}
+        className={`${k2d.className} bg-background flex min-h-screen flex-col antialiased`}
       >
-        <SessionProvider>{children}</SessionProvider>
+        <QueryProvider>
+          <SessionProvider>{children}</SessionProvider>
+        </QueryProvider>
       </body>
     </html>
   );

@@ -1,20 +1,19 @@
 import qs from "qs";
+import axios from "axios";
 
 import { getStrapiURL, flattenAttributes } from "@/lib/utils";
-import type { GroupData, MemberData } from "@/lib/types";
+import type { CalendarEvent, GroupData, MemberData } from "@/lib/types";
 
 const baseAPIUrl = getStrapiURL();
 
-export async function fetchData(url: string) {
-  try {
-    const response = await fetch(url);
-    const data = await response.json();
+const api = axios.create({
+  baseURL: baseAPIUrl,
+});
 
-    return flattenAttributes(data);
-  } catch (error) {
-    console.error("Error fetching data:", error);
-    throw error;
-  }
+export async function fetchData(url: string) {
+  const response = await api.get(url);
+
+  return flattenAttributes(response.data);
 }
 
 export async function getGroupsData(): Promise<GroupData> {
@@ -89,4 +88,20 @@ export async function getMemberSchema(): Promise<Record<string, unknown>> {
   const url = new URL(`/api/schemas/${contentTypeId}`, baseAPIUrl);
 
   return await fetchData(url.href);
+}
+
+export async function getCalendarEvents(): Promise<CalendarEvent[]> {
+  const url = new URL("/api/calendar-events", baseAPIUrl);
+
+  const populateOptions = {
+    fields: ["title", "startDate", "endDate", "description", "color"],
+  };
+
+  url.search = qs.stringify({
+    populate: populateOptions,
+  });
+
+  const response = await fetchData(url.href);
+
+  return response?.data ?? [];
 }

@@ -28,6 +28,18 @@ const getHardcodedHeaderData = (): HeaderData => {
     },
     links: [
       {
+        id: 0,
+        label: "Calendar",
+        URL: "/calendar",
+        isExternal: false,
+        openInNewWindow: false,
+        page: {
+          name: "Calendar",
+          slug: "/calendar",
+        },
+        subLinks: [],
+      },
+      {
         id: 1,
         label: "About us",
         URL: "/about-us",

@@ -26,7 +26,7 @@ export default function CalendarPage() {
   const mappedEvents = calendarEvents?.map(mapStrapiEventToCalendarEvent) || [];
 
   return (
-    <div className="mx-auto w-full max-w-7xl py-8">
+    <div className="mx-auto w-full max-w-7xl px-2 py-8">
       <Calendar events={mappedEvents} users={[]} />
     </div>
   );

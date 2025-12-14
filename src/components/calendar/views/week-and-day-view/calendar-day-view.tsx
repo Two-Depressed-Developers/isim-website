@@ -194,12 +194,12 @@ export function CalendarDayView({ singleDayEvents, multiDayEvents }: IProps) {
                 <span className="relative inline-flex size-2.5 rounded-full bg-green-600"></span>
               </span>
 
-              <p className="text-sm font-semibold text-t-secondary">
+              <p className="text-t-secondary text-sm font-semibold">
                 Trwa teraz
               </p>
             </div>
           ) : (
-            <p className="p-4 text-center text-sm italic text-t-tertiary">
+            <p className="text-t-tertiary p-4 text-center text-sm italic">
               Brak aktualnych wydarzeń
             </p>
           )}
@@ -216,19 +216,21 @@ export function CalendarDayView({ singleDayEvents, multiDayEvents }: IProps) {
                         {event.title}
                       </p>
 
-                      {user && (
+                      {/* {user && (
                         <div className="flex items-center gap-1.5">
                           <User className="text-t-quinary size-4" />
                           <span className="text-t-tertiary text-sm">
                             {user.name}
                           </span>
                         </div>
-                      )}
+                      )} */}
 
                       <div className="flex items-center gap-1.5">
                         <Calendar className="text-t-quinary size-4" />
                         <span className="text-t-tertiary text-sm">
-                          {format(new Date(event.startDate), "MMM d, yyyy")}
+                          {format(new Date(event.startDate), "MMM d, yyyy", {
+                            locale: pl,
+                          })}
                         </span>
                       </div>
 
@@ -238,11 +240,13 @@ export function CalendarDayView({ singleDayEvents, multiDayEvents }: IProps) {
                           {format(
                             parseISO(event.startDate),
                             use24HourFormat ? "HH:mm" : "hh:mm a",
+                            { locale: pl },
                           )}{" "}
                           -
                           {format(
                             parseISO(event.endDate),
                             use24HourFormat ? "HH:mm" : "hh:mm a",
+                            { locale: pl },
                           )}
                         </span>
                       </div>

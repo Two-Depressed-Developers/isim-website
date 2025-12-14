@@ -90,6 +90,30 @@ export async function getMemberSchema(): Promise<Record<string, unknown>> {
   return await fetchData(url.href);
 }
 
+export async function updateMember(
+  documentId: string,
+  data: Partial<MemberData>,
+  accessToken: string,
+): Promise<MemberData> {
+  try {
+    const response = await axios.put(
+      `${baseAPIUrl}/api/members/${documentId}`,
+      { data },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+      },
+    );
+
+    return flattenAttributes(response.data);
+  } catch (error) {
+    console.log("Error updating member:", error);
+    throw error;
+  }
+}
+
 export async function getCalendarEvents(): Promise<CalendarEvent[]> {
   const url = new URL("/api/calendar-events", baseAPIUrl);
 

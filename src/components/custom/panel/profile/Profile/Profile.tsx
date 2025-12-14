@@ -1,97 +1,72 @@
 "use client";
 
-import { memberFormSchema } from "@/lib/schemas";
+import { useMemo } from "react";
+import { useUpdateMember } from "@/data/queries";
 import { MemberData } from "@/lib/types";
-import type * as z from "zod";
-
 import { Session } from "next-auth";
+import { toast } from "sonner";
+
 import DynamicForm from "../DynamicForm/DynamicForm";
-import { FormSchema, isVisibleField } from "../DynamicForm/DynamicForm.types";
+import { FormSchema } from "../DynamicForm/DynamicForm.types";
 import { mapStrapiFieldToFormField } from "../DynamicForm/DynamicForm.utils";
+import {
+  extractDefaultValues,
+  prepareDataForSubmission,
+} from "./Profile.utils";
 
 type ProfileFormProps = {
   member: MemberData;
   schema: Record<string, unknown>;
-  session?: Session;
+  session: Session;
 };
 
 export default function Profile({ member, schema, session }: ProfileFormProps) {
-  const onSubmit = async (data: z.infer<typeof memberFormSchema>) => {};
-  //   console.log("Form submitted with data:", data);
+  const updateMutation = useUpdateMember(member.slug);
 
-  //   const res = await axios.put(
-  //     `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/api/members/${member.documentId}`,
-  //     {
-  //       data: {
-  //         ...data,
-  //       },
-  //     },
-  //     {
-  //       headers: {
-  //         Authorization: `Bearer ${session?.accessToken}`,
-  //         "Content-Type": "application/json",
-  //       },
-  //     },
-  //   );
+  const onSubmit = async (data: Record<string, unknown>) => {
+    if (!session?.accessToken) {
+      toast.error("You must be authenticated to update your profile.");
+      return;
+    }
 
-  //   if (res.status === 200) {
-  //     console.log("Profile updated successfully:", res.data.data.phone);
-  //     alert("Profil został zaktualizowany pomyślnie!");
-  //     form.reset(res.data.data);
-  //   } else {
-  //     alert("Wystąpił błąd podczas aktualizacji profilu. Spróbuj ponownie.");
-  //     console.error("Error updating profile:", res.data);
-  //   }
+    const cleanedData = prepareDataForSubmission(data, member);
 
-  //   console.log("Response from server:", res.data);
-  // };
+    try {
+      await updateMutation.mutateAsync({
+        documentId: member.documentId,
+        data: cleanedData as Partial<MemberData>,
+        accessToken: session.accessToken as string,
+      });
 
-  const transformedSchema: FormSchema = {
-    fields: Object.entries(schema).map(([fieldName, fieldSchema]) =>
-      mapStrapiFieldToFormField(fieldName, fieldSchema),
-    ),
+      toast.success("Profile updated successfully!");
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Failed to update profile.";
+      toast.error(errorMessage);
+      console.error("Error updating profile:", error);
+    }
   };
 
-  console.log(member);
+  const transformedSchema: FormSchema = useMemo(
+    () => ({
+      fields: Object.entries(schema).map(([fieldName, fieldSchema]) =>
+        mapStrapiFieldToFormField(fieldName, fieldSchema),
+      ),
+    }),
+    [schema],
+  );
 
-  const transformedDefaultValues = transformedSchema.fields
-    .filter(isVisibleField)
-    .reduce(
-      (acc, field) => {
-        const fieldName = field.name;
-
-        if (
-          fieldName.endsWith("Link") &&
-          member[fieldName as keyof MemberData]
-        ) {
-          const linkData = member[fieldName as keyof MemberData] as any;
-          acc[fieldName] = linkData?.URL || "";
-        } else if (fieldName === "photo" && member.photo) {
-          const photoUrl =
-            member.photo.url.startsWith("http") ||
-            member.photo.url.startsWith("https")
-              ? member.photo.url
-              : `${process.env.NEXT_PUBLIC_STRAPI_API_URL}${member.photo.url}`;
-          acc[fieldName] = photoUrl;
-        } else if (
-          member[fieldName as keyof MemberData] &&
-          !fieldName.endsWith("Link")
-        ) {
-          acc[fieldName] = member[fieldName as keyof MemberData];
-        } else {
-          acc[fieldName] = "";
-        }
-
-        return acc;
-      },
-      {} as Record<string, any>,
-    );
+  const transformedDefaultValues = useMemo(
+    () => extractDefaultValues(transformedSchema.fields, member),
+    [transformedSchema.fields, member],
+  );
 
   return (
     <DynamicForm
       schema={transformedSchema}
       onSubmit={onSubmit}
       initialData={transformedDefaultValues}
+      isLoading={updateMutation.isPending}
     />
   );
 }

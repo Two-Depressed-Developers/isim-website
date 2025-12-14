@@ -1,11 +1,11 @@
 import { auth } from "@/lib/auth";
-import { getMemberData, getMemberSchema } from "@/data/loaders";
-import Profile from "@/components/custom/panel/profile/Profile/Profile";
+import ProfilePageClient from "@/components/custom/panel/profile/ProfilePageClient";
 
 export default async function ProfilePage() {
   const session = await auth();
 
-  const slug = session?.user?.memberProfileSlug || "krzysztof-regulski"; // !
+  const slug = session?.user?.memberProfileSlug;
+
   if (!slug) {
     return (
       <div className="flex flex-col items-center justify-center p-4">
@@ -20,10 +20,7 @@ export default async function ProfilePage() {
     );
   }
 
-  const memberSchema = await getMemberSchema();
-  const member = await getMemberData(slug);
-
-  if (member.error || memberSchema.error) {
+  if (!session) {
     return (
       <div className="flex flex-col items-center justify-center p-4">
         <h1 className="mb-4 text-2xl font-bold">Profil nie znaleziony</h1>
@@ -34,9 +31,5 @@ export default async function ProfilePage() {
     );
   }
 
-  return (
-    <div className="flex flex-col items-center justify-center p-4">
-      <Profile member={member} schema={memberSchema} session={session} />
-    </div>
-  );
+  return <ProfilePageClient slug={slug} session={session} />;
 }

@@ -11,7 +11,7 @@ interface FooterSectionProps {
 
 const FooterSection = ({ section }: FooterSectionProps) => {
   return (
-    <div className="flex flex-col space-y-2 text-gray-text">
+    <div className="text-gray-text flex flex-col space-y-2">
       {section.title && <h4 className="text-lg font-bold">{section.title}</h4>}
       {section.text && (
         <ReactMarkdown remarkPlugins={[remarkGfm]} className="text-sm">
@@ -32,7 +32,7 @@ const FooterSection = ({ section }: FooterSectionProps) => {
                   alt={image.alt}
                   width={24}
                   height={24}
-                  className="h-auto w-auto"
+                  className="h-6 w-6"
                 />
               ) : (
                 <StrapiImage
@@ -40,6 +40,7 @@ const FooterSection = ({ section }: FooterSectionProps) => {
                   alt={image.alt}
                   width={24}
                   height={24}
+                  className="h-6 w-6"
                 />
               )}
             </Link>

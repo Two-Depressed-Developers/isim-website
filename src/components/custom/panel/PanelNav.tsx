@@ -13,15 +13,21 @@ export default function PanelNav() {
     <nav className="flex items-center justify-between bg-white p-4 shadow-sm">
       <Link
         href="/"
-        className="flex items-center gap-x-2 rounded-md px-3 py-1 transition-colors hover:bg-primary/5"
+        className="hover:bg-primary/5 flex items-center gap-x-2 rounded-md px-3 py-1 transition-colors"
       >
         <ChevronLeft />
         Powrót do strony głównej
       </Link>
       <div className="flex items-center gap-x-4">
         <Link
+          href="/panel/settings"
+          className="hover:bg-primary/5 flex items-center gap-x-2 rounded-md px-3 py-1 transition-colors"
+        >
+          <span className="text-[18px] font-semibold">Ustawienia</span>
+        </Link>
+        <Link
           href="/panel/profile"
-          className="flex items-center gap-x-2 rounded-md px-3 py-1 transition-colors hover:bg-primary/5"
+          className="hover:bg-primary/5 flex items-center gap-x-2 rounded-md px-3 py-1 transition-colors"
         >
           <span className="text-[18px] font-semibold">Profil</span>
         </Link>
@@ -37,7 +43,7 @@ export default function PanelNav() {
                 redirectTo: "/",
               })
             }
-            className="flex items-center gap-x-2 rounded-md bg-transparent px-3 py-1 text-foreground transition-colors hover:bg-primary/5"
+            className="text-foreground hover:bg-primary/5 flex items-center gap-x-2 rounded-md bg-transparent px-3 py-1 transition-colors"
           >
             <LogOut />
           </Button>

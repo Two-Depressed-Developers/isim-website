@@ -6,10 +6,12 @@ import { Button } from "@/components/ui/button";
 import { Github } from "lucide-react";
 import { signIn, useSession } from "next-auth/react";
 import { toast } from "sonner";
+import { usePathname } from "next/navigation";
 
 export default function ConnectSSOForm() {
   const { data: session, update } = useSession();
   const [isLoading, setIsLoading] = useState(false);
+  const pathname = usePathname();
 
   const isConnected = session?.user?.hasSsoLinked;
 
@@ -32,16 +34,9 @@ export default function ConnectSSOForm() {
 
         toast.success("Rozłączono konto GitHub");
       } else {
-        const params = new URLSearchParams({
-          client_id: "Ov23liKhbn3e0rvtBY5d",
-          redirect_uri: `${process.env.NEXT_PUBLIC_APP_URL}/api/connect/github`,
-          scope: "read:user user:email",
-          state: "idkidk",
+        await signIn("github", {
+          redirectTo: pathname,
         });
-
-        console.log("Redirecting to SSO with params:", params.toString());
-
-        window.location.href = `https://github.com/login/oauth/authorize?${params.toString()}`;
       }
     } catch (error) {
       console.error("SSO connection error:", error);

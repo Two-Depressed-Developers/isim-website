@@ -1,18 +1,24 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { getGroupsData } from "./loaders/groups";
 import {
-  getCalendarEvents,
-  getGroupsData,
   getMemberData,
   getMemberSchema,
   updateMember,
-} from "./loaders";
+} from "./loaders/members";
+import { getCalendarEvents } from "./loaders/calendar";
+import {
+  getClassroomResources,
+  uploadClassroomResources,
+} from "./loaders/classrooms";
 import { MemberData } from "@/lib/types";
+import type { ClassroomResource } from "@/lib/classroom-utils";
 
 export const queryKeys = {
   groups: ["groups"] as const,
   member: (slug: string) => ["member", slug] as const,
   memberSchema: ["member-schema"] as const,
   calendarEvents: ["calendar-events"] as const,
+  classroomResources: ["classroom-resources"] as const,
 };
 
 export function useGroupsData() {
@@ -60,5 +66,31 @@ export function useCalendarEvents() {
   return useQuery({
     queryKey: queryKeys.calendarEvents,
     queryFn: () => getCalendarEvents(),
+  });
+}
+
+export function useClassroomResources() {
+  return useQuery({
+    queryKey: queryKeys.classroomResources,
+    queryFn: () => getClassroomResources(),
+  });
+}
+
+export function useUploadClassroomResources() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({
+      data,
+      accessToken,
+    }: {
+      data: ClassroomResource[];
+      accessToken: string;
+    }) => uploadClassroomResources(data, accessToken),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.classroomResources,
+      });
+    },
   });
 }

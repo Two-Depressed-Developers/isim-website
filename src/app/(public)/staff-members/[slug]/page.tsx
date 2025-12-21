@@ -1,6 +1,6 @@
 import MemberMainInfoCard from "@/components/custom/member/MemberMainInfoCard";
 
-import { getMemberData } from "@/data/loaders";
+import { getMemberData } from "@/data/loaders/members";
 import MemberSections from "@/components/custom/member/MemberSections";
 import { BreadcrumbTitleSetter } from "@/components/custom/breadcrumb/BreadcrumbTitleSetter";
 

@@ -2,7 +2,12 @@ import qs from "qs";
 import axios from "axios";
 
 import { getStrapiURL, flattenAttributes } from "@/lib/utils";
-import type { CalendarEvent, GroupData, MemberData } from "@/lib/types";
+import type {
+  CalendarEvent,
+  GroupData,
+  MemberData,
+  TicketFormData,
+} from "@/lib/types";
 
 const baseAPIUrl = getStrapiURL();
 
@@ -97,4 +102,14 @@ export async function getCalendarEvents(): Promise<CalendarEvent[]> {
   const response = await fetchData(url.href);
 
   return response?.data ?? [];
+}
+
+export async function submitTicket(data: TicketFormData) {
+  const response = await axios.post("/api/tickets", data);
+  return response.data;
+}
+
+export async function verifyTicket(token: string) {
+  const response = await axios.post("/api/tickets/verify", { token });
+  return response.data;
 }

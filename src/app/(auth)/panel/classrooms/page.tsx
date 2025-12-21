@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { DataSourceSelector } from "@/components/custom/classes/DataSourceSelector";
-import { EditableSheetTable } from "@/components/custom/classes/EditableSheetTable";
+import { DataSourceSelector } from "@/components/custom/classrooms/DataSourceSelector";
+import { EditableSheetTable } from "@/components/custom/classrooms/EditableSheetTable";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 

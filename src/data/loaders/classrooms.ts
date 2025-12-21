@@ -22,6 +22,26 @@ export async function uploadClassroomResources(
   const errors: string[] = [];
   let created = 0;
 
+  try {
+    const existing = await getClassroomResources();
+    for (const resource of existing) {
+      if (resource.documentId) {
+        await axios.delete(
+          `${baseAPIUrl}/api/classrooms-resources/${resource.documentId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          },
+        );
+      }
+    }
+  } catch (error) {
+    errors.push(
+      `Błąd podczas czyszczenia kolekcji: ${error instanceof Error ? error.message : "Nieznany błąd"}`,
+    );
+  }
+
   for (const classroom of data) {
     try {
       await axios.post(

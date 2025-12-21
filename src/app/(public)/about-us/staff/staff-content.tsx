@@ -75,7 +75,7 @@ export default function StaffContent() {
 
   const debouncedQuery = useDebounce(search, 600);
 
-  const { data: groupsData, isLoading, error } = useGroupsData();
+  const { data: groupsData, isPending, isError } = useGroupsData();
 
   const groups = groupsData?.data ?? null;
 
@@ -111,7 +111,7 @@ export default function StaffContent() {
       .filter(Boolean);
   }, [sortedGroups, debouncedQuery]);
 
-  if (isLoading) {
+  if (isPending) {
     return (
       <div className="mx-auto flex max-w-7xl flex-col items-center justify-center p-8">
         <p>Loading...</p>
@@ -119,7 +119,7 @@ export default function StaffContent() {
     );
   }
 
-  if (error) {
+  if (isError) {
     return (
       <div className="mx-auto flex max-w-7xl flex-col items-center justify-center p-8">
         <p>Error loading data</p>

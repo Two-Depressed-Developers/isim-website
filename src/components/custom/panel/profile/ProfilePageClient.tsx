@@ -15,16 +15,16 @@ export default function ProfilePageClient({
 }: ProfilePageClientProps) {
   const {
     data: member,
-    isLoading: isMemberLoading,
-    error: memberError,
+    isPending: isMemberPending,
+    isError: isMemberError,
   } = useMemberData(slug);
   const {
     data: memberSchema,
-    isLoading: isSchemaLoading,
-    error: schemaError,
+    isPending: isSchemaPending,
+    isError: isSchemaError,
   } = useMemberSchema();
 
-  if (isMemberLoading || isSchemaLoading) {
+  if (isMemberPending || isSchemaPending) {
     return (
       <div className="flex flex-col items-center justify-center p-4">
         <div className="text-center">
@@ -35,7 +35,7 @@ export default function ProfilePageClient({
     );
   }
 
-  if (memberError || schemaError || member?.error || memberSchema?.error) {
+  if (isMemberError || isSchemaError) {
     return (
       <div className="flex flex-col items-center justify-center p-4">
         <h1 className="mb-4 text-2xl font-bold">Profile not found</h1>

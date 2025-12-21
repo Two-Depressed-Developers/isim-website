@@ -3,6 +3,7 @@ import { K2D } from "next/font/google";
 import "./globals.css";
 import { SessionProvider } from "next-auth/react";
 import QueryProvider from "@/providers/QueryProvider";
+import { Toaster } from "sonner";
 
 const k2d = K2D({
   weight: ["400", "500", "600"],
@@ -27,6 +28,7 @@ export default function RootLayout({
         <QueryProvider>
           <SessionProvider>{children}</SessionProvider>
         </QueryProvider>
+        <Toaster richColors position="bottom-right" />
       </body>
     </html>
   );

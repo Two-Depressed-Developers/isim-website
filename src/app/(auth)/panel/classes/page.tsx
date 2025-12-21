@@ -19,7 +19,7 @@ export default function HomePage() {
 
   return (
     <div className="container mx-auto py-8">
-      <h1 className="mb-6 text-3xl font-bold">Classes Data Editor</h1>
+      <h1 className="mb-6 text-3xl font-bold">Edycja laboratoriów</h1>
 
       {data === null ? (
         <DataSourceSelector
@@ -30,7 +30,7 @@ export default function HomePage() {
         <div className="space-y-4">
           <Button variant="outline" onClick={handleBack}>
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Change Data Source
+            Wybierz źródło danych
           </Button>
           <EditableSheetTable initialData={data} />
         </div>

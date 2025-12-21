@@ -167,7 +167,7 @@ export function DataSourceSelector({
                   name="file"
                   render={({ field: { onChange, value, ...field } }) => (
                     <FormItem>
-                      <FormLabel>CSV File</FormLabel>
+                      <FormLabel>Plik CSV</FormLabel>
                       <FormControl>
                         <Input
                           type="file"

@@ -1,45 +1,35 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
-import axios from "axios";
-import crypto from "crypto";
-import { getStrapiURL } from "@/lib/utils";
-import type { TicketFormData } from "@/lib/types";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
-const strapiUrl = getStrapiURL();
-
-function generateVerificationToken(): string {
-  return crypto.randomBytes(32).toString("hex");
-}
 
 export async function POST(request: Request) {
   try {
-    const data: TicketFormData = await request.json();
-    const token = generateVerificationToken();
+    const { email, token, ticketId } = await request.json();
 
-    await axios.post(`${strapiUrl}/api/tickets`, {
-      data: {
-        title: data.title,
-        description: data.description,
-        email: data.email,
-        ticketStatus: "pending",
-        verificationToken: token,
-      },
-    });
+    if (!email || !token || !ticketId) {
+      return NextResponse.json(
+        { success: false, error: "Email, token i ticketId są wymagane" },
+        { status: 400 },
+      );
+    }
 
     const verificationUrl = `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/helpdesk/verify?token=${token}`;
+    const statusUrl = `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/helpdesk/ticket/${ticketId}`;
 
-    // !! FOR NOW: Sending to verified Resend email only. Change to data.email after domain setup.
     await resend.emails.send({
       from: "onboarding@resend.dev",
       to: "isim@dsieron.pl",
       subject: "Potwierdź zgłoszenie - ISiM AGH",
       html: `
         <h2>Potwierdź swoje zgłoszenie</h2>
-        <p>Email użytkownika: ${data.email}</p>
+        <p>Email użytkownika: ${email}</p>
         <p>Kliknij poniższy link, aby potwierdzić i aktywować zgłoszenie:</p>
         <a href="${verificationUrl}">${verificationUrl}</a>
         <p>Link wygasa po 24 godzinach.</p>
+        <hr style="margin: 20px 0;" />
+        <p>Możesz sprawdzić status swojego zgłoszenia w każdej chwili:</p>
+        <a href="${statusUrl}">Sprawdź status zgłoszenia</a>
       `,
     });
 
@@ -49,20 +39,20 @@ export async function POST(request: Request) {
         message:
           "Link weryfikacyjny został wysłany na podany adres e-mail. Sprawdź swoją skrzynkę.",
       },
-      { status: 201 },
+      { status: 200 },
     );
   } catch (error: any) {
     console.error(
-      "Błąd podczas tworzenia zgłoszenia:",
-      error.response?.data || error.message,
+      "Błąd podczas wysyłania emaila weryfikacyjnego:",
+      error.message,
     );
 
     return NextResponse.json(
       {
         success: false,
-        error: "Wystąpił błąd podczas tworzenia zgłoszenia",
+        error: "Wystąpił błąd podczas wysyłania emaila weryfikacyjnego",
       },
-      { status: error.response?.status || 500 },
+      { status: 500 },
     );
   }
 }

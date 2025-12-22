@@ -1,4 +1,4 @@
-import { object, string } from "zod";
+import { object, string, enum as zEnum } from "zod";
 
 export const memberFormSchema = object({
   fullName: string()
@@ -27,4 +27,16 @@ export const ticketFormSchema = object({
         message: "Dozwolone są tylko adresy e-mail z domeny AGH (@agh.edu.pl).",
       },
     ),
+});
+
+export const ticketStatusSchema = zEnum([
+  "pending",
+  "open",
+  "in-progress",
+  "resolved",
+  "closed",
+]);
+
+export const updateTicketStatusSchema = object({
+  ticketStatus: ticketStatusSchema,
 });

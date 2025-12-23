@@ -1,4 +1,4 @@
-import { object, string } from "zod";
+import { object, string, enum as zEnum } from "zod";
 
 export const memberFormSchema = object({
   fullName: string()
@@ -49,4 +49,33 @@ export const changePasswordSchema = object({
 }).refine((data) => data.newPassword === data.confirmPassword, {
   message: "Hasła nie są identyczne",
   path: ["confirmPassword"],
+});
+
+export const ticketFormSchema = object({
+  title: string()
+    .min(5, { message: "Tytuł musi mieć co najmniej 5 znaków." })
+    .max(200, { message: "Tytuł nie może przekraczać 200 znaków." }),
+  description: string()
+    .min(10, { message: "Opis musi mieć co najmniej 10 znaków." })
+    .max(2000, { message: "Opis nie może przekraczać 2000 znaków." }),
+  email: string()
+    .email({ message: "Podaj poprawny adres e-mail." })
+    .refine(
+      (email) => email.endsWith("@agh.edu.pl") || email.endsWith(".agh.edu.pl"),
+      {
+        message: "Dozwolone są tylko adresy e-mail z domeny AGH (@agh.edu.pl).",
+      },
+    ),
+});
+
+export const ticketStatusSchema = zEnum([
+  "pending",
+  "open",
+  "in-progress",
+  "resolved",
+  "closed",
+]);
+
+export const updateTicketStatusSchema = object({
+  ticketStatus: ticketStatusSchema,
 });

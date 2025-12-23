@@ -11,6 +11,7 @@ const runtimeDotenv = withRuntimeDotenv({
 
 const nextConfig: NextConfig = runtimeDotenv({
   reactStrictMode: false,
+  reactCompiler: true,
   images: {
     remotePatterns: [
       {

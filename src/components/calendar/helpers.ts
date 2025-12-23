@@ -25,6 +25,7 @@ import {
   subWeeks,
   subYears,
 } from "date-fns";
+import { pl } from "date-fns/locale";
 import { useCalendar } from "@/components/calendar/contexts/calendar-context";
 import type { ICalendarCell, IEvent } from "@/components/calendar/interfaces";
 import type { TCalendarView, TEventColor } from "@/components/calendar/types";
@@ -37,7 +38,7 @@ export function rangeText(view: TCalendarView, date: Date): string {
 
   switch (view) {
     case "month":
-      start = startOfMonth(date);
+      start = startOfMonth(date, {});
       end = endOfMonth(date);
       break;
     case "week":
@@ -45,7 +46,7 @@ export function rangeText(view: TCalendarView, date: Date): string {
       end = endOfWeek(date);
       break;
     case "day":
-      return format(date, FORMAT_STRING);
+      return format(date, "d MMM yyyy", { locale: pl });
     case "year":
       start = startOfYear(date);
       end = endOfYear(date);
@@ -58,7 +59,7 @@ export function rangeText(view: TCalendarView, date: Date): string {
       return "Error while formatting";
   }
 
-  return `${format(start, FORMAT_STRING)} - ${format(end, FORMAT_STRING)}`;
+  return `${format(start, "d MMM yyyy", { locale: pl })} - ${format(end, "d MMM yyyy", { locale: pl })}`;
 }
 
 export function navigateDate(

@@ -2,7 +2,14 @@ import qs from "qs";
 import axios from "axios";
 
 import { getStrapiURL, flattenAttributes } from "@/lib/utils";
-import type { CalendarEvent, GroupData, MemberData } from "@/lib/types";
+import type {
+  CalendarEvent,
+  GroupData,
+  MemberData,
+  Ticket,
+  TicketFormData,
+  TicketStatus,
+} from "@/lib/types";
 
 const baseAPIUrl = getStrapiURL();
 
@@ -14,6 +21,33 @@ export async function fetchData(url: string) {
   const response = await api.get(url);
 
   return flattenAttributes(response.data);
+}
+
+export async function uploadFile(
+  file: File,
+  accessToken: string,
+  linkOptions?: {
+    ref: string;
+    refId: string;
+    field: string;
+  },
+): Promise<{ id: number; documentId: string; url: string }> {
+  const formData = new FormData();
+  formData.append("files", file);
+
+  if (linkOptions) {
+    formData.append("ref", linkOptions.ref);
+    formData.append("refId", linkOptions.refId);
+    formData.append("field", linkOptions.field);
+  }
+
+  const response = await axios.post(`${baseAPIUrl}/api/upload`, formData, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  return response.data[0];
 }
 
 export async function getGroupsData(): Promise<GroupData> {
@@ -83,6 +117,37 @@ export async function getMemberData(slug: string): Promise<MemberData> {
   return response?.data?.[0] ?? ({ error: true } as MemberData);
 }
 
+export async function getMemberSchema(): Promise<Record<string, unknown>> {
+  const contentTypeId = "api::member.member";
+  const url = new URL(`/api/schemas/${contentTypeId}`, baseAPIUrl);
+
+  return await fetchData(url.href);
+}
+
+export async function updateMember(
+  documentId: string,
+  data: Partial<MemberData>,
+  accessToken: string,
+): Promise<MemberData> {
+  try {
+    const response = await axios.put(
+      `${baseAPIUrl}/api/members/${documentId}`,
+      { data },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+      },
+    );
+
+    return flattenAttributes(response.data);
+  } catch (error) {
+    console.error("Error updating member:", error);
+    throw error;
+  }
+}
+
 export async function getCalendarEvents(): Promise<CalendarEvent[]> {
   const url = new URL("/api/calendar-events", baseAPIUrl);
 
@@ -97,4 +162,118 @@ export async function getCalendarEvents(): Promise<CalendarEvent[]> {
   const response = await fetchData(url.href);
 
   return response?.data ?? [];
+}
+
+function generateToken(): string {
+  return Array.from(crypto.getRandomValues(new Uint8Array(32)))
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
+}
+
+export async function submitTicket(data: TicketFormData) {
+  const token = generateToken();
+
+  const response = await api.post("/api/tickets", {
+    data: {
+      title: data.title,
+      description: data.description,
+      email: data.email,
+      ticketStatus: "pending",
+      verificationToken: token,
+    },
+  });
+
+  const ticketId = response.data.data.documentId;
+
+  const emailResponse = await axios.post("/api/tickets/send-verification", {
+    email: data.email,
+    token: token,
+    ticketId: ticketId,
+  });
+
+  return emailResponse.data;
+}
+
+export async function verifyTicket(token: string) {
+  const response = await axios.post("/api/tickets/verify", { token });
+  return response.data;
+}
+
+export async function getTickets(): Promise<Ticket[]> {
+  const url = new URL("/api/tickets", baseAPIUrl);
+
+  url.search = qs.stringify({
+    fields: [
+      "title",
+      "description",
+      "email",
+      "ticketStatus",
+      "verifiedAtTime",
+      "createdAt",
+      "updatedAt",
+    ],
+    filters: {
+      ticketStatus: {
+        $ne: "pending",
+      },
+    },
+    sort: ["createdAt:desc"],
+  });
+
+  const response = await fetchData(url.href);
+  return response?.data ?? [];
+}
+
+export async function getTicketById(
+  ticketId: string,
+  token?: string,
+): Promise<Ticket | null> {
+  const url = new URL("/api/tickets", baseAPIUrl);
+
+  const filters: any = {
+    documentId: ticketId,
+  };
+
+  if (token) {
+    filters.verificationToken = token;
+  }
+
+  url.search = qs.stringify({
+    fields: [
+      "title",
+      "description",
+      "email",
+      "ticketStatus",
+      "verificationToken",
+      "verifiedAtTime",
+      "createdAt",
+      "updatedAt",
+    ],
+    filters,
+  });
+
+  const response = await fetchData(url.href);
+  return response?.data?.[0] ?? null;
+}
+
+export async function updateTicketStatus(
+  ticketId: string,
+  status: TicketStatus,
+  email?: string,
+) {
+  const response = await api.put(`/api/tickets/${ticketId}`, {
+    data: {
+      ticketStatus: status,
+    },
+  });
+
+  if (email && (status === "resolved" || status === "closed")) {
+    await axios.post("/api/tickets/send-status-update", {
+      email,
+      status,
+      ticketId,
+    });
+  }
+
+  return flattenAttributes(response.data);
 }

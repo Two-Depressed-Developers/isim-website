@@ -118,7 +118,7 @@ const getHardcodedFooterData = (): FooterData => {
         label: "",
       },
     },
-    copyrightText: "All rights reserver © 2025 Akademia Górniczo-Hutnicza",
+    copyrightText: "All rights reserved © 2025 Akademia Górniczo-Hutnicza",
     sections: [
       {
         id: 1,

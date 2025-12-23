@@ -9,8 +9,6 @@ export default function LoginPage() {
   const session = useSession();
   const router = useRouter();
 
-  console.log("Session data:", session);
-
   useEffect(() => {
     if (session.status === "authenticated") {
       router.push("/panel/profile");
@@ -18,7 +16,7 @@ export default function LoginPage() {
   }, [session.status, router]);
 
   return (
-    <div className="flex grow flex-col items-center justify-center gap-y-4 bg-muted">
+    <div className="bg-muted flex grow flex-col items-center justify-center gap-y-4">
       <div className="max-w-md text-center">
         <h2 className="mb-4 text-2xl font-semibold">
           Jeśli pierwszy raz odwiedzasz tę stronę, skontaktuj się z

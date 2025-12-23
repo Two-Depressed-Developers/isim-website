@@ -57,11 +57,6 @@ export function ResizableEvent({
     return { dayStart, dayEnd };
   }, [start]);
 
-  // If read-only mode, just render children without resize functionality
-  if (readOnly) {
-    return <div className={className}>{children}</div>;
-  }
-
   const handleResizeStart = useCallback(() => {
     setIsResizing(true);
   }, []);
@@ -158,6 +153,10 @@ export function ResizableEvent({
     }),
     [handleResizeStart, handleResize, handleResizeStop, isResizing],
   );
+
+  if (readOnly) {
+    return <div className={className}>{children}</div>;
+  }
 
   return (
     <motion.div

@@ -192,8 +192,7 @@ export function DayCell({ cell, events, eventPositions }: IProps) {
       showMobileMore,
       showDesktopMore,
       showMoreCount,
-      renderEventAtPosition,
-    ]
+      renderEventAtPosition,      isMobile,    ]
   );
 
   if (isMobile && currentMonth) {

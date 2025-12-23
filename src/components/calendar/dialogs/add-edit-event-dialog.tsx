@@ -58,10 +58,6 @@ export function AddEditEventDialog({
   const { addEvent, updateEvent, readOnly } = useCalendar();
   const isEditing = !!event;
 
-  if (readOnly) {
-    return null;
-  }
-
   const initialDates = useMemo(() => {
     if (!isEditing && !event) {
       if (!startDate) {
@@ -108,15 +104,17 @@ export function AddEditEventDialog({
 
   const onSubmit = (values: TEventFormData) => {
     try {
+      // eslint-disable-next-line react-hooks/purity
+      const newId = Date.now();
       const formattedEvent: IEvent = {
         ...values,
         startDate: format(values.startDate, "yyyy-MM-dd'T'HH:mm:ss"),
         endDate: format(values.endDate, "yyyy-MM-dd'T'HH:mm:ss"),
-        id: isEditing ? event.id : Math.floor(Math.random() * 1000000),
+        id: isEditing ? event.id : newId,
         user: isEditing
           ? event.user
           : {
-              id: Math.floor(Math.random() * 1000000).toString(),
+              id: (newId + 1).toString(),
               name: "Jeraidi Yassir",
               picturePath: null,
             },
@@ -138,6 +136,10 @@ export function AddEditEventDialog({
       toast.error(`Failed to ${isEditing ? "edit" : "add"} event`);
     }
   };
+
+  if (readOnly) {
+    return null;
+  }
 
   return (
     <Modal open={isOpen} onOpenChange={onToggle} modal={false}>

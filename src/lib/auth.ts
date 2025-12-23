@@ -1,62 +1,111 @@
 import NextAuth from "next-auth";
 import GitHub from "next-auth/providers/github";
-import { jwtDecode } from "jwt-decode";
+import CredentialsProvider from "next-auth/providers/credentials";
+import axios from "axios";
 
 const strapiApiUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL;
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
-  providers: [GitHub],
-  session: {
-    strategy: "jwt",
-  },
-  callbacks: {
-    async jwt({ token, account, profile }) {
-      if (account && profile) {
+  providers: [
+    GitHub({
+      clientId: process.env.GITHUB_ID,
+      clientSecret: process.env.GITHUB_SECRET,
+      profile(profile) {
+        return {
+          id: profile.id.toString(),
+          name: profile.name || profile.login,
+          email: profile.email,
+          image: profile.avatar_url,
+        };
+      },
+    }),
+    CredentialsProvider({
+      name: "Credentials",
+      credentials: {
+        email: { label: "Email", type: "email" },
+        password: { label: "Hasło", type: "password" },
+      },
+      async authorize(credentials) {
         try {
-          const [name, surname] = profile.name
-            ? profile.name.split(" ")
-            : [profile.login, ""];
+          const res = await axios.post(
+            `${strapiApiUrl}/api/auth-custom/local`,
+            {
+              identifier: credentials?.email,
+              password: credentials?.password,
+            },
+          );
 
-          const res = await fetch(`${strapiApiUrl}/api/sso-auth/login`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              email: profile.email,
-              name: name || "",
-              surname: surname || "",
-            }),
-          });
-
-          if (!res.ok) {
-            throw new Error("Logowanie do Strapi nie powiodło się");
+          if (res.status !== 200) {
+            return null;
           }
 
-          const strapiData = await res.json();
+          const data = res.data;
 
-          token.accessToken = strapiData.jwt;
-          token.user = strapiData.user;
-
-          if (token.accessToken && typeof token.accessToken === "string") {
-            const decodedToken = jwtDecode(token.accessToken);
-            token.exp = decodedToken.exp;
-          }
+          return {
+            id: data.user.id.toString(),
+            name: data.user.username,
+            email: data.user.email,
+            strapiToken: data.jwt,
+            strapiUser: data.user,
+          };
         } catch (error) {
-          console.error("Błąd podczas logowania do Strapi:", error);
-          token.error = "StrapiLoginError";
+          return null;
+        }
+      },
+    }),
+  ],
+  session: { strategy: "jwt" },
+  callbacks: {
+    async signIn({ user, account, profile }) {
+      if (account?.provider === "github") {
+        try {
+          const res = await axios.post(
+            `${strapiApiUrl}/api/auth-custom/sso-login`,
+            {
+              email: profile?.email,
+              providerId: account.providerAccountId,
+            },
+          );
+
+          if (res.status === 404) {
+            return "/login?error=UserNotFound";
+          }
+
+          const data = res.data;
+
+          user.strapiToken = data.jwt;
+          user.strapiUser = data.user;
+
+          return true;
+        } catch (err) {
+          console.error("SSO Error:", err);
+          return "/login?error=ConnectionError";
         }
       }
+      return true;
+    },
+
+    async jwt({ token, user, trigger, session }) {
+      if (user) {
+        token.accessToken = user.strapiToken;
+        token.user = user.strapiUser;
+      }
+
+      if (trigger === "update" && session?.user) {
+        token.user = { ...token.user, ...session.user };
+      }
+
       return token;
     },
 
     async session({ session, token }) {
-      session.accessToken = token.accessToken;
-      session.user = token.user;
-      session.error = token.error;
-
+      session.accessToken = token.accessToken as string;
+      session.user = token.user as any;
       return session;
     },
   },
   pages: {
     signIn: "/login",
+    error: "/login",
   },
 });

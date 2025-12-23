@@ -25,35 +25,22 @@ import {
 } from "@/components/ui/form";
 import axios from "axios";
 import { PanelPageTitle } from "@/components/custom/panel/PanelPageTitle";
+import { createUsersByEmailSchema } from "@/lib/schemas";
+import { getServerStrapiClient } from "@/lib/strapi-server";
 
-const emailsSchema = z.object({
-  emails: z
-    .string()
-    .min(1, "Podaj przynajmniej jeden adres e-mail")
-    .refine(
-      (value) => {
-        const list = value
-          .split(/[\n,;]/)
-          .map((e) => e.trim())
-          .filter(Boolean);
-
-        return list.every((email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
-      },
-      {
-        message:
-          "Lista zawiera nieprawidłowy adres e-mail (oddzielaj enterem lub przecinkiem)",
-      },
-    ),
-});
-
-type EmailsFormValues = z.infer<typeof emailsSchema>;
+type BulkCreateUsersResponse = {
+  createdUsers: { email: string }[];
+  failedEmails: { email: string; reason: string }[];
+};
 
 export default function UsersPage() {
   const { data: session } = useSession();
   const [isLoading, setIsLoading] = useState(false);
 
+  type EmailsFormValues = z.infer<typeof createUsersByEmailSchema>;
+
   const form = useForm<EmailsFormValues>({
-    resolver: zodResolver(emailsSchema),
+    resolver: zodResolver(createUsersByEmailSchema),
     defaultValues: {
       emails: "",
     },
@@ -72,26 +59,14 @@ export default function UsersPage() {
         toast.error("Brak autoryzacji");
         return;
       }
+      const api = await getServerStrapiClient();
 
-      const { data } = await axios.post(
-        `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/api/admin-panel/bulk-create-users`,
-        { emails },
-        {
-          headers: {
-            Authorization: `Bearer ${session.accessToken}`,
-          },
-        },
-      );
+      const { data } = await api.post("/api/admin-panel/bulk-create-users", {
+        emails,
+      });
 
-      const {
-        createdUsers = [],
-        failedEmails = [],
-      }: {
-        createdUsers: { email: string }[];
-        failedEmails: { email: string; reason: string }[];
-      } = data;
-
-      console.log({ createdUsers, failedEmails });
+      const { createdUsers = [], failedEmails = [] }: BulkCreateUsersResponse =
+        data;
 
       if (createdUsers.length) {
         toast.success(`Utworzono ${createdUsers.length} użytkowników`);

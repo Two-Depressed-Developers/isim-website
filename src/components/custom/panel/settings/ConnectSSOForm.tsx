@@ -7,22 +7,25 @@ import { Github } from "lucide-react";
 import { signIn, useSession } from "next-auth/react";
 import { toast } from "sonner";
 import { usePathname } from "next/navigation";
+import { useStrapiClient } from "@/lib/strapi-client";
 
 export default function ConnectSSOForm() {
   const { data: session, update } = useSession();
   const [isLoading, setIsLoading] = useState(false);
   const pathname = usePathname();
+  const api = useStrapiClient();
 
   const isConnected = session?.user?.hasSsoLinked;
 
   const handleToggleConnection = async () => {
     try {
+      setIsLoading(true);
       if (isConnected) {
-        const res = await fetch("/api/panel/settings/unlink", {
-          method: "POST",
-        });
+        const res = await api.post("/api/auth-custom/unlink-account");
 
-        if (!res.ok) throw new Error("Błąd rozłączania");
+        if (res.status !== 200) {
+          throw new Error("Nie udało się rozłączyć");
+        }
 
         await update({
           ...session,

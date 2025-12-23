@@ -1,6 +1,7 @@
 import NextAuth from "next-auth";
 import GitHub from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
+import axios from "axios";
 
 const strapiApiUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL;
 
@@ -26,17 +27,19 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       },
       async authorize(credentials) {
         try {
-          const res = await fetch(`${strapiApiUrl}/api/auth-custom/local`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
+          const res = await axios.post(
+            `${strapiApiUrl}/api/auth-custom/local`,
+            {
               identifier: credentials?.email,
               password: credentials?.password,
-            }),
-          });
+            },
+          );
 
-          if (!res.ok) return null;
-          const data = await res.json();
+          if (res.status !== 200) {
+            return null;
+          }
+
+          const data = res.data;
 
           return {
             id: data.user.id.toString(),
@@ -56,20 +59,19 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     async signIn({ user, account, profile }) {
       if (account?.provider === "github") {
         try {
-          const res = await fetch(`${strapiApiUrl}/api/auth-custom/sso-login`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
+          const res = await axios.post(
+            `${strapiApiUrl}/api/auth-custom/sso-login`,
+            {
               email: profile?.email,
               providerId: account.providerAccountId,
-            }),
-          });
+            },
+          );
 
-          if (!res.ok) {
+          if (res.status === 404) {
             return "/login?error=UserNotFound";
           }
 
-          const data = await res.json();
+          const data = res.data;
 
           user.strapiToken = data.jwt;
           user.strapiUser = data.user;

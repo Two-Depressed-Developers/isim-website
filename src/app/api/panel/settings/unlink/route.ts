@@ -1,4 +1,5 @@
 import { auth } from "@/lib/auth";
+import { getServerStrapiClient } from "@/lib/strapi-server";
 import { NextResponse } from "next/server";
 
 export async function POST() {
@@ -7,24 +8,18 @@ export async function POST() {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/api/auth-custom/unlink-account`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${session.accessToken}`,
-        },
-      },
-    );
+    const api = await getServerStrapiClient();
 
-    if (!res.ok) {
+    const res = await api.post("/api/auth-custom/unlink-account");
+
+    if (res.status !== 200) {
       return NextResponse.json(
         { error: "Nie udało się rozłączyć" },
-        { status: 400 },
+        { status: res.status },
       );
+    } else {
+      return NextResponse.json({ success: true });
     }
-
-    return NextResponse.json({ success: true });
   } catch (error) {
     return NextResponse.json(
       { error: "Internal Server Error" },

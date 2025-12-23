@@ -11,8 +11,6 @@ export default function LoginPage() {
   const searchParams = useSearchParams();
   const error = searchParams.get("error");
 
-  console.log("Session data:", session);
-
   useEffect(() => {
     if (session.status === "authenticated") {
       router.push("/panel/profile");

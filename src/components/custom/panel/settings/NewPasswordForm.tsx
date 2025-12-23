@@ -16,95 +16,75 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { toast } from "sonner";
-import { useSession } from "next-auth/react";
+import { changePasswordSchema } from "@/lib/schemas";
+import { useStrapiClient } from "@/lib/strapi-client";
+import axios from "axios";
 
-const passwordSchema = z
-  .object({
-    currentPassword: z.string().min(1, "Podaj aktualne hasło"),
-    newPassword: z.string().min(6, "Hasło musi mieć co najmniej 6 znaków"),
-    confirmPassword: z.string(),
-  })
-  .refine((data) => data.newPassword === data.confirmPassword, {
-    message: "Hasła nie są identyczne",
-    path: ["confirmPassword"],
-  });
-
-type PasswordFormValues = z.infer<typeof passwordSchema>;
+type ErrorResponse = {
+  error: string;
+  code?: string;
+};
 
 export default function NewPasswordForm() {
-  const { data: session } = useSession();
   const [isLoading, setIsLoading] = useState(false);
-  const [message, setMessage] = useState("");
+
+  type PasswordFormValues = z.infer<typeof changePasswordSchema>;
 
   const form = useForm<PasswordFormValues>({
-    resolver: zodResolver(passwordSchema),
+    resolver: zodResolver(changePasswordSchema),
     defaultValues: {
       currentPassword: "",
       newPassword: "",
       confirmPassword: "",
     },
+    mode: "onTouched",
   });
 
   const onSubmit = async (values: PasswordFormValues) => {
     setIsLoading(true);
-    setMessage("");
 
     try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/api/auth/change-password`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${session?.accessToken}`,
-          },
-          body: JSON.stringify({
-            currentPassword: values.currentPassword,
-            password: values.newPassword,
-            passwordConfirmation: values.confirmPassword,
-          }),
-        },
-      );
+      await axios.post("/api/panel/settings/password", {
+        currentPassword: values.currentPassword,
+        newPassword: values.newPassword,
+        confirmPassword: values.confirmPassword,
+      });
 
-      const data = await res.json();
-
-      if (!res.ok) {
-        const errorMsg = data.error?.message || "Nie udało się zmienić hasła";
-
-        if (
-          errorMsg.includes("Invalid current password") ||
-          errorMsg.includes("password does not match")
-        ) {
-          form.setError("currentPassword", {
-            message: "Obecne hasło jest nieprawidłowe",
-          });
-          return;
-        }
-
-        throw new Error(errorMsg);
-      }
-
-      setMessage("Hasło zmienione pomyślnie");
-      toast.success("Hasło zostało zmienione");
+      toast.success("Hasło zmienione pomyślnie");
       form.reset();
     } catch (error: any) {
-      console.error(error);
-      setMessage(error.message || "Coś poszło nie tak");
-      toast.error("Błąd zmiany hasła");
+      const data = error?.response?.data as ErrorResponse | undefined;
+      const errorCode = data?.code;
+      const errorMsg = data?.error || "Coś poszło nie tak";
+
+      switch (errorCode) {
+        case "INVALID_CURRENT_PASSWORD":
+          form.setError("currentPassword", { message: errorMsg });
+          break;
+        case "VALIDATION_ERROR":
+          toast.error(errorMsg);
+          break;
+        default:
+          toast.error(errorMsg);
+          console.error("Password change error:", error);
+      }
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="flex min-w-lg grow">
+    <div className="flex grow">
       <Card className="w-full">
-        <CardHeader className="text-center text-xl font-bold">
-          Ustaw nowe hasło
+        <CardHeader className="border-b pb-5">
+          <h2 className="text-lg font-semibold">Zmiana hasła</h2>
+          <p className="text-muted-foreground mt-1 text-sm">
+            Zaktualizuj swoje hasło, aby zabezpieczyć swoje konto
+          </p>
         </CardHeader>
-        <CardContent>
+        <CardContent className="pt-6">
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               <FormField
                 control={form.control}
                 name="currentPassword"
@@ -115,6 +95,8 @@ export default function NewPasswordForm() {
                       <Input
                         type="password"
                         placeholder="Wpisz aktualne hasło"
+                        disabled={isLoading}
+                        autoComplete="current-password"
                         {...field}
                       />
                     </FormControl>
@@ -133,6 +115,8 @@ export default function NewPasswordForm() {
                       <Input
                         type="password"
                         placeholder="Wpisz nowe hasło"
+                        disabled={isLoading}
+                        autoComplete="new-password"
                         {...field}
                       />
                     </FormControl>
@@ -151,6 +135,8 @@ export default function NewPasswordForm() {
                       <Input
                         type="password"
                         placeholder="Potwierdź nowe hasło"
+                        disabled={isLoading}
+                        autoComplete="new-password"
                         {...field}
                       />
                     </FormControl>
@@ -159,19 +145,7 @@ export default function NewPasswordForm() {
                 )}
               />
 
-              {message && (
-                <p
-                  className={
-                    message.includes("pomyślnie")
-                      ? "text-green-600"
-                      : "text-red-600"
-                  }
-                >
-                  {message}
-                </p>
-              )}
-
-              <Button type="submit" disabled={isLoading}>
+              <Button type="submit" disabled={isLoading} className="w-full">
                 {isLoading ? "Zmiana..." : "Zmień hasło"}
               </Button>
             </form>

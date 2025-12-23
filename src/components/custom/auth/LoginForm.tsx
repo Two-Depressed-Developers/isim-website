@@ -15,6 +15,18 @@ import { signIn } from "next-auth/react";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { loginFormSchema } from "@/lib/schemas";
 
 export function ErrorMessage({ code }: { code: string | null }) {
   let message = "";
@@ -43,16 +55,41 @@ export function ErrorMessage({ code }: { code: string | null }) {
   );
 }
 
-export function LoginForm({
-  errorCode,
-  className,
-  ...props
-}: React.ComponentProps<"div"> & { errorCode?: string | null }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+type LoginFormProps = {
+  className?: string;
+  errorCode?: string | null;
+};
+
+export function LoginForm({ errorCode, className }: LoginFormProps) {
+  const [submitting, setSubmitting] = useState(false);
+
+  type LoginFormValues = z.infer<typeof loginFormSchema>;
+
+  const form = useForm<LoginFormValues>({
+    resolver: zodResolver(loginFormSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+    mode: "onTouched",
+  });
+
+  const onSubmit = async (values: LoginFormValues) => {
+    try {
+      setSubmitting(true);
+      await signIn("credentials", {
+        email: values.email,
+        password: values.password,
+        redirect: true,
+        redirectTo: "/panel/profile",
+      });
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
+    <div className={cn("flex flex-col gap-6", className)}>
       <Card>
         <CardHeader className="text-center">
           <CardTitle className="text-xl">Panel logowania</CardTitle>
@@ -64,38 +101,59 @@ export function LoginForm({
         <CardContent>
           <div className="grid gap-6">
             <div>
-              <form className="flex flex-col gap-4">
-                <Input
-                  type="email"
-                  placeholder="Email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="border-input bg-background ring-offset-background placeholder:text-muted-foreground focus:ring-ring rounded-md border px-3 py-2 text-sm focus:ring-2 focus:ring-offset-2 focus:outline-none"
-                  required
-                />
-                <Input
-                  type="password"
-                  placeholder="Password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="border-input bg-background ring-offset-background placeholder:text-muted-foreground focus:ring-ring rounded-md border px-3 py-2 text-sm focus:ring-2 focus:ring-offset-2 focus:outline-none"
-                  required
-                />
-                <Button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    signIn("credentials", {
-                      email: email,
-                      password: password,
-                      redirect: true,
-                      redirectTo: "/panel/profile",
-                    });
-                  }}
-                  className="w-full"
+              <Form {...form}>
+                <form
+                  className="flex flex-col gap-4"
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  noValidate
                 >
-                  Login
-                </Button>
-              </form>
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Email</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="email"
+                            placeholder="Email"
+                            autoComplete="email"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="password"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Hasło</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="password"
+                            placeholder="Password"
+                            autoComplete="current-password"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <Button
+                    type="submit"
+                    className="w-full"
+                    disabled={submitting}
+                  >
+                    {submitting ? "Logowanie…" : "Login"}
+                  </Button>
+                </form>
+              </Form>
             </div>
             <Separator />
             <div className="flex flex-col gap-4">

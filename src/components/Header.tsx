@@ -3,6 +3,7 @@ import { HeaderData } from "@/lib/types";
 import Link from "next/link";
 import { StrapiImage } from "./StrapiImage";
 import NavLink from "./custom/header/NavLink";
+import { MobileMenu } from "./custom/header/MobileMenu";
 import Image from "next/image";
 
 const Header = async () => {
@@ -29,11 +30,12 @@ const Header = async () => {
             />
           )}
         </Link>
-        <ul className="flex items-center space-x-4">
+        <ul className="hidden items-center space-x-4 lg:flex">
           {headerData.links.map((link) => (
             <NavLink key={link.id} link={link} />
           ))}
         </ul>
+        <MobileMenu links={headerData.links} />
       </nav>
     </header>
   );

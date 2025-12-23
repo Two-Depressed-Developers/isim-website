@@ -16,6 +16,33 @@ export async function fetchData(url: string) {
   return flattenAttributes(response.data);
 }
 
+export async function uploadFile(
+  file: File,
+  accessToken: string,
+  linkOptions?: {
+    ref: string;
+    refId: string;
+    field: string;
+  },
+): Promise<{ id: number; documentId: string; url: string }> {
+  const formData = new FormData();
+  formData.append("files", file);
+
+  if (linkOptions) {
+    formData.append("ref", linkOptions.ref);
+    formData.append("refId", linkOptions.refId);
+    formData.append("field", linkOptions.field);
+  }
+
+  const response = await axios.post(`${baseAPIUrl}/api/upload`, formData, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  return response.data[0];
+}
+
 export async function getGroupsData(): Promise<GroupData> {
   const url = new URL("/api/groups", baseAPIUrl);
 
@@ -81,6 +108,37 @@ export async function getMemberData(slug: string): Promise<MemberData> {
   const response = await fetchData(url.href);
 
   return response?.data?.[0] ?? ({ error: true } as MemberData);
+}
+
+export async function getMemberSchema(): Promise<Record<string, unknown>> {
+  const contentTypeId = "api::member.member";
+  const url = new URL(`/api/schemas/${contentTypeId}`, baseAPIUrl);
+
+  return await fetchData(url.href);
+}
+
+export async function updateMember(
+  documentId: string,
+  data: Partial<MemberData>,
+  accessToken: string,
+): Promise<MemberData> {
+  try {
+    const response = await axios.put(
+      `${baseAPIUrl}/api/members/${documentId}`,
+      { data },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+      },
+    );
+
+    return flattenAttributes(response.data);
+  } catch (error) {
+    console.error("Error updating member:", error);
+    throw error;
+  }
 }
 
 export async function getCalendarEvents(): Promise<CalendarEvent[]> {

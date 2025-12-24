@@ -1,4 +1,5 @@
 import MemberMainInfoCard from "@/components/custom/member/MemberMainInfoCard";
+import MemberConsultations from "@/components/custom/member/MemberConsultations";
 
 import { getMemberData } from "@/data/loaders";
 import MemberSections from "@/components/custom/member/MemberSections";
@@ -32,6 +33,8 @@ export default async function Page({
           <h2 className="text-2xl font-medium">{member.title}</h2>
           <h1 className="text-4xl font-bold">{`${member.fullName}`}</h1>
         </div>
+
+        <MemberConsultations member={member} slug={slug} />
 
         <MemberSections memberSections={member.sections} />
       </div>

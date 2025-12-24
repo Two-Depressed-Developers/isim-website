@@ -9,6 +9,7 @@ import type {
   Ticket,
   TicketFormData,
   TicketStatus,
+  ConsultationBookingFormData,
 } from "@/lib/types";
 
 const baseAPIUrl = getStrapiURL();
@@ -101,6 +102,14 @@ export async function getMemberData(slug: string): Promise<MemberData> {
     },
     PortfolioLink: {
       populate: true,
+    },
+    consultationAvailability: {
+      populate: true,
+      filters: {
+        isActive: {
+          $eq: true,
+        },
+      },
     },
     sections: true,
   };
@@ -276,4 +285,25 @@ export async function updateTicketStatus(
   }
 
   return flattenAttributes(response.data);
+}
+
+export async function bookConsultation(
+  data: ConsultationBookingFormData,
+): Promise<void> {
+  try {
+    await api.post(`${baseAPIUrl}/api/consultation-bookings`, {
+      data: {
+        studentEmail: data.studentEmail,
+        studentName: data.studentName,
+        fieldAndSubject: data.fieldAndSubject,
+        startTime: data.startTime,
+        endTime: data.endTime,
+        member: data.memberDocumentId,
+        reservationStatus: "pending",
+      },
+    });
+  } catch (error) {
+    console.error("Error booking consultation:", error);
+    throw error;
+  }
 }

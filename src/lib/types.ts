@@ -57,6 +57,23 @@ export type MemberSection = (MemberResearch | SimpleSection) & {
   __component: string;
 };
 
+type ConsultationAvailability = {
+  id: number;
+  documentId: string;
+  dayOfWeek:
+    | "monday"
+    | "tuesday"
+    | "wednesday"
+    | "thursday"
+    | "friday"
+    | "saturday"
+    | "sunday";
+  startTime: string;
+  endTime: string;
+  durationMinutes: number;
+  isActive: boolean;
+};
+
 type Member = {
   id: number;
   documentId: string;
@@ -76,6 +93,7 @@ type Member = {
   SKOSLink?: SimpleLink;
   PortfolioLink?: SimpleLink;
   sections?: MemberSection[];
+  consultationAvailability?: ConsultationAvailability[];
 };
 
 export type MemberData = Member & {
@@ -152,6 +170,15 @@ export type TicketFormData = {
   title: string;
   description: string;
   email: string;
+};
+
+export type ConsultationBookingFormData = {
+  studentEmail: string;
+  studentName: string;
+  fieldAndSubject: string;
+  startTime: string;
+  endTime: string;
+  memberDocumentId: string;
 };
 
 // TODO: Add error for xxxData types

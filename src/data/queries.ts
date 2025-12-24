@@ -10,6 +10,7 @@ import {
   verifyTicket,
   getMemberSchema,
   updateMember,
+  bookConsultation,
 } from "./loaders";
 import type { TicketStatus } from "@/lib/types";
 import { MemberData } from "@/lib/types";
@@ -118,6 +119,19 @@ export function useUpdateTicketStatus() {
     }) => updateTicketStatus(ticketId, status, email),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.tickets });
+    },
+  });
+}
+
+export function useBookConsultation(slug: string) {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: bookConsultation,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.member(slug),
+      });
     },
   });
 }

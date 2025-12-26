@@ -25,6 +25,7 @@ import {
   LogOut,
   ChevronsUpDown,
   ChevronLeft,
+  Ticket,
 } from "lucide-react";
 import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
@@ -36,15 +37,24 @@ export function PanelSidebar() {
   const pathname = usePathname();
   const isMobile = useIsMobile();
 
+  const isAdmin = session?.user?.role === "PanelAdmin";
+
   const menuGroups = [
     {
-      label: "Admin",
-      items: [{ href: "/panel/users", label: "Użytkownicy", icon: Users }],
-    },
-    {
-      label: "Pracownik",
+      label: "Mój profil",
       items: [{ href: "/panel/profile", label: "Profil", icon: UserCircle }],
     },
+    ...(isAdmin
+      ? [
+          {
+            label: "Administracja",
+            items: [
+              { href: "/panel/users", label: "Użytkownicy", icon: Users },
+              { href: "/panel/tickets", label: "Zgłoszenia", icon: Ticket },
+            ],
+          },
+        ]
+      : []),
   ];
 
   const footerLinks = [

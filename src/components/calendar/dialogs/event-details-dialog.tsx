@@ -87,9 +87,10 @@ export function EventDetailsDialog({ event, children }: IProps) {
               <Text className="text-muted-foreground mt-1 size-4 shrink-0" />
               <div>
                 <p className="text-sm font-medium">Opis</p>
-                <p className="text-muted-foreground text-sm">
-                  {event.description}
-                </p>
+                <p
+                  className="text-muted-foreground text-sm"
+                  dangerouslySetInnerHTML={{ __html: event.description }}
+                />
               </div>
             </div>
           </div>

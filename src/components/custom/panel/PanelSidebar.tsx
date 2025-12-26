@@ -25,6 +25,7 @@ import {
   LogOut,
   ChevronsUpDown,
   ChevronLeft,
+  Calendar,
 } from "lucide-react";
 import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
@@ -46,6 +47,7 @@ export function PanelSidebar() {
       items: [
         { href: "/panel/profile", label: "Profil", icon: UserCircle },
         { href: "/panel/consultations", label: "Konsultacje", icon: Users },
+        { href: "/panel/calendar", label: "Kalendarz", icon: Calendar },
       ],
     },
   ];
@@ -85,7 +87,9 @@ export function PanelSidebar() {
                 <SidebarMenuItem key={href}>
                   <SidebarMenuButton
                     asChild
-                    isActive={pathname === href}
+                    isActive={
+                      pathname === href || pathname?.startsWith(`${href}/`)
+                    }
                     className="h-10"
                   >
                     <Link href={href}>

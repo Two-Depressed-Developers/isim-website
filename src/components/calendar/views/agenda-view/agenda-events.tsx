@@ -94,9 +94,12 @@ export const AgendaEvents: FC = () => {
                         >
                           {event.title}
                         </p>
-                        <p className="text-muted-foreground line-clamp-1 w-[100px] text-sm text-ellipsis sm:w-[200px] md:text-clip">
-                          {event.description}
-                        </p>
+                        <p
+                          className="text-muted-foreground line-clamp-1 w-[100px] text-sm text-ellipsis sm:w-[200px] md:text-clip"
+                          dangerouslySetInnerHTML={{
+                            __html: event.description,
+                          }}
+                        />
                       </div>
                     </div>
                     <div className="flex w-40 items-center justify-center gap-1">

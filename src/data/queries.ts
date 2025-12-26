@@ -36,11 +36,11 @@ export function useGroupsData() {
   });
 }
 
-export function useMemberData(slug: string) {
+export function useMemberData(slug: string, options?: { enabled?: boolean }) {
   return useQuery({
     queryKey: queryKeys.member(slug),
     queryFn: () => getMemberData(slug),
-    enabled: !!slug,
+    enabled: options?.enabled !== undefined ? options.enabled : !!slug,
   });
 }
 
@@ -140,11 +140,15 @@ export function useBookConsultation(slug: string) {
   });
 }
 
-export function useConsultationBookings(memberDocumentId: string) {
+export function useConsultationBookings(
+  memberDocumentId: string,
+  options?: { enabled?: boolean },
+) {
   return useQuery({
     queryKey: queryKeys.consultationBookings(memberDocumentId),
     queryFn: () => getMemberConsultationBookings(memberDocumentId),
-    enabled: !!memberDocumentId,
+    enabled:
+      options?.enabled !== undefined ? options.enabled : !!memberDocumentId,
   });
 }
 

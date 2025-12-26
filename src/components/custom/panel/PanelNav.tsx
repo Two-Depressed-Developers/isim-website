@@ -11,7 +11,7 @@ export default function PanelNav() {
   const isMobile = useIsMobile();
 
   return (
-    <nav className="sticky top-0 flex h-15 shrink-0 items-center gap-4 border-b px-6 shadow-sm">
+    <nav className="sticky top-0 flex h-15 shrink-0 items-center gap-4 border-b bg-white px-6 shadow-sm">
       <SidebarTrigger className={isMobile ? "block" : "hidden"} />
       <Separator
         orientation="vertical"

@@ -2,6 +2,7 @@ import {
   bookConsultation,
   getMemberConsultationBookings,
   updateConsultationBookingStatus,
+  verifyConsultationBooking,
 } from "../api/consultations";
 import { queryKeys } from "../query-keys";
 import {
@@ -15,6 +16,12 @@ export function useBookConsultation(slug: string) {
     queryKeys.members.bySlug(slug),
   )();
 }
+
+export const useVerifyConsultationBooking = createQueryHookWithParams(
+  (token: string | null) => queryKeys.consultations.verify(token!),
+  (token: string | null) => verifyConsultationBooking(token!),
+  (token: string | null) => ({ enabled: !!token, retry: false }),
+);
 
 export const useConsultationBookings = createQueryHookWithParams(
   (memberDocumentId: string) =>

@@ -7,11 +7,19 @@ import type {
 import { fetchData, baseAPIUrl, api } from "./base";
 import { flattenAttributes } from "@/lib/utils";
 
+function generateToken(): string {
+  return Array.from(crypto.getRandomValues(new Uint8Array(32)))
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
+}
+
 export async function bookConsultation(
   data: ConsultationBookingFormData,
 ): Promise<void> {
   try {
-    await api.post(`${baseAPIUrl}/api/consultation-bookings`, {
+    const token = generateToken();
+
+    const response = await api.post(`${baseAPIUrl}/api/consultation-bookings`, {
       data: {
         studentEmail: data.studentEmail,
         studentName: data.studentName,
@@ -19,13 +27,28 @@ export async function bookConsultation(
         startTime: data.startTime,
         endTime: data.endTime,
         member: data.memberDocumentId,
-        reservationStatus: "pending",
+        reservationStatus: "unverified",
+        verificationToken: token,
       },
+    });
+
+    const bookingId = response.data.data.documentId;
+
+    await axios.post("/api/consultations/send-verification", {
+      email: data.studentEmail,
+      token: token,
+      bookingId: bookingId,
+      studentName: data.studentName,
     });
   } catch (error) {
     console.error("Error booking consultation:", error);
     throw error;
   }
+}
+
+export async function verifyConsultationBooking(token: string) {
+  const response = await axios.post("/api/consultations/verify", { token });
+  return response.data;
 }
 
 export async function getMemberConsultationBookings(
@@ -40,6 +63,9 @@ export async function getMemberConsultationBookings(
           documentId: {
             $eq: memberDocumentId,
           },
+        },
+        reservationStatus: {
+          $ne: "unverified",
         },
       },
       sort: ["startTime:asc"],

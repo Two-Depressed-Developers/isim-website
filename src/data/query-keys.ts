@@ -12,6 +12,7 @@ export const queryKeys = {
   consultations: {
     bookings: (memberDocumentId: string) =>
       ["consultation-bookings", memberDocumentId] as const,
+    verify: (token: string) => ["consultations", "verify", token] as const,
   },
   calendar: {
     events: ["calendar-events"] as const,

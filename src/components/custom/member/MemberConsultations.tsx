@@ -159,7 +159,8 @@ const MemberConsultations = ({ member, slug }: Props) => {
       });
 
       toast.success("Prośba o konsultację została wysłana!", {
-        description: "Otrzymasz potwierdzenie na podany adres e-mail.",
+        description: "Sprawdź swoją skrzynkę email i potwierdź rezerwację klikając w link weryfikacyjny.",
+        duration: 8000,
       });
 
       setIsDialogOpen(false);

@@ -180,7 +180,9 @@ export type ConsultationBooking = {
   fieldAndSubject: string;
   startTime: string;
   endTime: string;
-  reservationStatus: "pending" | "accepted" | "declined";
+  reservationStatus: "unverified" | "pending" | "accepted" | "declined";
+  verificationToken?: string;
+  verifiedAtTime?: string;
   member?: {
     id: number;
     documentId: string;

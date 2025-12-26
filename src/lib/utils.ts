@@ -50,8 +50,8 @@ export function flattenAttributes(data: any): any {
 }
 
 export function getEmailForDev(email: string): string {
-  if (process.env.NODE_ENV === "development" && process.env.DEVELOPMENT_EMAIL) {
-    return process.env.DEVELOPMENT_EMAIL;
+  if (process.env.NODE_ENV === "development" && process.env.RESEND_DEV_EMAIL) {
+    return process.env.RESEND_DEV_EMAIL;
   }
   return email;
 }

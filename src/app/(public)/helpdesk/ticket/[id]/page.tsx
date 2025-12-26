@@ -4,7 +4,7 @@ import { useParams, useSearchParams } from "next/navigation";
 import { format } from "date-fns";
 import { pl } from "date-fns/locale";
 
-import { useTicketDetails } from "@/data/queries";
+import { useTicketDetails } from "@/data/queries/use-tickets";
 import type { TicketStatus } from "@/lib/types";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";

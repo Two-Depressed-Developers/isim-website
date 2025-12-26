@@ -1,6 +1,6 @@
 "use client";
 
-import { useTickets } from "@/data/queries";
+import { useTickets } from "@/data/queries/use-tickets";
 import { TicketList } from "@/components/custom/helpdesk/TicketList";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";

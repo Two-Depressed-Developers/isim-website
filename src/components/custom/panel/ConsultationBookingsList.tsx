@@ -21,9 +21,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import {
   useConsultationBookings,
-  useMemberData,
   useUpdateConsultationBookingStatus,
-} from "@/data/queries";
+} from "@/data/queries/use-consultations";
+import { useMemberData } from "@/data/queries/use-members";
 import type { ConsultationBooking } from "@/lib/types";
 
 type Props = {

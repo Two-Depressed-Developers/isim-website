@@ -49,7 +49,7 @@ import {
 } from "@/components/ui/form";
 
 import { consultationBookingFormSchema } from "@/lib/schemas";
-import { useBookConsultation } from "@/data/queries";
+import { useBookConsultation } from "@/data/queries/use-consultations";
 import type { MemberData } from "@/lib/types";
 
 type BookingFormData = z.infer<typeof consultationBookingFormSchema>;

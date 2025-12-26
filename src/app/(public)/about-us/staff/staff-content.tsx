@@ -6,7 +6,7 @@ import { useSearchParams } from "next/navigation";
 import Group from "@/components/Group";
 import ActionBar from "@/components/ActionBar";
 
-import { useGroupsData } from "@/data/queries";
+import { useGroupsData } from "@/data/queries/use-members";
 import { useDebounce } from "@/lib/hooks";
 import type { MemberData, Group as GroupType } from "@/lib/types";
 
@@ -75,7 +75,7 @@ export default function StaffContent() {
 
   const debouncedQuery = useDebounce(search, 600);
 
-  const { data: groupsData, isLoading, error } = useGroupsData();
+  const { data: groupsData, isLoading, error } = useGroupsData({ cache: true });
 
   const groups = groupsData?.data ?? null;
 

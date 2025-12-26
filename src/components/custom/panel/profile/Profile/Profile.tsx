@@ -1,11 +1,11 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { useUpdateMember } from "@/data/queries";
+import { useUpdateMember } from "@/data/queries/use-members";
 import { MemberData } from "@/lib/types";
 import { Session } from "next-auth";
 import { toast } from "sonner";
-import { uploadFile } from "@/data/loaders";
+import { uploadFile } from "@/data/api/base";
 
 import DynamicForm from "../DynamicForm/DynamicForm";
 import { FormSchema } from "../DynamicForm/DynamicForm.types";

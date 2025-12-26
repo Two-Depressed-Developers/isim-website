@@ -1,13 +1,13 @@
 import type { FooterData, HeaderData, Page } from "@/lib/types";
 import qs from "qs";
-import { fetchData } from "./loaders";
+import { fetchData } from "./api/base";
 import { getStrapiURL } from "@/lib/utils";
 
 const baseAPIUrl = getStrapiURL();
 
 const getHardcodedHeaderData = (): HeaderData => {
   return {
-    error: true,
+    error: false,
     logo: {
       id: 1,
       image: {
@@ -103,7 +103,7 @@ const getHardcodedHeaderData = (): HeaderData => {
 
 const getHardcodedFooterData = (): FooterData => {
   return {
-    error: true,
+    error: false,
     universityLogo: {
       id: 1,
       image: {
@@ -189,11 +189,12 @@ export async function getHeaderData() {
 
   try {
     const data = await fetchData(url.href);
-    if (data.error) {
+    if (!data || data.error || !data.header) {
       return getHardcodedHeaderData();
     }
-    return { ...data.header, error: data.error != null } as HeaderData;
-  } catch {
+    return data.header as HeaderData;
+  } catch (error) {
+    console.error("Failed to fetch header data:", error);
     return getHardcodedHeaderData();
   }
 }
@@ -233,11 +234,12 @@ export async function getFooterData() {
 
   try {
     const data = await fetchData(url.href);
-    if (data.error) {
+    if (!data || data.error || !data.footer) {
       return getHardcodedFooterData();
     }
-    return { ...data.footer, error: data.error != null } as FooterData;
-  } catch {
+    return data.footer as FooterData;
+  } catch (error) {
+    console.error("Failed to fetch footer data:", error);
     return getHardcodedFooterData();
   }
 }

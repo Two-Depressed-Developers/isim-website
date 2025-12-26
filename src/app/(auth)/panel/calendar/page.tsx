@@ -8,11 +8,9 @@ import {
   mapConsultationBookingToCalendarEvent,
   mapStrapiEventToCalendarEvent,
 } from "@/components/calendar/mappers";
-import {
-  useConsultationBookings,
-  useMemberData,
-  useCalendarEvents,
-} from "@/data/queries";
+import { useConsultationBookings } from "@/data/queries/use-consultations";
+import { useMemberData } from "@/data/queries/use-members";
+import { useCalendarEvents } from "@/data/queries/use-calendar";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemberData, useMemberSchema } from "@/data/queries";
+import { useMemberData, useMemberSchema } from "@/data/queries/use-members";
 import Profile from "./Profile/Profile";
 import { Session } from "next-auth";
 

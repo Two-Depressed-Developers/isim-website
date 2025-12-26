@@ -6,7 +6,7 @@ import { pl } from "date-fns/locale";
 import { toast } from "sonner";
 
 import type { Ticket, TicketStatus } from "@/lib/types";
-import { useUpdateTicketStatus } from "@/data/queries";
+import { useUpdateTicketStatus } from "@/data/queries/use-tickets";
 import { StatusUpdateModal } from "./StatusUpdateModal";
 
 import {

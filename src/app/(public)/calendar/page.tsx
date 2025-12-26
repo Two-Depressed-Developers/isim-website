@@ -2,7 +2,7 @@
 
 import { Calendar } from "@/components/calendar/calendar";
 import { mapStrapiEventToCalendarEvent } from "@/components/calendar/mappers";
-import { useCalendarEvents } from "@/data/queries";
+import { useCalendarEvents } from "@/data/queries/use-calendar";
 
 export default function CalendarPage() {
   const { data: calendarEvents, isLoading, error } = useCalendarEvents();

@@ -5,11 +5,15 @@ import axios from "axios";
 
 const strapiApiUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL;
 
+if (!strapiApiUrl) {
+  throw new Error("NEXT_PUBLIC_STRAPI_API_URL environment variable is not set");
+}
+
 export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
     GitHub({
-      clientId: process.env.GITHUB_ID,
-      clientSecret: process.env.GITHUB_SECRET,
+      clientId: process.env.NEXT_PUBLIC_GITHUB_ID,
+      clientSecret: process.env.AUTH_GITHUB_SECRET,
       profile(profile) {
         return {
           id: profile.id.toString(),

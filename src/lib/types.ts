@@ -184,6 +184,8 @@ export type ConsultationBooking = {
   member?: {
     id: number;
     documentId: string;
+    fullName?: string;
+    room?: string;
   };
   createdAt: string;
   updatedAt: string;

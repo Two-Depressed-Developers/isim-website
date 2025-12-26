@@ -11,6 +11,8 @@ import {
   getMemberSchema,
   updateMember,
   bookConsultation,
+  getMemberConsultationBookings,
+  updateConsultationBookingStatus,
 } from "./loaders";
 import type { TicketStatus } from "@/lib/types";
 import { MemberData } from "@/lib/types";
@@ -23,6 +25,8 @@ export const queryKeys = {
   tickets: ["tickets"] as const,
   ticketDetails: (id: string, token: string) => ["ticket", id, token] as const,
   verifyTicket: (token: string) => ["verify-ticket", token] as const,
+  consultationBookings: (memberDocumentId: string) =>
+    ["consultation-bookings", memberDocumentId] as const,
 };
 
 export function useGroupsData() {
@@ -131,6 +135,50 @@ export function useBookConsultation(slug: string) {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: queryKeys.member(slug),
+      });
+    },
+  });
+}
+
+export function useConsultationBookings(memberDocumentId: string) {
+  return useQuery({
+    queryKey: queryKeys.consultationBookings(memberDocumentId),
+    queryFn: () => getMemberConsultationBookings(memberDocumentId),
+    enabled: !!memberDocumentId,
+  });
+}
+
+export function useUpdateConsultationBookingStatus(memberDocumentId: string) {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({
+      documentId,
+      status,
+      accessToken,
+      emailData,
+    }: {
+      documentId: string;
+      status: "accepted" | "declined";
+      accessToken: string;
+      emailData: {
+        email: string;
+        studentName: string;
+        memberName: string;
+        startTime: string;
+        endTime: string;
+        room?: string;
+      };
+    }) =>
+      updateConsultationBookingStatus(
+        documentId,
+        status,
+        accessToken,
+        emailData,
+      ),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.consultationBookings(memberDocumentId),
       });
     },
   });

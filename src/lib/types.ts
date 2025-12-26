@@ -172,6 +172,23 @@ export type TicketFormData = {
   email: string;
 };
 
+export type ConsultationBooking = {
+  id: number;
+  documentId: string;
+  studentEmail: string;
+  studentName: string;
+  fieldAndSubject: string;
+  startTime: string;
+  endTime: string;
+  reservationStatus: "pending" | "accepted" | "declined";
+  member?: {
+    id: number;
+    documentId: string;
+  };
+  createdAt: string;
+  updatedAt: string;
+};
+
 export type ConsultationBookingFormData = {
   studentEmail: string;
   studentName: string;

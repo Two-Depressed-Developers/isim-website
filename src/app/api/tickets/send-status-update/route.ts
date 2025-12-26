@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 import type { TicketStatus } from "@/lib/types";
+import { getEmailForDev } from "@/lib/utils";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -40,9 +41,11 @@ export async function POST(request: Request) {
       );
     }
 
+    const recipientEmail = getEmailForDev("isim@dsieron.pl");
+
     await resend.emails.send({
       from: "onboarding@resend.dev",
-      to: "isim@dsieron.pl",
+      to: recipientEmail,
       subject: subject,
       html: `
         ${message}

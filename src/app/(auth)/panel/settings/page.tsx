@@ -1,11 +1,8 @@
 import { PanelPageTitle } from "@/components/custom/panel/PanelPageTitle";
 import ConnectSSOForm from "@/components/custom/panel/settings/ConnectSSOForm";
 import NewPasswordForm from "@/components/custom/panel/settings/NewPasswordForm";
-import { auth } from "@/lib/auth";
 
 export default async function SettingsPage() {
-  const session = await auth();
-
   return (
     <>
       <PanelPageTitle title="Ustawienia konta" />

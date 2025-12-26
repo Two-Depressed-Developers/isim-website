@@ -43,7 +43,10 @@ export function PanelSidebar() {
     },
     {
       label: "Pracownik",
-      items: [{ href: "/panel/profile", label: "Profil", icon: UserCircle }],
+      items: [
+        { href: "/panel/profile", label: "Profil", icon: UserCircle },
+        { href: "/panel/consultations", label: "Konsultacje", icon: Users },
+      ],
     },
   ];
 

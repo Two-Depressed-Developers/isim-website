@@ -1,15 +1,6 @@
 import type { NextConfig } from "next";
-import withRuntimeDotenv from "next-runtime-dotenv";
 
-const runtimeDotenv = withRuntimeDotenv({
-  public: [
-    "NEXT_PUBLIC_STRAPI_API_URL",
-    "NEXT_PUBLIC_APP_URL",
-    "NEXT_PUBLIC_GITHUB_ID",
-  ],
-});
-
-const nextConfig: NextConfig = runtimeDotenv({
+const nextConfig: NextConfig = {
   reactStrictMode: false,
   reactCompiler: true,
   images: {
@@ -37,6 +28,6 @@ const nextConfig: NextConfig = runtimeDotenv({
       },
     ],
   },
-});
+};
 
 export default nextConfig;

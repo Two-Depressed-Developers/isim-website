@@ -7,8 +7,13 @@ export const api = axios.create({
   baseURL: baseAPIUrl,
 });
 
-export async function fetchData(url: string) {
-  const response = await api.get(url);
+export async function fetchData(url: string, accessToken?: string) {
+  const headers = accessToken
+    ? { Authorization: `Bearer ${accessToken}` }
+    : undefined;
+
+  const response = await api.get(url, { headers });
+
   return flattenAttributes(response.data);
 }
 

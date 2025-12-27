@@ -24,7 +24,11 @@ export const useVerifyTicket = createQueryHookWithParams(
   (token: string | null) => ({ enabled: !!token, retry: false }),
 );
 
-export const useTickets = createQueryHook(queryKeys.tickets.all, getTickets);
+export const useTickets = createQueryHookWithParams(
+  (accessToken: string) => queryKeys.tickets.all(accessToken),
+  (accessToken: string) => getTickets(accessToken),
+  (accessToken: string) => ({ enabled: !!accessToken }),
+);
 
 export const useTicketDetails = createQueryHookWithParams(
   (ticketId: string, token?: string | null) =>
@@ -34,7 +38,7 @@ export const useTicketDetails = createQueryHookWithParams(
   (ticketId: string) => ({ enabled: !!ticketId, retry: false }),
 );
 
-export function useUpdateTicketStatus() {
+export function useUpdateTicketStatus(accessToken: string) {
   return createMutationHookWithInvalidation<
     unknown,
     {
@@ -45,6 +49,6 @@ export function useUpdateTicketStatus() {
   >(
     ({ ticketId, status, email }) =>
       updateTicketStatus(ticketId, status, email),
-    queryKeys.tickets.all,
+    queryKeys.tickets.all(accessToken),
   )();
 }

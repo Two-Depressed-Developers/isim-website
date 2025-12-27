@@ -1,11 +1,9 @@
-import { auth } from "@/lib/auth";
+import { verifySession } from "@/lib/auth.utils";
 import { getServerStrapiClient } from "@/lib/strapi-server";
 import { NextResponse } from "next/server";
 
 export async function POST() {
-  const session = await auth();
-  if (!session)
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const session = await verifySession();
 
   try {
     const api = await getServerStrapiClient();

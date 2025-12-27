@@ -16,8 +16,6 @@ export function getStrapiClient(token?: string): AxiosInstance {
     instance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   }
 
-  console.log("Strapi Client initialized with token:", token);
-
   return instance;
 }
 

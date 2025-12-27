@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/dialog";
 import { Link2, Loader2, Copy, Check } from "lucide-react";
 import { toast } from "sonner";
+import axios from "axios";
 
 export default function CalendarPage() {
   const { data: session, status } = useSession();
@@ -76,10 +77,9 @@ export default function CalendarPage() {
 
       setTokenLoading(true);
       try {
-        const response = await fetch("/api/consultations/calendar-token");
-        if (response.ok) {
-          const data = await response.json();
-          setCalendarToken(data.token);
+        const response = await axios.get("/api/consultations/calendar-token");
+        if (response.status === 200) {
+          setCalendarToken(response.data.token);
         }
       } catch (error) {
         console.error("Error fetching calendar token:", error);

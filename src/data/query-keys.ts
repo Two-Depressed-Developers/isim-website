@@ -5,7 +5,7 @@ export const queryKeys = {
     schema: ["member-schema"] as const,
   },
   tickets: {
-    all: ["tickets"] as const,
+    all: (accessToken: string) => ["tickets", accessToken] as const,
     byId: (id: string, token: string) => ["tickets", id, token] as const,
     verify: (token: string) => ["tickets", "verify", token] as const,
   },

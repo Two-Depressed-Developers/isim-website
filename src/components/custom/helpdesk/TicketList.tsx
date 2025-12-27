@@ -33,10 +33,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-
-type TicketListProps = {
-  tickets: Ticket[];
-};
+import { Session } from "next-auth";
 
 const statusLabels: Record<TicketStatus, string> = {
   pending: "Oczekujące",
@@ -73,7 +70,12 @@ const getAvailableStatuses = (currentStatus: TicketStatus): TicketStatus[] => {
   }
 };
 
-export function TicketList({ tickets }: TicketListProps) {
+type Props = {
+  tickets: Ticket[];
+  session: Session;
+};
+
+export function TicketList({ tickets, session }: Props) {
   const [modalState, setModalState] = useState<{
     isOpen: boolean;
     ticketId: string | null;
@@ -96,7 +98,7 @@ export function TicketList({ tickets }: TicketListProps) {
     ticket: null,
   });
 
-  const updateTicketMutation = useUpdateTicketStatus();
+  const updateTicketMutation = useUpdateTicketStatus(session.accessToken ?? "");
 
   const handleStatusChange = (
     ticketId: string,

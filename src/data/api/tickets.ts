@@ -39,7 +39,7 @@ export async function verifyTicket(token: string) {
   return response.data;
 }
 
-export async function getTickets(): Promise<Ticket[]> {
+export async function getTickets(accessToken: string): Promise<Ticket[]> {
   const url = new URL("/api/tickets", baseAPIUrl);
 
   url.search = qs.stringify({
@@ -60,7 +60,7 @@ export async function getTickets(): Promise<Ticket[]> {
     sort: ["createdAt:desc"],
   });
 
-  const response = await fetchData(url.href);
+  const response = await fetchData(url.href, accessToken);
   return response?.data ?? [];
 }
 

@@ -87,10 +87,10 @@ export function useVerifyTicket(token: string | null) {
   });
 }
 
-export function useTickets() {
+export function useTickets(accessToken: string) {
   return useQuery({
     queryKey: queryKeys.tickets,
-    queryFn: getTickets,
+    queryFn: () => getTickets(accessToken),
   });
 }
 

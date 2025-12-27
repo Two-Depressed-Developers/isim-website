@@ -4,9 +4,18 @@ import { useTickets } from "@/data/queries";
 import { TicketList } from "@/components/custom/helpdesk/TicketList";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Session } from "next-auth";
 
-export default function ManageTickets() {
-  const { data: tickets, isPending, isError } = useTickets();
+type ManageTicketsProps = {
+  session: Session;
+};
+
+export default function ManageTickets({ session }: ManageTicketsProps) {
+  const {
+    data: tickets,
+    isPending,
+    isError,
+  } = useTickets(session.accessToken ?? "");
 
   if (isPending) {
     return (

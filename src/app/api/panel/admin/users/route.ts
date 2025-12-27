@@ -1,4 +1,4 @@
-import { requireAdmin } from "@/lib/dal";
+import { requireAdmin } from "@/lib/auth.utils";
 import { NextResponse } from "next/server";
 import { getServerStrapiClient } from "@/lib/strapi-server";
 

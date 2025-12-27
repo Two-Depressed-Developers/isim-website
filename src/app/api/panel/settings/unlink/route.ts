@@ -1,4 +1,4 @@
-import { verifySession } from "@/lib/dal";
+import { verifySession } from "@/lib/auth.utils";
 import { getServerStrapiClient } from "@/lib/strapi-server";
 import { NextResponse } from "next/server";
 

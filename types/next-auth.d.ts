@@ -7,7 +7,7 @@ export interface IStrapiUser {
   username: string;
   email: string;
   confirmed: boolean;
-  role: string;
+  roles: string[];
   memberProfileSlug?: string | null;
   hasSsoLinked: boolean;
 }

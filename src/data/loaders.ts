@@ -17,8 +17,12 @@ const api = axios.create({
   baseURL: baseAPIUrl,
 });
 
-export async function fetchData(url: string) {
-  const response = await api.get(url);
+export async function fetchData(url: string, accessToken?: string) {
+  const headers = accessToken
+    ? { Authorization: `Bearer ${accessToken}` }
+    : undefined;
+
+  const response = await api.get(url, { headers });
 
   return flattenAttributes(response.data);
 }
@@ -199,7 +203,7 @@ export async function verifyTicket(token: string) {
   return response.data;
 }
 
-export async function getTickets(): Promise<Ticket[]> {
+export async function getTickets(accessToken: string): Promise<Ticket[]> {
   const url = new URL("/api/tickets", baseAPIUrl);
 
   url.search = qs.stringify({
@@ -220,7 +224,7 @@ export async function getTickets(): Promise<Ticket[]> {
     sort: ["createdAt:desc"],
   });
 
-  const response = await fetchData(url.href);
+  const response = await fetchData(url.href, accessToken);
   return response?.data ?? [];
 }
 

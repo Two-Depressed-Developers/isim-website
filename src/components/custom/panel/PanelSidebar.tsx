@@ -37,25 +37,42 @@ export function PanelSidebar() {
   const pathname = usePathname();
   const isMobile = useIsMobile();
 
-  const isAdmin = session?.user?.role === "PanelAdmin";
+  const roles = session?.user?.roles ?? [];
+  const isAdmin = roles.includes("PanelAdmin");
+  const isStaffMember = roles.includes("StaffMember");
+  const isHelpdeskMember = roles.includes("Helpdesk");
 
-  const menuGroups = [
+  type MenuGroup = {
+    label: string;
+    items: { href: string; label: string; icon: typeof UserCircle }[];
+  };
+  const staffMemberGroup: MenuGroup[] = [
     {
       label: "Mój profil",
       items: [{ href: "/panel/profile", label: "Profil", icon: UserCircle }],
     },
-    ...(isAdmin
-      ? [
-          {
-            label: "Administracja",
-            items: [
-              { href: "/panel/users", label: "Użytkownicy", icon: Users },
-              { href: "/panel/tickets", label: "Zgłoszenia", icon: Ticket },
-            ],
-          },
-        ]
-      : []),
   ];
+
+  const helpdeskMenuGroup: MenuGroup[] = [
+    {
+      label: "Helpdesk",
+      items: [{ href: "/panel/tickets", label: "Zgłoszenia", icon: Ticket }],
+    },
+  ];
+
+  const adminMenuGroup: MenuGroup[] = [
+    {
+      label: "Administracja",
+      items: [{ href: "/panel/users", label: "Użytkownicy", icon: Users }],
+    },
+  ];
+
+  const menuGroups: MenuGroup[] = isAdmin
+    ? [...adminMenuGroup, ...staffMemberGroup, ...helpdeskMenuGroup]
+    : [
+        ...(isStaffMember ? staffMemberGroup : []),
+        ...(isHelpdeskMember ? helpdeskMenuGroup : []),
+      ];
 
   const footerLinks = [
     { href: "/panel/settings", label: "Ustawienia", icon: Settings },

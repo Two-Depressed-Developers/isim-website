@@ -1,4 +1,4 @@
-import { verifySession } from "@/lib/dal";
+import { verifySession } from "@/lib/auth.utils";
 
 export default async function PanelPage() {
   await verifySession();

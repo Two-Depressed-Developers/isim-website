@@ -1,16 +1,16 @@
 "use client";
 
-import { useTickets } from "@/data/queries";
+import { useTickets } from "@/data/queries/use-tickets";
 import { TicketList } from "@/components/custom/helpdesk/TicketList";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Session } from "next-auth";
 
-type ManageTicketsProps = {
+type Props = {
   session: Session;
 };
 
-export default function ManageTickets({ session }: ManageTicketsProps) {
+export default function ManageTickets({ session }: Props) {
   const {
     data: tickets,
     isPending,

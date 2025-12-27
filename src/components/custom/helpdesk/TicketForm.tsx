@@ -6,7 +6,7 @@ import type { z } from "zod";
 import { toast } from "sonner";
 
 import { ticketFormSchema } from "@/lib/schemas";
-import { useSubmitTicket } from "@/data/queries";
+import { useSubmitTicket } from "@/data/queries/use-tickets";
 
 import { Button } from "@/components/ui/button";
 import {

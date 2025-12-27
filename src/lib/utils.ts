@@ -16,7 +16,6 @@ export function getStrapiMedia(url: string | null) {
   return `${getStrapiURL()}${url}`;
 }
 
- 
 export function flattenAttributes(data: any): any {
   if (
     typeof data !== "object" ||
@@ -31,7 +30,6 @@ export function flattenAttributes(data: any): any {
     return data.map((item) => flattenAttributes(item));
   }
 
-   
   const flattened: { [key: string]: any } = {};
 
   for (const key in data) {
@@ -49,4 +47,11 @@ export function flattenAttributes(data: any): any {
   }
 
   return flattened;
+}
+
+export function getEmailForDev(email: string): string {
+  if (process.env.NODE_ENV === "development" && process.env.RESEND_DEV_EMAIL) {
+    return process.env.RESEND_DEV_EMAIL;
+  }
+  return email;
 }

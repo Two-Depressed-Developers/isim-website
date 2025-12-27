@@ -79,3 +79,25 @@ export const ticketStatusSchema = zEnum([
 export const updateTicketStatusSchema = object({
   ticketStatus: ticketStatusSchema,
 });
+
+export const consultationBookingFormSchema = object({
+  studentEmail: string()
+    .email({ message: "Podaj poprawny adres e-mail." })
+    .refine(
+      (email) => email.endsWith("@agh.edu.pl") || email.endsWith(".agh.edu.pl"),
+      {
+        message: "Dozwolone są tylko adresy e-mail z domeny AGH (@agh.edu.pl).",
+      },
+    ),
+  studentName: string().min(3, {
+    message: "Imię i nazwisko musi mieć minimum 3 znaki.",
+  }),
+  fieldAndSubject: string().min(3, {
+    message: "Kierunek i przedmiot musi mieć minimum 3 znaki.",
+  }),
+  startTime: string().min(1, { message: "Wybierz termin konsultacji." }),
+  endTime: string().min(1, { message: "Wybierz termin konsultacji." }),
+  memberDocumentId: string().min(1, {
+    message: "Brak informacji o pracowniku.",
+  }),
+});

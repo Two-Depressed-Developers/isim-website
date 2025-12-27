@@ -25,6 +25,7 @@ import {
   LogOut,
   ChevronsUpDown,
   ChevronLeft,
+  Ticket,
 } from "lucide-react";
 import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
@@ -36,16 +37,42 @@ export function PanelSidebar() {
   const pathname = usePathname();
   const isMobile = useIsMobile();
 
-  const menuGroups = [
+  const roles = session?.user?.roles ?? [];
+  const isAdmin = roles.includes("PanelAdmin");
+  const isStaffMember = roles.includes("StaffMember");
+  const isHelpdeskMember = roles.includes("Helpdesk");
+
+  type MenuGroup = {
+    label: string;
+    items: { href: string; label: string; icon: typeof UserCircle }[];
+  };
+  const staffMemberGroup: MenuGroup[] = [
     {
-      label: "Admin",
-      items: [{ href: "/panel/users", label: "Użytkownicy", icon: Users }],
-    },
-    {
-      label: "Pracownik",
+      label: "Mój profil",
       items: [{ href: "/panel/profile", label: "Profil", icon: UserCircle }],
     },
   ];
+
+  const helpdeskMenuGroup: MenuGroup[] = [
+    {
+      label: "Helpdesk",
+      items: [{ href: "/panel/tickets", label: "Zgłoszenia", icon: Ticket }],
+    },
+  ];
+
+  const adminMenuGroup: MenuGroup[] = [
+    {
+      label: "Administracja",
+      items: [{ href: "/panel/users", label: "Użytkownicy", icon: Users }],
+    },
+  ];
+
+  const menuGroups: MenuGroup[] = isAdmin
+    ? [...adminMenuGroup, ...staffMemberGroup, ...helpdeskMenuGroup]
+    : [
+        ...(isStaffMember ? staffMemberGroup : []),
+        ...(isHelpdeskMember ? helpdeskMenuGroup : []),
+      ];
 
   const footerLinks = [
     { href: "/panel/settings", label: "Ustawienia", icon: Settings },

@@ -9,6 +9,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { VisibleFormField } from "./DynamicForm.types";
+import Image from "next/image";
 
 export const getInputType = (field: VisibleFormField): string => {
   const typeMap: Record<string, string> = {
@@ -106,10 +107,12 @@ export const FieldComponents = {
       <div className="flex items-end gap-2">
         <div className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-full bg-gray-200">
           {previewUrl ? (
-            <img
+            <Image
               src={previewUrl}
               alt="Profile photo"
               className="h-full w-full object-cover"
+              width={80}
+              height={80}
             />
           ) : (
             <div className="flex h-full w-full items-center justify-center text-gray-400">

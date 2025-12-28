@@ -20,7 +20,7 @@ import {
 } from "@/data/api/data-proposals";
 import { useUpdateDataProposal } from "@/data/queries/use-data-proposals";
 
-interface DataProposalsListProps {
+type Props = {
   proposals: DataProposal[];
   memberDocumentId: string;
 }
@@ -28,7 +28,7 @@ interface DataProposalsListProps {
 export function DataProposalsList({
   proposals,
   memberDocumentId,
-}: DataProposalsListProps) {
+}: Props) {
   const { data: session } = useSession();
   const { mutate: updateProposal, isPending } = useUpdateDataProposal(memberDocumentId);
   const [processingId, setProcessingId] = useState<string | null>(null);

@@ -5,6 +5,7 @@ export interface ScrapeRequestPayload {
   last_name: string;
   current_institution: string;
   field_of_study: string;
+  member_document_id: string;
 }
 
 export async function requestScrape(payload: ScrapeRequestPayload) {

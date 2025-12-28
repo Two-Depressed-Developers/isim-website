@@ -9,6 +9,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useScrapeRequest } from "@/data/queries/use-scrape";
 import { useMemberData } from "@/data/queries/use-members";
+import { useDataProposals } from "@/data/queries/use-data-proposals";
+import { DataProposalsList } from "@/components/custom/panel/DataProposalsList";
 
 export default function ScrapeRequestPage() {
   const { data: session } = useSession();
@@ -17,6 +19,13 @@ export default function ScrapeRequestPage() {
   const { data: member, isLoading: isLoadingMember } = useMemberData(memberSlug || "", {
     enabled: !!memberSlug,
   });
+
+  const { data: proposals, isLoading: isLoadingProposals } = useDataProposals(
+    member?.documentId || "",
+    {
+      enabled: !!member?.documentId,
+    }
+  );
 
   const { mutate: requestScrape, isPending } = useScrapeRequest();
 
@@ -35,6 +44,7 @@ export default function ScrapeRequestPage() {
       last_name: lastName,
       current_institution: "AGH University",
       field_of_study: "Computer Science",
+      member_document_id: member.documentId,
     };
 
     requestScrape(payload, {
@@ -59,7 +69,7 @@ export default function ScrapeRequestPage() {
   if (!memberSlug) {
       return (
           <div className="p-4">
-              <PanelPageTitle title="Synchronizacja danych" />
+              <PanelPageTitle title="Wyszukiwanie danych" />
               <Card>
                   <CardContent className="pt-6">
                       <p className="text-muted-foreground">Twój profil nie jest powiązany z żadnym pracownikiem.</p>
@@ -89,6 +99,13 @@ export default function ScrapeRequestPage() {
             </div>
         </CardContent>
       </Card>
+
+      {member && proposals && (
+        <DataProposalsList 
+          proposals={proposals} 
+          memberDocumentId={member.documentId} 
+        />
+      )}
     </div>
   );
 }

@@ -20,4 +20,7 @@ export const queryKeys = {
   groups: {
     all: ["groups"] as const,
   },
+  dataProposals: {
+    byMember: (memberDocumentId: string) => ["data-proposals", memberDocumentId] as const,
+  },
 } as const;

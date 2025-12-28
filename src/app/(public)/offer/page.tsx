@@ -16,7 +16,7 @@ export default function OfferPage() {
     );
   }
 
-  if (isError || !offers) {
+  if (isError) {
     return (
       <div className="container mx-auto py-8">
         <p className="text-muted-foreground text-center">

@@ -1,9 +1,9 @@
-type PageTitleProps = {
+type Props = {
   title: string;
   description?: string;
 };
 
-export default function PageTitle({ title, description }: PageTitleProps) {
+export default function PageTitle({ title, description }: Props) {
   return (
     <>
       <div className="">

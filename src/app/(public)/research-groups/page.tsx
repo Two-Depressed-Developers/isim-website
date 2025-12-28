@@ -8,8 +8,6 @@ import PageTitle from "@/components/PageTitle";
 export default function ResearchGroupsPage() {
   const { data: groups, isPending, isError } = useGroupsData();
 
-  const groupsList = groups?.data || [];
-
   if (isPending) {
     return (
       <div className="container mx-auto flex items-center justify-center py-16">
@@ -18,7 +16,7 @@ export default function ResearchGroupsPage() {
     );
   }
 
-  if (isError || !groups) {
+  if (isError) {
     return (
       <div className="container mx-auto py-8">
         <p className="text-muted-foreground text-center">
@@ -32,9 +30,9 @@ export default function ResearchGroupsPage() {
     <div className="container mx-auto max-w-7xl space-y-8 p-8">
       <PageTitle title="Grupy badawcze" />
 
-      {groupsList && groupsList.length > 0 ? (
+      {groups.length > 0 ? (
         <div className="space-y-4">
-          {groupsList.map((group) => (
+          {groups.map((group) => (
             <ResearchGroupTile key={group.documentId} group={group} />
           ))}
         </div>

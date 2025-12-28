@@ -8,11 +8,6 @@ import { Loader2 } from "lucide-react";
 export default function CoursesPage() {
   const { data: courses, isPending, isError } = useCourses();
 
-  const firstDegreeCourses =
-    courses?.filter((c) => c.degreeType === "I stopień") || [];
-  const secondDegreeCourses =
-    courses?.filter((c) => c.degreeType === "II stopień") || [];
-
   if (isPending) {
     return (
       <div className="container mx-auto flex min-h-[50vh] items-center justify-center">
@@ -21,7 +16,7 @@ export default function CoursesPage() {
     );
   }
 
-  if (isError || !courses) {
+  if (isError) {
     return (
       <div className="container mx-auto py-8">
         <p className="text-muted-foreground text-center">
@@ -30,6 +25,11 @@ export default function CoursesPage() {
       </div>
     );
   }
+
+  const firstDegreeCourses =
+    courses.filter((c) => c.degreeType === "I stopień") || [];
+  const secondDegreeCourses =
+    courses.filter((c) => c.degreeType === "II stopień") || [];
 
   return (
     <div className="container mx-auto max-w-7xl space-y-10 p-8">

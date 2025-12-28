@@ -16,14 +16,11 @@ import { pl } from "date-fns/locale";
 import CustomLink from "@/components/CustomLink";
 
 type Props = {
-  item: Conference | Journal;
-  type: "conference" | "journal";
   variant?: "default" | "compact";
-};
-
-function isConference(item: Conference | Journal): item is Conference {
-  return "startDate" in item;
-}
+} & (
+  | { type: "conference"; item: Conference }
+  | { type: "journal"; item: Journal }
+);
 
 function formatDateRange(startDate: string, endDate?: string) {
   const start = parseISO(startDate);
@@ -41,7 +38,7 @@ export default function PublicationTile({
   type,
   variant = "default",
 }: Props) {
-  const isConf = isConference(item);
+  const isConf = type === "conference";
   const isRecurring = isConf && item.eventType === "Cykliczne";
   const isUpcoming = isConf && new Date(item.startDate) >= new Date();
   const link = isConf ? item.conferenceLink : item.journalLink;
@@ -49,10 +46,7 @@ export default function PublicationTile({
 
   if (variant === "compact") {
     return (
-      <Link
-        href={`/${type === "conference" ? "conferences" : "journals"}/${item.documentId}`}
-        className="group bg-card flex items-center gap-4 rounded-xl p-4 shadow-sm transition-all hover:shadow-md"
-      >
+      <div className="group bg-card flex items-center gap-4 rounded-xl p-4 shadow-sm transition-all hover:shadow-md">
         <div className="bg-muted text-muted-foreground flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-lg">
           {isConf ? (
             <>
@@ -77,8 +71,7 @@ export default function PublicationTile({
             </p>
           )}
         </div>
-        <ArrowRight className="text-muted-foreground h-4 w-4 transition-transform group-hover:translate-x-1" />
-      </Link>
+      </div>
     );
   }
 
@@ -117,10 +110,10 @@ export default function PublicationTile({
       ) : (
         <div className="bg-muted relative h-32">
           <div className="absolute inset-0 flex items-center justify-center opacity-10">
-            {type === "journal" ? (
-              <BookOpen className="h-20 w-20" />
-            ) : (
+            {isConf ? (
               <CalendarDays className="h-20 w-20" />
+            ) : (
+              <BookOpen className="h-20 w-20" />
             )}
           </div>
 
@@ -167,7 +160,7 @@ export default function PublicationTile({
               isExternal={link.isExternal}
               className="border-input bg-muted hover:bg-accent hover:text-accent-foreground flex w-full items-center justify-center gap-3 rounded-md border px-4 py-1.5 text-center text-sm font-medium transition-colors"
             >
-              {type === "journal" ? "Strona czasopisma" : "Strona wydarzenia"}
+              {isConf ? "Strona wydarzenia" : "Strona czasopisma"}
               <ExternalLink className="h-3.5 w-3.5" />
             </CustomLink>
           )}

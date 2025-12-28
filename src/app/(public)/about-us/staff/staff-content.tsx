@@ -76,9 +76,7 @@ export default function StaffContent() {
 
   const debouncedQuery = useDebounce(search, 600);
 
-  const { data: groupsData, isLoading, error } = useGroupsData({ cache: true });
-
-  const groups = groupsData?.data ?? null;
+  const { data: groups, isLoading, error } = useGroupsData({ cache: true });
 
   const sortedGroups = useMemo(() => {
     if (!groups) return null;

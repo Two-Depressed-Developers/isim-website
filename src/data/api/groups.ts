@@ -1,8 +1,8 @@
 import qs from "qs";
-import type { GroupData } from "@/lib/types";
+import type { Group } from "@/lib/types";
 import { fetchData, baseAPIUrl, api } from "./base";
 
-export async function getGroupsData(): Promise<GroupData> {
+export async function getGroupsData(): Promise<Group[]> {
   const url = new URL("/api/groups", baseAPIUrl);
 
   const populateOptions = {
@@ -32,5 +32,6 @@ export async function getGroupsData(): Promise<GroupData> {
     },
   });
 
-  return await fetchData(url.href);
+  const response = await fetchData(url.href);
+  return response?.data ?? [];
 }

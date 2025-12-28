@@ -13,8 +13,8 @@ export default function ResearchGroupTile({
   group,
   variant = "default",
 }: Props) {
-  const membersCount = group.members?.length || 0;
-  const keywords = group.keywords?.split(",").map((k) => k.trim()) || [];
+  const membersCount = group.members?.length ?? 0;
+  const keywords = group.keywords?.split(",").map((k) => k.trim()) ?? [];
 
   if (variant === "compact") {
     return (

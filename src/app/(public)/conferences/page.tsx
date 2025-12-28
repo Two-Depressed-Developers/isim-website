@@ -23,7 +23,7 @@ export default function ConferencesPage() {
     );
   }
 
-  if (isError || !conferences) {
+  if (isError || isJournalsError) {
     return (
       <div className="container mx-auto py-8">
         <p className="text-muted-foreground text-center">
@@ -33,11 +33,21 @@ export default function ConferencesPage() {
     );
   }
 
+  if (conferences.length === 0 && journals.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center py-16">
+        <p className="text-muted-foreground mt-4">
+          Brak dostępnych publikacji i wydarzeń.
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="container mx-auto max-w-7xl space-y-12 p-8">
       <PageTitle title="Publikacje i wydarzenia" />
 
-      {journals && journals.length > 0 && (
+      {journals.length > 0 && (
         <div className="space-y-6">
           <div className="flex items-center gap-3">
             <BookOpen className="text-primary h-6 w-6" />
@@ -55,7 +65,7 @@ export default function ConferencesPage() {
         </div>
       )}
 
-      {conferences && conferences.length > 0 && (
+      {conferences.length > 0 && (
         <div className="space-y-6">
           <div className="flex items-center gap-3">
             <CalendarDays className="text-primary h-6 w-6" />
@@ -72,15 +82,6 @@ export default function ConferencesPage() {
           </div>
         </div>
       )}
-
-      {(!journals || journals.length === 0) &&
-        (!conferences || conferences.length === 0) && (
-          <div className="flex flex-col items-center justify-center py-16">
-            <p className="text-muted-foreground mt-4">
-              Brak dostępnych publikacji i wydarzeń.
-            </p>
-          </div>
-        )}
     </div>
   );
 }

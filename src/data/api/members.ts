@@ -24,7 +24,14 @@ export async function getMemberData(slug: string): Promise<MemberData> {
     PortfolioLink: {
       populate: true,
     },
-
+    consultationAvailability: {
+      populate: true,
+      filters: {
+        isActive: {
+          $eq: true,
+        },
+      },
+    },
     sections: true,
   };
 

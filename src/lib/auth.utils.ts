@@ -18,7 +18,6 @@ export const verifySession = cache(async (): Promise<Session> => {
 
 export const getUser = cache(async () => {
   const session = await verifySession();
-  console.log("User roles:", session.user.roles);
   return session.user;
 });
 

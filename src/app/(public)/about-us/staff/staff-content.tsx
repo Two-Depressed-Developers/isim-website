@@ -6,9 +6,10 @@ import { useSearchParams } from "next/navigation";
 import Group from "@/components/Group";
 import ActionBar from "@/components/ActionBar";
 
-import { useGroupsData } from "@/data/queries/use-members";
+import { useGroupsData } from "@/data/queries/use-groups";
 import { useDebounce } from "@/lib/hooks";
 import type { MemberData, Group as GroupType } from "@/lib/types";
+import PageTitle from "@/components/PageTitle";
 
 type SortingType = "position" | "team";
 type LayoutType = "grid" | "details" | "list";
@@ -52,7 +53,7 @@ const transformGroupsData = (
           id: member.id,
           documentId: `${member.position}`,
           name: member.position,
-          description: "",
+          shortDescription: "",
           members: [],
         };
       }
@@ -75,9 +76,7 @@ export default function StaffContent() {
 
   const debouncedQuery = useDebounce(search, 600);
 
-  const { data: groupsData, isLoading, error } = useGroupsData({ cache: true });
-
-  const groups = groupsData?.data ?? null;
+  const { data: groups, isLoading, error } = useGroupsData({ cache: true });
 
   const sortedGroups = useMemo(() => {
     if (!groups) return null;
@@ -129,12 +128,7 @@ export default function StaffContent() {
 
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col space-y-8 p-8">
-      <div>
-        <h1 className="mb-2 text-6xl leading-[48px] font-semibold">
-          Our Staff
-        </h1>
-        <div className="bg-primary h-1 w-28 rounded-full" />
-      </div>
+      <PageTitle title="Nasz zespół" />
       <ActionBar />
       <div className="flex flex-col gap-16">
         {filteredGroups && filteredGroups.length > 0 ? (

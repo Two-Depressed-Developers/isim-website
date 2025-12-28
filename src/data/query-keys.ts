@@ -23,4 +23,16 @@ export const queryKeys = {
   dataProposals: {
     byMember: (memberDocumentId: string) => ["data-proposals", memberDocumentId] as const,
   },
-} as const;
+  researchOffers: {
+    all: ["research-offers"] as const,
+  },
+  courses: {
+    all: ["courses"] as const,
+  },
+  conferences: {
+    all: ["conferences"] as const,
+  },
+  journals: {
+    all: ["journals"] as const,
+  },
+}

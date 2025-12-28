@@ -30,7 +30,7 @@ const Header = async () => {
             />
           )}
         </Link>
-        <ul className="hidden items-center space-x-4 lg:flex">
+        <ul className="hidden items-center space-x-3 lg:flex">
           {headerData.links.map((link) => (
             <NavLink key={link.id} link={link} />
           ))}

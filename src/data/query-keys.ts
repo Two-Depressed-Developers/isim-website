@@ -20,4 +20,16 @@ export const queryKeys = {
   groups: {
     all: ["groups"] as const,
   },
+  researchOffers: {
+    all: ["research-offers"] as const,
+  },
+  courses: {
+    all: ["courses"] as const,
+  },
+  conferences: {
+    all: ["conferences"] as const,
+  },
+  journals: {
+    all: ["journals"] as const,
+  },
 } as const;

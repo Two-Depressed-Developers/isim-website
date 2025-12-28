@@ -7,7 +7,7 @@
 
 # Data Fetching and State Management
 
-- Use Next.js API routes ONLY for auth and emails.
+- Use Next.js API routes ONLY for auth, emails and python service integration.
 - Use react query (located in data/queries) for data fetching and mutations.
 - Create react query functions in data/loaders.ts
 - Use axios

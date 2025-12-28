@@ -19,7 +19,6 @@ export function StrapiImage({
   if (!src) return null;
   const imageUrl = getStrapiMedia(src);
   const imageFallback = `https://placehold.co/${width}x${height}`;
-  const isLocalhost = imageUrl?.includes("localhost");
 
   return (
     <Image
@@ -28,7 +27,6 @@ export function StrapiImage({
       height={height}
       width={width}
       className={className}
-      unoptimized={isLocalhost}
     />
   );
 }

@@ -54,6 +54,11 @@ export function PanelSidebar() {
         { href: "/panel/profile", label: "Profil", icon: UserCircle },
         { href: "/panel/consultations", label: "Konsultacje", icon: Users },
         { href: "/panel/calendar", label: "Kalendarz", icon: Calendar },
+        {
+          href: "/panel/scrape-request",
+          label: "Wyszukiwanie danych",
+          icon: UserCircle, 
+        },
       ],
     },
   ];

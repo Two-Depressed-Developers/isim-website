@@ -1,21 +1,11 @@
 import type { MemberData } from "@/lib/types";
-import {
-  getGroupsData,
-  getMemberData,
-  getMemberSchema,
-  updateMember,
-} from "../api/members";
+import { getMemberData, getMemberSchema, updateMember } from "../api/members";
 import { queryKeys } from "../query-keys";
 import {
   createQueryHook,
   createQueryHookWithParams,
   createMutationHookWithInvalidation,
 } from "./types";
-
-export const useGroupsData = createQueryHook(
-  queryKeys.groups.all,
-  getGroupsData,
-);
 
 export const useMemberData = createQueryHookWithParams(
   (slug: string) => queryKeys.members.bySlug(slug),

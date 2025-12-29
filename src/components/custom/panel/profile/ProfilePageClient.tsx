@@ -29,7 +29,7 @@ export default function ProfilePageClient({
       <div className="flex flex-col items-center justify-center p-4">
         <div className="text-center">
           <div className="mb-4 h-8 w-8 animate-spin rounded-full border-b-2 border-gray-900"></div>
-          <p className="text-muted-foreground">Loading profile...</p>
+          <p className="text-muted-foreground">Ładowanie profilu...</p>
         </div>
       </div>
     );
@@ -38,9 +38,9 @@ export default function ProfilePageClient({
   if (memberError || schemaError || member?.error || memberSchema?.error) {
     return (
       <div className="flex flex-col items-center justify-center p-4">
-        <h1 className="mb-4 text-2xl font-bold">Profile not found</h1>
+        <h1 className="mb-4 text-2xl font-bold">Nie znaleziono profilu</h1>
         <p className="text-muted-foreground">
-          Failed to load profile data for this user.
+          Nie udało się załadować danych profilu dla tego użytkownika.
         </p>
       </div>
     );
@@ -49,9 +49,9 @@ export default function ProfilePageClient({
   if (!member || !memberSchema) {
     return (
       <div className="flex flex-col items-center justify-center p-4">
-        <h1 className="mb-4 text-2xl font-bold">Profile not found</h1>
+        <h1 className="mb-4 text-2xl font-bold">Nie znaleziono profilu</h1>
         <p className="text-muted-foreground">
-          No profile data available for this user.
+          Brak danych profilu dla tego użytkownika.
         </p>
       </div>
     );

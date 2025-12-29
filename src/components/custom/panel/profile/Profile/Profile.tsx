@@ -6,6 +6,9 @@ import { MemberData } from "@/lib/types";
 import { Session } from "next-auth";
 import { toast } from "sonner";
 import { uploadFile } from "@/data/api/base";
+import { useQueryClient } from "@tanstack/react-query";
+import { queryKeys } from "@/data/query-keys";
+import axios from "axios";
 
 import DynamicForm from "../DynamicForm/DynamicForm";
 import { FormSchema } from "../DynamicForm/DynamicForm.types";
@@ -24,6 +27,7 @@ type ProfileFormProps = {
 export default function Profile({ member, schema, session }: ProfileFormProps) {
   const updateMutation = useUpdateMember(member.slug);
   const [isUploadingPhoto, setIsUploadingPhoto] = useState(false);
+  const queryClient = useQueryClient();
 
   const onSubmit = async (data: Record<string, unknown>) => {
     if (!session?.accessToken) {
@@ -76,6 +80,41 @@ export default function Profile({ member, schema, session }: ProfileFormProps) {
     }
   };
 
+  const handleUpdateFromSkos = async (fullName: string) => {
+
+    if (!fullName) return;
+
+    try {
+      const parts = fullName.trim().split(" ");
+      const first_name = parts[0];
+      const last_name = parts.slice(1).join(" ");
+
+      if (!first_name || !last_name) {
+        toast.error("Proszę podać pełne imię i nazwisko.");
+        return;
+      }
+
+      await axios.post("/api/update-member-profile", {
+        first_name,
+        last_name,
+        member_document_id: member.documentId,
+      });
+
+      toast.success("Zgłoszenie aktualizacji wysłane. Odświeżanie danych...");
+
+      setTimeout(async () => {
+        await queryClient.invalidateQueries({
+          queryKey: queryKeys.members.bySlug(member.slug),
+        });
+        toast.success("Dane odświeżone.");
+      }, 5000);
+    } catch (error) {
+      console.error("Error updating from skos:", error);
+      toast.error("Wystąpił błąd podczas aktualizacji danych ze Skos.");
+    }
+  };
+
+
   const transformedSchema: FormSchema = useMemo(
     () => ({
       fields: Object.entries(schema).map(([fieldName, fieldSchema]) =>
@@ -97,6 +136,7 @@ export default function Profile({ member, schema, session }: ProfileFormProps) {
       initialData={transformedDefaultValues}
       isLoading={updateMutation.isPending || isUploadingPhoto}
       onPhotoUpload={handlePhotoUpload}
+      onUpdateFromSkos={handleUpdateFromSkos}
     />
   );
 }

@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useEffect } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
@@ -23,6 +24,7 @@ interface DynamicFormProps {
   initialData?: any;
   isLoading?: boolean;
   onPhotoUpload?: (file: File) => Promise<{ id: number; url: string }>;
+  onUpdateFromSkos?: (fullName: string) => Promise<void>;
 }
 
 const SKIPPED_FIELDS = new Set(["sections", "slug", "consultationAvailability"]);
@@ -37,6 +39,7 @@ export default function DynamicForm({
   initialData,
   isLoading = false,
   onPhotoUpload,
+  onUpdateFromSkos,
 }: DynamicFormProps) {
   const visibleFields = schema.fields
     .filter(isVisibleField)
@@ -49,6 +52,12 @@ export default function DynamicForm({
     defaultValues: initialData || {},
   });
 
+  useEffect(() => {
+    form.reset(initialData);
+  }, [initialData, form]);
+
+  const fullName = form.watch("fullName");
+
   const categorizedFields = groupFieldsByCategory(visibleFields);
   const sortedCategories = getSortedCategories(categorizedFields);
 
@@ -56,11 +65,25 @@ export default function DynamicForm({
 
   return (
     <div className="mx-auto w-full max-w-4xl px-4">
-      <div className="mb-8">
-        <h1 className="mb-2 text-3xl font-bold text-gray-900">Edit Profile</h1>
-        <p className="text-gray-600">
-          Update your professional information and contact details
-        </p>
+      <div className="mb-8 flex items-center justify-between">
+        <div>
+          <h1 className="mb-2 text-3xl font-bold text-gray-900">
+            Edycja Profilu
+          </h1>
+          <p className="text-gray-600">
+            Zaktualizuj swoje dane zawodowe i kontaktowe
+          </p>
+        </div>
+        {onUpdateFromSkos && (
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => onUpdateFromSkos(fullName)}
+            disabled={!fullName || isLoading}
+          >
+            Uzupełnij dane ze Skos
+          </Button>
+        )}
       </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -81,10 +104,10 @@ export default function DynamicForm({
               onClick={() => form.reset()}
               disabled={isLoading || !isDirty}
             >
-              Reset
+              Resetuj
             </Button>
             <Button type="submit" disabled={isLoading || !isDirty}>
-              {isLoading ? "Saving..." : "Save"}
+              {isLoading ? "Zapisywanie..." : "Zapisz"}
             </Button>
           </div>
         </form>

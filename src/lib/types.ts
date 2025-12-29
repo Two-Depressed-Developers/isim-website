@@ -57,7 +57,7 @@ export type MemberSection = (MemberResearch | SimpleSection) & {
   __component: string;
 };
 
-type ConsultationAvailability = {
+export type ConsultationAvailability = {
   id: number;
   documentId: string;
   dayOfWeek:
@@ -74,7 +74,7 @@ type ConsultationAvailability = {
   isActive: boolean;
 };
 
-type Member = {
+export type Member = {
   id: number;
   documentId: string;
   fullName: string;

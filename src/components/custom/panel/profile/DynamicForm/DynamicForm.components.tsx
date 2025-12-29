@@ -156,14 +156,10 @@ export const FieldComponents = {
   },
 
   ComponentField: ({ field }: { field: VisibleFormField; formField: any }) => (
-    <div className="text-muted-foreground">
-      {field.label} component (coming soon...)
-    </div>
+    <div className="text-muted-foreground">{field.label}</div>
   ),
 
   DynamicZone: ({ field }: { field: VisibleFormField; formField: any }) => (
-    <div className="text-muted-foreground">
-      {field.label} dynamic zone (coming soon...)
-    </div>
+    <div className="text-muted-foreground">{field.label}</div>
   ),
 };

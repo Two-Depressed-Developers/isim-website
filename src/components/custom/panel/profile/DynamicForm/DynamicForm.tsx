@@ -27,7 +27,7 @@ interface DynamicFormProps {
   onUpdateFromSkos?: (fullName: string) => Promise<void>;
 }
 
-const SKIPPED_FIELDS = new Set(["sections", "slug"]);
+const SKIPPED_FIELDS = new Set(["sections", "slug", "consultationAvailability"]);
 
 const shouldShowField = (field: VisibleFormField): boolean => {
   return !SKIPPED_FIELDS.has(field.name);

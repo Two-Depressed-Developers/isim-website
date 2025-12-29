@@ -25,7 +25,7 @@ interface DynamicFormProps {
   onPhotoUpload?: (file: File) => Promise<{ id: number; url: string }>;
 }
 
-const SKIPPED_FIELDS = new Set(["sections", "slug"]);
+const SKIPPED_FIELDS = new Set(["sections", "slug", "consultationAvailability"]);
 
 const shouldShowField = (field: VisibleFormField): boolean => {
   return !SKIPPED_FIELDS.has(field.name);

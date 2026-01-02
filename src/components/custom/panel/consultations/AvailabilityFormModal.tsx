@@ -2,7 +2,6 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import {
   Dialog,
   DialogContent,
@@ -28,7 +27,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
-import { ConsultationAvailability } from "@/lib/types";
+import { consultationAvailabilitySchema } from "@/lib/schemas";
+import { z } from "zod";
 
 const DAYS_OF_WEEK = [
   { value: "monday", label: "Poniedziałek" },
@@ -38,41 +38,14 @@ const DAYS_OF_WEEK = [
   { value: "friday", label: "Piątek" },
 ] as const;
 
-const itemSchema = z.object({
-  id: z.number().optional(),
-  documentId: z.string().optional(),
-  dayOfWeek: z.enum([
-    "monday",
-    "tuesday",
-    "wednesday",
-    "thursday",
-    "friday",
-    "saturday",
-    "sunday",
-  ]),
-  startTime: z.string().nonempty("Pole wymagane").regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, "HH:mm"),
-  endTime: z.string().nonempty("Pole wymagane").regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, "HH:mm"),
-  durationMinutes: z.coerce.number().min(1, "Musi być > 0"),
-  isActive: z.boolean(),
-}).refine((data) => {
-  const [startHour, startMin] = data.startTime.split(":").map(Number);
-  const [endHour, endMin] = data.endTime.split(":").map(Number);
-  const startTotal = startHour * 60 + startMin;
-  const endTotal = endHour * 60 + endMin;
-  return endTotal > startTotal;
-}, {
-  message: "Godzina zakończenia musi być po godzinie rozpoczęcia",
-  path: ["endTime"],
-});
-
-type FormValues = z.infer<typeof itemSchema>;
+type FormValues = z.infer<typeof consultationAvailabilitySchema>;
 
 type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  initialData?: Partial<ConsultationAvailability> | null;
+  initialData?: Partial<FormValues> | null;
   onSubmit: (data: FormValues) => void;
-}
+};
 
 export function AvailabilityFormModal({
   open,
@@ -81,8 +54,8 @@ export function AvailabilityFormModal({
   onSubmit,
 }: Props) {
   const form = useForm<FormValues>({
-    resolver: zodResolver(itemSchema),
-    values: {
+    resolver: zodResolver(consultationAvailabilitySchema),
+    defaultValues: {
       id: initialData?.id,
       documentId: initialData?.documentId,
       dayOfWeek: initialData?.dayOfWeek || "monday",
@@ -90,6 +63,7 @@ export function AvailabilityFormModal({
       endTime: initialData?.endTime?.slice(0, 5) || "",
       durationMinutes: initialData?.durationMinutes || 15,
       isActive: initialData?.isActive ?? true,
+      maxAttendees: initialData?.maxAttendees ?? null,
     },
   });
 
@@ -137,40 +111,42 @@ export function AvailabilityFormModal({
               )}
             />
 
-            <FormField
-              control={form.control}
-              name="startTime"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Początek</FormLabel>
-                  <FormControl>
-                    <Input type="time" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div className="grid grid-cols-2 gap-4">
+              <FormField
+                control={form.control}
+                name="startTime"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Początek</FormLabel>
+                    <FormControl>
+                      <Input type="time" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            <FormField
-              control={form.control}
-              name="endTime"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Koniec</FormLabel>
-                  <FormControl>
-                    <Input type="time" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+              <FormField
+                control={form.control}
+                name="endTime"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Koniec</FormLabel>
+                    <FormControl>
+                      <Input type="time" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
 
             <FormField
               control={form.control}
               name="durationMinutes"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Czas trwania okna (minuty)</FormLabel>
+                  <FormLabel>Czas trwania (minuty)</FormLabel>
                   <FormControl>
                     <Input type="number" {...field} />
                   </FormControl>
@@ -181,10 +157,36 @@ export function AvailabilityFormModal({
 
             <FormField
               control={form.control}
+              name="maxAttendees"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Limit osób</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      placeholder="Brak limitu"
+                      {...field}
+                      value={field.value ?? ""}
+                      onChange={(e) =>
+                        field.onChange(
+                          e.target.value === "" ? null : Number(e.target.value),
+                        )
+                      }
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
               name="isActive"
               render={({ field }) => (
-                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4 space-y-0">
-                  <FormLabel className="text-base cursor-pointer">Aktywny</FormLabel>
+                <FormItem className="flex flex-row items-center justify-between space-y-0 rounded-lg border p-4">
+                  <FormLabel className="cursor-pointer text-base">
+                    Aktywny
+                  </FormLabel>
                   <FormControl>
                     <Switch
                       checked={field.value}

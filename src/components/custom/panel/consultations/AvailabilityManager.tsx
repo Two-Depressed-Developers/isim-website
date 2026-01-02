@@ -6,7 +6,13 @@ import { toast } from "sonner";
 import { useSession } from "next-auth/react";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
 import { MemberData, ConsultationAvailability } from "@/lib/types";
 import { useUpdateMember } from "@/data/queries/use-members";
 import { AvailabilityTile } from "./AvailabilityTile";
@@ -34,36 +40,44 @@ const DAYS_POLISH: Record<string, string> = {
 
 type Props = {
   member: MemberData;
-}
+};
 
 export function AvailabilityManager({ member }: Props) {
   const { data: session } = useSession();
   const updateMutation = useUpdateMember(member.slug);
 
-  const [availabilities, setAvailabilities] = useState<Partial<ConsultationAvailability>[]>(
-    member.consultationAvailability || []
-  );
-  
+  const [availabilities, setAvailabilities] = useState<
+    Partial<ConsultationAvailability>[]
+  >(member.consultationAvailability || []);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingItem, setEditingItem] = useState<Partial<ConsultationAvailability> | null>(null);
+  const [editingItem, setEditingItem] =
+    useState<Partial<ConsultationAvailability> | null>(null);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
 
   const groupedAvailabilities = useMemo(() => {
-    const groups: Record<string, { OriginalIndex: number; item: Partial<ConsultationAvailability> }[]> = {};
+    const groups: Record<
+      string,
+      { OriginalIndex: number; item: Partial<ConsultationAvailability> }[]
+    > = {};
     availabilities.forEach((item, index) => {
       const day = item.dayOfWeek || "monday";
       if (!groups[day]) groups[day] = [];
       groups[day].push({ OriginalIndex: index, item });
     });
-    
-    Object.keys(groups).forEach(day => {
-      groups[day].sort((a, b) => (a.item.startTime || "").localeCompare(b.item.startTime || ""));
+
+    Object.keys(groups).forEach((day) => {
+      groups[day].sort((a, b) =>
+        (a.item.startTime || "").localeCompare(b.item.startTime || ""),
+      );
     });
 
     return groups;
   }, [availabilities]);
 
-  const sortedDays = Object.keys(groupedAvailabilities).sort((a, b) => DAYS_ORDER[a] - DAYS_ORDER[b]);
+  const sortedDays = Object.keys(groupedAvailabilities).sort(
+    (a, b) => DAYS_ORDER[a] - DAYS_ORDER[b],
+  );
 
   const handleAdd = () => {
     setEditingItem(null);
@@ -93,7 +107,9 @@ export function AvailabilityManager({ member }: Props) {
     }
   };
 
-  const hasChanges = JSON.stringify(availabilities) !== JSON.stringify(member.consultationAvailability || []);
+  const hasChanges =
+    JSON.stringify(availabilities) !==
+    JSON.stringify(member.consultationAvailability || []);
 
   const handleSave = async () => {
     if (!session?.accessToken) {
@@ -139,7 +155,8 @@ export function AvailabilityManager({ member }: Props) {
           <div className="space-y-1">
             <CardTitle>Twoja dostępność</CardTitle>
             <CardDescription>
-              Skonfiguruj stałe terminy swoich konsultacji. Studenci będą mogli zapisywać się tylko w tych ramach.
+              Skonfiguruj stałe terminy swoich konsultacji. Studenci będą mogli
+              zapisywać się tylko w tych ramach.
             </CardDescription>
           </div>
           <Button onClick={handleAdd} size="sm" className="gap-2">
@@ -149,27 +166,33 @@ export function AvailabilityManager({ member }: Props) {
         </CardHeader>
         <CardContent className="pt-6">
           {availabilities.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-10 text-center border-2 border-dashed rounded-lg bg-muted/50">
-              <p className="text-muted-foreground">Nie zdefiniowano jeszcze żadnych terminów.</p>
-              <Button variant="link" onClick={handleAdd}>Dodaj pierwszy termin</Button>
+            <div className="bg-muted/50 flex flex-col items-center justify-center rounded-lg border-2 border-dashed py-10 text-center">
+              <p className="text-muted-foreground">
+                Nie zdefiniowano jeszcze żadnych terminów.
+              </p>
+              <Button variant="link" onClick={handleAdd}>
+                Dodaj pierwszy termin
+              </Button>
             </div>
           ) : (
             <div className="space-y-8">
-              {sortedDays.map(day => (
+              {sortedDays.map((day) => (
                 <div key={day} className="space-y-3">
-                  <div className="flex items-center gap-2 text-sm font-semibold text-muted-foreground uppercase tracking-wider">
+                  <div className="text-muted-foreground flex items-center gap-2 text-sm font-semibold tracking-wider uppercase">
                     <Calendar className="h-4 w-4" />
                     {DAYS_POLISH[day]}
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {groupedAvailabilities[day].map(({ OriginalIndex, item }) => (
-                      <AvailabilityTile
-                        key={OriginalIndex}
-                        availability={item}
-                        onEdit={() => handleEdit(OriginalIndex)}
-                        onDelete={() => handleDelete(OriginalIndex)}
-                      />
-                    ))}
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+                    {groupedAvailabilities[day].map(
+                      ({ OriginalIndex, item }) => (
+                        <AvailabilityTile
+                          key={OriginalIndex}
+                          availability={item}
+                          onEdit={() => handleEdit(OriginalIndex)}
+                          onDelete={() => handleDelete(OriginalIndex)}
+                        />
+                      ),
+                    )}
                   </div>
                 </div>
               ))}
@@ -179,9 +202,9 @@ export function AvailabilityManager({ member }: Props) {
       </Card>
 
       {hasChanges && (
-        <div className="flex justify-end sticky bottom-6 z-10">
-          <Button 
-            onClick={handleSave} 
+        <div className="sticky bottom-6 z-10 flex justify-end">
+          <Button
+            onClick={handleSave}
             disabled={updateMutation.isPending}
             className="gap-2 shadow-lg"
             size="lg"
@@ -197,6 +220,7 @@ export function AvailabilityManager({ member }: Props) {
       )}
 
       <AvailabilityFormModal
+        key={isModalOpen ? `modal-open-${editingIndex}` : "modal-closed"}
         open={isModalOpen}
         onOpenChange={setIsModalOpen}
         initialData={editingItem}

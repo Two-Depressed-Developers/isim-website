@@ -5,8 +5,8 @@ import { redirect } from "next/navigation";
 import { useMemo, useState, useEffect } from "react";
 import { Calendar } from "@/components/calendar/calendar";
 import {
-  mapConsultationBookingToCalendarEvent,
   mapStrapiEventToCalendarEvent,
+  mapConsultationBookingsToGroupedEvents,
 } from "@/components/calendar/mappers";
 import { useConsultationBookings } from "@/data/queries/use-consultations";
 import { useMemberData } from "@/data/queries/use-members";
@@ -54,7 +54,7 @@ export default function CalendarPage() {
   );
 
   const consultationEvents = useMemo(
-    () => acceptedBookings.map(mapConsultationBookingToCalendarEvent),
+    () => mapConsultationBookingsToGroupedEvents(acceptedBookings),
     [acceptedBookings],
   );
 

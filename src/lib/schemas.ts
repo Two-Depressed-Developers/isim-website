@@ -1,4 +1,12 @@
-import { object, string, enum as zEnum } from "zod";
+import {
+  boolean,
+  coerce,
+  number,
+  object,
+  string,
+  enum as zEnum,
+  ZodIssueCode,
+} from "zod";
 
 export const memberFormSchema = object({
   fullName: string()
@@ -100,4 +108,44 @@ export const consultationBookingFormSchema = object({
   memberDocumentId: string().min(1, {
     message: "Brak informacji o pracowniku.",
   }),
+});
+
+export const consultationAvailabilitySchema = object({
+  id: number().optional(),
+  documentId: string().optional(),
+  dayOfWeek: zEnum([
+    "monday",
+    "tuesday",
+    "wednesday",
+    "thursday",
+    "friday",
+    "saturday",
+    "sunday",
+  ]),
+  startTime: string()
+    .min(1, "Pole wymagane")
+    .regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, "HH:mm"),
+  endTime: string()
+    .min(1, "Pole wymagane")
+    .regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, "HH:mm"),
+  durationMinutes: coerce.number().min(1, "Musi być > 0"),
+  isActive: boolean(),
+  maxAttendees: coerce.number().min(1, "Musi być > 0").nullable().optional(),
+}).superRefine((data, ctx) => {
+  if (!data.startTime || !data.endTime) return;
+  if (!data.startTime.match(/:/) || !data.endTime.match(/:/)) return;
+
+  const [startHour, startMin] = data.startTime.split(":").map(Number);
+  const [endHour, endMin] = data.endTime.split(":").map(Number);
+
+  const startTotal = startHour * 60 + startMin;
+  const endTotal = endHour * 60 + endMin;
+
+  if (endTotal <= startTotal) {
+    ctx.addIssue({
+      code: ZodIssueCode.custom,
+      message: "Godzina zakończenia musi być późniejsza",
+      path: ["endTime"],
+    });
+  }
 });

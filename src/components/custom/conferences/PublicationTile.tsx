@@ -1,4 +1,4 @@
-import { Conference, Journal } from "@/lib/types";
+import { Conference, Journal } from "@/types/strapi";
 import { cn } from "@/lib/utils";
 import { StrapiImage } from "@/components/StrapiImage";
 import { Badge } from "@/components/ui/badge";

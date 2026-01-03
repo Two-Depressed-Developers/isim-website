@@ -1,5 +1,5 @@
 import qs from "qs";
-import type { Group } from "@/lib/types";
+import type { Group } from "@/types/strapi";
 import { fetchData, baseAPIUrl, api } from "./base";
 
 export async function getGroupsData(): Promise<Group[]> {

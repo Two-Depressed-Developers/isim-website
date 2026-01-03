@@ -1,15 +1,12 @@
-import {
-  ComponentHomepageGroupItem,
-  ComponentHomepageStudentGroups,
-} from "@/lib/types";
+import { ComponentHomepageGroupItem } from "@/types/strapi";
 import { StrapiImage } from "@/components/StrapiImage";
 import CustomLink from "@/components/CustomLink";
 
 type Props = {
-  data: ComponentHomepageStudentGroups;
+  group: ComponentHomepageGroupItem;
 };
 
-function StudentGroupCard({ group }: { group: ComponentHomepageGroupItem }) {
+export default function StudentGroupCard({ group }: Props) {
   const content = (
     <div className="group flex h-full items-center gap-6 overflow-hidden rounded-2xl bg-white p-6 shadow-md transition-transform hover:scale-[1.02]">
       {group.image?.url && (
@@ -45,28 +42,4 @@ function StudentGroupCard({ group }: { group: ComponentHomepageGroupItem }) {
   }
 
   return content;
-}
-
-export default function StudentGroupsSection({ data }: Props) {
-  const groups = data.groups ?? [];
-  const isOdd = groups.length % 2 === 1;
-
-  return (
-    <section>
-      {data.title && <h2 className="mb-8 text-3xl font-bold">{data.title}</h2>}
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-        {groups.map((group, index) => {
-          const isLastAndOdd = isOdd && index === groups.length - 1;
-          return (
-            <div
-              key={`group_${group.id}`}
-              className={isLastAndOdd ? "md:col-span-2" : ""}
-            >
-              <StudentGroupCard group={group} />
-            </div>
-          );
-        })}
-      </div>
-    </section>
-  );
 }

@@ -24,7 +24,7 @@ import {
   useUpdateConsultationBookingStatus,
 } from "@/data/queries/use-consultations";
 import { useMemberData } from "@/data/queries/use-members";
-import type { ConsultationBooking } from "@/lib/types";
+import type { ConsultationBooking } from "@/types/strapi";
 
 type Props = {
   memberSlug: string;

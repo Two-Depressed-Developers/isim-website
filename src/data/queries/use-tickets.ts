@@ -1,4 +1,4 @@
-import type { TicketStatus } from "@/lib/types";
+import type { TicketStatus } from "@/types/strapi";
 import {
   getTicketById,
   getTickets,

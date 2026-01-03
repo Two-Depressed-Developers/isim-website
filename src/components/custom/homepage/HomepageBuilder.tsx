@@ -1,11 +1,11 @@
 "use client";
 
 import HeroSlider from "./sections/HeroSlider";
-import { HomepageData, HomepageSection } from "@/lib/types";
-import SupervisorsSection from "./sections/SupervisorsSection";
-import CollaborationsSection from "./sections/CollaborationsSection";
-import StudentGroupsSection from "./sections/StudentGroupsSection";
-import CollectionFeedSection from "./sections/CollectionFeedSection";
+import { HomepageData, HomepageSection } from "@/types/strapi";
+import SupervisorsSection from "./sections/supervisors/SupervisorsSection";
+import CollaborationsSection from "./sections/collaborations/CollaborationsSection";
+import StudentGroupsSection from "./sections/student-groups/StudentGroupsSection";
+import CollectionFeedSection from "./sections/collection-feed/CollectionFeedSection";
 import { cn } from "@/lib/utils";
 
 type Props = {

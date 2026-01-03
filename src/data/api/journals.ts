@@ -1,5 +1,5 @@
 import qs from "qs";
-import type { Journal } from "@/lib/types";
+import type { Journal } from "@/types/strapi";
 import { baseAPIUrl, fetchData } from "./base";
 
 export async function getJournals(): Promise<Journal[]> {

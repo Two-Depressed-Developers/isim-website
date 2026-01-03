@@ -1,5 +1,5 @@
 import qs from "qs";
-import type { ResearchOffer } from "@/lib/types";
+import type { ResearchOffer } from "@/types/strapi";
 import { baseAPIUrl, fetchData } from "./base";
 
 export async function getResearchOffers(): Promise<ResearchOffer[]> {

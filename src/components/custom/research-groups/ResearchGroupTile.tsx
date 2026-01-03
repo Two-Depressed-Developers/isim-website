@@ -1,4 +1,4 @@
-import { Group } from "@/lib/types";
+import { Group } from "@/types/strapi";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight, ExternalLink, Microscope, Users } from "lucide-react";
 import Link from "next/link";

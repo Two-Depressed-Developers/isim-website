@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getStrapiURL, flattenAttributes } from "@/lib/utils";
-import type { ConsultationBooking } from "@/lib/types";
+import type { ConsultationBooking } from "@/types/strapi";
 import qs from "qs";
 import axios from "axios";
 import crypto from "crypto";

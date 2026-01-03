@@ -1,4 +1,4 @@
-import type { FooterData, HeaderData, Page } from "@/lib/types";
+import type { FooterData, HeaderData, Page } from "@/types/strapi";
 import qs from "qs";
 import { fetchData } from "./api/base";
 import { getStrapiURL } from "@/lib/utils";

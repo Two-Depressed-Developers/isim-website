@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import CustomLink from "@/components/CustomLink";
 
 import { cn } from "@/lib/utils";
-import type { MemberData } from "@/lib/types";
+import type { MemberData } from "@/types/strapi";
 
 interface MemberMainInfoCardProps {
   member: MemberData;

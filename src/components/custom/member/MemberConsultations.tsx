@@ -50,7 +50,7 @@ import {
 
 import { consultationBookingFormSchema } from "@/lib/schemas";
 import { useBookConsultation } from "@/data/queries/use-consultations";
-import type { MemberData } from "@/lib/types";
+import type { MemberData } from "@/types/strapi";
 
 type BookingFormData = z.infer<typeof consultationBookingFormSchema>;
 
@@ -159,7 +159,8 @@ const MemberConsultations = ({ member, slug }: Props) => {
       });
 
       toast.success("Prośba o konsultację została wysłana!", {
-        description: "Sprawdź swoją skrzynkę email i potwierdź rezerwację klikając w link weryfikacyjny.",
+        description:
+          "Sprawdź swoją skrzynkę email i potwierdź rezerwację klikając w link weryfikacyjny.",
         duration: 8000,
       });
 

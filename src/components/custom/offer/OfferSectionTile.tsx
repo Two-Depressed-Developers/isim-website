@@ -1,4 +1,4 @@
-import { OfferSection } from "@/lib/types";
+import { OfferSection } from "@/types/strapi";
 import { Check, CheckCircle } from "lucide-react";
 
 type Props = {

@@ -1,8 +1,9 @@
 import qs from "qs";
 import axios from "axios";
-import type { MemberData } from "@/lib/types";
+import type { MemberData } from "@/types/strapi";
 import { fetchData, baseAPIUrl, api } from "./base";
 import { flattenAttributes } from "@/lib/utils";
+import { API_ITEM_KEYS } from "@/consts/common";
 
 export async function getMemberData(slug: string): Promise<MemberData> {
   const url = new URL(`/api/members`, baseAPIUrl);
@@ -48,8 +49,7 @@ export async function getMemberData(slug: string): Promise<MemberData> {
 }
 
 export async function getMemberSchema(): Promise<Record<string, unknown>> {
-  const contentTypeId = "api::member.member";
-  const url = new URL(`/api/schemas/${contentTypeId}`, baseAPIUrl);
+  const url = new URL(`/api/schemas/${API_ITEM_KEYS.MEMBER}`, baseAPIUrl);
 
   return await fetchData(url.href);
 }

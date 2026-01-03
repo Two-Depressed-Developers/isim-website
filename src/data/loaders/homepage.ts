@@ -10,12 +10,12 @@ import {
   ComponentHomepageCollectionFeed,
   HomepageData,
   HomepageSection,
-} from "@/lib/types";
-
-const REVALIDATE_TIME = 60 * 5;
+  StrapiBaseItem,
+} from "@/types/strapi";
+import { LAYOUT_ITEM_COUNT, FIVE_MINUTES } from "@/consts/homepage";
 
 const getCachedHomepage = unstable_cache(getHomepage, ["homepage"], {
-  revalidate: REVALIDATE_TIME,
+  revalidate: FIVE_MINUTES,
   tags: ["homepage"],
 });
 
@@ -23,36 +23,30 @@ const getCachedResearchOffers = unstable_cache(
   getResearchOffers,
   ["research-offers"],
   {
-    revalidate: REVALIDATE_TIME,
+    revalidate: FIVE_MINUTES,
     tags: ["research-offers"],
   },
 );
 
 const getCachedGroups = unstable_cache(getGroupsData, ["groups"], {
-  revalidate: REVALIDATE_TIME,
+  revalidate: FIVE_MINUTES,
   tags: ["groups"],
 });
 
 const getCachedConferences = unstable_cache(getConferences, ["conferences"], {
-  revalidate: REVALIDATE_TIME,
+  revalidate: FIVE_MINUTES,
   tags: ["conferences"],
 });
 
 const getCachedCourses = unstable_cache(getCourses, ["courses"], {
-  revalidate: REVALIDATE_TIME,
+  revalidate: FIVE_MINUTES,
   tags: ["courses"],
 });
 
 const getCachedJournals = unstable_cache(getJournals, ["journals"], {
-  revalidate: REVALIDATE_TIME,
+  revalidate: FIVE_MINUTES,
   tags: ["journals"],
 });
-
-const LAYOUT_ITEM_COUNT: Record<CollectionLayout, number> = {
-  row_3: 3,
-  grid_2x2: 4,
-  list: 5,
-};
 
 function shuffleArray<T>(array: T[]): T[] {
   const shuffled = [...array];
@@ -67,27 +61,43 @@ function sortByNewest<T extends { createdAt?: string; publishedAt?: string }>(
   array: T[],
 ): T[] {
   return [...array].sort((a, b) => {
-    const dateA = new Date(a.publishedAt || a.createdAt || 0);
-    const dateB = new Date(b.publishedAt || b.createdAt || 0);
-    return dateB.getTime() - dateA.getTime();
+    const dateA = new Date(a.publishedAt || a.createdAt || 0).getTime();
+    const dateB = new Date(b.publishedAt || b.createdAt || 0).getTime();
+    return dateB - dateA;
   });
 }
 
-function processItems<T>(
+function processItems<T extends { createdAt?: string; publishedAt?: string }>(
   items: T[],
   selectionMode: "newest" | "random" | "manual",
   itemCount: number,
 ): T[] {
-  let processed = [...items];
-  if (selectionMode === "newest") {
-    processed = sortByNewest(
-      processed as (T & { createdAt?: string; publishedAt?: string })[],
-    ) as T[];
-  } else if (selectionMode === "random") {
-    processed = shuffleArray(processed);
+  switch (selectionMode) {
+    case "newest":
+      return sortByNewest(items).slice(0, itemCount);
+    case "random":
+      return shuffleArray(items).slice(0, itemCount);
+    default:
+      return items.slice(0, itemCount);
   }
-  return processed.slice(0, itemCount);
 }
+
+const SOURCE_CONFIG: Record<
+  string,
+  {
+    fetcher: () => Promise<StrapiBaseItem[]>;
+    key: keyof ComponentHomepageCollectionFeed;
+  }
+> = {
+  "research-offer": {
+    fetcher: getCachedResearchOffers,
+    key: "research_offers",
+  },
+  "research-group": { fetcher: getCachedGroups, key: "groups" },
+  conference: { fetcher: getCachedConferences, key: "conferences" },
+  course: { fetcher: getCachedCourses, key: "courses" },
+  journal: { fetcher: getCachedJournals, key: "journals" },
+};
 
 async function hydrateCollectionFeed(
   section: ComponentHomepageCollectionFeed,
@@ -106,44 +116,20 @@ async function hydrateCollectionFeed(
     };
   }
 
-  switch (sourceType) {
-    case "research-offer": {
-      const data = await getCachedResearchOffers();
-      return {
-        ...section,
-        research_offers: processItems(data, selectionMode, itemCount),
-      };
-    }
-    case "research-group": {
-      const data = await getCachedGroups();
-      return {
-        ...section,
-        groups: processItems(data, selectionMode, itemCount),
-      };
-    }
-    case "conference": {
-      const data = await getCachedConferences();
-      return {
-        ...section,
-        conferences: processItems(data, selectionMode, itemCount),
-      };
-    }
-    case "course": {
-      const data = await getCachedCourses();
-      return {
-        ...section,
-        courses: processItems(data, selectionMode, itemCount),
-      };
-    }
-    case "journal": {
-      const data = await getCachedJournals();
-      return {
-        ...section,
-        journals: processItems(data, selectionMode, itemCount),
-      };
-    }
-    default:
-      return section;
+  const config = SOURCE_CONFIG[sourceType as keyof typeof SOURCE_CONFIG];
+
+  if (!config) return section;
+
+  try {
+    const data = await config.fetcher();
+
+    return {
+      ...section,
+      [config.key]: processItems(data, selectionMode, itemCount),
+    };
+  } catch (error) {
+    console.error(`Błąd ładowania danych dla ${sourceType}:`, error);
+    return section;
   }
 }
 
@@ -156,15 +142,20 @@ async function hydrateSection(
   return section;
 }
 
-export async function loadHomepageData(): Promise<HomepageData> {
-  const homepage = await getCachedHomepage();
+export async function loadHomepageData(): Promise<HomepageData | null> {
+  try {
+    const homepage = await getCachedHomepage();
 
-  const hydratedSections = await Promise.all(
-    homepage.sections.map(hydrateSection),
-  );
+    const hydratedSections = await Promise.all(
+      homepage.sections.map(hydrateSection),
+    );
 
-  return {
-    ...homepage,
-    sections: hydratedSections,
-  };
+    return {
+      ...homepage,
+      sections: hydratedSections,
+    };
+  } catch (error) {
+    console.error("Błąd podczas ładowania danych strony głównej:", error);
+    return null;
+  }
 }

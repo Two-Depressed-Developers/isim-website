@@ -1,5 +1,5 @@
 import qs from "qs";
-import type { CalendarEvent } from "@/lib/types";
+import type { CalendarEvent } from "@/types/strapi";
 import { fetchData, baseAPIUrl } from "./base";
 
 export async function getCalendarEvents(): Promise<CalendarEvent[]> {

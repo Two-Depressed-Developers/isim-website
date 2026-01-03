@@ -3,7 +3,7 @@ import axios from "axios";
 import type {
   ConsultationBooking,
   ConsultationBookingFormData,
-} from "@/lib/types";
+} from "@/types/strapi";
 import { fetchData, baseAPIUrl, api } from "./base";
 import { flattenAttributes } from "@/lib/utils";
 

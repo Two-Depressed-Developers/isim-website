@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { useUpdateMember } from "@/data/queries/use-members";
-import { MemberData } from "@/lib/types";
+import { MemberData } from "@/types/strapi";
 import { Session } from "next-auth";
 import { toast } from "sonner";
 import { uploadFile } from "@/data/api/base";
@@ -17,6 +17,7 @@ import {
   extractDefaultValues,
   prepareDataForSubmission,
 } from "./Profile.utils";
+import { API_ITEM_KEYS } from "@/consts/common";
 
 type ProfileFormProps = {
   member: MemberData;
@@ -66,7 +67,7 @@ export default function Profile({ member, schema, session }: ProfileFormProps) {
     setIsUploadingPhoto(true);
     try {
       const uploadedFile = await uploadFile(file, session.accessToken, {
-        ref: "api::member.member",
+        ref: API_ITEM_KEYS.MEMBER,
         refId: String(member.id),
         field: "photo",
       });
@@ -81,7 +82,6 @@ export default function Profile({ member, schema, session }: ProfileFormProps) {
   };
 
   const handleUpdateFromSkos = async (fullName: string) => {
-
     if (!fullName) return;
 
     try {
@@ -113,7 +113,6 @@ export default function Profile({ member, schema, session }: ProfileFormProps) {
       toast.error("Wystąpił błąd podczas aktualizacji danych ze Skos.");
     }
   };
-
 
   const transformedSchema: FormSchema = useMemo(
     () => ({

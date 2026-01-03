@@ -1,5 +1,5 @@
 import { StrapiImage } from "@/components/StrapiImage";
-import { ImageLink } from "@/lib/types";
+import { ImageLink } from "@/types/strapi";
 import Image from "next/image";
 import Link from "next/link";
 

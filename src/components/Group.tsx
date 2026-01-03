@@ -13,7 +13,7 @@ import CustomLink from "./CustomLink";
 import { MemberRow } from "./MemberRow";
 import { ContactLink } from "./ContactLink";
 
-import { MemberData, type Group as GroupType } from "@/lib/types";
+import { MemberData, type Group as GroupType } from "@/types/strapi";
 import { cn } from "@/lib/utils";
 
 interface GroupProps {
@@ -26,7 +26,7 @@ const Group = (props: GroupProps) => {
 
   return (
     <div>
-      <div className="mb-4 flex items-center gap-2 text-4xl leading-[48px] text-primary">
+      <div className="text-primary mb-4 flex items-center gap-2 text-4xl leading-[48px]">
         <Dot />
         {props.group.siteLink ? (
           <CustomLink

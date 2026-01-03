@@ -1,6 +1,6 @@
 import qs from "qs";
 import axios from "axios";
-import type { Ticket, TicketFormData, TicketStatus } from "@/lib/types";
+import type { Ticket, TicketFormData, TicketStatus } from "@/types/strapi";
 import { fetchData, baseAPIUrl, api } from "./base";
 import { flattenAttributes } from "@/lib/utils";
 

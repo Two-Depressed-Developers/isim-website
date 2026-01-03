@@ -1,14 +1,14 @@
-import { ComponentHomepageSupervisors, Member } from "@/lib/types";
+import { Member } from "@/types/strapi";
 import { StrapiImage } from "@/components/StrapiImage";
 import CustomLink from "@/components/CustomLink";
 import { Separator } from "@/components/ui/separator";
 import { ContactLink } from "@/components/ContactLink";
 
 type Props = {
-  data: ComponentHomepageSupervisors;
+  member: Member;
 };
 
-function SupervisorCard({ member }: { member: Member }) {
+export default function SupervisorCard({ member }: Props) {
   return (
     <CustomLink
       href={`/staff-members/${member.slug}`}
@@ -50,21 +50,5 @@ function SupervisorCard({ member }: { member: Member }) {
         </div>
       </div>
     </CustomLink>
-  );
-}
-
-export default function SupervisorsSection({ data }: Props) {
-  return (
-    <section className="flex flex-col gap-y-4">
-      {data.title && <h2 className="text-3xl font-bold">{data.title}</h2>}
-      {data.description && (
-        <p className="mb-8 text-gray-600">{data.description}</p>
-      )}
-      <div className="grid gap-6 md:grid-cols-2">
-        {data.members?.map((member) => (
-          <SupervisorCard key={`member_${member.id}`} member={member} />
-        ))}
-      </div>
-    </section>
   );
 }

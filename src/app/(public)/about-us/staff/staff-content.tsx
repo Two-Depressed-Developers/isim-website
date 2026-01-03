@@ -8,7 +8,7 @@ import ActionBar from "@/components/ActionBar";
 
 import { useGroupsData } from "@/data/queries/use-groups";
 import { useDebounce } from "@/lib/hooks";
-import type { MemberData, Group as GroupType } from "@/lib/types";
+import type { MemberData, Group as GroupType } from "@/types/strapi";
 import PageTitle from "@/components/PageTitle";
 
 type SortingType = "position" | "team";

@@ -1,4 +1,4 @@
-import { FooterData } from "@/lib/types";
+import { FooterData } from "@/types/strapi";
 import FooterSection from "./custom/footer/FooterSection";
 import FooterUniversityLogo from "./custom/footer/FooterUniversityLogo";
 import FooterCopyright from "./custom/footer/FooterCopyright";

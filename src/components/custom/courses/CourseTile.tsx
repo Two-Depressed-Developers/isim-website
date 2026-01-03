@@ -1,4 +1,4 @@
-import { Course } from "@/lib/types";
+import { Course } from "@/types/strapi";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { BookOpen, Calendar, ExternalLink, GraduationCap } from "lucide-react";

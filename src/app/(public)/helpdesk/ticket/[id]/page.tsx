@@ -5,7 +5,7 @@ import { format } from "date-fns";
 import { pl } from "date-fns/locale";
 
 import { useTicketDetails } from "@/data/queries/use-tickets";
-import type { TicketStatus } from "@/lib/types";
+import type { TicketStatus } from "@/types/strapi";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";

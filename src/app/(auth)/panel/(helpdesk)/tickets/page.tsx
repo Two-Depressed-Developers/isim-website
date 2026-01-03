@@ -5,6 +5,7 @@ import { requireHelpdeskMember } from "@/lib/auth.utils";
 
 export default async function TicketsPage() {
   const session = await auth();
+  console.log(session);
   await requireHelpdeskMember();
 
   if (!session) {

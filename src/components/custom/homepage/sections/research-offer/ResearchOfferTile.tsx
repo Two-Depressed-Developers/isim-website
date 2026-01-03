@@ -1,5 +1,5 @@
 import OfferSectionTile from "@/components/custom/offer/OfferSectionTile";
-import { ResearchOffer } from "@/lib/types";
+import { ResearchOffer } from "@/types/strapi";
 import { Lightbulb } from "lucide-react";
 
 type Props = {
@@ -25,18 +25,15 @@ export default function ResearchOfferTile({ offer }: Props) {
         </div>
       </div>
       <div className="mt-2 grid grid-cols-2 gap-4">
-        {offer.offerSections &&
-          offer.offerSections.length > 0 &&
-          offer.offerSections.map(
-            (section, index) =>
-              index < 4 && (
-                <OfferSectionTile
-                  key={`section_${section.id}`}
-                  section={section}
-                  variant="compact"
-                />
-              ),
-          )}
+        {offer.offerSections
+          ?.slice(0, 4)
+          .map((section) => (
+            <OfferSectionTile
+              key={`section_${section.id}`}
+              section={section}
+              variant="compact"
+            />
+          ))}
       </div>
     </div>
   );

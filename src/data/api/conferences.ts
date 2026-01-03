@@ -1,5 +1,5 @@
 import qs from "qs";
-import type { Conference } from "@/lib/types";
+import type { Conference } from "@/types/strapi";
 import { baseAPIUrl, fetchData } from "./base";
 
 export async function getConferences(): Promise<Conference[]> {

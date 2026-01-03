@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
-import type { TicketStatus } from "@/lib/types";
 import { getEmailForDev } from "@/lib/utils";
 
 const resend = new Resend(process.env.RESEND_API_KEY);

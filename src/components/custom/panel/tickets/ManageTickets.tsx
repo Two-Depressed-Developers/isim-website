@@ -61,7 +61,7 @@ export default function ManageTickets({ session }: Props) {
           <CardTitle>Zarządzanie zgłoszeniami</CardTitle>
         </CardHeader>
         <CardContent>
-          <TicketList tickets={tickets} />
+          <TicketList tickets={tickets} session={session} />
         </CardContent>
       </Card>
     </div>

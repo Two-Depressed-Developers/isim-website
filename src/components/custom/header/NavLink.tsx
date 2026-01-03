@@ -1,4 +1,4 @@
-import { Link as LinkType } from "@/lib/types";
+import { Link as LinkType } from "@/types/strapi";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import SubLinksDropdown from "./SubLinksDropdown";

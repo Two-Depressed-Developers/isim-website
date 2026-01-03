@@ -1,4 +1,4 @@
-import { SimpleSection } from "@/lib/types";
+import { SimpleSection } from "@/types/strapi";
 import WhiteCard from "../WhiteCard";
 import { Separator } from "@/components/ui/separator";
 import ReactMarkdown from "react-markdown";

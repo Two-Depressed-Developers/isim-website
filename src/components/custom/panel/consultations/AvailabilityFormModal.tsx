@@ -28,7 +28,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
-import { ConsultationAvailability } from "@/lib/types";
+import { ConsultationAvailability } from "@/types/strapi";
 
 const DAYS_OF_WEEK = [
   { value: "monday", label: "Poniedziałek" },
@@ -38,32 +38,43 @@ const DAYS_OF_WEEK = [
   { value: "friday", label: "Piątek" },
 ] as const;
 
-const itemSchema = z.object({
-  id: z.number().optional(),
-  documentId: z.string().optional(),
-  dayOfWeek: z.enum([
-    "monday",
-    "tuesday",
-    "wednesday",
-    "thursday",
-    "friday",
-    "saturday",
-    "sunday",
-  ]),
-  startTime: z.string().nonempty("Pole wymagane").regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, "HH:mm"),
-  endTime: z.string().nonempty("Pole wymagane").regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, "HH:mm"),
-  durationMinutes: z.coerce.number().min(1, "Musi być > 0"),
-  isActive: z.boolean(),
-}).refine((data) => {
-  const [startHour, startMin] = data.startTime.split(":").map(Number);
-  const [endHour, endMin] = data.endTime.split(":").map(Number);
-  const startTotal = startHour * 60 + startMin;
-  const endTotal = endHour * 60 + endMin;
-  return endTotal > startTotal;
-}, {
-  message: "Godzina zakończenia musi być po godzinie rozpoczęcia",
-  path: ["endTime"],
-});
+const itemSchema = z
+  .object({
+    id: z.number().optional(),
+    documentId: z.string().optional(),
+    dayOfWeek: z.enum([
+      "monday",
+      "tuesday",
+      "wednesday",
+      "thursday",
+      "friday",
+      "saturday",
+      "sunday",
+    ]),
+    startTime: z
+      .string()
+      .nonempty("Pole wymagane")
+      .regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, "HH:mm"),
+    endTime: z
+      .string()
+      .nonempty("Pole wymagane")
+      .regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, "HH:mm"),
+    durationMinutes: z.coerce.number().min(1, "Musi być > 0"),
+    isActive: z.boolean(),
+  })
+  .refine(
+    (data) => {
+      const [startHour, startMin] = data.startTime.split(":").map(Number);
+      const [endHour, endMin] = data.endTime.split(":").map(Number);
+      const startTotal = startHour * 60 + startMin;
+      const endTotal = endHour * 60 + endMin;
+      return endTotal > startTotal;
+    },
+    {
+      message: "Godzina zakończenia musi być po godzinie rozpoczęcia",
+      path: ["endTime"],
+    },
+  );
 
 type FormValues = z.infer<typeof itemSchema>;
 
@@ -72,7 +83,7 @@ type Props = {
   onOpenChange: (open: boolean) => void;
   initialData?: Partial<ConsultationAvailability> | null;
   onSubmit: (data: FormValues) => void;
-}
+};
 
 export function AvailabilityFormModal({
   open,
@@ -183,8 +194,10 @@ export function AvailabilityFormModal({
               control={form.control}
               name="isActive"
               render={({ field }) => (
-                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4 space-y-0">
-                  <FormLabel className="text-base cursor-pointer">Aktywny</FormLabel>
+                <FormItem className="flex flex-row items-center justify-between space-y-0 rounded-lg border p-4">
+                  <FormLabel className="cursor-pointer text-base">
+                    Aktywny
+                  </FormLabel>
                   <FormControl>
                     <Switch
                       checked={field.value}

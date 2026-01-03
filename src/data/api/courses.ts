@@ -1,5 +1,5 @@
 import qs from "qs";
-import type { Course } from "@/lib/types";
+import type { Course } from "@/types/strapi";
 import { baseAPIUrl, fetchData } from "./base";
 
 export async function getCourses(): Promise<Course[]> {

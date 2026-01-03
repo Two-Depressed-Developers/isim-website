@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { ComponentHomepageHeroSlider } from "@/lib/types";
+import { ComponentHomepageHeroSlider } from "@/types/strapi";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { StrapiImage } from "@/components/StrapiImage";

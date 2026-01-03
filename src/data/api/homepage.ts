@@ -1,6 +1,7 @@
-import { HomepageData } from "@/lib/types";
+import { HomepageData } from "@/types/strapi";
 import { baseAPIUrl, fetchData } from "./base";
 import qs from "qs";
+import { API_ITEM_KEYS } from "@/consts/common";
 
 const HOMEPAGE_POPULATE = {
   sections: {
@@ -82,8 +83,10 @@ export const getHomepage = async () => {
 };
 
 export async function getHomepageSchema(): Promise<Record<string, unknown>> {
-  const contentTypeId = "api::homepage.homepage";
-  const url = new URL(`/api/schemas/deep/${contentTypeId}`, baseAPIUrl);
+  const url = new URL(
+    `/api/schemas/deep/${API_ITEM_KEYS.HOMEPAGE}`,
+    baseAPIUrl,
+  );
 
   return await fetchData(url.href);
 }

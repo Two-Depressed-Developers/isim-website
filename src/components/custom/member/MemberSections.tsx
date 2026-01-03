@@ -2,9 +2,9 @@ import { MemberSection, SimpleSection } from "@/types";
 import MemberResearch from "./MemberResearch";
 import MemberSimpleSection from "./MemberSimpleSection";
 
-interface MemberSectionsProps {
+type Props = {
   memberSections?: MemberSection[];
-}
+};
 
 function blockRenderer(block: MemberSection) {
   switch (block.__component) {
@@ -17,7 +17,7 @@ function blockRenderer(block: MemberSection) {
   }
 }
 
-const MemberSections = ({ memberSections }: MemberSectionsProps) => {
+const MemberSections = ({ memberSections }: Props) => {
   if (!memberSections) return null;
 
   return (

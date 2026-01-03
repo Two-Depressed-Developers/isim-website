@@ -19,14 +19,14 @@ import {
 import { generateZodSchema } from "./DynamicForm.utils";
 import type { FieldValues } from "react-hook-form";
 
-interface DynamicFormProps {
+type DynamicFormProps = {
   schema: FormSchema;
   onSubmit: (data: FieldValues) => Promise<void>;
   initialData?: FieldValues;
   isLoading?: boolean;
   onPhotoUpload?: (file: File) => Promise<{ id: number; url: string }>;
   onUpdateFromSkos?: (fullName: string) => Promise<void>;
-}
+};
 
 const SKIPPED_FIELDS = new Set([
   "sections",

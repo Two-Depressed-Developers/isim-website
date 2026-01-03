@@ -1,10 +1,10 @@
 import Link, { LinkProps } from "next/link";
 
-interface CustomLinkProps extends LinkProps {
+type Props = LinkProps & {
   isExternal: boolean;
   children: React.ReactNode;
   className?: string;
-}
+};
 
 const isValidUrl = (url: string): boolean => {
   try {
@@ -15,7 +15,7 @@ const isValidUrl = (url: string): boolean => {
   }
 };
 
-export default function CustomLink(props: CustomLinkProps) {
+export default function CustomLink(props: Props) {
   const { href, isExternal, className, ...rest } = props;
 
   const sanitizedHref =

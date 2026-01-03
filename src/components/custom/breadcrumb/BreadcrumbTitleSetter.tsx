@@ -3,16 +3,16 @@
 import { useEffect } from "react";
 import { useBreadcrumbs } from "@/context/BreadcrumbsContext";
 
-interface BreadcrumbTitleSetterProps {
+type Props = {
   title: string;
-}
+};
 
-export function BreadcrumbTitleSetter({ title }: BreadcrumbTitleSetterProps) {
+export function BreadcrumbTitleSetter({ title }: Props) {
   const { setTitle } = useBreadcrumbs();
 
   useEffect(() => {
     setTitle(title);
-  }, [title, setTitle]); 
+  }, [title, setTitle]);
 
   return null;
 }

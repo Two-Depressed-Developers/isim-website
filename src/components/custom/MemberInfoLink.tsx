@@ -1,11 +1,11 @@
 export type InfoLinkTypes = "Email" | "Phone" | "Room";
 
-interface MemberInfoLinkProps {
+type Props = {
   type: InfoLinkTypes;
   value: string;
-}
+};
 
-const MemberInfoLink = (props: MemberInfoLinkProps) => {
+const MemberInfoLink = (props: Props) => {
   const getActionToRender = () => {
     switch (props.type) {
       case "Email":

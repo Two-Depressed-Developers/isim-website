@@ -16,12 +16,12 @@ import { ContactLink } from "./ContactLink";
 import { MemberData, type Group as GroupType } from "@/types";
 import { cn } from "@/lib/utils";
 
-interface GroupProps {
+type Props = {
   group: GroupType;
   layout: "grid" | "details" | "list";
-}
+};
 
-const Group = (props: GroupProps) => {
+const Group = (props: Props) => {
   const { name, siteLink, members } = props.group;
 
   return (

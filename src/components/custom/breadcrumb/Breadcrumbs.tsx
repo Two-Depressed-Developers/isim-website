@@ -16,10 +16,10 @@ import React from "react";
 import type { Breadcumb } from "./Beadcrumb.types";
 import Link from "next/link";
 
-interface BreadcrumbsProps {
+type Props = {
   className?: string;
   pagesData?: Page[];
-}
+};
 
 function generateBreadcrumbItems(path: string, pages: Page[]): Breadcumb[] {
   const breadcrumbs: Breadcumb[] = [];
@@ -49,7 +49,7 @@ function generateBreadcrumbItems(path: string, pages: Page[]): Breadcumb[] {
 
 const pathWithoutBreadcrumbs = ["/", "/login"];
 
-const Breadcrumbs = ({ className, pagesData }: BreadcrumbsProps) => {
+const Breadcrumbs = ({ className, pagesData }: Props) => {
   const { title } = useBreadcrumbs();
   const path = usePathname();
 

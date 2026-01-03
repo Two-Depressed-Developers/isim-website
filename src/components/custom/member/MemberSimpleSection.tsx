@@ -4,11 +4,11 @@ import { Separator } from "@/components/ui/separator";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
-interface MemberSimpleSectionsProps {
+type Props = {
   sectionData?: SimpleSection;
-}
+};
 
-const MemberSimpleSection = ({ sectionData }: MemberSimpleSectionsProps) => {
+const MemberSimpleSection = ({ sectionData }: Props) => {
   if (!sectionData) return null;
 
   return (

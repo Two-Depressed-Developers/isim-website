@@ -9,12 +9,12 @@ import CustomLink from "@/components/CustomLink";
 import { cn } from "@/lib/utils";
 import type { MemberData } from "@/types";
 
-interface MemberMainInfoCardProps {
+type Props = {
   member: MemberData;
   className?: string;
-}
+};
 
-const MemberMainInfoCard = ({ member, className }: MemberMainInfoCardProps) => {
+const MemberMainInfoCard = ({ member, className }: Props) => {
   const buttonLinks = [
     {
       data: member.PortfolioLink,

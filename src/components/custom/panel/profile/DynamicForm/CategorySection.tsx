@@ -1,4 +1,9 @@
-import type { Control, ControllerRenderProps, FieldValues, Path } from "react-hook-form";
+import type {
+  Control,
+  ControllerRenderProps,
+  FieldValues,
+  Path,
+} from "react-hook-form";
 
 import {
   Card,
@@ -18,7 +23,7 @@ import { FieldComponents } from "./DynamicForm.components";
 import { FIELD_CATEGORIES } from "./DynamicForm.config";
 import { VisibleFormField } from "./DynamicForm.types";
 
-type CategorySectionProps = {
+type Props = {
   categoryKey: string;
   fields: VisibleFormField[];
   control: Control<FieldValues>;
@@ -30,12 +35,15 @@ export default function CategorySection({
   fields,
   control,
   onPhotoUpload,
-}: CategorySectionProps) {
+}: Props) {
   const config = FIELD_CATEGORIES[categoryKey];
 
   if (!config || fields.length === 0) return null;
 
-  const renderFormControl = (field: VisibleFormField, formField: ControllerRenderProps<FieldValues>) => {
+  const renderFormControl = (
+    field: VisibleFormField,
+    formField: ControllerRenderProps<FieldValues>,
+  ) => {
     const Component =
       FieldComponents[field.component as keyof typeof FieldComponents] ||
       FieldComponents.Input;

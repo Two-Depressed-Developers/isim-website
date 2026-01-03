@@ -3,6 +3,7 @@ import axios from "axios";
 import type { MemberData, StrapiCollectionResponse } from "@/types";
 import { fetchData, baseAPIUrl } from "./base";
 import { flattenAttributes } from "@/lib/utils";
+import { StrapiFieldSchema } from "@/components/custom/panel/profile/DynamicForm/DynamicForm.utils";
 
 export async function getMemberData(slug: string): Promise<MemberData> {
   const url = new URL(`/api/members`, baseAPIUrl);
@@ -44,7 +45,9 @@ export async function getMemberData(slug: string): Promise<MemberData> {
   return response?.data?.[0] ?? ({ error: true } as MemberData);
 }
 
-export async function getMemberSchema(): Promise<Record<string, unknown>> {
+export async function getMemberSchema(): Promise<
+  Record<string, StrapiFieldSchema>
+> {
   const contentTypeId = "api::member.member";
   const url = new URL(`/api/schemas/${contentTypeId}`, baseAPIUrl);
 

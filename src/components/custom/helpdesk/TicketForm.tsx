@@ -23,11 +23,11 @@ import { Textarea } from "@/components/ui/textarea";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-type TicketFormProps = {
+type Props = {
   defaultEmail?: string;
 };
 
-export function TicketForm({ defaultEmail }: TicketFormProps) {
+export function TicketForm({ defaultEmail }: Props) {
   const submitTicketMutation = useSubmitTicket();
 
   const form = useForm<z.infer<typeof ticketFormSchema>>({

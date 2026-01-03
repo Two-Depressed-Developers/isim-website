@@ -13,19 +13,22 @@ import { getErrorMessage } from "@/lib/axios";
 
 import DynamicForm from "../DynamicForm/DynamicForm";
 import { FormSchema } from "../DynamicForm/DynamicForm.types";
-import { mapStrapiFieldToFormField, StrapiFieldSchema } from "../DynamicForm/DynamicForm.utils";
+import {
+  mapStrapiFieldToFormField,
+  StrapiFieldSchema,
+} from "../DynamicForm/DynamicForm.utils";
 import {
   extractDefaultValues,
   prepareDataForSubmission,
 } from "./Profile.utils";
 
-type ProfileFormProps = {
+type Props = {
   member: MemberData;
   schema: Record<string, StrapiFieldSchema>;
   session: Session;
 };
 
-export default function Profile({ member, schema, session }: ProfileFormProps) {
+export default function Profile({ member, schema, session }: Props) {
   const updateMutation = useUpdateMember(member.slug);
   const [isUploadingPhoto, setIsUploadingPhoto] = useState(false);
   const queryClient = useQueryClient();

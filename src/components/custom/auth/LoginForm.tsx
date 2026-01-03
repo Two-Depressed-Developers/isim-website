@@ -55,12 +55,12 @@ export function ErrorMessage({ code }: { code: string | null }) {
   );
 }
 
-type LoginFormProps = {
+type Props = {
   className?: string;
   errorCode?: string | null;
 };
 
-export function LoginForm({ errorCode, className }: LoginFormProps) {
+export function LoginForm({ errorCode, className }: Props) {
   const [submitting, setSubmitting] = useState(false);
 
   type LoginFormValues = z.infer<typeof loginFormSchema>;

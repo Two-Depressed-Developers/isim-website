@@ -3,7 +3,7 @@ import { getServerStrapiClient } from "@/lib/strapi-server";
 import { NextResponse } from "next/server";
 
 export async function POST() {
-  const _session = await verifySession();
+  await verifySession();
 
   try {
     const api = await getServerStrapiClient();

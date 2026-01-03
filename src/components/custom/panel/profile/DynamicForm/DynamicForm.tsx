@@ -19,7 +19,7 @@ import {
 import { generateZodSchema } from "./DynamicForm.utils";
 import type { FieldValues } from "react-hook-form";
 
-type DynamicFormProps = {
+type Props = {
   schema: FormSchema;
   onSubmit: (data: FieldValues) => Promise<void>;
   initialData?: FieldValues;
@@ -45,7 +45,7 @@ export default function DynamicForm({
   isLoading = false,
   onPhotoUpload,
   onUpdateFromSkos,
-}: DynamicFormProps) {
+}: Props) {
   const visibleFields = schema.fields
     .filter(isVisibleField)
     .filter(shouldShowField);

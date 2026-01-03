@@ -38,7 +38,7 @@ export default function ScrapeRequestPage() {
 
   const { mutate: requestScrape, isPending } = useScrapeRequest();
 
-  function onSync() {
+  const onSync = () => {
     if (!member || !member.fullName) {
       toast.error("Nie znaleziono danych profilowych.");
       return;
@@ -65,7 +65,7 @@ export default function ScrapeRequestPage() {
         toast.error("Wystąpił błąd podczas wysyłania zgłoszenia.");
       },
     });
-  }
+  };
 
   if (isLoadingMember) {
     return (

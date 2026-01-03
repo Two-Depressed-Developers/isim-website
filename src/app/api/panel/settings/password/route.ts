@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getServerStrapiClient } from "@/lib/strapi-server";
 import axios from "axios";
+import { verifySession } from "@/lib/auth.utils";
 
 type ErrorResponse = {
   error: string;
@@ -8,6 +9,8 @@ type ErrorResponse = {
 };
 
 export async function POST(req: Request) {
+  await verifySession();
+
   const body = await req.json();
   const { currentPassword, newPassword, confirmPassword } = body;
 

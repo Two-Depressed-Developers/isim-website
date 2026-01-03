@@ -4,27 +4,24 @@ import { useMemberData, useMemberSchema } from "@/data/queries/use-members";
 import Profile from "./Profile/Profile";
 import { Session } from "next-auth";
 
-type ProfilePageClientProps = {
+type Props = {
   slug: string;
   session: Session;
 };
 
-export default function ProfilePageClient({
-  slug,
-  session,
-}: ProfilePageClientProps) {
+export default function ProfilePageClient({ slug, session }: Props) {
   const {
     data: member,
-    isLoading: isMemberLoading,
-    error: memberError,
+    isPending: isMemberPending,
+    isError: isMemberError,
   } = useMemberData(slug);
   const {
     data: memberSchema,
-    isLoading: isSchemaLoading,
-    error: schemaError,
+    isPending: isSchemaPending,
+    isError: isSchemaError,
   } = useMemberSchema();
 
-  if (isMemberLoading || isSchemaLoading) {
+  if (isMemberPending || isSchemaPending) {
     return (
       <div className="flex flex-col items-center justify-center p-4">
         <div className="text-center">
@@ -35,23 +32,12 @@ export default function ProfilePageClient({
     );
   }
 
-  if (memberError || schemaError || member?.error || memberSchema?.error) {
+  if (isMemberError || isSchemaError) {
     return (
       <div className="flex flex-col items-center justify-center p-4">
         <h1 className="mb-4 text-2xl font-bold">Nie znaleziono profilu</h1>
         <p className="text-muted-foreground">
           Nie udało się załadować danych profilu dla tego użytkownika.
-        </p>
-      </div>
-    );
-  }
-
-  if (!member || !memberSchema) {
-    return (
-      <div className="flex flex-col items-center justify-center p-4">
-        <h1 className="mb-4 text-2xl font-bold">Nie znaleziono profilu</h1>
-        <p className="text-muted-foreground">
-          Brak danych profilu dla tego użytkownika.
         </p>
       </div>
     );

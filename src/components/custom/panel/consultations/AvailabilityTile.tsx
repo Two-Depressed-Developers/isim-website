@@ -4,7 +4,7 @@ import { Clock, Trash2, Edit2 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ConsultationAvailability } from "@/types/strapi";
+import { ConsultationAvailability } from "@/types";
 import { cn } from "@/lib/utils";
 
 type Props = {

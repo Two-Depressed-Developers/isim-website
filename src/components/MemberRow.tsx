@@ -1,8 +1,7 @@
 import { ContactLink } from "./ContactLink";
 import { StrapiImage } from "./StrapiImage";
 import { TableCell, TableRow } from "./ui/table";
-
-import { MemberData } from "@/types/strapi";
+import { MemberData } from "@/types";
 import { cn } from "@/lib/utils";
 
 export const MemberRow = ({

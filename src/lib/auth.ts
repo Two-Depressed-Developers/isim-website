@@ -52,7 +52,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             strapiToken: data.jwt,
             strapiUser: data.user,
           };
-        } catch (error) {
+        } catch {
           return null;
         }
       },
@@ -104,7 +104,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
     async session({ session, token }) {
       session.accessToken = token.accessToken as string;
-      session.user = token.user as any;
+      if (token.user) {
+        session.user = token.user as typeof session.user;
+      }
       return session;
     },
   },

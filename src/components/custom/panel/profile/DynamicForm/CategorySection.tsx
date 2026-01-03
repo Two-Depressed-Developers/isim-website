@@ -1,4 +1,9 @@
-import { Control } from "react-hook-form";
+import type {
+  Control,
+  ControllerRenderProps,
+  FieldValues,
+  Path,
+} from "react-hook-form";
 
 import {
   Card,
@@ -18,10 +23,10 @@ import { FieldComponents } from "./DynamicForm.components";
 import { FIELD_CATEGORIES } from "./DynamicForm.config";
 import { VisibleFormField } from "./DynamicForm.types";
 
-type CategorySectionProps = {
+type Props = {
   categoryKey: string;
   fields: VisibleFormField[];
-  control: Control<any>;
+  control: Control<FieldValues>;
   onPhotoUpload?: (file: File) => Promise<{ id: number; url: string }>;
 };
 
@@ -30,12 +35,15 @@ export default function CategorySection({
   fields,
   control,
   onPhotoUpload,
-}: CategorySectionProps) {
+}: Props) {
   const config = FIELD_CATEGORIES[categoryKey];
 
   if (!config || fields.length === 0) return null;
 
-  const renderFormControl = (field: VisibleFormField, formField: any) => {
+  const renderFormControl = (
+    field: VisibleFormField,
+    formField: ControllerRenderProps<FieldValues>,
+  ) => {
     const Component =
       FieldComponents[field.component as keyof typeof FieldComponents] ||
       FieldComponents.Input;
@@ -49,7 +57,7 @@ export default function CategorySection({
         <FormField
           key={field.name}
           control={control}
-          name={field.name}
+          name={field.name as Path<FieldValues>}
           render={({ field: formField }) => (
             <FormItem className="col-span-full">
               <FormLabel>{field.label}</FormLabel>
@@ -71,7 +79,7 @@ export default function CategorySection({
       <FormField
         key={field.name}
         control={control}
-        name={field.name}
+        name={field.name as Path<FieldValues>}
         render={({ field: formField }) => (
           <FormItem>
             <FormLabel>{field.label}</FormLabel>

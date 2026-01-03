@@ -4,7 +4,6 @@ import PublicationTile from "@/components/custom/conferences/PublicationTile";
 import { useConferences } from "@/data/queries/use-conferences";
 import { useJournals } from "@/data/queries/use-journals";
 import { BookOpen, CalendarDays, Loader2 } from "lucide-react";
-import Page from "../staff-members/[slug]/page";
 import PageTitle from "@/components/PageTitle";
 
 export default function ConferencesPage() {

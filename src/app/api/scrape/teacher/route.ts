@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
+import { getErrorMessage } from "@/lib/axios";
 
 export async function POST(req: NextRequest) {
   try {
@@ -10,7 +11,7 @@ export async function POST(req: NextRequest) {
       console.error("PYTHON_SERVICE_URL is not defined");
       return NextResponse.json(
         { error: "Internal Server Error: Service URL not configured" },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -21,21 +22,21 @@ export async function POST(req: NextRequest) {
         headers: {
           "Content-Type": "application/json",
         },
-      }
+      },
     );
 
     return NextResponse.json(response.data, { status: response.status });
-  } catch (error: any) {
-    console.error("Error proxing scrape request:", error.message);
+  } catch (error) {
+    console.error("Error proxing scrape request:", getErrorMessage(error));
     if (axios.isAxiosError(error)) {
-        return NextResponse.json(
-            error.response?.data || { error: "Upstream service error" },
-            { status: error.response?.status || 502 }
-        )
+      return NextResponse.json(
+        error.response?.data || { error: "Upstream service error" },
+        { status: error.response?.status || 502 },
+      );
     }
     return NextResponse.json(
       { error: "Internal Server Error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

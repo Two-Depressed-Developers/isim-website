@@ -2,29 +2,15 @@ import qs from "qs";
 import axios from "axios";
 import { fetchData, baseAPIUrl } from "./base";
 import { flattenAttributes } from "@/lib/utils";
+import type {
+  StrapiCollectionResponse,
+  DataProposal,
+  ScrapedDataItem,
+} from "@/types";
 
-export interface ScrapedDataItem {
-  url: string;
-  title: string;
-  source: string;
-  status: "pending" | "accepted" | "declined";
-  authors: string;
-  raw_data: Record<string, any>;
-  description: string;
-  institution: string | null;
-  confidenceScore: number;
-}
-
-export interface DataProposal {
-  id: number;
-  documentId: string;
-  scrapedData: ScrapedDataItem[];
-  member?: {
-    documentId: string;
-  };
-}
-
-export async function getDataProposals(memberDocumentId: string): Promise<DataProposal[]> {
+export async function getDataProposals(
+  memberDocumentId: string,
+): Promise<DataProposal[]> {
   const url = new URL("/api/data-proposals", baseAPIUrl);
 
   url.search = qs.stringify({
@@ -42,14 +28,16 @@ export async function getDataProposals(memberDocumentId: string): Promise<DataPr
     },
   });
 
-  const response = await fetchData(url.href);
+  const response = await fetchData<StrapiCollectionResponse<DataProposal>>(
+    url.href,
+  );
   return response?.data ?? [];
 }
 
 export async function updateDataProposal(
   documentId: string,
   data: { scrapedData: ScrapedDataItem[] },
-  accessToken: string
+  accessToken: string,
 ): Promise<DataProposal> {
   try {
     const response = await axios.put(
@@ -60,7 +48,7 @@ export async function updateDataProposal(
           Authorization: `Bearer ${accessToken}`,
           "Content-Type": "application/json",
         },
-      }
+      },
     );
 
     return flattenAttributes(response.data);

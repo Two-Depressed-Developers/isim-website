@@ -1,4 +1,4 @@
-import { CollectionLayout } from "@/types/strapi/homepage";
+import { CollectionLayout } from "@/types/homepage";
 
 export const LAYOUT_ITEM_COUNT: Record<CollectionLayout, number> = {
   row_3: 3,

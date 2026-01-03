@@ -17,7 +17,6 @@ import {
 } from "@/components/ui/form";
 import { toast } from "sonner";
 import { changePasswordSchema } from "@/lib/schemas";
-import { useStrapiClient } from "@/lib/strapi-client";
 import axios from "axios";
 
 type ErrorResponse = {
@@ -52,8 +51,13 @@ export default function NewPasswordForm() {
 
       toast.success("Hasło zmienione pomyślnie");
       form.reset();
-    } catch (error: any) {
-      const data = error?.response?.data as ErrorResponse | undefined;
+    } catch (error) {
+      if (!axios.isAxiosError(error)) {
+        toast.error("Coś poszło nie tak");
+        return;
+      }
+
+      const data = error.response?.data as ErrorResponse | undefined;
       const errorCode = data?.code;
       const errorMsg = data?.error || "Coś poszło nie tak";
 

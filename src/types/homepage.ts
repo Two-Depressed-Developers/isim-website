@@ -1,10 +1,7 @@
-import type { Image, Page, SimpleLink } from "./common";
-import type { Conference } from "./conference";
-import type { Course } from "./course";
-import type { Group } from "./group";
-import type { Journal } from "./journal";
-import type { Member } from "./member";
-import type { ResearchOffer } from "./offer";
+import { SimpleLink, Image, Page } from "./common";
+import { Conference, Course, Journal, ResearchOffer } from "./content";
+import { Group } from "./group";
+import { Member } from "./member";
 
 export type CollectionSourceType =
   | "research-offer"

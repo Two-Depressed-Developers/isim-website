@@ -1,4 +1,4 @@
-import { ComponentHomepageGroupItem } from "@/types/strapi";
+import { ComponentHomepageGroupItem } from "@/types";
 import { StrapiImage } from "@/components/StrapiImage";
 import CustomLink from "@/components/CustomLink";
 

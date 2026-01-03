@@ -12,13 +12,13 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Separator } from "@/components/ui/separator";
-import type { Link as LinkType } from "@/types/strapi";
+import type { Link as LinkType } from "@/types";
 
-type MobileMenuProps = {
+type Props = {
   links: LinkType[];
 };
 
-export function MobileMenu({ links }: MobileMenuProps) {
+export function MobileMenu({ links }: Props) {
   const [open, setOpen] = useState(false);
   const [expandedLinks, setExpandedLinks] = useState<Set<number>>(new Set());
 

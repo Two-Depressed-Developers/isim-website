@@ -1,4 +1,4 @@
-import { Member } from "@/types/strapi";
+import { Member } from "@/types";
 import { StrapiImage } from "@/components/StrapiImage";
 import CustomLink from "@/components/CustomLink";
 import { Separator } from "@/components/ui/separator";

@@ -104,7 +104,7 @@ export default function CalendarPage() {
       setCopied(true);
       toast.success("Link skopiowany do schowka");
       setTimeout(() => setCopied(false), 2000);
-    } catch (error) {
+    } catch {
       toast.error("Nie udało się skopiować linku");
     }
   };

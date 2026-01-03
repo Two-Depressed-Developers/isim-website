@@ -1,5 +1,5 @@
 import qs from "qs";
-import type { Conference } from "@/types/strapi";
+import type { Conference, StrapiCollectionResponse } from "@/types";
 import { baseAPIUrl, fetchData } from "./base";
 
 export async function getConferences(): Promise<Conference[]> {
@@ -16,7 +16,9 @@ export async function getConferences(): Promise<Conference[]> {
     },
   });
 
-  const response = await fetchData(url.href);
+  const response = await fetchData<StrapiCollectionResponse<Conference>>(
+    url.href,
+  );
 
   return response?.data ?? [];
 }

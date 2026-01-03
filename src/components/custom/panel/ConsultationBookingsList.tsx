@@ -24,7 +24,7 @@ import {
   useUpdateConsultationBookingStatus,
 } from "@/data/queries/use-consultations";
 import { useMemberData } from "@/data/queries/use-members";
-import type { ConsultationBooking } from "@/types/strapi";
+import type { ConsultationBooking } from "@/types";
 
 type Props = {
   memberSlug: string;
@@ -80,7 +80,7 @@ type ContentProps = {
   memberDocumentId: string;
   memberFullName: string;
   memberRoom?: string;
-  session: any;
+  session: { accessToken?: string } | null;
 };
 
 function ConsultationBookingsContent({
@@ -153,7 +153,7 @@ function ConsultationBookingsContent({
           ? "Konsultacja zaakceptowana i email wysłany"
           : "Konsultacja odrzucona i email wysłany",
       );
-    } catch (error) {
+    } catch {
       toast.error("Wystąpił błąd podczas aktualizacji statusu");
     } finally {
       setProcessingId(null);

@@ -42,7 +42,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ) => {
     const inputRef = React.useRef<HTMLInputElement>(null);
 
-    React.useImperativeHandle(ref, () => inputRef.current!);
+    React.useImperativeHandle(ref, () => inputRef.current!, []);
 
     const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
       if (e.target !== inputRef.current) {
@@ -55,6 +55,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       <div
         className={cn(inputVariants({ variant, rounded }), className)}
         onMouseDown={handleMouseDown}
+        aria-invalid={props["aria-invalid"]}
       >
         {startContent && (
           <span className="text-muted-foreground pointer-events-none flex items-center">

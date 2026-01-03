@@ -1,6 +1,6 @@
 "use client";
 
-import type { TicketStatus } from "@/types/strapi";
+import type { TicketStatus } from "@/types";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -12,7 +12,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 
-type StatusUpdateModalProps = {
+type Props = {
   isOpen: boolean;
   onClose: () => void;
   onConfirm: () => void;
@@ -36,7 +36,7 @@ export function StatusUpdateModal({
   currentStatus,
   newStatus,
   isLoading = false,
-}: StatusUpdateModalProps) {
+}: Props) {
   return (
     <AlertDialog open={isOpen} onOpenChange={onClose}>
       <AlertDialogContent>

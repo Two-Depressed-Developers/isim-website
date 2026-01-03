@@ -1,9 +1,19 @@
-import type { FooterData, HeaderData, Page } from "@/types/strapi";
+import type { FooterData, HeaderData, Page } from "@/types";
 import qs from "qs";
 import { fetchData } from "./api/base";
 import { getStrapiURL } from "@/lib/utils";
 
 const baseAPIUrl = getStrapiURL();
+
+type GlobalPageResponse = {
+  header?: HeaderData;
+  footer?: FooterData;
+  error?: boolean;
+};
+
+type PagesResponse = {
+  data: Page[];
+};
 
 const getHardcodedHeaderData = (): HeaderData => {
   return {
@@ -188,13 +198,12 @@ export async function getHeaderData() {
   url.search = qs.stringify({ populate: populateOptions });
 
   try {
-    const data = await fetchData(url.href);
-    if (!data || data.error || !data.header) {
+    const data = await fetchData<GlobalPageResponse>(url.href);
+    if (!data?.header) {
       return getHardcodedHeaderData();
     }
-    return data.header as HeaderData;
-  } catch (error) {
-    console.error("Failed to fetch header data:", error);
+    return data.header;
+  } catch {
     return getHardcodedHeaderData();
   }
 }
@@ -233,13 +242,12 @@ export async function getFooterData() {
   url.search = qs.stringify({ populate: populateOptions });
 
   try {
-    const data = await fetchData(url.href);
-    if (!data || data.error || !data.footer) {
+    const data = await fetchData<GlobalPageResponse>(url.href);
+    if (!data?.footer) {
       return getHardcodedFooterData();
     }
-    return data.footer as FooterData;
-  } catch (error) {
-    console.error("Failed to fetch footer data:", error);
+    return data.footer;
+  } catch {
     return getHardcodedFooterData();
   }
 }
@@ -255,7 +263,7 @@ export async function getPagesData() {
     populate: populateOptions,
   });
 
-  const response = await fetchData(url.href);
+  const response = await fetchData<PagesResponse>(url.href);
 
-  return response.data as Page[];
+  return response.data;
 }

@@ -3,7 +3,8 @@ import axios from "axios";
 import type {
   ConsultationBooking,
   ConsultationBookingFormData,
-} from "@/types/strapi";
+  StrapiCollectionResponse,
+} from "@/types";
 import { fetchData, baseAPIUrl, api } from "./base";
 import { flattenAttributes } from "@/lib/utils";
 
@@ -76,7 +77,10 @@ export async function getMemberConsultationBookings(
       },
     });
 
-    const response = await fetchData(url.href);
+    const response = await fetchData<
+      StrapiCollectionResponse<ConsultationBooking>
+    >(url.href);
+
     return response?.data ?? [];
   } catch (error) {
     console.error("Error fetching consultation bookings:", error);

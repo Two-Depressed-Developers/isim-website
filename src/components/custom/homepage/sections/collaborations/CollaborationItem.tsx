@@ -1,4 +1,4 @@
-import { ComponentHomepageCollaborationItem } from "@/types/strapi";
+import { ComponentHomepageCollaborationItem } from "@/types";
 import { StrapiImage } from "@/components/StrapiImage";
 import CustomLink from "@/components/CustomLink";
 import { ExternalLink } from "lucide-react";

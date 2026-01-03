@@ -10,12 +10,11 @@ import { CheckCircle2, XCircle, Loader2 } from "lucide-react";
 export default function VerifyConsultationPage() {
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
-  const { data, isLoading, isError, error } =
-    useVerifyConsultationBooking(token);
+  const { data, isPending, isError } = useVerifyConsultationBooking(token);
 
   const getState = () => {
     if (!token) return "error";
-    if (isLoading) return "verifying";
+    if (isPending) return "verifying";
     if (isError) return "error";
     if (data?.success) return "success";
     return "error";
@@ -23,14 +22,11 @@ export default function VerifyConsultationPage() {
 
   const getMessage = () => {
     if (!token) return "Brak tokenu weryfikacyjnego.";
-    if (isLoading) return "";
+    if (isPending) return "";
     if (data?.success)
       return "Rezerwacja konsultacji została potwierdzona pomyślnie! Powiadomiliśmy prowadzącego - otrzymasz wiadomość email z potwierdzeniem lub odmową konsultacji.";
-    if (isError && error instanceof Error) {
-      return (
-        (error as any).response?.data?.error ||
-        "Wystąpił błąd podczas weryfikacji."
-      );
+    if (isError) {
+      return "Wystąpił błąd podczas weryfikacji.";
     }
     return data?.error || "Wystąpił błąd podczas weryfikacji.";
   };

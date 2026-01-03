@@ -1,7 +1,7 @@
 "use client";
 
 import HeroSlider from "./sections/HeroSlider";
-import { HomepageData, HomepageSection } from "@/types/strapi";
+import { HomepageData, HomepageSection } from "@/types";
 import SupervisorsSection from "./sections/supervisors/SupervisorsSection";
 import CollaborationsSection from "./sections/collaborations/CollaborationsSection";
 import StudentGroupsSection from "./sections/student-groups/StudentGroupsSection";

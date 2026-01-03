@@ -1,15 +1,15 @@
-import { Link as LinkType } from "@/types/strapi";
+import { Link as LinkType } from "@/types";
 import Link from "next/link";
 import path from "path";
 
-interface subLinksDropdownProps {
+type Props = {
   subLinks: LinkType[];
   baseUrl: string;
-}
+};
 
-const SubLinksDropdown = ({ subLinks, baseUrl }: subLinksDropdownProps) => {
+const SubLinksDropdown = ({ subLinks, baseUrl }: Props) => {
   return (
-    <div className="pointer-events-none invisible absolute left-1/2 z-10 flex w-fit -translate-x-1/2 translate-y-2 flex-col overflow-hidden rounded-lg bg-white opacity-0 shadow-md transition-all duration-100 ease-out group-hover:pointer-events-auto group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
+    <div className="pointer-events-none invisible absolute left-1/2 flex w-fit -translate-x-1/2 translate-y-2 flex-col overflow-hidden rounded-lg bg-white opacity-0 shadow-md transition-all duration-100 ease-out group-hover:pointer-events-auto group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
       {subLinks.map((subLink) => {
         const subUrl = path.join(
           "/",

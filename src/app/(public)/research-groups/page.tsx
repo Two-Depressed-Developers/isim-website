@@ -1,6 +1,6 @@
 "use client";
 
-import { Loader2, Search } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { useGroupsData } from "@/data/queries/use-groups";
 import ResearchGroupTile from "@/components/custom/research-groups/ResearchGroupTile";
 import PageTitle from "@/components/PageTitle";

@@ -1,5 +1,5 @@
 import OfferSectionTile from "@/components/custom/offer/OfferSectionTile";
-import { ResearchOffer } from "@/types/strapi";
+import { ResearchOffer } from "@/types";
 import { Lightbulb } from "lucide-react";
 
 type Props = {

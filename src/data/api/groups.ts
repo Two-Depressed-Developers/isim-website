@@ -1,6 +1,6 @@
 import qs from "qs";
-import type { Group } from "@/types/strapi";
-import { fetchData, baseAPIUrl, api } from "./base";
+import type { Group, StrapiCollectionResponse } from "@/types";
+import { fetchData, baseAPIUrl } from "./base";
 
 export async function getGroupsData(): Promise<Group[]> {
   const url = new URL("/api/groups", baseAPIUrl);
@@ -32,6 +32,6 @@ export async function getGroupsData(): Promise<Group[]> {
     },
   });
 
-  const response = await fetchData(url.href);
+  const response = await fetchData<StrapiCollectionResponse<Group>>(url.href);
   return response?.data ?? [];
 }

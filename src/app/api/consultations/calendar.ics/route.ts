@@ -1,11 +1,15 @@
 import { NextResponse } from "next/server";
-import { getStrapiURL, flattenAttributes } from "@/lib/utils";
-import type { ConsultationBooking } from "@/types/strapi";
+import { flattenAttributes } from "@/lib/utils";
+import { fetchData, api } from "@/data/api/base";
+import type {
+  ConsultationBooking,
+  Member,
+  StrapiCollectionResponse,
+  User,
+} from "@/types";
 import qs from "qs";
-import axios from "axios";
 import crypto from "crypto";
 
-const baseAPIUrl = getStrapiURL();
 const CALENDAR_SECRET =
   process.env.CALENDAR_SECRET || "default-secret-change-in-production";
 
@@ -83,14 +87,8 @@ function validateCalendarToken(token: string, userId: number): boolean {
   return token === expectedToken;
 }
 
-async function fetchData(url: string) {
-  const response = await axios.get(url);
-  return flattenAttributes(response.data);
-}
-
 async function getMemberData(slug: string) {
-  const url = new URL(`/api/members`, baseAPIUrl);
-  url.search = qs.stringify({
+  const query = qs.stringify({
     filters: {
       slug: {
         $eq: slug,
@@ -99,16 +97,16 @@ async function getMemberData(slug: string) {
     fields: ["documentId", "fullName"],
   });
 
-  const response = await fetchData(url.href);
+  const response = await fetchData<StrapiCollectionResponse<Member>>(
+    `/api/members?${query}`,
+  );
   return response?.data?.[0] ?? null;
 }
 
 async function getMemberConsultationBookings(
   memberDocumentId: string,
-): Promise<any[]> {
-  const url = new URL("/api/consultation-bookings", baseAPIUrl);
-
-  url.search = qs.stringify({
+): Promise<ConsultationBooking[]> {
+  const query = qs.stringify({
     filters: {
       member: {
         documentId: {
@@ -127,7 +125,9 @@ async function getMemberConsultationBookings(
     },
   });
 
-  const response = await fetchData(url.href);
+  const response = await fetchData<
+    StrapiCollectionResponse<ConsultationBooking>
+  >(`/api/consultation-bookings?${query}`);
   return response?.data ?? [];
 }
 
@@ -150,11 +150,11 @@ export async function GET(request: Request) {
       return new NextResponse("Invalid token", { status: 401 });
     }
 
-    const userResponse = await axios.get(
-      `${baseAPIUrl}/api/users/${userIdNum}?fields=memberProfileSlug`,
+    const userResponse = await api.get<User>(
+      `/api/users/${userIdNum}?fields=memberProfileSlug`,
     );
 
-    const user = flattenAttributes(userResponse.data);
+    const user = flattenAttributes<User>(userResponse.data);
     const memberSlug = user.memberProfileSlug;
 
     if (!memberSlug) {
@@ -178,7 +178,7 @@ export async function GET(request: Request) {
         "Cache-Control": "no-cache, no-store, must-revalidate",
       },
     });
-  } catch (error: any) {
+  } catch (error) {
     console.error("Error generating calendar feed:", error);
     return new NextResponse("Internal Server Error", { status: 500 });
   }

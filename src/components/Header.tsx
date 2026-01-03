@@ -1,5 +1,5 @@
 import { getHeaderData } from "@/data/layoutLoaders";
-import { HeaderData } from "@/types/strapi";
+import { HeaderData } from "@/types";
 import Link from "next/link";
 import { StrapiImage } from "./StrapiImage";
 import NavLink from "./custom/header/NavLink";

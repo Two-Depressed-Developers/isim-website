@@ -1,4 +1,4 @@
-import type { MemberData } from "@/types/strapi";
+import type { MemberData } from "@/types";
 import { getMemberData, getMemberSchema, updateMember } from "../api/members";
 import { queryKeys } from "../query-keys";
 import {

@@ -1,8 +1,7 @@
-import { Course } from "@/types/strapi";
+import { Course } from "@/types";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
-import { BookOpen, Calendar, ExternalLink, GraduationCap } from "lucide-react";
-import Link from "next/link";
+import { Calendar, ExternalLink, GraduationCap } from "lucide-react";
 import CustomLink from "@/components/CustomLink";
 
 type Props = {

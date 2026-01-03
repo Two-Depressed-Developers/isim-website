@@ -1,5 +1,5 @@
 import qs from "qs";
-import type { CalendarEvent } from "@/types/strapi";
+import type { CalendarEvent, StrapiCollectionResponse } from "@/types";
 import { fetchData, baseAPIUrl } from "./base";
 
 export async function getCalendarEvents(): Promise<CalendarEvent[]> {
@@ -13,7 +13,9 @@ export async function getCalendarEvents(): Promise<CalendarEvent[]> {
     populate: populateOptions,
   });
 
-  const response = await fetchData(url.href);
+  const response = await fetchData<StrapiCollectionResponse<CalendarEvent>>(
+    url.href,
+  );
 
-  return response?.data ?? [];
+  return response.data;
 }

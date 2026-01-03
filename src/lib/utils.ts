@@ -16,37 +16,38 @@ export function getStrapiMedia(url: string | null) {
   return `${getStrapiURL()}${url}`;
 }
 
-export function flattenAttributes(data: any): any {
+export function flattenAttributes<T = unknown>(data: unknown): T {
   if (
     typeof data !== "object" ||
     data === null ||
     data instanceof Date ||
     typeof data === "function"
   ) {
-    return data;
+    return data as T;
   }
 
   if (Array.isArray(data)) {
-    return data.map((item) => flattenAttributes(item));
+    return data.map((item) => flattenAttributes(item)) as T;
   }
 
-  const flattened: { [key: string]: any } = {};
+  const obj = data as Record<string, unknown>;
+  const flattened: Record<string, unknown> = {};
 
-  for (const key in data) {
-    if (!data.hasOwnProperty(key)) continue;
+  for (const key in obj) {
+    if (!Object.prototype.hasOwnProperty.call(obj, key)) continue;
 
     if (
       (key === "attributes" || key === "data") &&
-      typeof data[key] === "object" &&
-      !Array.isArray(data[key])
+      typeof obj[key] === "object" &&
+      !Array.isArray(obj[key])
     ) {
-      Object.assign(flattened, flattenAttributes(data[key]));
+      Object.assign(flattened, flattenAttributes(obj[key]));
     } else {
-      flattened[key] = flattenAttributes(data[key]);
+      flattened[key] = flattenAttributes(obj[key]);
     }
   }
 
-  return flattened;
+  return flattened as T;
 }
 
 export function getEmailForDev(email: string): string {

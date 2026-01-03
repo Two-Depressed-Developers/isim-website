@@ -9,11 +9,11 @@ import Link from "next/link";
 export default function VerifyTicketPage() {
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
-  const { data, isLoading, isError, error } = useVerifyTicket(token);
+  const { data, isPending, isError } = useVerifyTicket(token);
 
   const getState = () => {
     if (!token) return "error";
-    if (isLoading) return "verifying";
+    if (isPending) return "verifying";
     if (isError) return "error";
     if (data?.success) return "success";
     return "error";
@@ -21,14 +21,11 @@ export default function VerifyTicketPage() {
 
   const getMessage = () => {
     if (!token) return "Brak tokenu weryfikacyjnego.";
-    if (isLoading) return "";
+    if (isPending) return "";
     if (data?.success)
       return "Zgłoszenie zostało potwierdzone i utworzone pomyślnie!";
-    if (isError && error instanceof Error) {
-      return (
-        (error as any).response?.data?.error ||
-        "Wystąpił błąd podczas weryfikacji."
-      );
+    if (isError) {
+      return "Wystąpił błąd podczas weryfikacji.";
     }
     return data?.error || "Wystąpił błąd podczas weryfikacji.";
   };

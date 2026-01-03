@@ -1,4 +1,4 @@
-import { CollectionLayout } from "@/types/strapi";
+import { CollectionLayout } from "@/types";
 
 type LayoutProps = {
   children: React.ReactNode;

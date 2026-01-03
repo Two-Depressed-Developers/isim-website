@@ -1,4 +1,4 @@
-import { Page } from "@/types/strapi";
+import { Page } from "@/types";
 import { Separator } from "@/components/ui/separator";
 import CustomLink from "@/components/CustomLink";
 import { ExternalLink } from "lucide-react";

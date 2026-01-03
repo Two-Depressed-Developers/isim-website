@@ -1,6 +1,6 @@
 import type { IEvent } from "@/components/calendar/interfaces";
 import type { TEventColor } from "@/components/calendar/types";
-import type { CalendarEvent, ConsultationBooking } from "@/types/strapi";
+import type { CalendarEvent, ConsultationBooking } from "@/types";
 
 export function mapStrapiEventToCalendarEvent(
   strapiEvent: CalendarEvent,

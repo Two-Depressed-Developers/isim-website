@@ -1,10 +1,19 @@
+type ValidationRules = {
+  required?: boolean;
+  min?: number;
+  max?: number;
+  minLength?: number;
+  maxLength?: number;
+  pattern?: string;
+};
+
 export type BaseFormField = {
   name: string;
   label: string;
   type: string;
   component: string;
   description?: string;
-  validation?: any;
+  validation?: ValidationRules;
   options?: Array<{ label: string; value: string }>;
   multiple?: boolean;
   accept?: string;

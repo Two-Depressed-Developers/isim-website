@@ -92,10 +92,11 @@ export async function POST(request: Request) {
       success: true,
       messageId: data?.id,
     });
-  } catch (error: any) {
+  } catch (error) {
     console.error("Send verification error:", error);
+    const message = error instanceof Error ? error.message : "Wystąpił błąd";
     return NextResponse.json(
-      { success: false, error: error.message || "Wystąpił błąd" },
+      { success: false, error: message },
       { status: 500 },
     );
   }

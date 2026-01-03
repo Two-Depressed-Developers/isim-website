@@ -1,14 +1,14 @@
-import { MemberResearch as ResearchType } from "@/types/strapi";
+import { MemberResearch as ResearchType } from "@/types";
 import WhiteCard from "../WhiteCard";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import CustomLink from "@/components/CustomLink";
 
-interface MemberResearchProps {
+type Props = {
   researchData: ResearchType;
-}
+};
 
-const MemberResearch = ({ researchData }: MemberResearchProps) => {
+const MemberResearch = ({ researchData }: Props) => {
   const researchLinks = researchData
     ? [
         {

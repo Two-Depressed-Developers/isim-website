@@ -1,4 +1,4 @@
-import { HomepageData } from "@/types/strapi";
+import { HomepageData } from "@/types";
 import { baseAPIUrl, fetchData } from "./base";
 import qs from "qs";
 import { API_ITEM_KEYS } from "@/consts/common";

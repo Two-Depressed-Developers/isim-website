@@ -1,4 +1,4 @@
-import { ComponentHomepageCollaborations } from "@/types/strapi";
+import { ComponentHomepageCollaborations } from "@/types";
 import {
   Carousel,
   CarouselContent,

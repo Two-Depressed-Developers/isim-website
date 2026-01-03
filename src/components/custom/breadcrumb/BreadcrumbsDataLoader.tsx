@@ -1,14 +1,12 @@
 import { getPagesData } from "@/data/layoutLoaders";
-import type { Page } from "@/types/strapi";
+import type { Page } from "@/types";
 import Breadcrumbs from "./Breadcrumbs";
 
-interface BreadcrumbsDataLoaderProps {
+type Props = {
   className?: string;
-}
+};
 
-export default async function BreadcrumbsDataLoader({
-  className,
-}: BreadcrumbsDataLoaderProps) {
+export default async function BreadcrumbsDataLoader({ className }: Props) {
   const pagesData: Page[] = await getPagesData();
 
   return <Breadcrumbs className={className} pagesData={pagesData} />;

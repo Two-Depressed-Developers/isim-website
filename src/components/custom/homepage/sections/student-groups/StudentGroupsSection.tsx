@@ -1,4 +1,4 @@
-import { ComponentHomepageStudentGroups } from "@/types/strapi";
+import { ComponentHomepageStudentGroups } from "@/types";
 import SectionHeader from "../../SectionHeader";
 import StudentGroupCard from "./StudentGroupCard";
 

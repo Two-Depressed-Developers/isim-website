@@ -1,6 +1,7 @@
 import {
   boolean,
   coerce,
+  infer as zInfer,
   number,
   object,
   string,
@@ -149,3 +150,7 @@ export const consultationAvailabilitySchema = object({
     });
   }
 });
+
+export type ConsultationAvailabilityFormData = zInfer<
+  typeof consultationAvailabilitySchema
+>;

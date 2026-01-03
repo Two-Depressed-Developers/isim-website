@@ -1,12 +1,12 @@
 import { VisibleFormField } from "./DynamicForm.types";
 
-export interface CategoryConfig {
+export type CategoryConfig = {
   title: string;
   description: string;
   order: number;
   fields: string[];
   patterns?: string[];
-}
+};
 
 export const FIELD_CATEGORIES: Record<string, CategoryConfig> = {
   basic: {

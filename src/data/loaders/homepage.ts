@@ -11,7 +11,7 @@ import {
   HomepageData,
   HomepageSection,
   StrapiBaseItem,
-} from "@/types/strapi";
+} from "@/types";
 import { LAYOUT_ITEM_COUNT, FIVE_MINUTES } from "@/consts/homepage";
 
 const getCachedHomepage = unstable_cache(getHomepage, ["homepage"], {

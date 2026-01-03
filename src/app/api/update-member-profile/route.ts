@@ -7,10 +7,10 @@ export async function POST(req: NextRequest) {
     const { first_name, last_name, member_document_id } = body;
 
     if (!first_name || !last_name || !member_document_id) {
-        return NextResponse.json(
-            { error: "Missing required fields" },
-            { status: 400 }
-        );
+      return NextResponse.json(
+        { error: "Missing required fields" },
+        { status: 400 },
+      );
     }
 
     const pythonServiceUrl = process.env.PYTHON_SERVICE_URL;
@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
       console.error("PYTHON_SERVICE_URL is not defined");
       return NextResponse.json(
         { error: "Internal Server Error: Service URL not configured" },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -30,21 +30,22 @@ export async function POST(req: NextRequest) {
         headers: {
           "Content-Type": "application/json",
         },
-      }
+      },
     );
 
     return NextResponse.json(response.data, { status: response.status });
-  } catch (error: any) {
-    console.error("Error updating member profile:", error.message);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Unknown error";
+    console.error("Error updating member profile:", message);
     if (axios.isAxiosError(error)) {
-        return NextResponse.json(
-            error.response?.data || { error: "Upstream service error" },
-            { status: error.response?.status || 502 }
-        )
+      return NextResponse.json(
+        error.response?.data || { error: "Upstream service error" },
+        { status: error.response?.status || 502 },
+      );
     }
     return NextResponse.json(
       { error: "Internal Server Error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -1,4 +1,4 @@
-import { MemberData } from "@/types/strapi";
+import { MemberData } from "@/types";
 import { FormSchema, isVisibleField } from "../DynamicForm/DynamicForm.types";
 
 const EXCLUDED_FIELDS = new Set([

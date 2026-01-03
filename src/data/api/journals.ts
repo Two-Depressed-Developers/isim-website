@@ -1,5 +1,5 @@
 import qs from "qs";
-import type { Journal } from "@/types/strapi";
+import type { Journal, StrapiCollectionResponse } from "@/types";
 import { baseAPIUrl, fetchData } from "./base";
 
 export async function getJournals(): Promise<Journal[]> {
@@ -16,7 +16,7 @@ export async function getJournals(): Promise<Journal[]> {
     },
   });
 
-  const response = await fetchData(url.href);
+  const response = await fetchData<StrapiCollectionResponse<Journal>>(url.href);
 
   return response?.data ?? [];
 }

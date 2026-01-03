@@ -1,4 +1,4 @@
-import { ComponentHomepageSupervisors } from "@/types/strapi";
+import { ComponentHomepageSupervisors } from "@/types";
 import SectionHeader from "../../SectionHeader";
 import SupervisorCard from "./SupervisorCard";
 

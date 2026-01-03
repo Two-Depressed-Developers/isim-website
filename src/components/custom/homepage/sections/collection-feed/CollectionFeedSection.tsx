@@ -1,4 +1,4 @@
-import { ComponentHomepageCollectionFeed } from "@/types/strapi";
+import { ComponentHomepageCollectionFeed } from "@/types";
 import PublicationTile from "@/components/custom/conferences/PublicationTile";
 import CourseTile from "@/components/custom/courses/CourseTile";
 import ResearchGroupTile from "@/components/custom/research-groups/ResearchGroupTile";

@@ -2,7 +2,7 @@
 
 import { format, parseISO } from "date-fns";
 import { pl } from "date-fns/locale";
-import { Calendar, Clock, Text, User } from "lucide-react";
+import { Calendar, Clock, Text } from "lucide-react";
 import type { ReactNode } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";

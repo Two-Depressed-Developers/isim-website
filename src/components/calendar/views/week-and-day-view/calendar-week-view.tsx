@@ -15,7 +15,6 @@ import type { IEvent } from "@/components/calendar/interfaces";
 import { CalendarTimeline } from "@/components/calendar/views/week-and-day-view/calendar-time-line";
 import { RenderGroupedEvents } from "@/components/calendar/views/week-and-day-view/render-grouped-events";
 import { WeekViewMultiDayEventsRow } from "@/components/calendar/views/week-and-day-view/week-view-multi-day-events-row";
-import { AlertCircleIcon } from "lucide-react";
 
 interface IProps {
   singleDayEvents: IEvent[];

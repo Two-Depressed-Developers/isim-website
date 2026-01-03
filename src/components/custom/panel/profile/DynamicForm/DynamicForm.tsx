@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { useEffect } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -17,17 +17,22 @@ import {
   VisibleFormField,
 } from "./DynamicForm.types";
 import { generateZodSchema } from "./DynamicForm.utils";
+import type { FieldValues } from "react-hook-form";
 
 interface DynamicFormProps {
   schema: FormSchema;
-  onSubmit: (data: any) => Promise<void>;
-  initialData?: any;
+  onSubmit: (data: FieldValues) => Promise<void>;
+  initialData?: FieldValues;
   isLoading?: boolean;
   onPhotoUpload?: (file: File) => Promise<{ id: number; url: string }>;
   onUpdateFromSkos?: (fullName: string) => Promise<void>;
 }
 
-const SKIPPED_FIELDS = new Set(["sections", "slug", "consultationAvailability"]);
+const SKIPPED_FIELDS = new Set([
+  "sections",
+  "slug",
+  "consultationAvailability",
+]);
 
 const shouldShowField = (field: VisibleFormField): boolean => {
   return !SKIPPED_FIELDS.has(field.name);
@@ -56,7 +61,10 @@ export default function DynamicForm({
     form.reset(initialData);
   }, [initialData, form]);
 
-  const fullName = form.watch("fullName");
+  const fullName = useWatch({
+    control: form.control,
+    name: "fullName",
+  });
 
   const categorizedFields = groupFieldsByCategory(visibleFields);
   const sortedCategories = getSortedCategories(categorizedFields);

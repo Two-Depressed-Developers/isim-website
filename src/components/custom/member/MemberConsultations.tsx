@@ -37,7 +37,6 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import {
   Form,
@@ -53,7 +52,7 @@ import {
   useBookConsultation,
   useConsultationBookings,
 } from "@/data/queries/use-consultations";
-import type { MemberData } from "@/lib/types";
+import type { MemberData } from "@/types";
 
 type BookingFormData = z.infer<typeof consultationBookingFormSchema>;
 
@@ -201,7 +200,7 @@ const MemberConsultations = ({ member, slug }: Props) => {
       setIsDialogOpen(false);
       setSelectedSlot(null);
       form.reset();
-    } catch (error) {
+    } catch {
       toast.error("Wystąpił błąd", {
         description:
           "Nie udało się wysłać prośby o konsultację. Spróbuj ponownie.",

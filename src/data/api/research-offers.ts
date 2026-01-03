@@ -1,5 +1,5 @@
 import qs from "qs";
-import type { ResearchOffer } from "@/lib/types";
+import type { ResearchOffer, StrapiCollectionResponse } from "@/types";
 import { baseAPIUrl, fetchData } from "./base";
 
 export async function getResearchOffers(): Promise<ResearchOffer[]> {
@@ -15,7 +15,9 @@ export async function getResearchOffers(): Promise<ResearchOffer[]> {
     },
   });
 
-  const response = await fetchData(url.href);
+  const response = await fetchData<StrapiCollectionResponse<ResearchOffer>>(
+    url.href,
+  );
 
   return response?.data ?? [];
 }

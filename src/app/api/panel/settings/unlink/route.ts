@@ -3,7 +3,7 @@ import { getServerStrapiClient } from "@/lib/strapi-server";
 import { NextResponse } from "next/server";
 
 export async function POST() {
-  const session = await verifySession();
+  const _session = await verifySession();
 
   try {
     const api = await getServerStrapiClient();
@@ -18,7 +18,7 @@ export async function POST() {
     } else {
       return NextResponse.json({ success: true });
     }
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 },

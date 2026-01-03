@@ -132,13 +132,14 @@ export async function POST(request: Request) {
       },
       { status: 200 },
     );
-  } catch (error: any) {
-    console.error("Błąd podczas wysyłania emaila:", error.message);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Błąd podczas wysyłania emaila";
+    console.error("Błąd podczas wysyłania emaila:", message);
 
     return NextResponse.json(
       {
         success: false,
-        error: error.message || "Błąd podczas wysyłania emaila",
+        error: message,
       },
       { status: 500 },
     );

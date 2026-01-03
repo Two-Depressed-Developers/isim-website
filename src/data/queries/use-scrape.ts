@@ -2,5 +2,5 @@ import { createMutationHook } from "./types";
 import { requestScrape, ScrapeRequestPayload } from "../api/scrape";
 
 export function useScrapeRequest() {
-  return createMutationHook<any, ScrapeRequestPayload>(requestScrape)();
+  return createMutationHook<unknown, ScrapeRequestPayload>(requestScrape)();
 }

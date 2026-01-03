@@ -41,16 +41,11 @@ export function TicketForm({ defaultEmail }: TicketFormProps) {
 
   async function onSubmit(values: z.infer<typeof ticketFormSchema>) {
     submitTicketMutation.mutate(values, {
-      onSuccess: (result: any) => {
-        if (result.message) {
-          toast.success(result.message);
-        } else {
-          toast.success("Zgłoszenie zostało utworzone pomyślnie!");
-        }
+      onSuccess: (result) => {
+        toast.success(result.message);
         form.reset();
       },
-      onError: (error) => {
-        console.error("Błąd podczas tworzenia zgłoszenia:", error);
+      onError: () => {
         toast.error("Wystąpił błąd podczas tworzenia zgłoszenia");
       },
     });

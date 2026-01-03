@@ -8,7 +8,7 @@ import ActionBar from "@/components/ActionBar";
 
 import { useGroupsData } from "@/data/queries/use-groups";
 import { useDebounce } from "@/lib/hooks";
-import type { MemberData, Group as GroupType } from "@/lib/types";
+import type { MemberData, Group as GroupType } from "@/types";
 import PageTitle from "@/components/PageTitle";
 
 type SortingType = "position" | "team";
@@ -76,7 +76,7 @@ export default function StaffContent() {
 
   const debouncedQuery = useDebounce(search, 600);
 
-  const { data: groups, isLoading, error } = useGroupsData({ cache: true });
+  const { data: groups, isPending, isError } = useGroupsData({ cache: true });
 
   const sortedGroups = useMemo(() => {
     if (!groups) return null;
@@ -110,7 +110,7 @@ export default function StaffContent() {
       .filter(Boolean);
   }, [sortedGroups, debouncedQuery]);
 
-  if (isLoading) {
+  if (isPending) {
     return (
       <div className="mx-auto flex max-w-7xl flex-col items-center justify-center p-8">
         <p>Loading...</p>
@@ -118,7 +118,7 @@ export default function StaffContent() {
     );
   }
 
-  if (error) {
+  if (isError) {
     return (
       <div className="mx-auto flex max-w-7xl flex-col items-center justify-center p-8">
         <p>Error loading data</p>

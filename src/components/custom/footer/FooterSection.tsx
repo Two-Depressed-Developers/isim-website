@@ -1,5 +1,5 @@
 import { StrapiImage } from "@/components/StrapiImage";
-import { SimpleSection } from "@/lib/types";
+import { SimpleSection } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";

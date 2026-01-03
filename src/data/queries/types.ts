@@ -54,18 +54,17 @@ export function createQueryHook<TData>(
   };
 }
 
-export function createQueryHookWithParams<TData, TParams extends any[]>(
+export function createQueryHookWithParams<TData, TParams extends unknown[]>(
   queryKey: (...params: TParams) => QueryKey,
   queryFn: (...params: TParams) => Promise<TData>,
   defaultOptions?:
     | ((...params: TParams) => QueryOptions<TData>)
     | QueryOptions<TData>,
 ) {
-  return (...args: any[]) => {
+  return (...args: unknown[]) => {
     let params: TParams;
     let options: QueryOptions<TData> | undefined;
 
-    // Check if last argument looks like options object
     const lastArg = args[args.length - 1];
     const isOptions =
       lastArg !== null &&
@@ -155,10 +154,10 @@ export function createMutationHookWithInvalidation<TData, TVariables>(
         );
 
         if (userOnSuccess) {
-          (userOnSuccess as any)(...args);
+          (userOnSuccess as (...args: unknown[]) => void)(...args);
         }
         if (additionalOnSuccess) {
-          (additionalOnSuccess as any)(...args);
+          (additionalOnSuccess as (...args: unknown[]) => void)(...args);
         }
       },
     });

@@ -4,7 +4,9 @@ declare module "next-runtime-dotenv" {
     server?: string[];
   }
 
-  function withRuntimeDotenv(options: DotenvOptions): (config: any) => any;
+  function withRuntimeDotenv(
+    options: DotenvOptions,
+  ): (config: unknown) => unknown;
 
   export default withRuntimeDotenv;
 }

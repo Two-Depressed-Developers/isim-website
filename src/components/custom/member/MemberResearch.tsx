@@ -1,4 +1,4 @@
-import { MemberResearch as ResearchType } from "@/lib/types";
+import { MemberResearch as ResearchType } from "@/types";
 import WhiteCard from "../WhiteCard";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
@@ -40,7 +40,7 @@ const MemberResearch = ({ researchData }: MemberResearchProps) => {
             <Button
               asChild
               key={index}
-              className="flex items-center gap-2 bg-light-gray text-black shadow-xs hover:bg-inactive hover:opacity-90"
+              className="bg-light-gray hover:bg-inactive flex items-center gap-2 text-black shadow-xs hover:opacity-90"
             >
               <CustomLink
                 href={researchLink.data?.URL ?? "#"}

@@ -7,14 +7,17 @@ export const api = axios.create({
   baseURL: baseAPIUrl,
 });
 
-export async function fetchData(url: string, accessToken?: string) {
+export async function fetchData<T>(
+  url: string,
+  accessToken?: string,
+): Promise<T> {
   const headers = accessToken
     ? { Authorization: `Bearer ${accessToken}` }
     : undefined;
 
   const response = await api.get(url, { headers });
 
-  return flattenAttributes(response.data);
+  return flattenAttributes<T>(response.data);
 }
 
 export async function uploadFile(

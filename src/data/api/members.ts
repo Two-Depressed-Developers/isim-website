@@ -1,7 +1,7 @@
 import qs from "qs";
 import axios from "axios";
-import type { MemberData } from "@/lib/types";
-import { fetchData, baseAPIUrl, api } from "./base";
+import type { MemberData, StrapiCollectionResponse } from "@/types";
+import { fetchData, baseAPIUrl } from "./base";
 import { flattenAttributes } from "@/lib/utils";
 
 export async function getMemberData(slug: string): Promise<MemberData> {
@@ -37,7 +37,9 @@ export async function getMemberData(slug: string): Promise<MemberData> {
     },
   });
 
-  const response = await fetchData(url.href);
+  const response = await fetchData<StrapiCollectionResponse<MemberData>>(
+    url.href,
+  );
 
   return response?.data?.[0] ?? ({ error: true } as MemberData);
 }

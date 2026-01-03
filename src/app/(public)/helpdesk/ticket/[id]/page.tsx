@@ -5,7 +5,7 @@ import { format } from "date-fns";
 import { pl } from "date-fns/locale";
 
 import { useTicketDetails } from "@/data/queries/use-tickets";
-import type { TicketStatus } from "@/lib/types";
+import type { TicketStatus } from "@/types";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -34,12 +34,16 @@ const statusColors: Record<TicketStatus, string> = {
 export default function TicketStatusPage() {
   const params = useParams();
   const searchParams = useSearchParams();
-  const ticketId = params.id as string;
+  const ticketId = params.id;
   const token = searchParams.get("token");
 
-  const { data: ticket, isLoading, error } = useTicketDetails(ticketId, token);
+  const {
+    data: ticket,
+    isPending,
+    isError,
+  } = useTicketDetails(ticketId, token);
 
-  if (isLoading) {
+  if (isPending) {
     return (
       <div className="container mx-auto max-w-3xl py-8">
         <Card>
@@ -56,7 +60,7 @@ export default function TicketStatusPage() {
     );
   }
 
-  if (error || !ticket) {
+  if (isError || !ticket) {
     return (
       <div className="container mx-auto max-w-3xl py-8">
         <Card>
@@ -79,8 +83,10 @@ export default function TicketStatusPage() {
         <CardHeader>
           <div className="flex items-start justify-between">
             <CardTitle className="text-2xl">{ticket.title}</CardTitle>
-            <Badge className={statusColors[ticket.ticketStatus!]}>
-              {statusLabels[ticket.ticketStatus!]}
+            <Badge
+              className={statusColors[ticket.ticketStatus as TicketStatus]}
+            >
+              {statusLabels[ticket.ticketStatus as TicketStatus]}
             </Badge>
           </div>
         </CardHeader>

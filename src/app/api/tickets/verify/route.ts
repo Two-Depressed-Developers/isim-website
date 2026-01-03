@@ -65,11 +65,9 @@ export async function POST(request: Request) {
       success: true,
       data: result.data,
     });
-  } catch (error: any) {
+  } catch (error) {
     console.error("=== VERIFICATION ERROR ===");
-    console.error("Message:", error.message);
-    console.error("Status:", error.response?.status);
-    console.error("Data:", error.response?.data);
+    console.error("Error:", error);
     console.error("========================");
 
     return NextResponse.json(

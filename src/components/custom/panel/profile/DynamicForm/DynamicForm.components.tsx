@@ -1,4 +1,5 @@
 import React from "react";
+import type { ControllerRenderProps } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -32,7 +33,7 @@ export const FieldComponents = {
     formField,
   }: {
     field: VisibleFormField;
-    formField: any;
+    formField: ControllerRenderProps;
   }) => (
     <Input
       {...formField}
@@ -46,7 +47,7 @@ export const FieldComponents = {
     formField,
   }: {
     field: VisibleFormField;
-    formField: any;
+    formField: ControllerRenderProps;
   }) => (
     <Select onValueChange={formField.onChange} defaultValue={formField.value}>
       <SelectTrigger className="!h-10 w-full">
@@ -63,12 +64,11 @@ export const FieldComponents = {
   ),
 
   FileUpload: ({
-    field,
     formField,
     onUpload,
   }: {
     field: VisibleFormField;
-    formField: any;
+    formField: ControllerRenderProps;
     onUpload?: (file: File) => Promise<{ id: number; url: string }>;
   }) => {
     const fileInputRef = React.useRef<HTMLInputElement>(null);
@@ -155,11 +155,11 @@ export const FieldComponents = {
     );
   },
 
-  ComponentField: ({ field }: { field: VisibleFormField; formField: any }) => (
+  ComponentField: ({ field }: { field: VisibleFormField; formField: ControllerRenderProps }) => (
     <div className="text-muted-foreground">{field.label}</div>
   ),
 
-  DynamicZone: ({ field }: { field: VisibleFormField; formField: any }) => (
+  DynamicZone: ({ field }: { field: VisibleFormField; formField: ControllerRenderProps }) => (
     <div className="text-muted-foreground">{field.label}</div>
   ),
 };

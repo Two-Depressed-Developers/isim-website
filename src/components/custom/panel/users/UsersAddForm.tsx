@@ -24,7 +24,6 @@ import {
 } from "@/components/ui/form";
 import axios from "axios";
 import { createUsersByEmailSchema } from "@/lib/schemas";
-import { getServerStrapiClient } from "@/lib/strapi-server";
 
 type BulkCreateUsersResponse = {
   createdUsers: { email: string }[];
@@ -73,13 +72,16 @@ export default function UsersAddForm() {
       }
 
       form.reset();
-    } catch (error: any) {
+    } catch (error) {
       console.error(error);
 
-      const message =
-        error?.response?.data?.error?.message ||
-        error?.response?.data?.message ||
-        "Błąd tworzenia użytkowników";
+      let message = "Błąd tworzenia użytkowników";
+      if (axios.isAxiosError(error)) {
+        message =
+          error.response?.data?.error?.message ||
+          error.response?.data?.message ||
+          message;
+      }
 
       toast.error(message);
     } finally {

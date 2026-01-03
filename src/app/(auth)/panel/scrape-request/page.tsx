@@ -29,7 +29,7 @@ export default function ScrapeRequestPage() {
     },
   );
 
-  const { data: proposals, isLoading: isLoadingProposals } = useDataProposals(
+  const { data: proposals, isLoading: _isLoadingProposals } = useDataProposals(
     member?.documentId || "",
     {
       enabled: !!member?.documentId,

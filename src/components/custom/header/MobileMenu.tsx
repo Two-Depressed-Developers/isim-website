@@ -12,7 +12,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Separator } from "@/components/ui/separator";
-import type { Link as LinkType } from "@/lib/types";
+import type { Link as LinkType } from "@/types";
 
 type MobileMenuProps = {
   links: LinkType[];

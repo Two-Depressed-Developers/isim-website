@@ -13,7 +13,8 @@ import {
   CardTitle,
   CardDescription,
 } from "@/components/ui/card";
-import { MemberData, ConsultationAvailability } from "@/lib/types";
+import { ConsultationAvailability, MemberData } from "@/types";
+import { ConsultationAvailabilityFormData } from "@/lib/schemas";
 import { useUpdateMember } from "@/data/queries/use-members";
 import { AvailabilityTile } from "./AvailabilityTile";
 import { AvailabilityFormModal } from "./AvailabilityFormModal";
@@ -95,7 +96,7 @@ export function AvailabilityManager({ member }: Props) {
     setAvailabilities((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const handleModalSubmit = (data: any) => {
+  const handleModalSubmit = (data: ConsultationAvailabilityFormData) => {
     if (editingIndex !== null) {
       setAvailabilities((prev) => {
         const next = [...prev];
@@ -143,7 +144,7 @@ export function AvailabilityManager({ member }: Props) {
       });
 
       toast.success("Dostępność została zaktualizowana!");
-    } catch (error) {
+    } catch {
       toast.error("Nie udało się zaktualizować dostępności.");
     }
   };

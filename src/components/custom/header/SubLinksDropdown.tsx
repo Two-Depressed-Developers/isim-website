@@ -1,4 +1,4 @@
-import { Link as LinkType } from "@/lib/types";
+import { Link as LinkType } from "@/types";
 import Link from "next/link";
 import path from "path";
 
@@ -21,9 +21,9 @@ const SubLinksDropdown = ({ subLinks, baseUrl }: subLinksDropdownProps) => {
           <Link
             key={subLink.id}
             href={subUrl}
-            className="px-4 py-2 transition-colors hover:bg-primary/5"
+            className="hover:bg-primary/5 px-4 py-2 transition-colors"
           >
-            <span className="whitespace-nowrap text-[18px] font-normal">
+            <span className="text-[18px] font-normal whitespace-nowrap">
               {subLink.label}
             </span>
           </Link>

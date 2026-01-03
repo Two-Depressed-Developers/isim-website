@@ -9,7 +9,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { useBreadcrumbs } from "@/context/BreadcrumbsContext";
-import type { Page } from "@/lib/types";
+import type { Page } from "@/types";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import React from "react";

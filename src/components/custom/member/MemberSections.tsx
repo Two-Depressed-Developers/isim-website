@@ -1,4 +1,4 @@
-import { MemberSection, SimpleSection } from "@/lib/types";
+import { MemberSection, SimpleSection } from "@/types";
 import MemberResearch from "./MemberResearch";
 import MemberSimpleSection from "./MemberSimpleSection";
 

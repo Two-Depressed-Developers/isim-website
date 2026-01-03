@@ -23,11 +23,11 @@ import { Textarea } from "@/components/ui/textarea";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-type TicketFormProps = {
+type Props = {
   defaultEmail?: string;
 };
 
-export function TicketForm({ defaultEmail }: TicketFormProps) {
+export function TicketForm({ defaultEmail }: Props) {
   const submitTicketMutation = useSubmitTicket();
 
   const form = useForm<z.infer<typeof ticketFormSchema>>({
@@ -41,16 +41,11 @@ export function TicketForm({ defaultEmail }: TicketFormProps) {
 
   async function onSubmit(values: z.infer<typeof ticketFormSchema>) {
     submitTicketMutation.mutate(values, {
-      onSuccess: (result: any) => {
-        if (result.message) {
-          toast.success(result.message);
-        } else {
-          toast.success("Zgłoszenie zostało utworzone pomyślnie!");
-        }
+      onSuccess: (result) => {
+        toast.success(result.message);
         form.reset();
       },
-      onError: (error) => {
-        console.error("Błąd podczas tworzenia zgłoszenia:", error);
+      onError: () => {
         toast.error("Wystąpił błąd podczas tworzenia zgłoszenia");
       },
     });

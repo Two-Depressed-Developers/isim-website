@@ -1,15 +1,15 @@
 import { StrapiImage } from "@/components/StrapiImage";
-import { SimpleSection } from "@/lib/types";
+import { SimpleSection } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
-interface FooterSectionProps {
+type Props = {
   section: SimpleSection;
-}
+};
 
-const FooterSection = ({ section }: FooterSectionProps) => {
+const FooterSection = ({ section }: Props) => {
   return (
     <div className="text-gray-text flex flex-col space-y-2">
       {section.title && <h4 className="text-lg font-bold">{section.title}</h4>}

@@ -1,16 +1,13 @@
-import { Conference, Journal } from "@/lib/types";
-import { cn } from "@/lib/utils";
+import { Conference, Journal } from "@/types";
 import { StrapiImage } from "@/components/StrapiImage";
 import { Badge } from "@/components/ui/badge";
 import {
-  ArrowRight,
   BookOpen,
   Calendar,
   CalendarDays,
   ExternalLink,
   RefreshCw,
 } from "lucide-react";
-import Link from "next/link";
 import { format, parseISO, isSameDay } from "date-fns";
 import { pl } from "date-fns/locale";
 import CustomLink from "@/components/CustomLink";

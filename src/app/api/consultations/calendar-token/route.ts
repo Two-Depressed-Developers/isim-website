@@ -29,7 +29,7 @@ export async function GET() {
       token,
       userId,
     });
-  } catch (error: any) {
+  } catch (error) {
     console.error("Error generating calendar token:", error);
     return NextResponse.json(
       { error: "Internal Server Error" },

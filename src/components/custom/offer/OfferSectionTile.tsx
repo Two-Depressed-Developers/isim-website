@@ -1,5 +1,5 @@
-import { OfferSection } from "@/lib/types";
-import { Check, CheckCircle } from "lucide-react";
+import { OfferSection } from "@/types";
+import { CheckCircle } from "lucide-react";
 
 type Props = {
   section: OfferSection;

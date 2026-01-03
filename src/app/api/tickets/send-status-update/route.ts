@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
-import type { TicketStatus } from "@/lib/types";
 import { getEmailForDev } from "@/lib/utils";
+import { getErrorMessage } from "@/lib/axios";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -95,10 +95,10 @@ export async function POST(request: Request) {
       },
       { status: 200 },
     );
-  } catch (error: any) {
+  } catch (error) {
     console.error(
       "Błąd podczas wysyłania emaila z aktualizacją statusu:",
-      error.message,
+      getErrorMessage(error),
     );
 
     return NextResponse.json(

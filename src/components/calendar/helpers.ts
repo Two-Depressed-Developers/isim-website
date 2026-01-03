@@ -30,8 +30,6 @@ import { useCalendar } from "@/components/calendar/contexts/calendar-context";
 import type { ICalendarCell, IEvent } from "@/components/calendar/interfaces";
 import type { TCalendarView, TEventColor } from "@/components/calendar/types";
 
-const FORMAT_STRING = "MMM d, yyyy";
-
 export function rangeText(view: TCalendarView, date: Date): string {
   let start: Date;
   let end: Date;

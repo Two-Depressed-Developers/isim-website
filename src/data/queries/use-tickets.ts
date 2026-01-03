@@ -1,4 +1,4 @@
-import type { TicketStatus } from "@/lib/types";
+import type { TicketStatus } from "@/types";
 import {
   getTicketById,
   getTickets,
@@ -8,7 +8,6 @@ import {
 } from "../api/tickets";
 import { queryKeys } from "../query-keys";
 import {
-  createQueryHook,
   createQueryHookWithParams,
   createMutationHook,
   createMutationHookWithInvalidation,

@@ -2,14 +2,13 @@ import { StrapiImage } from "./StrapiImage";
 import CustomLink from "./CustomLink";
 import { Separator } from "./ui/separator";
 import { ContactLink } from "./ContactLink";
+import type { MemberData } from "@/types";
 
-import type { MemberData } from "@/lib/types";
-
-interface MemberProps {
+type Props = {
   member: MemberData;
-}
+};
 
-const MemberCard = ({ member }: MemberProps) => {
+const MemberCard = ({ member }: Props) => {
   return (
     <CustomLink
       href={`/staff-members/${member.slug}`}
@@ -32,14 +31,14 @@ const MemberCard = ({ member }: MemberProps) => {
         )}
         <Separator
           orientation="vertical"
-          className="row-span-2 w-[3px] grid-flow-col-dense rounded-3xl bg-primary"
+          className="bg-primary row-span-2 w-[3px] grid-flow-col-dense rounded-3xl"
         />
         <div>
           {member.title && (
             <h3 className="text-lg font-bold">{member.title}</h3>
           )}
           {member.fullName && (
-            <p className="text-[32px] font-semibold leading-[40px]">
+            <p className="text-[32px] leading-[40px] font-semibold">
               {`${member.fullName || ""}`.trim()}
             </p>
           )}

@@ -1,13 +1,13 @@
-import { Link as LinkType } from "@/lib/types";
+import { Link as LinkType } from "@/types";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import SubLinksDropdown from "./SubLinksDropdown";
 
-interface NavLinkProps {
+type Props = {
   link: LinkType;
-}
+};
 
-const NavLink = ({ link }: NavLinkProps) => {
+const NavLink = ({ link }: Props) => {
   const baseUrl = link.page?.slug ?? link.URL;
 
   return (

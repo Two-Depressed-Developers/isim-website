@@ -1,6 +1,11 @@
 import qs from "qs";
 import axios from "axios";
-import type { Ticket, TicketFormData, TicketStatus } from "@/lib/types";
+import {
+  StrapiCollectionResponse,
+  type Ticket,
+  type TicketFormData,
+  type TicketStatus,
+} from "@/types";
 import { fetchData, baseAPIUrl, api } from "./base";
 import { flattenAttributes } from "@/lib/utils";
 
@@ -10,7 +15,14 @@ function generateToken(): string {
     .join("");
 }
 
-export async function submitTicket(data: TicketFormData) {
+type SubmitTicketResponse = {
+  success: true;
+  message: string;
+};
+
+export async function submitTicket(
+  data: TicketFormData,
+): Promise<SubmitTicketResponse> {
   const token = generateToken();
 
   const response = await api.post("/api/tickets", {
@@ -25,11 +37,14 @@ export async function submitTicket(data: TicketFormData) {
 
   const ticketId = response.data.data.documentId;
 
-  const emailResponse = await axios.post("/api/tickets/send-verification", {
-    email: data.email,
-    token: token,
-    ticketId: ticketId,
-  });
+  const emailResponse = await axios.post<SubmitTicketResponse>(
+    "/api/tickets/send-verification",
+    {
+      email: data.email,
+      token: token,
+      ticketId: ticketId,
+    },
+  );
 
   return emailResponse.data;
 }
@@ -60,7 +75,11 @@ export async function getTickets(accessToken: string): Promise<Ticket[]> {
     sort: ["createdAt:desc"],
   });
 
-  const response = await fetchData(url.href, accessToken);
+  const response = await fetchData<StrapiCollectionResponse<Ticket>>(
+    url.href,
+    accessToken,
+  );
+
   return response?.data ?? [];
 }
 
@@ -70,7 +89,7 @@ export async function getTicketById(
 ): Promise<Ticket | null> {
   const url = new URL("/api/tickets", baseAPIUrl);
 
-  const filters: any = {
+  const filters: Record<string, unknown> = {
     documentId: ticketId,
   };
 
@@ -92,7 +111,8 @@ export async function getTicketById(
     filters,
   });
 
-  const response = await fetchData(url.href);
+  const response = await fetchData<StrapiCollectionResponse<Ticket>>(url.href);
+
   return response?.data?.[0] ?? null;
 }
 

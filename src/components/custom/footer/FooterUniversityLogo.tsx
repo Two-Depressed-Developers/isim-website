@@ -1,13 +1,13 @@
 import { StrapiImage } from "@/components/StrapiImage";
-import { ImageLink } from "@/lib/types";
+import { ImageLink } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 
-interface FooterUniversityLogoProps {
+type Props = {
   logo: ImageLink;
-}
+};
 
-const FooterUniversityLogo = ({ logo }: FooterUniversityLogoProps) => {
+const FooterUniversityLogo = ({ logo }: Props) => {
   return (
     <Link
       href={logo.link?.URL ?? "#"}

@@ -2,29 +2,33 @@
 
 import { useMemo, useState } from "react";
 import { useUpdateMember } from "@/data/queries/use-members";
-import { MemberData } from "@/lib/types";
+import { MemberData } from "@/types";
 import { Session } from "next-auth";
 import { toast } from "sonner";
 import { uploadFile } from "@/data/api/base";
 import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "@/data/query-keys";
 import axios from "axios";
+import { getErrorMessage } from "@/lib/axios";
 
 import DynamicForm from "../DynamicForm/DynamicForm";
 import { FormSchema } from "../DynamicForm/DynamicForm.types";
-import { mapStrapiFieldToFormField } from "../DynamicForm/DynamicForm.utils";
+import {
+  mapStrapiFieldToFormField,
+  StrapiFieldSchema,
+} from "../DynamicForm/DynamicForm.utils";
 import {
   extractDefaultValues,
   prepareDataForSubmission,
 } from "./Profile.utils";
 
-type ProfileFormProps = {
+type Props = {
   member: MemberData;
-  schema: Record<string, unknown>;
+  schema: Record<string, StrapiFieldSchema>;
   session: Session;
 };
 
-export default function Profile({ member, schema, session }: ProfileFormProps) {
+export default function Profile({ member, schema, session }: Props) {
   const updateMutation = useUpdateMember(member.slug);
   const [isUploadingPhoto, setIsUploadingPhoto] = useState(false);
   const queryClient = useQueryClient();
@@ -35,7 +39,7 @@ export default function Profile({ member, schema, session }: ProfileFormProps) {
       return;
     }
 
-    const { photo, ...dataWithoutPhoto } = data;
+    const { _photo, ...dataWithoutPhoto } = data;
 
     const cleanedData = prepareDataForSubmission(dataWithoutPhoto, member);
 
@@ -48,9 +52,7 @@ export default function Profile({ member, schema, session }: ProfileFormProps) {
 
       toast.success("Profile updated successfully!");
     } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : "Failed to update profile.";
-      toast.error(errorMessage);
+      toast.error(getErrorMessage(error, "Failed to update profile."));
       console.error("Error updating profile:", error);
     }
   };
@@ -81,7 +83,6 @@ export default function Profile({ member, schema, session }: ProfileFormProps) {
   };
 
   const handleUpdateFromSkos = async (fullName: string) => {
-
     if (!fullName) return;
 
     try {
@@ -113,7 +114,6 @@ export default function Profile({ member, schema, session }: ProfileFormProps) {
       toast.error("Wystąpił błąd podczas aktualizacji danych ze Skos.");
     }
   };
-
 
   const transformedSchema: FormSchema = useMemo(
     () => ({

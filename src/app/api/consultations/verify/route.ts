@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import axios from "axios";
 import { getStrapiURL } from "@/lib/utils";
+import type { ConsultationAvailability } from "@/types";
 
 const strapiUrl = getStrapiURL();
 
@@ -74,7 +75,7 @@ export async function POST(request: Request) {
       const { dayOfWeek, time } = getBookingTimeDetails(booking.startTime);
 
       const matchingSlot = booking.member.consultationAvailability.find(
-        (slot: any) => {
+        (slot: ConsultationAvailability) => {
           if (!slot.isActive || slot.dayOfWeek !== dayOfWeek) return false;
 
           const start = slot.startTime.substring(0, 5);
@@ -112,11 +113,9 @@ export async function POST(request: Request) {
         status: newStatus,
       },
     });
-  } catch (error: any) {
+  } catch (error) {
     console.error("=== VERIFICATION ERROR ===");
-    console.error("Message:", error.message);
-    console.error("Status:", error.response?.status);
-    console.error("Data:", error.response?.data);
+    console.error("Error:", error);
     console.error("========================");
 
     return NextResponse.json(

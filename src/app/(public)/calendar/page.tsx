@@ -5,9 +5,9 @@ import { mapStrapiEventToCalendarEvent } from "@/components/calendar/mappers";
 import { useCalendarEvents } from "@/data/queries/use-calendar";
 
 export default function CalendarPage() {
-  const { data: calendarEvents, isLoading, error } = useCalendarEvents();
+  const { data: calendarEvents, isPending, isError } = useCalendarEvents();
 
-  if (isLoading) {
+  if (isPending) {
     return (
       <div className="mx-auto w-full max-w-7xl py-8">
         <div>Loading...</div>
@@ -15,7 +15,7 @@ export default function CalendarPage() {
     );
   }
 
-  if (error) {
+  if (isError) {
     return (
       <div className="mx-auto w-full max-w-7xl py-8">
         <div>Error loading calendar events.</div>
@@ -23,7 +23,7 @@ export default function CalendarPage() {
     );
   }
 
-  const mappedEvents = calendarEvents?.map(mapStrapiEventToCalendarEvent) || [];
+  const mappedEvents = calendarEvents.map(mapStrapiEventToCalendarEvent);
 
   return (
     <div className="mx-auto w-full max-w-7xl px-2 py-8">

@@ -91,10 +91,11 @@ export async function POST(request: Request) {
       },
       { status: 200 },
     );
-  } catch (error: any) {
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Unknown error";
     console.error(
       "Błąd podczas wysyłania emaila weryfikacyjnego:",
-      error.message,
+      message,
     );
 
     return NextResponse.json(

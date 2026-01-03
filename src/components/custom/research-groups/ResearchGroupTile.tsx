@@ -1,7 +1,6 @@
-import { Group } from "@/lib/types";
+import { Group } from "@/types";
 import { Badge } from "@/components/ui/badge";
-import { ArrowRight, ExternalLink, Microscope, Users } from "lucide-react";
-import Link from "next/link";
+import { ExternalLink, Users } from "lucide-react";
 import CustomLink from "@/components/CustomLink";
 
 type Props = {

@@ -1,6 +1,7 @@
-import { verifySession } from "@/lib/auth.utils";
 import { NextResponse } from "next/server";
 import { getServerStrapiClient } from "@/lib/strapi-server";
+import axios from "axios";
+import { verifySession } from "@/lib/auth.utils";
 
 type ErrorResponse = {
   error: string;
@@ -8,7 +9,7 @@ type ErrorResponse = {
 };
 
 export async function POST(req: Request) {
-  const session = await verifySession();
+  await verifySession();
 
   const body = await req.json();
   const { currentPassword, newPassword, confirmPassword } = body;
@@ -22,15 +23,19 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json({ success: true });
-  } catch (error: any) {
-    const status = error?.response?.status ?? 500;
-    const errorData = error?.response?.data?.error;
+  } catch (error) {
+    let status = 500;
+    let errorMsg = "";
+
+    if (axios.isAxiosError(error)) {
+      status = error.response?.status ?? 500;
+      errorMsg = error.response?.data?.error?.message || "";
+    }
 
     let code = "CHANGE_PASSWORD_FAILED";
     let message = "Nie udało się zmienić hasła";
 
     if (status === 400) {
-      const errorMsg = errorData?.message || "";
       if (
         errorMsg.toLowerCase().includes("invalid") ||
         errorMsg.toLowerCase().includes("does not match")
@@ -40,7 +45,7 @@ export async function POST(req: Request) {
       }
     } else if (status === 422) {
       code = "VALIDATION_ERROR";
-      message = errorData?.message || "Błąd walidacji";
+      message = "Błąd walidacji";
     }
 
     return NextResponse.json<ErrorResponse>(

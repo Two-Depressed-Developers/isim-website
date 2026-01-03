@@ -80,9 +80,22 @@ const generateLabel = (fieldName: string): string => {
     .trim();
 };
 
+export type StrapiFieldSchema = {
+  type?: string;
+  enum?: string[];
+  required?: boolean;
+  minLength?: number;
+  maxLength?: number;
+  multiple?: boolean;
+  allowedTypes?: string[];
+  component?: string;
+  repeatable?: boolean;
+  components?: string[];
+};
+
 export const mapStrapiFieldToFormField = (
   fieldName: string,
-  fieldSchema: any,
+  fieldSchema: StrapiFieldSchema,
 ): FormFieldType => {
   const baseField = {
     name: fieldName,
@@ -120,7 +133,7 @@ export const mapStrapiFieldToFormField = (
         ...baseField,
         type: "select",
         component: "Select",
-        options: fieldSchema.enum.map((value: string) => ({
+        options: (fieldSchema.enum ?? []).map((value: string) => ({
           label: value.replace(/([A-Z])/g, " $1").trim(),
           value,
         })),

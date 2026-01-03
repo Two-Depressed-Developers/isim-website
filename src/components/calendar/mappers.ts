@@ -32,7 +32,7 @@ export function mapStrapiEventToCalendarEvent(
   };
 }
 
-export function mapConsultationBookingToCalendarEvent(
+function mapConsultationBookingToCalendarEvent(
   booking: ConsultationBooking,
 ): IEvent {
   const title = `Konsultacje - ${booking.studentName}`;
@@ -51,4 +51,51 @@ export function mapConsultationBookingToCalendarEvent(
       picturePath: null,
     },
   };
+}
+
+export function mapConsultationBookingsToGroupedEvents(
+  bookings: ConsultationBooking[],
+): IEvent[] {
+  const groups: Record<string, ConsultationBooking[]> = {};
+
+  bookings.forEach((booking) => {
+    const key = `${booking.startTime}_${booking.endTime}`;
+    if (!groups[key]) {
+      groups[key] = [];
+    }
+    groups[key].push(booking);
+  });
+
+  return Object.values(groups).map((group) => {
+    if (group.length === 1) {
+      return mapConsultationBookingToCalendarEvent(group[0]);
+    }
+
+    const first = group[0];
+    const count = group.length;
+
+    const names = group.map((b) => b.studentName).join(", ");
+    const title = `Konsultacje (${count}): ${names}`;
+
+    const description = group
+      .map(
+        (b) =>
+          `<strong>${b.studentName}</strong> <span style="opacity: 0.7">(${b.studentEmail})</span><br />Temat: ${b.fieldAndSubject}`,
+      )
+      .join("<br /><br />");
+
+    return {
+      id: first.id,
+      startDate: first.startTime,
+      endDate: first.endTime,
+      title: title,
+      color: "blue",
+      description: description,
+      user: {
+        id: "group",
+        name: `${count} osób`,
+        picturePath: null,
+      },
+    };
+  });
 }

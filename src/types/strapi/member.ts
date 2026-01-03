@@ -27,6 +27,7 @@ export type ConsultationAvailability = {
   endTime: string;
   durationMinutes: number;
   isActive: boolean;
+  maxAttendees?: number | null;
 };
 
 export type Member = {

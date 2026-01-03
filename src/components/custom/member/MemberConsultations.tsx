@@ -49,8 +49,11 @@ import {
 } from "@/components/ui/form";
 
 import { consultationBookingFormSchema } from "@/lib/schemas";
-import { useBookConsultation } from "@/data/queries/use-consultations";
 import type { MemberData } from "@/types/strapi";
+import {
+  useBookConsultation,
+  useConsultationBookings,
+} from "@/data/queries/use-consultations";
 
 type BookingFormData = z.infer<typeof consultationBookingFormSchema>;
 
@@ -58,6 +61,7 @@ type TimeSlot = {
   startTime: string;
   endTime: string;
   availabilityId: string;
+  maxAttendees?: number | null;
 };
 
 type Props = {
@@ -70,6 +74,9 @@ const MemberConsultations = ({ member, slug }: Props) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const bookConsultation = useBookConsultation(slug);
+  const { data: existingBookings = [] } = useConsultationBookings(
+    member.documentId,
+  );
 
   const form = useForm<BookingFormData>({
     resolver: zodResolver(consultationBookingFormSchema),
@@ -136,6 +143,7 @@ const MemberConsultations = ({ member, slug }: Props) => {
               startTime: currentSlotStart.toISOString(),
               endTime: currentSlotEnd.toISOString(),
               availabilityId: availability.documentId,
+              maxAttendees: availability.maxAttendees,
             });
           }
 
@@ -144,8 +152,34 @@ const MemberConsultations = ({ member, slug }: Props) => {
       }
     });
 
-    return slots;
-  }, [member.consultationAvailability]);
+    const bookedSlots = existingBookings
+      .filter(
+        (booking) =>
+          booking.reservationStatus === "pending" ||
+          booking.reservationStatus === "accepted",
+      )
+      .reduce(
+        (acc, booking) => {
+          const key = `${booking.startTime}-${booking.endTime}`;
+          acc[key] = (acc[key] || 0) + 1;
+          return acc;
+        },
+        {} as Record<string, number>,
+      );
+
+    const availableSlots = slots.filter((slot) => {
+      const key = `${slot.startTime}-${slot.endTime}`;
+      const currentBookings = bookedSlots[key] || 0;
+
+      if (!slot.maxAttendees && slot.maxAttendees !== 0) {
+        return true;
+      }
+
+      return currentBookings < slot.maxAttendees;
+    });
+
+    return availableSlots;
+  }, [member.consultationAvailability, existingBookings]);
 
   const onSubmit = async (data: BookingFormData) => {
     try {

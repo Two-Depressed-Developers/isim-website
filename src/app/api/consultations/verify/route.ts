@@ -4,6 +4,24 @@ import { getStrapiURL } from "@/lib/utils";
 
 const strapiUrl = getStrapiURL();
 
+function getBookingTimeDetails(isoString: string) {
+  const date = new Date(isoString);
+  const timeZone = "Europe/Warsaw";
+
+  const dayOfWeek = date
+    .toLocaleDateString("en-US", { weekday: "long", timeZone })
+    .toLowerCase();
+
+  const time = date.toLocaleTimeString("pl-PL", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+    timeZone,
+  });
+
+  return { dayOfWeek, time };
+}
+
 export async function POST(request: Request) {
   try {
     const { token } = await request.json();
@@ -19,7 +37,7 @@ export async function POST(request: Request) {
     }
 
     const findResponse = await axios.get(
-      `${strapiUrl}/api/consultation-bookings?filters[verificationToken][$eq]=${token}&filters[reservationStatus][$eq]=unverified&populate=member`,
+      `${strapiUrl}/api/consultation-bookings?filters[verificationToken][$eq]=${token}&filters[reservationStatus][$eq]=unverified&populate[member][populate]=consultationAvailability`,
     );
 
     const bookings = findResponse.data.data;
@@ -50,11 +68,32 @@ export async function POST(request: Request) {
       );
     }
 
+    let newStatus = "pending";
+
+    if (booking.member?.consultationAvailability) {
+      const { dayOfWeek, time } = getBookingTimeDetails(booking.startTime);
+
+      const matchingSlot = booking.member.consultationAvailability.find(
+        (slot: any) => {
+          if (!slot.isActive || slot.dayOfWeek !== dayOfWeek) return false;
+
+          const start = slot.startTime.substring(0, 5);
+          const end = slot.endTime.substring(0, 5);
+
+          return time >= start && time < end;
+        },
+      );
+
+      if (matchingSlot && matchingSlot.maxAttendees === null) {
+        newStatus = "accepted";
+      }
+    }
+
     const result = await axios.put(
       `${strapiUrl}/api/consultation-bookings/${booking.documentId}`,
       {
         data: {
-          reservationStatus: "pending",
+          reservationStatus: newStatus,
           verifiedAtTime: new Date().toISOString(),
           verificationToken: null,
         },
@@ -70,6 +109,7 @@ export async function POST(request: Request) {
         memberName: booking.member?.fullName,
         startTime: booking.startTime,
         endTime: booking.endTime,
+        status: newStatus,
       },
     });
   } catch (error: any) {

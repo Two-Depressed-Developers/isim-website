@@ -220,6 +220,7 @@ export function AvailabilityManager({ member }: Props) {
       )}
 
       <AvailabilityFormModal
+        key={isModalOpen ? `modal-open-${editingIndex}` : "modal-closed"}
         open={isModalOpen}
         onOpenChange={setIsModalOpen}
         initialData={editingItem}

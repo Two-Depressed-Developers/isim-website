@@ -27,11 +27,6 @@ export async function getMemberData(slug: string): Promise<MemberData> {
     },
     consultationAvailability: {
       populate: true,
-      filters: {
-        isActive: {
-          $eq: true,
-        },
-      },
     },
     sections: true,
   };

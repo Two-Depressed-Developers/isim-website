@@ -34,6 +34,7 @@ const statusLabels: Record<
   ConsultationBooking["reservationStatus"],
   { label: string; variant: "default" | "secondary" | "destructive" }
 > = {
+  unverified: { label: "Niezweryfikowana", variant: "secondary" },
   pending: { label: "Oczekuje", variant: "secondary" },
   accepted: { label: "Zaakceptowana", variant: "default" },
   declined: { label: "Odrzucona", variant: "destructive" },

@@ -21,6 +21,7 @@ import {
   extractDefaultValues,
   prepareDataForSubmission,
 } from "./Profile.utils";
+import { API_ITEM_KEYS } from "@/consts/common";
 
 type Props = {
   member: MemberData;
@@ -68,7 +69,7 @@ export default function Profile({ member, schema, session }: Props) {
     setIsUploadingPhoto(true);
     try {
       const uploadedFile = await uploadFile(file, session.accessToken, {
-        ref: "api::member.member",
+        ref: API_ITEM_KEYS.MEMBER,
         refId: String(member.id),
         field: "photo",
       });

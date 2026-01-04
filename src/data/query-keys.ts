@@ -21,7 +21,8 @@ export const queryKeys = {
     all: ["groups"] as const,
   },
   dataProposals: {
-    byMember: (memberDocumentId: string) => ["data-proposals", memberDocumentId] as const,
+    byMember: (memberDocumentId: string) =>
+      ["data-proposals", memberDocumentId] as const,
   },
   researchOffers: {
     all: ["research-offers"] as const,
@@ -35,4 +36,8 @@ export const queryKeys = {
   journals: {
     all: ["journals"] as const,
   },
-}
+  homepage: {
+    data: ["homepage"] as const,
+    schema: ["homepage-schema"] as const,
+  },
+};

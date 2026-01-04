@@ -30,7 +30,8 @@ import {
 } from "lucide-react";
 import { useSession, signOut } from "next-auth/react";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { Link, usePathname } from "@/i18n/navigation";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export function PanelSidebar() {
   const { data: session, status } = useSession();

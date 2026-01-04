@@ -7,7 +7,7 @@ import { Github } from "lucide-react";
 import { signIn, useSession } from "next-auth/react";
 import { toast } from "sonner";
 import { useStrapiClient } from "@/lib/strapi-client";
-import { usePathname } from "@/i18n/navigation";
+import { usePathname } from "next/navigation";
 
 export default function ConnectSSOForm() {
   const { data: session, update } = useSession();

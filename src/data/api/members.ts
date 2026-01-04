@@ -4,6 +4,7 @@ import type { MemberData, StrapiCollectionResponse } from "@/types";
 import { fetchData, baseAPIUrl } from "./base";
 import { flattenAttributes } from "@/lib/utils";
 import { StrapiFieldSchema } from "@/components/custom/panel/profile/DynamicForm/DynamicForm.utils";
+import { API_ITEM_KEYS } from "@/consts/common";
 
 export async function getMemberData(slug: string): Promise<MemberData> {
   const url = new URL(`/api/members`, baseAPIUrl);
@@ -48,8 +49,7 @@ export async function getMemberData(slug: string): Promise<MemberData> {
 export async function getMemberSchema(): Promise<
   Record<string, StrapiFieldSchema>
 > {
-  const contentTypeId = "api::member.member";
-  const url = new URL(`/api/schemas/${contentTypeId}`, baseAPIUrl);
+  const url = new URL(`/api/schemas/${API_ITEM_KEYS.MEMBER}`, baseAPIUrl);
 
   return await fetchData(url.href);
 }

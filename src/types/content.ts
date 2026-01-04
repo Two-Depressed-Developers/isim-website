@@ -31,6 +31,9 @@ export type Course = {
   semesterCount: number;
   description?: string;
   syllabusLink?: SimpleLink;
+  createdAt?: string;
+  updatedAt?: string;
+  publishedAt?: string;
 };
 
 export type Conference = {
@@ -46,6 +49,9 @@ export type Conference = {
     url: string;
     alternativeText: string;
   };
+  createdAt?: string;
+  updatedAt?: string;
+  publishedAt?: string;
 };
 
 export type Journal = {
@@ -58,4 +64,7 @@ export type Journal = {
     url: string;
     alternativeText: string;
   };
+  createdAt?: string;
+  updatedAt?: string;
+  publishedAt?: string;
 };

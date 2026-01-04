@@ -1,3 +1,8 @@
+export type StrapiBaseItem = {
+  createdAt?: string;
+  publishedAt?: string;
+};
+
 export type SimpleLink = {
   id: number;
   URL: string;
@@ -28,6 +33,13 @@ export type ImageLink = {
     url: string;
   };
   link: Link;
+};
+
+export type Image = {
+  id: number;
+  documentId: string;
+  url: string;
+  alternativeText: string;
 };
 
 export type SimpleSection = {

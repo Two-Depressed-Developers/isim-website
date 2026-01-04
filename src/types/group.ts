@@ -13,6 +13,9 @@ export type Group = {
   keywords?: string;
   supervisor?: MemberData;
   members?: MemberData[];
+  updatedAt?: string;
+  createdAt?: string;
+  publishedAt?: string;
 };
 
 export type GroupData = StrapiCollectionResponse<Group> & {

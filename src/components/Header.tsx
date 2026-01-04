@@ -11,7 +11,7 @@ const Header = async () => {
 
   return (
     <header className="bg-white p-6">
-      <nav className="flex items-center justify-between">
+      <nav className="max-w-fhd mx-auto flex items-center justify-between">
         <Link href="/">
           {!headerData.logo.image.url.startsWith("/uploads") ? (
             <Image

@@ -12,8 +12,8 @@ export default function OfferSectionTile({
 }: Props) {
   if (variant === "compact") {
     return (
-      <div className="bg-card rounded-lg border p-4">
-        <h3 className="font-semibold">{section.sectionTitle}</h3>
+      <div className="bg-card flex items-center justify-center rounded-lg border p-2 text-center">
+        <h3 className="text-sm font-semibold">{section.sectionTitle}</h3>
       </div>
     );
   }

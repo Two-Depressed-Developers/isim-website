@@ -2,12 +2,22 @@
 
 import { Calendar } from "@/components/calendar/calendar";
 import { mapStrapiEventToCalendarEvent } from "@/components/calendar/mappers";
+import { getCalendarEvents } from "@/data/api/calendar";
 import { useCalendarEvents } from "@/data/queries/use-calendar";
-import { useTranslations } from "next-intl";
+import { queryKeys } from "@/data/query-keys";
+import { usePrefetchLocales } from "@/hooks/use-prefetch-locales";
+import { useLocale, useTranslations } from "next-intl";
 
 export default function CalendarPage() {
   const t = useTranslations("Calendar");
-  const { data: calendarEvents, isPending, isError } = useCalendarEvents();
+  const locale = useLocale();
+  const {
+    data: calendarEvents,
+    isPending,
+    isError,
+  } = useCalendarEvents(locale);
+
+  usePrefetchLocales(queryKeys.calendar.events, getCalendarEvents);
 
   if (isPending) {
     return (

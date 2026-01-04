@@ -15,7 +15,7 @@ export const queryKeys = {
     verify: (token: string) => ["consultations", "verify", token] as const,
   },
   calendar: {
-    events: ["calendar-events"] as const,
+    events: (locale: string) => ["calendar-events", locale] as const,
   },
   groups: {
     all: ["groups"] as const,

@@ -6,7 +6,7 @@ import PageTitle from "@/components/PageTitle";
 import { useGroupsData } from "@/data/queries/use-groups";
 import { useDebounce } from "@/lib/hooks";
 import type { Group as GroupType, MemberData } from "@/types";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 
@@ -68,6 +68,7 @@ const transformGroupsData = (
 
 export default function StaffContent() {
   const t = useTranslations("Staff");
+  const locale = useLocale();
   const searchParams = useSearchParams();
 
   const sortingType = (searchParams.get("sort") as SortingType) || "team";
@@ -76,7 +77,13 @@ export default function StaffContent() {
 
   const debouncedQuery = useDebounce(search, 600);
 
-  const { data: groups, isPending, isError } = useGroupsData({ cache: true });
+  const {
+    data: groups,
+    isPending,
+    isError,
+  } = useGroupsData(locale, {
+    cache: true,
+  });
 
   const sortedGroups = useMemo(() => {
     if (!groups) return null;

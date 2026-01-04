@@ -4,11 +4,17 @@ import ResearchGroupTile from "@/components/custom/research-groups/ResearchGroup
 import PageTitle from "@/components/PageTitle";
 import { useGroupsData } from "@/data/queries/use-groups";
 import { Loader2 } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { getGroupsData } from "@/data/api/groups";
+import { queryKeys } from "@/data/query-keys";
+import { usePrefetchLocales } from "@/hooks/use-prefetch-locales";
+import { useLocale, useTranslations } from "next-intl";
 
 export default function ResearchGroupsPage() {
   const t = useTranslations("ResearchGroups");
-  const { data: groups, isPending, isError } = useGroupsData();
+  const locale = useLocale();
+  const { data: groups, isPending, isError } = useGroupsData(locale);
+
+  usePrefetchLocales(queryKeys.groups.all, getGroupsData);
 
   if (isPending) {
     return (
@@ -21,9 +27,7 @@ export default function ResearchGroupsPage() {
   if (isError) {
     return (
       <div className="container mx-auto py-8">
-        <p className="text-muted-foreground text-center">
-          {t("error")}
-        </p>
+        <p className="text-muted-foreground text-center">{t("error")}</p>
       </div>
     );
   }
@@ -40,9 +44,7 @@ export default function ResearchGroupsPage() {
         </div>
       ) : (
         <div className="flex flex-col items-center justify-center py-16">
-          <p className="text-muted-foreground">
-            {t("notFound")}
-          </p>
+          <p className="text-muted-foreground">{t("notFound")}</p>
         </div>
       )}
     </div>

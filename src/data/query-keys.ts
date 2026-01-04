@@ -18,7 +18,7 @@ export const queryKeys = {
     events: (locale: string) => ["calendar-events", locale] as const,
   },
   groups: {
-    all: ["groups"] as const,
+    all: (locale: string) => ["groups", locale] as const,
   },
   dataProposals: {
     byMember: (memberDocumentId: string) =>

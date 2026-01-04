@@ -4,33 +4,13 @@ import OfferSectionTile from "@/components/custom/offer/OfferSectionTile";
 import PageTitle from "@/components/PageTitle";
 import { useResearchOffers } from "@/data/queries/use-research-offers";
 import { Loader2 } from "lucide-react";
+import { QueryWrapper } from "@/components/QueryWrapper";
 
-export default function OfferPage() {
-  const { data: offers, isPending, isError } = useResearchOffers();
-
-  if (isPending) {
-    return (
-      <div className="container mx-auto flex min-h-[50vh] items-center justify-center">
-        <Loader2 className="text-muted-foreground h-8 w-8 animate-spin" />
-      </div>
-    );
-  }
-
-  if (isError) {
-    return (
-      <div className="container mx-auto py-8">
-        <p className="text-muted-foreground text-center">
-          Nie udało się załadować oferty.
-        </p>
-        <div className="bg-primary h-1 w-28 rounded-full" />
-      </div>
-    );
-  }
+function OfferList() {
+  const { data: offers } = useResearchOffers();
 
   return (
-    <div className="container mx-auto max-w-7xl space-y-8 p-8">
-      <PageTitle title="Nasza oferta" />
-
+    <>
       {offers.map((offer, index) => (
         <div key={offer.documentId} className="bg-card rounded-lg border p-6">
           <div className="mb-6 flex items-center gap-3">
@@ -59,6 +39,23 @@ export default function OfferPage() {
           )}
         </div>
       ))}
+    </>
+  );
+}
+
+export default function OfferPage() {
+  return (
+    <div className="container mx-auto max-w-7xl space-y-8 p-8">
+      <PageTitle title="Nasza oferta" />
+      <QueryWrapper
+        loadingFallback={
+          <div className="flex min-h-[50vh] items-center justify-center">
+            <Loader2 className="text-muted-foreground h-8 w-8 animate-spin" />
+          </div>
+        }
+      >
+        <OfferList />
+      </QueryWrapper>
     </div>
   );
 }

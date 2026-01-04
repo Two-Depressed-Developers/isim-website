@@ -5,32 +5,11 @@ import { useConferences } from "@/data/queries/use-conferences";
 import { useJournals } from "@/data/queries/use-journals";
 import { BookOpen, CalendarDays, Loader2 } from "lucide-react";
 import PageTitle from "@/components/PageTitle";
+import { QueryWrapper } from "@/components/QueryWrapper";
 
-export default function ConferencesPage() {
-  const { data: conferences, isPending, isError } = useConferences();
-  const {
-    data: journals,
-    isPending: isJournalsPending,
-    isError: isJournalsError,
-  } = useJournals();
-
-  if (isPending || isJournalsPending) {
-    return (
-      <div className="container mx-auto flex items-center justify-center py-16">
-        <Loader2 className="text-primary h-8 w-8 animate-spin" />
-      </div>
-    );
-  }
-
-  if (isError || isJournalsError) {
-    return (
-      <div className="container mx-auto py-8">
-        <p className="text-muted-foreground text-center">
-          Nie udało się załadować danych.
-        </p>
-      </div>
-    );
-  }
+function PublicationsList() {
+  const { data: conferences } = useConferences();
+  const { data: journals } = useJournals();
 
   if (conferences.length === 0 && journals.length === 0) {
     return (
@@ -43,9 +22,7 @@ export default function ConferencesPage() {
   }
 
   return (
-    <div className="container mx-auto max-w-7xl space-y-12 p-8">
-      <PageTitle title="Publikacje i wydarzenia" />
-
+    <>
       {journals.length > 0 && (
         <div className="space-y-6">
           <div className="flex items-center gap-3">
@@ -81,6 +58,23 @@ export default function ConferencesPage() {
           </div>
         </div>
       )}
+    </>
+  );
+}
+
+export default function ConferencesPage() {
+  return (
+    <div className="container mx-auto max-w-7xl space-y-12 p-8">
+      <PageTitle title="Publikacje i wydarzenia" />
+      <QueryWrapper
+        loadingFallback={
+          <div className="flex items-center justify-center py-16">
+            <Loader2 className="text-primary h-8 w-8 animate-spin" />
+          </div>
+        }
+      >
+        <PublicationsList />
+      </QueryWrapper>
     </div>
   );
 }

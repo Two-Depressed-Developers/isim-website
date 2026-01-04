@@ -1,8 +1,8 @@
 import { getCalendarEvents } from "../api/calendar";
 import { queryKeys } from "../query-keys";
-import { createQueryHook } from "./types";
+import { createSuspenseQueryHook } from "./types";
 
-export const useCalendarEvents = createQueryHook(
+export const useCalendarEvents = createSuspenseQueryHook(
   queryKeys.calendar.events,
   getCalendarEvents,
 );

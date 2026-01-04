@@ -1,9 +1,9 @@
 import { getResearchOffers } from "../api/research-offers";
 import { queryKeys } from "../query-keys";
-import { createQueryHook } from "./types";
+import { createSuspenseQueryHook } from "./types";
 import type { ResearchOffer } from "@/types";
 
-export const useResearchOffers = createQueryHook<ResearchOffer[]>(
+export const useResearchOffers = createSuspenseQueryHook<ResearchOffer[]>(
   queryKeys.researchOffers.all,
   getResearchOffers,
 );

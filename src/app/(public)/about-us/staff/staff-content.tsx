@@ -2,14 +2,16 @@
 
 import { useMemo } from "react";
 import { useSearchParams } from "next/navigation";
+import { Loader2 } from "lucide-react";
 
 import Group from "@/components/Group";
 import ActionBar from "@/components/ActionBar";
+import PageTitle from "@/components/PageTitle";
+import { QueryWrapper } from "@/components/QueryWrapper";
 
 import { useGroupsData } from "@/data/queries/use-groups";
 import { useDebounce } from "@/lib/hooks";
 import type { MemberData, Group as GroupType } from "@/types";
-import PageTitle from "@/components/PageTitle";
 
 type SortingType = "position" | "team";
 type LayoutType = "grid" | "details" | "list";
@@ -67,7 +69,7 @@ const transformGroupsData = (
   }));
 };
 
-export default function StaffContent() {
+function StaffList() {
   const searchParams = useSearchParams();
 
   const sortingType = (searchParams.get("sort") as SortingType) || "team";
@@ -76,7 +78,7 @@ export default function StaffContent() {
 
   const debouncedQuery = useDebounce(search, 600);
 
-  const { data: groups, isPending, isError } = useGroupsData({ cache: true });
+  const { data: groups } = useGroupsData({ cache: true });
 
   const sortedGroups = useMemo(() => {
     if (!groups) return null;
@@ -110,38 +112,37 @@ export default function StaffContent() {
       .filter(Boolean);
   }, [sortedGroups, debouncedQuery]);
 
-  if (isPending) {
-    return (
-      <div className="mx-auto flex max-w-7xl flex-col items-center justify-center p-8">
-        <p>Loading...</p>
-      </div>
-    );
-  }
+  return (
+    <div className="flex flex-col gap-16">
+      {filteredGroups && filteredGroups.length > 0 ? (
+        filteredGroups.map(
+          (group) =>
+            group && <Group key={group.id} group={group} layout={layout} />,
+        )
+      ) : (
+        <div className="flex h-16 items-center justify-center">
+          <p>No results found</p>
+        </div>
+      )}
+    </div>
+  );
+}
 
-  if (isError) {
-    return (
-      <div className="mx-auto flex max-w-7xl flex-col items-center justify-center p-8">
-        <p>Error loading data</p>
-      </div>
-    );
-  }
-
+export default function StaffContent() {
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col space-y-8 p-8">
       <PageTitle title="Nasz zespół" />
       <ActionBar />
-      <div className="flex flex-col gap-16">
-        {filteredGroups && filteredGroups.length > 0 ? (
-          filteredGroups.map(
-            (group) =>
-              group && <Group key={group.id} group={group} layout={layout} />,
-          )
-        ) : (
-          <div className="flex h-16 items-center justify-center">
-            <p>No results found</p>
+      <QueryWrapper
+        loadingFallback={
+          <div className="mx-auto flex max-w-7xl flex-col items-center justify-center p-8">
+            <Loader2 className="text-primary h-8 w-8 animate-spin" />
+            <p className="text-muted-foreground mt-2 text-sm">Loading...</p>
           </div>
-        )}
-      </div>
+        }
+      >
+        <StaffList />
+      </QueryWrapper>
     </div>
   );
 }

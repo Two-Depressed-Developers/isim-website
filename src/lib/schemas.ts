@@ -60,6 +60,50 @@ export const changePasswordSchema = object({
   path: ["confirmPassword"],
 });
 
+export const changeUsernameSchema = object({
+  username: string()
+    .min(3, { message: "Nazwa użytkownika musi mieć co najmniej 3 znaki." })
+    .max(50, { message: "Nazwa użytkownika nie może przekraczać 50 znaków." })
+    .regex(/^[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ0-9._\s-]+$/, {
+      message:
+        "Nazwa użytkownika może zawierać tylko litery, cyfry, spacje, kropki, myślniki i podkreślenia.",
+    }),
+});
+
+export const forgotPasswordSchema = object({
+  email: string()
+    .min(1, { message: "Email jest wymagany." })
+    .email({ message: "Podaj poprawny adres e-mail." })
+    .max(100, { message: "Adres e-mail nie może przekraczać 100 znaków." }),
+});
+
+export const resetPasswordSchema = object({
+  password: string()
+    .min(6, { message: "Hasło musi mieć co najmniej 6 znaków." })
+    .max(128, { message: "Hasło nie może przekraczać 128 znaków." }),
+  confirmPassword: string(),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Hasła nie są identyczne",
+  path: ["confirmPassword"],
+});
+
+export const setupAccountSchema = object({
+  username: string()
+    .min(3, { message: "Nazwa użytkownika musi mieć co najmniej 3 znaki." })
+    .max(50, { message: "Nazwa użytkownika nie może przekraczać 50 znaków." })
+    .regex(/^[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ0-9._\s-]+$/, {
+      message:
+        "Nazwa użytkownika może zawierać tylko litery, cyfry, spacje, kropki, myślniki i podkreślenia.",
+    }),
+  password: string()
+    .min(6, { message: "Hasło musi mieć co najmniej 6 znaków." })
+    .max(128, { message: "Hasło nie może przekraczać 128 znaków." }),
+  confirmPassword: string(),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Hasła nie są identyczne",
+  path: ["confirmPassword"],
+});
+
 export const ticketFormSchema = object({
   title: string()
     .min(5, { message: "Tytuł musi mieć co najmniej 5 znaków." })

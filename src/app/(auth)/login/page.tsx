@@ -10,6 +10,7 @@ export default function LoginPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const error = searchParams.get("error");
+  const state = searchParams.get("state");
 
   useEffect(() => {
     if (session.status === "authenticated") {
@@ -25,6 +26,14 @@ export default function LoginPage() {
           administratorem, aby utworzyć konto.
         </h2>
       </div>
+      {state && (
+        <div className="rounded-md border-2 border-green-600/10 bg-green-100/25 p-3 text-center text-sm text-green-700">
+          {state === "setup" &&
+            "Konto zostało aktywowane. Możesz się teraz zalogować."}
+          {state === "reset" &&
+            "Hasło zostało zmienione. Możesz się teraz zalogować."}
+        </div>
+      )}
       <div className="flex w-full max-w-sm flex-col">
         <LoginForm errorCode={error} />
       </div>

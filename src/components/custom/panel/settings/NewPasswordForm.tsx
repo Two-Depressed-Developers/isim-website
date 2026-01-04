@@ -78,84 +78,82 @@ export default function NewPasswordForm() {
   };
 
   return (
-    <div className="flex grow">
-      <Card className="w-full">
-        <CardHeader className="border-b pb-5">
-          <h2 className="text-lg font-semibold">Zmiana hasła</h2>
-          <p className="text-muted-foreground mt-1 text-sm">
-            Zaktualizuj swoje hasło, aby zabezpieczyć swoje konto
-          </p>
-        </CardHeader>
-        <CardContent className="pt-6">
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              <FormField
-                control={form.control}
-                name="currentPassword"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Aktualne hasło</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="password"
-                        placeholder="Wpisz aktualne hasło"
-                        disabled={isLoading}
-                        autoComplete="current-password"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+    <Card className="h-full w-full">
+      <CardHeader className="border-b pb-5">
+        <h2 className="text-lg font-semibold">Zmiana hasła</h2>
+        <p className="text-muted-foreground mt-1 text-sm">
+          Zaktualizuj swoje hasło, aby zabezpieczyć swoje konto
+        </p>
+      </CardHeader>
+      <CardContent className="pt-6">
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <FormField
+              control={form.control}
+              name="currentPassword"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Aktualne hasło</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="password"
+                      placeholder="Wpisz aktualne hasło"
+                      disabled={isLoading}
+                      autoComplete="current-password"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-              <FormField
-                control={form.control}
-                name="newPassword"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Nowe hasło</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="password"
-                        placeholder="Wpisz nowe hasło"
-                        disabled={isLoading}
-                        autoComplete="new-password"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+            <FormField
+              control={form.control}
+              name="newPassword"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Nowe hasło</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="password"
+                      placeholder="Wpisz nowe hasło"
+                      disabled={isLoading}
+                      autoComplete="new-password"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-              <FormField
-                control={form.control}
-                name="confirmPassword"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Potwierdź hasło</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="password"
-                        placeholder="Potwierdź nowe hasło"
-                        disabled={isLoading}
-                        autoComplete="new-password"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+            <FormField
+              control={form.control}
+              name="confirmPassword"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Potwierdź hasło</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="password"
+                      placeholder="Potwierdź nowe hasło"
+                      disabled={isLoading}
+                      autoComplete="new-password"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-              <Button type="submit" disabled={isLoading} className="w-full">
-                {isLoading ? "Zmiana..." : "Zmień hasło"}
-              </Button>
-            </form>
-          </Form>
-        </CardContent>
-      </Card>
-    </div>
+            <Button type="submit" disabled={isLoading} className="w-full">
+              {isLoading ? "Zmiana..." : "Zmień hasło"}
+            </Button>
+          </form>
+        </Form>
+      </CardContent>
+    </Card>
   );
 }

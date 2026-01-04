@@ -57,7 +57,7 @@ export function PanelSidebar() {
         {
           href: "/panel/scrape-request",
           label: "Wyszukiwanie danych",
-          icon: UserCircle, 
+          icon: UserCircle,
         },
       ],
     },
@@ -73,7 +73,9 @@ export function PanelSidebar() {
   const adminMenuGroup: MenuGroup[] = [
     {
       label: "Administracja",
-      items: [{ href: "/panel/users", label: "Użytkownicy", icon: Users }],
+      items: [
+        { href: "/panel/users", label: "Dodaj użytkowników", icon: Users },
+      ],
     },
   ];
 

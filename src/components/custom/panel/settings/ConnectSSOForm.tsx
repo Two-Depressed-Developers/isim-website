@@ -50,36 +50,34 @@ export default function ConnectSSOForm() {
   };
 
   return (
-    <div className="flex min-w-lg grow">
-      <Card className="w-full">
-        <CardHeader className="text-center text-xl font-bold">
-          Połączenia SSO
-        </CardHeader>
-        <CardContent>
-          <div className="flex items-center justify-between gap-4 rounded-lg border p-4">
-            <div className="flex items-center gap-3">
-              <Github className="h-6 w-6" />
-              <div>
-                <p className="font-semibold">GitHub</p>
-                <p className="text-sm text-gray-500">
-                  {isConnected ? "Połączone" : "Niepołączone"}
-                </p>
-              </div>
+    <Card className="w-full">
+      <CardHeader className="text-center text-xl font-bold">
+        Połączenia SSO
+      </CardHeader>
+      <CardContent>
+        <div className="flex items-center justify-between gap-4 rounded-lg border p-4">
+          <div className="flex items-center gap-3">
+            <Github className="h-6 w-6" />
+            <div>
+              <p className="font-semibold">GitHub</p>
+              <p className="text-sm text-gray-500">
+                {isConnected ? "Połączone" : "Niepołączone"}
+              </p>
             </div>
-            <Button
-              onClick={handleToggleConnection}
-              disabled={isLoading}
-              variant={isConnected ? "destructive" : "default"}
-            >
-              {isLoading
-                ? "Przetwarzanie..."
-                : isConnected
-                  ? "Rozłącz"
-                  : "Połącz"}
-            </Button>
           </div>
-        </CardContent>
-      </Card>
-    </div>
+          <Button
+            onClick={handleToggleConnection}
+            disabled={isLoading}
+            variant={isConnected ? "destructive" : "default"}
+          >
+            {isLoading
+              ? "Przetwarzanie..."
+              : isConnected
+                ? "Rozłącz"
+                : "Połącz"}
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
   );
 }

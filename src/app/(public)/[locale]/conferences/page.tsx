@@ -5,8 +5,10 @@ import { useConferences } from "@/data/queries/use-conferences";
 import { useJournals } from "@/data/queries/use-journals";
 import { BookOpen, CalendarDays, Loader2 } from "lucide-react";
 import PageTitle from "@/components/PageTitle";
+import { useTranslations } from "next-intl";
 
 export default function ConferencesPage() {
+  const t = useTranslations("Conferences");
   const { data: conferences, isPending, isError } = useConferences();
   const {
     data: journals,
@@ -26,7 +28,7 @@ export default function ConferencesPage() {
     return (
       <div className="container mx-auto py-8">
         <p className="text-muted-foreground text-center">
-          Nie udało się załadować danych.
+          {t("error")}
         </p>
       </div>
     );
@@ -36,7 +38,7 @@ export default function ConferencesPage() {
     return (
       <div className="flex flex-col items-center justify-center py-16">
         <p className="text-muted-foreground mt-4">
-          Brak dostępnych publikacji i wydarzeń.
+          {t("empty")}
         </p>
       </div>
     );
@@ -44,13 +46,13 @@ export default function ConferencesPage() {
 
   return (
     <div className="container mx-auto max-w-7xl space-y-12 p-8">
-      <PageTitle title="Publikacje i wydarzenia" />
+      <PageTitle title={t("title")} />
 
       {journals.length > 0 && (
         <div className="space-y-6">
           <div className="flex items-center gap-3">
             <BookOpen className="text-primary h-6 w-6" />
-            <h2 className="text-2xl font-semibold">Czasopisma naukowe</h2>
+            <h2 className="text-2xl font-semibold">{t("journals")}</h2>
           </div>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {journals.map((journal) => (
@@ -68,7 +70,7 @@ export default function ConferencesPage() {
         <div className="space-y-6">
           <div className="flex items-center gap-3">
             <CalendarDays className="text-primary h-6 w-6" />
-            <h2 className="text-2xl font-semibold">Konferencje i wydarzenia</h2>
+            <h2 className="text-2xl font-semibold">{t("events")}</h2>
           </div>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {conferences.map((conference) => (

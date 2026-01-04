@@ -1,6 +1,6 @@
 import { format, parseISO } from "date-fns";
-import { pl } from "date-fns/locale";
 import type { FC } from "react";
+import { useTranslations, useFormatter } from "next-intl";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Command,
@@ -31,6 +31,8 @@ export const AgendaEvents: FC = () => {
     agendaModeGroupBy,
     selectedDate,
   } = useCalendar();
+  const t = useTranslations("Calendar");
+  const formatDateTime = useFormatter();
 
   const monthEvents = getEventsForMonth(events, selectedDate);
 
@@ -47,7 +49,7 @@ export const AgendaEvents: FC = () => {
   return (
     <Command className="h-[80vh] bg-transparent py-4">
       <div className="mx-4 mb-4">
-        <CommandInput placeholder="Wpisz polecenie lub wyszukaj..." />
+        <CommandInput placeholder={t("searchPlaceholder")} />
       </div>
       <CommandList className="max-h-max border-t px-3">
         {groupedAndSortedEvents.map(([date, groupedEvents]) => (
@@ -55,7 +57,12 @@ export const AgendaEvents: FC = () => {
             key={date}
             heading={
               agendaModeGroupBy === "date"
-                ? format(parseISO(date), "EEEE, d LLLL yyyy", { locale: pl })
+                ? formatDateTime.dateTime(parseISO(date), {
+                    weekday: "long",
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric",
+                  })
                 : toCapitalize(groupedEvents![0].color)
             }
           >
@@ -131,7 +138,7 @@ export const AgendaEvents: FC = () => {
             ))}
           </CommandGroup>
         ))}
-        <CommandEmpty>No results found.</CommandEmpty>
+        <CommandEmpty>{t("noResults")}</CommandEmpty>
       </CommandList>
     </Command>
   );

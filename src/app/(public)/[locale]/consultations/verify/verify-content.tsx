@@ -6,8 +6,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CheckCircle2, XCircle, Loader2 } from "lucide-react";
 import { Link } from "@/i18n/navigation";
+import { useTranslations, useFormatter } from "next-intl";
 
 export function VerifyConsultationContent() {
+  const t = useTranslations("VerifyConsultation");
+  const format = useFormatter();
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
   const { data, isPending, isError } = useVerifyConsultationBooking(token);
@@ -21,14 +24,14 @@ export function VerifyConsultationContent() {
   };
 
   const getMessage = () => {
-    if (!token) return "Brak tokenu weryfikacyjnego.";
+    if (!token) return t("missingToken");
     if (isPending) return "";
     if (data?.success)
-      return "Rezerwacja konsultacji została potwierdzona pomyślnie! Powiadomiliśmy prowadzącego - otrzymasz wiadomość email z potwierdzeniem lub odmową konsultacji.";
+      return t("successMessage");
     if (isError) {
-      return "Wystąpił błąd podczas weryfikacji.";
+      return t("errorMessage");
     }
-    return data?.error || "Wystąpił błąd podczas weryfikacji.";
+    return data?.error || t("errorMessage");
   };
 
   const state = getState();
@@ -43,19 +46,19 @@ export function VerifyConsultationContent() {
               {state === "verifying" && (
                 <>
                   <Loader2 className="h-5 w-5 animate-spin" />
-                  Weryfikacja rezerwacji...
+                  {t("verifying")}
                 </>
               )}
               {state === "success" && (
                 <>
                   <CheckCircle2 className="h-5 w-5 text-green-600" />
-                  Sukces!
+                  {t("success")}
                 </>
               )}
               {state === "error" && (
                 <>
                   <XCircle className="h-5 w-5 text-red-600" />
-                  Błąd weryfikacji
+                  {t("error")}
                 </>
               )}
             </CardTitle>
@@ -74,26 +77,24 @@ export function VerifyConsultationContent() {
             {state === "success" && data?.booking && (
               <div className="bg-muted space-y-2 rounded-lg p-4 text-sm">
                 <p>
-                  <strong>Student:</strong> {data.booking.studentName}
+                  <strong>{t("student")}:</strong> {data.booking.studentName}
                 </p>
                 <p>
-                  <strong>Prowadzący:</strong> {data.booking.memberName}
+                  <strong>{t("host")}:</strong> {data.booking.memberName}
                 </p>
                 <p>
-                  <strong>Termin:</strong>{" "}
-                  {new Date(data.booking.startTime).toLocaleDateString("pl-PL")}
-                  ,{" "}
-                  {new Date(data.booking.startTime).toLocaleTimeString(
-                    "pl-PL",
-                    {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    },
-                  )}{" "}
+                  <strong>{t("date")}:</strong>{" "}
+                  {format.dateTime(new Date(data.booking.startTime), {
+                     year: 'numeric',
+                     month: 'numeric',
+                     day: 'numeric',
+                     hour: '2-digit',
+                     minute: '2-digit'
+                  })}{" "}
                   -{" "}
-                  {new Date(data.booking.endTime).toLocaleTimeString("pl-PL", {
-                    hour: "2-digit",
-                    minute: "2-digit",
+                  {format.dateTime(new Date(data.booking.endTime), {
+                     hour: '2-digit',
+                     minute: '2-digit'
                   })}
                 </p>
               </div>
@@ -101,13 +102,13 @@ export function VerifyConsultationContent() {
 
             {state === "success" && (
               <Button asChild className="w-full">
-                <Link href="/">Wróć na stronę główną</Link>
+                <Link href="/">{t("backHome")}</Link>
               </Button>
             )}
 
             {state === "error" && (
               <Button asChild className="w-full">
-                <Link href="/about-us/staff">Zobacz dostępne konsultacje</Link>
+                <Link href="/about-us/staff">{t("viewConsultations")}</Link>
               </Button>
             )}
           </CardContent>

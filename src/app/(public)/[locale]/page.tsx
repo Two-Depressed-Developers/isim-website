@@ -1,3 +1,5 @@
+import HomepageBuilder from "@/components/custom/homepage/HomepageBuilder";
+import { loadHomepageData } from "@/data/loaders/homepage";
 import { getTranslations } from "next-intl/server";
 
 export async function generateMetadata({
@@ -13,17 +15,23 @@ export async function generateMetadata({
   };
 }
 
-type Props = {
-  params: Promise<{ locale: string }>;
-};
+export default async function Home() {
+  const t = await getTranslations("HomePage");
+  const homepage = await loadHomepageData();
 
-export default async function Home({ params }: Props) {
-  const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "HomePage" });
+  if (!homepage) {
+    return (
+      <div className="flex grow flex-col items-center justify-center">
+        <p className="text-muted-foreground">
+          {t("error")}
+        </p>
+      </div>
+    );
+  }
 
   return (
-    <div className="flex grow flex-col items-center justify-center">
-      <h1 className="text-5xl font-bold">{t("title")}</h1>
+    <div className="flex grow flex-col">
+      <HomepageBuilder homepage={homepage} />
     </div>
   );
 }

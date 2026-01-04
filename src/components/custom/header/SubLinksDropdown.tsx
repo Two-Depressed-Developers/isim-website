@@ -13,7 +13,6 @@ const SubLinksDropdown = ({ subLinks, baseUrl }: Props) => {
       {subLinks.map((subLink) => {
         const subUrl = path.join(
           "/",
-          baseUrl.replace(/^\//, ""),
           subLink.page?.slug ?? subLink.URL,
         );
 

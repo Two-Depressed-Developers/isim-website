@@ -4,7 +4,7 @@ import Header from "@/components/Header";
 import { BreadcrumbsProvider } from "@/context/BreadcrumbsContext";
 import { routing } from "@/i18n/routing";
 import { hasLocale } from "next-intl";
-import { setRequestLocale } from "next-intl/server";
+import { getMessages, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { LocaleProviders } from "./providers";
 
@@ -28,8 +28,10 @@ export default async function PublicLayout({ children, params }: Props) {
 
   setRequestLocale(locale);
 
+  const messages = await getMessages();
+
   return (
-    <LocaleProviders locale={locale}>
+    <LocaleProviders locale={locale} messages={messages}>
       <Header />
       <main className="flex grow flex-col">
         <BreadcrumbsProvider>

@@ -1,14 +1,7 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import type { z } from "zod";
-import { toast } from "sonner";
-
-import { ticketFormSchema } from "@/lib/schemas";
-import { useSubmitTicket } from "@/data/queries/use-tickets";
-
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -20,14 +13,20 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useSubmitTicket } from "@/data/queries/use-tickets";
+import { ticketFormSchema } from "@/lib/schemas";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslations } from "next-intl";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import type { z } from "zod";
 
 type Props = {
   defaultEmail?: string;
 };
 
 export function TicketForm({ defaultEmail }: Props) {
+  const t = useTranslations("TicketForm");
   const submitTicketMutation = useSubmitTicket();
 
   const form = useForm<z.infer<typeof ticketFormSchema>>({
@@ -42,11 +41,11 @@ export function TicketForm({ defaultEmail }: Props) {
   async function onSubmit(values: z.infer<typeof ticketFormSchema>) {
     submitTicketMutation.mutate(values, {
       onSuccess: (result) => {
-        toast.success(result.message);
+        toast.success(result.success ? t("success") : t("error"));
         form.reset();
       },
       onError: () => {
-        toast.error("Wystąpił błąd podczas tworzenia zgłoszenia");
+        toast.error(t("error"));
       },
     });
   }
@@ -54,7 +53,7 @@ export function TicketForm({ defaultEmail }: Props) {
   return (
     <Card className="w-full max-w-2xl">
       <CardHeader>
-        <CardTitle>Nowe zgłoszenie</CardTitle>
+        <CardTitle>{t("title")}</CardTitle>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -64,10 +63,10 @@ export function TicketForm({ defaultEmail }: Props) {
               name="title"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Tytuł</FormLabel>
+                  <FormLabel>{t("titleLabel")}</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Krótki opis problemu"
+                      placeholder={t("titlePlaceholder")}
                       {...field}
                       disabled={submitTicketMutation.isPending}
                     />
@@ -82,18 +81,17 @@ export function TicketForm({ defaultEmail }: Props) {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Adres e-mail</FormLabel>
+                  <FormLabel>{t("emailLabel")}</FormLabel>
                   <FormControl>
                     <Input
                       type="email"
-                      placeholder="twoj.email@example.com"
+                      placeholder={t("emailPlaceholder")}
                       {...field}
                       disabled={submitTicketMutation.isPending}
                     />
                   </FormControl>
                   <FormDescription>
-                    Wymagany adres e-mail z domeny AGH. Wyślemy link
-                    weryfikacyjny.
+                    {t("emailDescription")}
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -105,17 +103,17 @@ export function TicketForm({ defaultEmail }: Props) {
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Opis</FormLabel>
+                  <FormLabel>{t("descriptionLabel")}</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Szczegółowy opis problemu..."
+                      placeholder={t("descriptionPlaceholder")}
                       className="min-h-32 resize-none"
                       {...field}
                       disabled={submitTicketMutation.isPending}
                     />
                   </FormControl>
                   <FormDescription>
-                    Opisz problem możliwie szczegółowo
+                    {t("descriptionHelp")}
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -128,8 +126,8 @@ export function TicketForm({ defaultEmail }: Props) {
               className="w-full"
             >
               {submitTicketMutation.isPending
-                ? "Wysyłanie..."
-                : "Wyślij zgłoszenie"}
+                ? t("submitting")
+                : t("submit")}
             </Button>
           </form>
         </Form>

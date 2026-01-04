@@ -14,15 +14,17 @@ import {
 import type { IEvent } from "@/components/calendar/interfaces";
 import { DayCell } from "@/components/calendar/views/month-view/day-cell";
 
+import { startOfWeek, addDays } from "date-fns";
+import { useFormatter } from "next-intl";
+
 interface IProps {
 	singleDayEvents: IEvent[];
 	multiDayEvents: IEvent[];
 }
 
-const WEEK_DAYS = ["Nd", "Pn", "Wt", "Śr", "Cz", "Pt", "So"];
-
 export function CalendarMonthView({ singleDayEvents, multiDayEvents }: IProps) {
 	const { selectedDate } = useCalendar();
+  const formatDateTime = useFormatter();
 
 	const allEvents = [...multiDayEvents, ...singleDayEvents];
 
@@ -38,18 +40,23 @@ export function CalendarMonthView({ singleDayEvents, multiDayEvents }: IProps) {
 		[multiDayEvents, singleDayEvents, selectedDate],
 	);
 
+  const weekStart = startOfWeek(new Date()); 
+  const weekDays = Array.from({ length: 7 }, (_, i) => addDays(weekStart, i));
+
 	return (
 		<motion.div initial="initial" animate="animate" variants={staggerContainer}>
 			<div className="grid grid-cols-7">
-				{WEEK_DAYS.map((day, index) => (
+				{weekDays.map((day, index) => (
 					<motion.div
-						key={day}
+						key={index}
 						className="flex items-center justify-center py-2"
 						initial={{ opacity: 0, y: -10 }}
 						animate={{ opacity: 1, y: 0 }}
 						transition={{ delay: index * 0.05, ...transition }}
 					>
-						<span className="text-xs font-medium text-t-quaternary">{day}</span>
+						<span className="text-xs font-medium text-t-quaternary">
+              {formatDateTime.dateTime(day, { weekday: "short" })}
+            </span>
 					</motion.div>
 				))}
 			</div>

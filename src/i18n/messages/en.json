@@ -3,6 +3,177 @@
     "title": "ISiM - Home Page"
   },
   "HomePage": {
-    "title": "Hello world!"
+    "error": "Failed to load home page. Please try again later."
+  },
+  "Common": {
+    "loading": "Loading...",
+    "error": "Error loading data",
+    "noResults": "No results found",
+    "searchPlaceholder": "Search..."
+  },
+  "VerifyConsultation": {
+    "verifying": "Verifying booking...",
+    "success": "Success!",
+    "error": "Verification error",
+    "missingToken": "Missing verification token.",
+    "successMessage": "Consultation booking verified successfully! We notified the host - you will receive an email with confirmation or rejection.",
+    "errorMessage": "An error occurred during verification.",
+    "student": "Student",
+    "host": "Host",
+    "date": "Date",
+    "backHome": "Back to home page",
+    "viewConsultations": "View available consultations"
+  },
+  "Conferences": {
+    "title": "Publications and Events",
+    "journals": "Scientific Journals",
+    "events": "Conferences and Events",
+    "error": "Failed to load data.",
+    "empty": "No available publications or events."
+  },
+
+  "Staff": {
+    "title": "Our Team",
+    "loading": "Loading staff data...",
+    "error": "Error loading data",
+    "noResults": "No results found",
+    "memberNotFound": "Member not found"
+  },
+  "Offer": {
+    "title": "Our Offer",
+    "error": "Failed to load offer."
+  },
+  "ResearchGroups": {
+    "title": "Research Groups",
+    "error": "Failed to load research groups.",
+    "notFound": "No research groups found."
+  },
+  "Courses": {
+    "title": "Study Courses",
+    "error": "Failed to load courses.",
+    "noResults": "No courses available.",
+    "firstDegree": "First Cycle Studies (Bachelor/Engineer)",
+    "secondDegree": "Second Cycle Studies (Master)"
+  },
+  "Helpdesk": {
+    "title": "Tickets",
+    "subtitle": "Report a problem with a laboratory or equipment. We will try to solve it as soon as possible.",
+    "back": "Back to home page",
+    "create": "Create new ticket"
+  },
+  "VerifyTicket": {
+    "verifying": "Verifying ticket...",
+    "success": "Success!",
+    "error": "Verification error",
+    "missingToken": "Missing verification token.",
+    "successMessage": "Ticket confirmed and created successfully!",
+    "errorMessage": "An error occurred during verification.",
+    "backHome": "Back to home page",
+    "createTicket": "Create new ticket"
+  },
+  "TicketStatus": {
+    "error": "Error",
+    "notFound": "Ticket not found. Check if the link is correct.",
+    "email": "Email",
+    "description": "Problem description",
+    "createdAt": "Created at",
+    "verifiedAt": "Verified at",
+    "pending": "Your ticket is pending verification. Check your email inbox and click the verification link.",
+    "open": "Your ticket has been verified and is waiting for processing.",
+    "inProgress": "Your ticket is currently being processed.",
+    "resolved": "Your ticket has been successfully resolved! The problem has been fixed. Thank you for contacting us!",
+    "rejected": "Ticket has been rejected.",
+    "status": {
+      "pending": "Pending verification",
+      "open": "Open",
+      "in-progress": "In progress",
+      "resolved": "Resolved",
+      "closed": "Rejected"
+    }
+  },
+  "TicketForm": {
+    "title": "New Ticket",
+    "titleLabel": "Title",
+    "titlePlaceholder": "Short description of the problem",
+    "emailLabel": "Email address",
+    "emailPlaceholder": "your.email@example.com",
+    "emailDescription": "Required AGH email address. We will send a verification link.",
+    "descriptionLabel": "Description",
+    "descriptionPlaceholder": "Detailed description of the problem...",
+    "descriptionHelp": "Describe the problem as detailed as possible",
+    "submit": "Submit ticket",
+    "submitting": "Sending...",
+    "success": "Ticket created successfully!",
+    "error": "An error occurred while creating the ticket"
+  },
+  "Group": {
+    "noMembers": "No members in this group",
+    "photo": "Photo",
+    "title": "Title",
+    "fullName": "Full name",
+    "contact": "Contact"
+  },
+  "MobileMenu": {
+    "menu": "Menu",
+    "toggle": "Toggle menu"
+  },
+  "Calendar": {
+    "loading": "Loading...",
+    "error": "Error loading calendar events.",
+    "settings": "Calendar settings",
+    "darkMode": "Use dark mode",
+    "dotBadge": "Use dot badge",
+    "format24h": "Use 24 hour format",
+    "groupBy": "Agenda view group by",
+    "date": "Date",
+    "color": "Color",
+    "views": {
+      "month": "Month",
+      "week": "Week",
+      "day": "Day",
+      "agenda": "Agenda"
+    },
+    "events": "{count, plural, =0 {events} one {event} other {events}}",
+    "noEvents": "events",
+    "noCurrentEvents": "No current events",
+    "nowHappening": "Happening now",
+    "noResults": "No results found.",
+    "searchPlaceholder": "Search...",
+    "eventDetails": {
+      "startDate": "Start date",
+      "endDate": "End date",
+      "description": "Description",
+      "edit": "Edit",
+      "delete": "Delete",
+      "at": "at"
+    }
+  },
+  "MemberDetails": {
+    "contact": "Contact",
+    "email": "Email",
+    "phone": "Phone",
+    "room": "Room",
+    "consultations": "Consultations",
+    "noSlots": "No available consultation slots",
+    "availableSlots": "{count} available slots",
+    "infoTitle": "Information:",
+    "infoContent": "Choose an available slot and provide your AGH email address. After the host approves your request, you will receive an email with the room number.",
+    "dialogTitle": "Book consultation",
+    "dialogDescription": "Consultation with {name}",
+    "formEmail": "Your AGH email address",
+    "formName": "Full name",
+    "formField": "Field of study and subject",
+    "cancel": "Cancel",
+    "sendRequest": "Send request",
+    "sending": "Sending...",
+    "successTitle": "Consultation request sent!",
+    "successDesc": "Check your email inbox and confirm the reservation by clicking the verification link.",
+    "errorTitle": "Error occurred",
+    "errorDesc": "Failed to send consultation request. Please try again."
+  },
+  "NotFound": {
+    "title": "404 - Not Found!",
+    "description": "The page you are looking for does not exist.",
+    "homeButton": "Go to Home"
   }
 }

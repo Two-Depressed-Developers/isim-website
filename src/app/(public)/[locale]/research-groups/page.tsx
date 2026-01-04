@@ -1,11 +1,13 @@
 "use client";
 
-import { Loader2 } from "lucide-react";
-import { useGroupsData } from "@/data/queries/use-groups";
 import ResearchGroupTile from "@/components/custom/research-groups/ResearchGroupTile";
 import PageTitle from "@/components/PageTitle";
+import { useGroupsData } from "@/data/queries/use-groups";
+import { Loader2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export default function ResearchGroupsPage() {
+  const t = useTranslations("ResearchGroups");
   const { data: groups, isPending, isError } = useGroupsData();
 
   if (isPending) {
@@ -20,7 +22,7 @@ export default function ResearchGroupsPage() {
     return (
       <div className="container mx-auto py-8">
         <p className="text-muted-foreground text-center">
-          Nie udało się załadować grup badawczych.
+          {t("error")}
         </p>
       </div>
     );
@@ -28,7 +30,7 @@ export default function ResearchGroupsPage() {
 
   return (
     <div className="container mx-auto max-w-7xl space-y-8 p-8">
-      <PageTitle title="Grupy badawcze" />
+      <PageTitle title={t("title")} />
 
       {groups.length > 0 ? (
         <div className="space-y-4">
@@ -39,7 +41,7 @@ export default function ResearchGroupsPage() {
       ) : (
         <div className="flex flex-col items-center justify-center py-16">
           <p className="text-muted-foreground">
-            Nie znaleziono grup badawczych.
+            {t("notFound")}
           </p>
         </div>
       )}

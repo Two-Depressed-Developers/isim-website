@@ -1,15 +1,14 @@
 "use client";
 
-import { useMemo } from "react";
-import { useSearchParams } from "next/navigation";
-
-import Group from "@/components/Group";
 import ActionBar from "@/components/ActionBar";
-
+import Group from "@/components/Group";
+import PageTitle from "@/components/PageTitle";
 import { useGroupsData } from "@/data/queries/use-groups";
 import { useDebounce } from "@/lib/hooks";
-import type { MemberData, Group as GroupType } from "@/types";
-import PageTitle from "@/components/PageTitle";
+import type { Group as GroupType, MemberData } from "@/types";
+import { useTranslations } from "next-intl";
+import { useSearchParams } from "next/navigation";
+import { useMemo } from "react";
 
 type SortingType = "position" | "team";
 type LayoutType = "grid" | "details" | "list";
@@ -68,6 +67,7 @@ const transformGroupsData = (
 };
 
 export default function StaffContent() {
+  const t = useTranslations("Staff");
   const searchParams = useSearchParams();
 
   const sortingType = (searchParams.get("sort") as SortingType) || "team";
@@ -113,7 +113,7 @@ export default function StaffContent() {
   if (isPending) {
     return (
       <div className="mx-auto flex max-w-7xl flex-col items-center justify-center p-8">
-        <p>Loading...</p>
+        <p>{t("loading")}</p>
       </div>
     );
   }
@@ -121,14 +121,14 @@ export default function StaffContent() {
   if (isError) {
     return (
       <div className="mx-auto flex max-w-7xl flex-col items-center justify-center p-8">
-        <p>Error loading data</p>
+        <p>{t("error")}</p>
       </div>
     );
   }
 
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col space-y-8 p-8">
-      <PageTitle title="Nasz zespół" />
+      <PageTitle title={t("title")} />
       <ActionBar />
       <div className="flex flex-col gap-16">
         {filteredGroups && filteredGroups.length > 0 ? (
@@ -138,7 +138,7 @@ export default function StaffContent() {
           )
         ) : (
           <div className="flex h-16 items-center justify-center">
-            <p>No results found</p>
+            <p>{t("noResults")}</p>
           </div>
         )}
       </div>

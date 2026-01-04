@@ -1,20 +1,23 @@
-import MemberMainInfoCard from "@/components/custom/member/MemberMainInfoCard";
-import MemberConsultations from "@/components/custom/member/MemberConsultations";
-
-import { getMemberData } from "@/data/api/members";
-import MemberSections from "@/components/custom/member/MemberSections";
 import { BreadcrumbTitleSetter } from "@/components/custom/breadcrumb/BreadcrumbTitleSetter";
+import MemberConsultations from "@/components/custom/member/MemberConsultations";
+import MemberMainInfoCard from "@/components/custom/member/MemberMainInfoCard";
+import MemberSections from "@/components/custom/member/MemberSections";
+import { getMemberData } from "@/data/api/members";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 
 export default async function Page({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; locale: string }>;
 }) {
-  const slug = (await params).slug;
+  const { slug, locale } = await params;
+  setRequestLocale(locale);
+
+  const t = await getTranslations("Staff");
   const member = await getMemberData(slug);
 
   if (member.error) {
-    return <div>Member not found</div>;
+    return <div>{t("memberNotFound")}</div>;
   }
 
   return (

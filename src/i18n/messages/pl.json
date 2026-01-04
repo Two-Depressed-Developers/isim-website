@@ -3,6 +3,177 @@
     "title": "ISiM - Strona główna"
   },
   "HomePage": {
-    "title": "Witaj świecie!"
+    "error": "Nie udało się załadować strony głównej. Spróbuj ponownie później."
+  },
+  "Common": {
+    "loading": "Ładowanie...",
+    "error": "Błąd ładowania danych",
+    "noResults": "Brak wyników",
+    "searchPlaceholder": "Szukaj..."
+  },
+  "VerifyConsultation": {
+    "verifying": "Weryfikacja rezerwacji...",
+    "success": "Sukces!",
+    "error": "Błąd weryfikacji",
+    "missingToken": "Brak tokenu weryfikacyjnego.",
+    "successMessage": "Rezerwacja konsultacji została potwierdzona pomyślnie! Powiadomiliśmy prowadzącego - otrzymasz wiadomość email z potwierdzeniem lub odmową konsultacji.",
+    "errorMessage": "Wystąpił błąd podczas weryfikacji.",
+    "student": "Student",
+    "host": "Prowadzący",
+    "date": "Termin",
+    "backHome": "Wróć na stronę główną",
+    "viewConsultations": "Zobacz dostępne konsultacje"
+  },
+  "Conferences": {
+    "title": "Publikacje i wydarzenia",
+    "journals": "Czasopisma naukowe",
+    "events": "Konferencje i wydarzenia",
+    "error": "Nie udało się załadować danych.",
+    "empty": "Brak dostępnych publikacji i wydarzeń."
+  },
+
+  "Staff": {
+    "title": "Nasz zespół",
+    "loading": "Ładowanie danych pracowników...",
+    "error": "Błąd ładowania danych",
+    "noResults": "Nie znaleziono wyników",
+    "memberNotFound": "Nie znaleziono pracownika"
+  },
+  "Offer": {
+    "title": "Nasza oferta",
+    "error": "Nie udało się załadować oferty."
+  },
+  "ResearchGroups": {
+    "title": "Grupy badawcze",
+    "error": "Nie udało się załadować grup badawczych.",
+    "notFound": "Nie znaleziono grup badawczych."
+  },
+  "Courses": {
+    "title": "Kierunki studiów",
+    "error": "Nie udało się załadować kursów.",
+    "noResults": "Brak dostępnych kierunków.",
+    "firstDegree": "Studia I stopnia (inżynierskie)",
+    "secondDegree": "Studia II stopnia (magisterskie)"
+  },
+  "Helpdesk": {
+    "title": "Zgłoszenia",
+    "subtitle": "Zgłoś problem z laboratorium lub sprzętem. Postaramy się rozwiązać go jak najszybciej.",
+    "back": "Wróć na stronę główną",
+    "create": "Utwórz nowe zgłoszenie"
+  },
+  "VerifyTicket": {
+    "verifying": "Weryfikacja zgłoszenia...",
+    "success": "Sukces!",
+    "error": "Błąd weryfikacji",
+    "missingToken": "Brak tokenu weryfikacyjnego.",
+    "successMessage": "Zgłoszenie zostało potwierdzone i utworzone pomyślnie!",
+    "errorMessage": "Wystąpił błąd podczas weryfikacji.",
+    "backHome": "Wróć na stronę główną",
+    "createTicket": "Utwórz nowe zgłoszenie"
+  },
+  "TicketStatus": {
+    "error": "Błąd",
+    "notFound": "Nie znaleziono zgłoszenia. Sprawdź, czy link jest poprawny.",
+    "email": "Email",
+    "description": "Opis problemu",
+    "createdAt": "Data utworzenia",
+    "verifiedAt": "Data weryfikacji",
+    "pending": "Twoje zgłoszenie oczekuje na weryfikację. Sprawdź swoją skrzynkę email i kliknij w link weryfikacyjny.",
+    "open": "Twoje zgłoszenie zostało zweryfikowane i oczekuje na realizację.",
+    "inProgress": "Twoje zgłoszenie jest obecnie w trakcie realizacji.",
+    "resolved": "Twoje zgłoszenie zostało pomyślnie rozwiązane! Problem został usunięty. Dziękujemy za kontakt!",
+    "rejected": "Zgłoszenie zostało odrzucone.",
+    "status": {
+      "pending": "Oczekujące na weryfikację",
+      "open": "Otwarte",
+      "in-progress": "W trakcie realizacji",
+      "resolved": "Rozwiązane",
+      "closed": "Odrzucone"
+    }
+  },
+  "TicketForm": {
+    "title": "Nowe zgłoszenie",
+    "titleLabel": "Tytuł",
+    "titlePlaceholder": "Krótki opis problemu",
+    "emailLabel": "Adres e-mail",
+    "emailPlaceholder": "twoj.email@example.com",
+    "emailDescription": "Wymagany adres e-mail z domeny AGH. Wyślemy link weryfikacyjny.",
+    "descriptionLabel": "Opis",
+    "descriptionPlaceholder": "Szczegółowy opis problemu...",
+    "descriptionHelp": "Opisz problem możliwie szczegółowo",
+    "submit": "Wyślij zgłoszenie",
+    "submitting": "Wysyłanie...",
+    "success": "Zgłoszenie zostało wysłane pomyślnie!",
+    "error": "Wystąpił błąd podczas tworzenia zgłoszenia"
+  },
+  "Group": {
+    "noMembers": "Brak członków w tej grupie",
+    "photo": "Zdjęcie",
+    "title": "Tytuł",
+    "fullName": "Imię i nazwisko",
+    "contact": "Kontakt"
+  },
+  "MobileMenu": {
+    "menu": "Menu",
+    "toggle": "Przełącz menu"
+  },
+  "Calendar": {
+    "loading": "Ładowanie...",
+    "error": "Błąd ładowania wydarzeń kalendarza.",
+    "settings": "Ustawienia kalendarza",
+    "darkMode": "Tryb ciemny",
+    "dotBadge": "Kropki zamiast tła",
+    "format24h": "Format 24-godzinny",
+    "groupBy": "Grupuj agendę po",
+    "date": "Data",
+    "color": "Kolor",
+    "views": {
+      "month": "Miesiąc",
+      "week": "Tydzień",
+      "day": "Dzień",
+      "agenda": "Agenda"
+    },
+    "events": "{count, plural, =0 {wydarzeń} one {wydarzenie} few {wydarzenia} other {wydarzeń}}",
+    "noEvents": "wydarzeń",
+    "noCurrentEvents": "Brak aktualnych wydarzeń",
+    "nowHappening": "Trwa teraz",
+    "noResults": "Brak wyników.",
+    "searchPlaceholder": "Wpisz polecenie lub wyszukaj...",
+    "eventDetails": {
+      "startDate": "Data rozpoczęcia",
+      "endDate": "Data zakończenia",
+      "description": "Opis",
+      "edit": "Edytuj",
+      "delete": "Usuń",
+      "at": "o"
+    }
+  },
+  "MemberDetails": {
+    "contact": "Kontakt",
+    "email": "Email",
+    "phone": "Telefon",
+    "room": "Pokój",
+    "consultations": "Konsultacje",
+    "noSlots": "Brak dostępnych terminów konsultacji",
+    "availableSlots": "{count} dostępnych terminów",
+    "infoTitle": "Informacja:",
+    "infoContent": "Wybierz dostępny termin i podaj swój adres e-mail z domeny AGH. Po zatwierdzeniu prośby przez prowadzącego otrzymasz wiadomość e-mail z numerem pokoju.",
+    "dialogTitle": "Rezerwacja konsultacji",
+    "dialogDescription": "Konsultacje z {name}",
+    "formEmail": "Twój adres e-mail AGH",
+    "formName": "Imię i nazwisko",
+    "formField": "Kierunek i przedmiot",
+    "cancel": "Anuluj",
+    "sendRequest": "Wyślij prośbę",
+    "sending": "Wysyłanie...",
+    "successTitle": "Prośba o konsultację została wysłana!",
+    "successDesc": "Sprawdź swoją skrzynkę email i potwierdź rezerwację klikając w link weryfikacyjny.",
+    "errorTitle": "Wystąpił błąd",
+    "errorDesc": "Nie udało się wysłać prośby o konsultację. Spróbuj ponownie."
+  },
+  "NotFound": {
+    "title": "404 - Nie znaleziono!",
+    "description": "Strona, której szukasz, nie istnieje.",
+    "homeButton": "Wróć do strony głównej"
   }
 }

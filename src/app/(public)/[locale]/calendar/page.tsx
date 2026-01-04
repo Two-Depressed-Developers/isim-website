@@ -3,14 +3,16 @@
 import { Calendar } from "@/components/calendar/calendar";
 import { mapStrapiEventToCalendarEvent } from "@/components/calendar/mappers";
 import { useCalendarEvents } from "@/data/queries/use-calendar";
+import { useTranslations } from "next-intl";
 
 export default function CalendarPage() {
+  const t = useTranslations("Calendar");
   const { data: calendarEvents, isPending, isError } = useCalendarEvents();
 
   if (isPending) {
     return (
       <div className="mx-auto w-full max-w-7xl py-8">
-        <div>Loading...</div>
+        <div>{t("loading")}</div>
       </div>
     );
   }
@@ -18,7 +20,7 @@ export default function CalendarPage() {
   if (isError) {
     return (
       <div className="mx-auto w-full max-w-7xl py-8">
-        <div>Error loading calendar events.</div>
+        <div>{t("error")}</div>
       </div>
     );
   }

@@ -1,23 +1,12 @@
 "use client";
 
-import { useParams, useSearchParams } from "next/navigation";
-import { format } from "date-fns";
-import { pl } from "date-fns/locale";
-
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useTicketDetails } from "@/data/queries/use-tickets";
 import type { TicketStatus } from "@/types";
-
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Skeleton } from "@/components/ui/skeleton";
-
-const statusLabels: Record<TicketStatus, string> = {
-  pending: "Oczekujące na weryfikację",
-  open: "Otwarte",
-  "in-progress": "W trakcie realizacji",
-  resolved: "Rozwiązane",
-  closed: "Odrzucone",
-};
+import { useFormatter, useTranslations } from "next-intl";
+import { useParams, useSearchParams } from "next/navigation";
 
 const statusColors: Record<TicketStatus, string> = {
   pending:
@@ -32,6 +21,8 @@ const statusColors: Record<TicketStatus, string> = {
 };
 
 export default function TicketStatusPage() {
+  const t = useTranslations("TicketStatus");
+  const format = useFormatter();
   const params = useParams();
   const searchParams = useSearchParams();
   const ticketId = params.id;
@@ -42,6 +33,14 @@ export default function TicketStatusPage() {
     isPending,
     isError,
   } = useTicketDetails(ticketId, token);
+
+  const statusLabels: Record<TicketStatus, string> = {
+    pending: t("status.pending"),
+    open: t("status.open"),
+    "in-progress": t("status.in-progress"),
+    resolved: t("status.resolved"),
+    closed: t("status.closed"),
+  };
 
   if (isPending) {
     return (
@@ -65,11 +64,11 @@ export default function TicketStatusPage() {
       <div className="container mx-auto max-w-3xl py-8">
         <Card>
           <CardHeader>
-            <CardTitle>Błąd</CardTitle>
+            <CardTitle>{t("error")}</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-destructive">
-              Nie znaleziono zgłoszenia. Sprawdź, czy link jest poprawny.
+              {t("notFound")}
             </p>
           </CardContent>
         </Card>
@@ -94,14 +93,14 @@ export default function TicketStatusPage() {
           <div className="grid gap-4">
             <div>
               <h3 className="text-muted-foreground mb-1 text-sm font-semibold">
-                Email
+                {t("email")}
               </h3>
               <p>{ticket.email}</p>
             </div>
 
             <div>
               <h3 className="text-muted-foreground mb-1 text-sm font-semibold">
-                Opis problemu
+                {t("description")}
               </h3>
               <p className="whitespace-pre-wrap">{ticket.description}</p>
             </div>
@@ -109,15 +108,17 @@ export default function TicketStatusPage() {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <h3 className="text-muted-foreground mb-1 text-sm font-semibold">
-                  Data utworzenia
+                  {t("createdAt")}
                 </h3>
                 <p>
                   {ticket.createdAt
-                    ? format(
-                        new Date(ticket.createdAt),
-                        "dd MMMM yyyy, HH:mm",
-                        { locale: pl },
-                      )
+                    ? format.dateTime(new Date(ticket.createdAt), {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                      })
                     : "-"}
                 </p>
               </div>
@@ -125,14 +126,16 @@ export default function TicketStatusPage() {
               {ticket.verifiedAtTime && (
                 <div>
                   <h3 className="text-muted-foreground mb-1 text-sm font-semibold">
-                    Data weryfikacji
+                    {t("verifiedAt")}
                   </h3>
                   <p>
-                    {format(
-                      new Date(ticket.verifiedAtTime),
-                      "dd MMMM yyyy, HH:mm",
-                      { locale: pl },
-                    )}
+                    {format.dateTime(new Date(ticket.verifiedAtTime), {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                      hour: '2-digit',
+                      minute: '2-digit'
+                    })}
                   </p>
                 </div>
               )}
@@ -142,8 +145,7 @@ export default function TicketStatusPage() {
           {ticket.ticketStatus === "pending" && (
             <div className="rounded-lg border border-yellow-200 bg-yellow-50 p-4 dark:border-yellow-900 dark:bg-yellow-900/20">
               <p className="text-sm">
-                Twoje zgłoszenie oczekuje na weryfikację. Sprawdź swoją skrzynkę
-                email i kliknij w link weryfikacyjny.
+                {t("pending")}
               </p>
             </div>
           )}
@@ -151,7 +153,7 @@ export default function TicketStatusPage() {
           {ticket.ticketStatus === "open" && (
             <div className="rounded-lg border border-blue-200 bg-blue-50 p-4 dark:border-blue-900 dark:bg-blue-900/20">
               <p className="text-sm">
-                Twoje zgłoszenie zostało zweryfikowane i oczekuje na realizację.
+                {t("open")}
               </p>
             </div>
           )}
@@ -159,7 +161,7 @@ export default function TicketStatusPage() {
           {ticket.ticketStatus === "in-progress" && (
             <div className="rounded-lg border border-purple-200 bg-purple-50 p-4 dark:border-purple-900 dark:bg-purple-900/20">
               <p className="text-sm">
-                Twoje zgłoszenie jest obecnie w trakcie realizacji.
+                {t("inProgress")}
               </p>
             </div>
           )}
@@ -167,15 +169,14 @@ export default function TicketStatusPage() {
           {ticket.ticketStatus === "resolved" && (
             <div className="rounded-lg border border-green-200 bg-green-50 p-4 dark:border-green-900 dark:bg-green-900/20">
               <p className="text-sm">
-                Twoje zgłoszenie zostało pomyślnie rozwiązane! Problem został
-                usunięty. Dziękujemy za kontakt!
+                {t("resolved")}
               </p>
             </div>
           )}
 
           {ticket.ticketStatus === "closed" && (
             <div className="rounded-lg border border-red-200 bg-red-50 p-4 dark:border-red-900 dark:bg-red-900/20">
-              <p className="text-sm">Zgłoszenie zostało odrzucone.</p>
+              <p className="text-sm">{t("rejected")}</p>
             </div>
           )}
         </CardContent>

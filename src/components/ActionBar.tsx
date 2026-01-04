@@ -10,6 +10,7 @@ import {
   Search,
   UsersRound,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import React, { useState } from "react";
 import { Button } from "./ui/button";
@@ -19,6 +20,7 @@ type SortingType = "position" | "team";
 type LayoutType = "grid" | "details" | "list";
 
 export default function ActionBar() {
+  const t = useTranslations("Common");
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -88,7 +90,7 @@ export default function ActionBar() {
           className="text-light-gray-text absolute top-3 left-5"
         />
         <Input
-          placeholder="Search..."
+          placeholder={t("searchPlaceholder")}
           className="bg-inactive placeholder:text-light-gray-text focus-visible:ring-primary mx-2 rounded-2xl border-none px-10 placeholder:font-semibold"
           value={searchQuery}
           onChange={handleSearchQueryChange}

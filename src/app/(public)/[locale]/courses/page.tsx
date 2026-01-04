@@ -4,8 +4,10 @@ import CourseTile from "@/components/custom/courses/CourseTile";
 import PageTitle from "@/components/PageTitle";
 import { useCourses } from "@/data/queries/use-courses";
 import { Loader2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export default function CoursesPage() {
+  const t = useTranslations("Courses");
   const { data: courses, isPending, isError } = useCourses();
 
   if (isPending) {
@@ -20,7 +22,7 @@ export default function CoursesPage() {
     return (
       <div className="container mx-auto py-8">
         <p className="text-muted-foreground text-center">
-          Nie udało się załadować kursów.
+          {t("error")}
         </p>
       </div>
     );
@@ -33,18 +35,18 @@ export default function CoursesPage() {
 
   return (
     <div className="container mx-auto max-w-7xl space-y-10 p-8">
-      <PageTitle title="Kierunki studiów" />
+      <PageTitle title={t("title")} />
 
       {courses.length === 0 && (
         <div className="text-muted-foreground py-12 text-center">
-          Brak dostępnych kierunków.
+          {t("noResults")}
         </div>
       )}
 
       {firstDegreeCourses.length > 0 && (
         <div className="space-y-6">
           <h2 className="text-foreground/90 border-b pb-2 text-2xl font-semibold tracking-tight">
-            Studia I stopnia (inżynierskie)
+            {t("firstDegree")}
           </h2>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {firstDegreeCourses.map((course) => (
@@ -57,7 +59,7 @@ export default function CoursesPage() {
       {secondDegreeCourses.length > 0 && (
         <div className="space-y-6">
           <h2 className="text-foreground/90 border-b pb-2 text-2xl font-semibold tracking-tight">
-            Studia II stopnia (magisterskie)
+            {t("secondDegree")}
           </h2>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {secondDegreeCourses.map((course) => (

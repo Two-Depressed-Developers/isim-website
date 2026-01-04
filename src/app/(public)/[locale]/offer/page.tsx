@@ -4,8 +4,10 @@ import OfferSectionTile from "@/components/custom/offer/OfferSectionTile";
 import PageTitle from "@/components/PageTitle";
 import { useResearchOffers } from "@/data/queries/use-research-offers";
 import { Loader2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export default function OfferPage() {
+  const t = useTranslations("Offer");
   const { data: offers, isPending, isError } = useResearchOffers();
 
   if (isPending) {
@@ -20,7 +22,7 @@ export default function OfferPage() {
     return (
       <div className="container mx-auto py-8">
         <p className="text-muted-foreground text-center">
-          Nie udało się załadować oferty.
+          {t("error")}
         </p>
         <div className="bg-primary h-1 w-28 rounded-full" />
       </div>
@@ -29,7 +31,7 @@ export default function OfferPage() {
 
   return (
     <div className="container mx-auto max-w-7xl space-y-8 p-8">
-      <PageTitle title="Nasza oferta" />
+      <PageTitle title={t("title")} />
 
       {offers.map((offer, index) => (
         <div key={offer.documentId} className="bg-card rounded-lg border p-6">

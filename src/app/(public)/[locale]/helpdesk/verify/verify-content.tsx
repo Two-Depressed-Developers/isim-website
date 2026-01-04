@@ -4,9 +4,9 @@ import { useSearchParams } from "next/navigation";
 import { useVerifyTicket } from "@/data/queries/use-tickets";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 
-export default function VerifyTicketPage() {
+export function VerifyTicketContent() {
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
   const { data, isPending, isError } = useVerifyTicket(token);

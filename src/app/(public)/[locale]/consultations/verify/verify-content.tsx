@@ -4,10 +4,10 @@ import { useSearchParams } from "next/navigation";
 import { useVerifyConsultationBooking } from "@/data/queries/use-consultations";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import { CheckCircle2, XCircle, Loader2 } from "lucide-react";
+import { Link } from "@/i18n/navigation";
 
-export default function VerifyConsultationPage() {
+export function VerifyConsultationContent() {
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
   const { data, isPending, isError } = useVerifyConsultationBooking(token);

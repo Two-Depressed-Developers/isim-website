@@ -1,5 +1,5 @@
+import { Link } from "@/i18n/navigation";
 import { Link as LinkType } from "@/types";
-import Link from "next/link";
 import path from "path";
 
 type Props = {

@@ -1,7 +1,7 @@
 import { Link as LinkType } from "@/types";
 import { ChevronDown } from "lucide-react";
-import Link from "next/link";
 import SubLinksDropdown from "./SubLinksDropdown";
+import { Link } from "@/i18n/navigation";
 
 type Props = {
   link: LinkType;

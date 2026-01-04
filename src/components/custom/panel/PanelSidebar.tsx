@@ -29,9 +29,8 @@ import {
   Ticket,
 } from "lucide-react";
 import { useSession, signOut } from "next-auth/react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { Link, usePathname } from "@/i18n/navigation";
 
 export function PanelSidebar() {
   const { data: session, status } = useSession();
@@ -57,7 +56,7 @@ export function PanelSidebar() {
         {
           href: "/panel/scrape-request",
           label: "Wyszukiwanie danych",
-          icon: UserCircle, 
+          icon: UserCircle,
         },
       ],
     },

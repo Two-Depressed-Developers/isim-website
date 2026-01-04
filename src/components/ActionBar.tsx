@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "@/i18n/navigation";
+import { cn } from "@/lib/utils";
 import {
   GraduationCap,
   LayoutGrid,
@@ -10,10 +10,10 @@ import {
   Search,
   UsersRound,
 } from "lucide-react";
-
-import { Input } from "./ui/input";
-import { cn } from "@/lib/utils";
+import { useSearchParams } from "next/navigation";
+import React, { useState } from "react";
 import { Button } from "./ui/button";
+import { Input } from "./ui/input";
 
 type SortingType = "position" | "team";
 type LayoutType = "grid" | "details" | "list";
@@ -85,11 +85,11 @@ export default function ActionBar() {
       <div className="relative flex grow items-center">
         <Search
           size="16"
-          className="absolute left-5 top-3 text-light-gray-text"
+          className="text-light-gray-text absolute top-3 left-5"
         />
         <Input
           placeholder="Search..."
-          className="mx-2 rounded-2xl border-none bg-inactive px-10 placeholder:font-semibold placeholder:text-light-gray-text focus-visible:ring-primary"
+          className="bg-inactive placeholder:text-light-gray-text focus-visible:ring-primary mx-2 rounded-2xl border-none px-10 placeholder:font-semibold"
           value={searchQuery}
           onChange={handleSearchQueryChange}
         />

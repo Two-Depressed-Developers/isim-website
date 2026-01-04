@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -13,6 +12,8 @@ import {
 } from "@/components/ui/sheet";
 import { Separator } from "@/components/ui/separator";
 import type { Link as LinkType } from "@/types";
+import { Link } from "@/i18n/navigation";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 
 type Props = {
   links: LinkType[];
@@ -51,6 +52,9 @@ export function MobileMenu({ links }: Props) {
         <SheetHeader>
           <SheetTitle>Menu</SheetTitle>
         </SheetHeader>
+        <div className="mt-4 flex justify-center">
+          <LanguageSwitcher />
+        </div>
         <nav className="mt-6 flex flex-col">
           {links.map((link) => {
             const baseUrl = link.page?.slug ?? link.URL;

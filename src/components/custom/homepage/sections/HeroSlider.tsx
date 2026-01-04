@@ -3,7 +3,8 @@ import { ComponentHomepageHeroSlider } from "@/types";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { StrapiImage } from "@/components/StrapiImage";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 type Props = {
   data: ComponentHomepageHeroSlider;
@@ -50,20 +51,26 @@ export default function HeroSlider({ data }: Props) {
           ))}
         </div>
       </div>
-      <button
+      <Button
+        variant="ghost"
+        size="icon"
+        className="absolute top-1/2 left-4 h-8 w-8 -translate-y-1/2 rounded-full bg-black/50 text-white hover:bg-black/70 hover:text-white"
         onClick={scrollPrev}
-        className="absolute top-1/2 left-4 -translate-y-1/2 rounded-full bg-black/50 p-2 text-white transition-colors hover:bg-black/70"
         aria-label="Poprzedni slajd"
       >
-        <ChevronLeft className="size-6" />
-      </button>
-      <button
+        <ArrowLeft className="h-4 w-4" />
+        <span className="sr-only">Poprzedni slajd</span>
+      </Button>
+      <Button
+        variant="ghost"
+        size="icon"
+        className="absolute top-1/2 right-4 h-8 w-8 -translate-y-1/2 rounded-full bg-black/50 text-white hover:bg-black/70 hover:text-white"
         onClick={scrollNext}
-        className="absolute top-1/2 right-4 -translate-y-1/2 rounded-full bg-black/50 p-2 text-white transition-colors hover:bg-black/70"
         aria-label="Następny slajd"
       >
-        <ChevronRight className="size-6" />
-      </button>
+        <ArrowRight className="h-4 w-4" />
+        <span className="sr-only">Następny slajd</span>
+      </Button>
     </div>
   );
 }

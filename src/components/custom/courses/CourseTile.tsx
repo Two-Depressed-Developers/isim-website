@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, ExternalLink, GraduationCap } from "lucide-react";
 import CustomLink from "@/components/CustomLink";
+import { useTranslations } from "next-intl";
 
 type Props = {
   course: Course;
@@ -10,6 +11,7 @@ type Props = {
 };
 
 export default function CourseTile({ course, variant = "default" }: Props) {
+  const t = useTranslations("Courses");
   const isFirstDegree = course.degreeType === "I stopień";
 
   const theme = isFirstDegree
@@ -41,7 +43,8 @@ export default function CourseTile({ course, variant = "default" }: Props) {
             {course.title}
           </h3>
           <p className="text-muted-foreground text-xs">
-            {course.degreeType} • {course.semesterCount} semestrów
+            {course.degreeType == "I stopień" ? t("IDegree") : t("IIDegree")} •{" "}
+            {course.semesterCount} {t("semesters")}
           </p>
         </div>
       </div>
@@ -63,7 +66,7 @@ export default function CourseTile({ course, variant = "default" }: Props) {
       <div className="z-10 mb-6">
         <div className="mb-4 flex flex-wrap items-center gap-2">
           <Badge variant="outline" className={cn("font-medium", theme.badge)}>
-            {course.degreeType}
+            {course.degreeType == "I stopień" ? t("IDegree") : t("IIDegree")}
           </Badge>
           <Badge
             variant="secondary"
@@ -74,7 +77,7 @@ export default function CourseTile({ course, variant = "default" }: Props) {
                 : "border-orange-200 bg-orange-50 text-orange-700",
             )}
           >
-            {course.format}
+            {course.format == "Stacjonarne" ? t("fullTime") : t("partTime")}
           </Badge>
         </div>
 
@@ -92,7 +95,9 @@ export default function CourseTile({ course, variant = "default" }: Props) {
       <div className="z-10 mt-auto flex items-center justify-between border-t pt-4">
         <div className="text-muted-foreground flex items-center gap-2 text-sm font-medium">
           <Calendar className="h-4 w-4" />
-          <span>{course.semesterCount} semestrów</span>
+          <span>
+            {course.semesterCount} {t("semesters")}
+          </span>
         </div>
 
         {course.syllabusLink && (
@@ -101,7 +106,7 @@ export default function CourseTile({ course, variant = "default" }: Props) {
             isExternal={course.syllabusLink.isExternal}
             className="border-input bg-background hover:bg-accent hover:text-accent-foreground flex items-center gap-3 rounded-md border px-4 py-1.5 text-sm font-medium transition-colors"
           >
-            Sylabus
+            {t("syllabus")}
             <ExternalLink className="h-3.5 w-3.5 opacity-75" />
           </CustomLink>
         )}

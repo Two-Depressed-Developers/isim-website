@@ -7,8 +7,12 @@ import { MobileMenu } from "./custom/header/MobileMenu";
 import NavLink from "./custom/header/NavLink";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 
-const Header = async () => {
-  const headerData: HeaderData = await getHeaderData();
+type Props = {
+  locale: string;
+};
+
+const Header = async ({ locale }: Props) => {
+  const headerData: HeaderData = await getHeaderData(locale);
 
   return (
     <header className="bg-white p-6">

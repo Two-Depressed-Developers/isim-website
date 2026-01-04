@@ -4,11 +4,12 @@ import OfferSectionTile from "@/components/custom/offer/OfferSectionTile";
 import PageTitle from "@/components/PageTitle";
 import { useResearchOffers } from "@/data/queries/use-research-offers";
 import { Loader2 } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 export default function OfferPage() {
   const t = useTranslations("Offer");
-  const { data: offers, isPending, isError } = useResearchOffers();
+  const locale = useLocale();
+  const { data: offers, isPending, isError } = useResearchOffers(locale);
 
   if (isPending) {
     return (
@@ -21,9 +22,7 @@ export default function OfferPage() {
   if (isError) {
     return (
       <div className="container mx-auto py-8">
-        <p className="text-muted-foreground text-center">
-          {t("error")}
-        </p>
+        <p className="text-muted-foreground text-center">{t("error")}</p>
         <div className="bg-primary h-1 w-28 rounded-full" />
       </div>
     );

@@ -3,12 +3,15 @@ import { StrapiImage } from "@/components/StrapiImage";
 import CustomLink from "@/components/CustomLink";
 import { Separator } from "@/components/ui/separator";
 import { ContactLink } from "@/components/ContactLink";
+import { useTranslations } from "next-intl";
 
 type Props = {
   member: Member;
 };
 
 export default function SupervisorCard({ member }: Props) {
+  const t = useTranslations("HomePage.supervisor");
+
   return (
     <CustomLink
       href={`/staff-members/${member.slug}`}
@@ -21,7 +24,7 @@ export default function SupervisorCard({ member }: Props) {
             <StrapiImage
               src={member.photo.url}
               className="h-full w-full object-cover"
-              alt={member.photo.alternativeText || "Zdjęcie opiekuna"}
+              alt={member.photo.alternativeText || t("photoAlt")}
               width={80}
               height={80}
             />

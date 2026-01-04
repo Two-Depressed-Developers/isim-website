@@ -4,11 +4,12 @@ import CourseTile from "@/components/custom/courses/CourseTile";
 import PageTitle from "@/components/PageTitle";
 import { useCourses } from "@/data/queries/use-courses";
 import { Loader2 } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 export default function CoursesPage() {
   const t = useTranslations("Courses");
-  const { data: courses, isPending, isError } = useCourses();
+  const locale = useLocale();
+  const { data: courses, isPending, isError } = useCourses(locale);
 
   if (isPending) {
     return (
@@ -21,9 +22,7 @@ export default function CoursesPage() {
   if (isError) {
     return (
       <div className="container mx-auto py-8">
-        <p className="text-muted-foreground text-center">
-          {t("error")}
-        </p>
+        <p className="text-muted-foreground text-center">{t("error")}</p>
       </div>
     );
   }

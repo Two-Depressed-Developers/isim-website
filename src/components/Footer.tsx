@@ -4,8 +4,12 @@ import FooterUniversityLogo from "./custom/footer/FooterUniversityLogo";
 import FooterCopyright from "./custom/footer/FooterCopyright";
 import { getFooterData } from "@/data/layoutLoaders";
 
-const Footer = async () => {
-  const footerData: FooterData = await getFooterData();
+type Props = {
+  locale: string;
+};
+
+const Footer = async ({ locale }: Props) => {
+  const footerData: FooterData = await getFooterData(locale);
 
   return (
     <footer className="bg-light-gray">

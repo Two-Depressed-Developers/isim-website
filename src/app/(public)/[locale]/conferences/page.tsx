@@ -5,16 +5,17 @@ import { useConferences } from "@/data/queries/use-conferences";
 import { useJournals } from "@/data/queries/use-journals";
 import { BookOpen, CalendarDays, Loader2 } from "lucide-react";
 import PageTitle from "@/components/PageTitle";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 export default function ConferencesPage() {
   const t = useTranslations("Conferences");
-  const { data: conferences, isPending, isError } = useConferences();
+  const locale = useLocale();
+  const { data: conferences, isPending, isError } = useConferences(locale);
   const {
     data: journals,
     isPending: isJournalsPending,
     isError: isJournalsError,
-  } = useJournals();
+  } = useJournals(locale);
 
   if (isPending || isJournalsPending) {
     return (
@@ -27,9 +28,7 @@ export default function ConferencesPage() {
   if (isError || isJournalsError) {
     return (
       <div className="container mx-auto py-8">
-        <p className="text-muted-foreground text-center">
-          {t("error")}
-        </p>
+        <p className="text-muted-foreground text-center">{t("error")}</p>
       </div>
     );
   }
@@ -37,9 +36,7 @@ export default function ConferencesPage() {
   if (conferences.length === 0 && journals.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-16">
-        <p className="text-muted-foreground mt-4">
-          {t("empty")}
-        </p>
+        <p className="text-muted-foreground mt-4">{t("empty")}</p>
       </div>
     );
   }

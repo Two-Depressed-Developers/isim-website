@@ -3,7 +3,15 @@
     "title": "ISiM - Strona główna"
   },
   "HomePage": {
-    "error": "Nie udało się załadować strony głównej. Spróbuj ponownie później."
+    "error": "Nie udało się załadować strony głównej. Spróbuj ponownie później.",
+    "seeMore": "Zobacz więcej",
+    "heroSlider": {
+      "prevSlide": "Poprzedni slajd",
+      "nextSlide": "Następny slajd"
+    },
+    "supervisor": {
+      "photoAlt": "Zdjęcie opiekuna"
+    }
   },
   "Common": {
     "loading": "Ładowanie...",
@@ -29,9 +37,12 @@
     "journals": "Czasopisma naukowe",
     "events": "Konferencje i wydarzenia",
     "error": "Nie udało się załadować danych.",
-    "empty": "Brak dostępnych publikacji i wydarzeń."
+    "empty": "Brak dostępnych publikacji i wydarzeń.",
+    "incoming": "Nadchodzące",
+    "cyclic": "Cykliczne",
+    "eventSite": "Strona wydarzenia",
+    "journalSite": "Strona czasopisma"
   },
-
   "Staff": {
     "title": "Nasz zespół",
     "loading": "Ładowanie danych pracowników...",
@@ -46,14 +57,23 @@
   "ResearchGroups": {
     "title": "Grupy badawcze",
     "error": "Nie udało się załadować grup badawczych.",
-    "notFound": "Nie znaleziono grup badawczych."
+    "notFound": "Nie znaleziono grup badawczych.",
+    "members": "członków",
+    "leader": "Kierownik",
+    "teamSite": "Strona zespołu"
   },
   "Courses": {
     "title": "Kierunki studiów",
     "error": "Nie udało się załadować kursów.",
     "noResults": "Brak dostępnych kierunków.",
     "firstDegree": "Studia I stopnia (inżynierskie)",
-    "secondDegree": "Studia II stopnia (magisterskie)"
+    "secondDegree": "Studia II stopnia (magisterskie)",
+    "semesters": "semestrów",
+    "syllabus": "Sylabus",
+    "IDegree": "I stopień",
+    "IIDegree": "II stopień",
+    "fullTime": "Stacjonarne",
+    "partTime": "Niestacjonarne"
   },
   "Helpdesk": {
     "title": "Zgłoszenia",

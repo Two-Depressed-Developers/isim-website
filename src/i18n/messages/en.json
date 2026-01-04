@@ -3,7 +3,15 @@
     "title": "ISiM - Home Page"
   },
   "HomePage": {
-    "error": "Failed to load home page. Please try again later."
+    "error": "Failed to load home page. Please try again later.",
+    "seeMore": "See more",
+    "heroSlider": {
+      "prevSlide": "Previous slide",
+      "nextSlide": "Next slide"
+    },
+    "supervisor": {
+      "photoAlt": "Supervisor photo"
+    }
   },
   "Common": {
     "loading": "Loading...",
@@ -29,9 +37,12 @@
     "journals": "Scientific Journals",
     "events": "Conferences and Events",
     "error": "Failed to load data.",
-    "empty": "No available publications or events."
+    "empty": "No available publications or events.",
+    "incoming": "Upcoming",
+    "cyclic": "Cyclic",
+    "eventSite": "Event site",
+    "journalSite": "Journal site"
   },
-
   "Staff": {
     "title": "Our Team",
     "loading": "Loading staff data...",
@@ -46,14 +57,23 @@
   "ResearchGroups": {
     "title": "Research Groups",
     "error": "Failed to load research groups.",
-    "notFound": "No research groups found."
+    "notFound": "No research groups found.",
+    "members": "members",
+    "leader": "Leader",
+    "teamSite": "Team site"
   },
   "Courses": {
     "title": "Study Courses",
     "error": "Failed to load courses.",
     "noResults": "No courses available.",
     "firstDegree": "First Cycle Studies (Bachelor/Engineer)",
-    "secondDegree": "Second Cycle Studies (Master)"
+    "secondDegree": "Second Cycle Studies (Master)",
+    "semesters": "semesters",
+    "syllabus": "Syllabus",
+    "IDegree": "First Cycle",
+    "IIDegree": "Second Cycle",
+    "fullTime": "Full-time",
+    "partTime": "Part-time"
   },
   "Helpdesk": {
     "title": "Tickets",

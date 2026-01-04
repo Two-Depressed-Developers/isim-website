@@ -167,7 +167,7 @@ const getHardcodedFooterData = (): FooterData => {
   };
 };
 
-export async function getHeaderData() {
+export async function getHeaderData(locale: string) {
   const url = new URL("/api/global-page", baseAPIUrl);
 
   const populateOptions = {
@@ -195,7 +195,7 @@ export async function getHeaderData() {
     },
   };
 
-  url.search = qs.stringify({ populate: populateOptions });
+  url.search = qs.stringify({ populate: populateOptions, locale });
 
   try {
     const data = await fetchData<GlobalPageResponse>(url.href);
@@ -208,7 +208,7 @@ export async function getHeaderData() {
   }
 }
 
-export async function getFooterData() {
+export async function getFooterData(locale: string) {
   const url = new URL("/api/global-page", baseAPIUrl);
 
   const populateOptions = {
@@ -239,7 +239,7 @@ export async function getFooterData() {
     },
   };
 
-  url.search = qs.stringify({ populate: populateOptions });
+  url.search = qs.stringify({ populate: populateOptions, locale });
 
   try {
     const data = await fetchData<GlobalPageResponse>(url.href);
@@ -252,7 +252,7 @@ export async function getFooterData() {
   }
 }
 
-export async function getPagesData() {
+export async function getPagesData(locale: string) {
   const url = new URL("/api/pages", baseAPIUrl);
 
   const populateOptions = {
@@ -261,6 +261,7 @@ export async function getPagesData() {
 
   url.search = qs.stringify({
     populate: populateOptions,
+    locale,
   });
 
   const response = await fetchData<PagesResponse>(url.href);

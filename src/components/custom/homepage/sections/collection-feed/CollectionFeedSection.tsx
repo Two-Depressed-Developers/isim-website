@@ -16,18 +16,22 @@ function renderItems(data: ComponentHomepageCollectionFeed) {
   switch (sourceType) {
     case "research-offer":
       return data.research_offers?.map((offer) => (
-        <ResearchOfferTile key={offer.id} offer={offer} />
+        <ResearchOfferTile key={`offer_${offer.id}`} offer={offer} />
       ));
 
     case "research-group":
       return data.groups?.map((group) => (
-        <ResearchGroupTile key={group.id} group={group} variant="compact" />
+        <ResearchGroupTile
+          key={`group_${group.id}`}
+          group={group}
+          variant="compact"
+        />
       ));
 
     case "conference":
       return data.conferences?.map((conference) => (
         <PublicationTile
-          key={conference.id}
+          key={`conference_${conference.id}`}
           type="conference"
           item={conference}
           variant="compact"
@@ -36,13 +40,17 @@ function renderItems(data: ComponentHomepageCollectionFeed) {
 
     case "course":
       return data.courses?.map((course) => (
-        <CourseTile key={course.id} course={course} variant="compact" />
+        <CourseTile
+          key={`course_${course.id}`}
+          course={course}
+          variant="compact"
+        />
       ));
 
     case "journal":
       return data.journals?.map((journal) => (
         <PublicationTile
-          key={journal.id}
+          key={`journal_${journal.id}`}
           type="journal"
           item={journal}
           variant="compact"

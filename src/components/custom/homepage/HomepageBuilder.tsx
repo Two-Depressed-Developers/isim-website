@@ -37,7 +37,7 @@ export default function HomepageBuilder({ homepage }: Props) {
           index === 0 && section.__component === "homepage.hero-slider";
         return (
           <div
-            key={section.id}
+            key={`section_${index}`}
             className={cn(
               "mx-auto w-full",
               isHeroFirst ? "max-w-fhd" : "max-w-7xl px-6 py-4",

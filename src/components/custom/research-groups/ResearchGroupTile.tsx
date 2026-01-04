@@ -2,6 +2,7 @@ import { Group } from "@/types";
 import { Badge } from "@/components/ui/badge";
 import { ExternalLink, Users } from "lucide-react";
 import CustomLink from "@/components/CustomLink";
+import { useTranslations } from "next-intl";
 
 type Props = {
   group: Group;
@@ -12,6 +13,8 @@ export default function ResearchGroupTile({
   group,
   variant = "default",
 }: Props) {
+  const t = useTranslations("ResearchGroups");
+
   const membersCount = group.members?.length ?? 0;
   const keywords = group.keywords?.split(",").map((k) => k.trim()) ?? [];
 
@@ -31,7 +34,7 @@ export default function ResearchGroupTile({
         </div>
 
         <div className="text-primary mt-3 text-xs font-medium">
-          {membersCount} członków
+          {membersCount} {t("members")}
         </div>
       </div>
     );
@@ -47,7 +50,8 @@ export default function ResearchGroupTile({
 
           {group.supervisor && (
             <p className="text-muted-foreground text-sm font-semibold">
-              Kierownik: {group.supervisor.title} {group.supervisor.fullName}
+              {t("leader")}: {group.supervisor.title}{" "}
+              {group.supervisor.fullName}
             </p>
           )}
         </div>
@@ -84,7 +88,7 @@ export default function ResearchGroupTile({
             onClick={(e) => e.stopPropagation()}
             className="border-input bg-muted hover:bg-accent hover:text-accent-foreground flex w-full items-center justify-center gap-3 rounded-md border px-4 py-1.5 text-center text-sm font-medium transition-colors"
           >
-            Strona zespołu
+            {t("teamSite")}
             <ExternalLink className="h-3.5 w-3.5" />
           </CustomLink>
         )}

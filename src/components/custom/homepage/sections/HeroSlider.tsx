@@ -5,12 +5,14 @@ import Autoplay from "embla-carousel-autoplay";
 import { StrapiImage } from "@/components/StrapiImage";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useTranslations } from "next-intl";
 
 type Props = {
   data: ComponentHomepageHeroSlider;
 };
 
 export default function HeroSlider({ data }: Props) {
+  const t = useTranslations("HomePage.heroSlider");
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
     Autoplay({ delay: 5000 }),
   ]);
@@ -56,20 +58,20 @@ export default function HeroSlider({ data }: Props) {
         size="icon"
         className="absolute top-1/2 left-4 h-8 w-8 -translate-y-1/2 rounded-full bg-black/50 text-white hover:bg-black/70 hover:text-white"
         onClick={scrollPrev}
-        aria-label="Poprzedni slajd"
+        aria-label={t("prevSlide")}
       >
         <ArrowLeft className="h-4 w-4" />
-        <span className="sr-only">Poprzedni slajd</span>
+        <span className="sr-only">{t("prevSlide")}</span>
       </Button>
       <Button
         variant="ghost"
         size="icon"
         className="absolute top-1/2 right-4 h-8 w-8 -translate-y-1/2 rounded-full bg-black/50 text-white hover:bg-black/70 hover:text-white"
         onClick={scrollNext}
-        aria-label="Następny slajd"
+        aria-label={t("nextSlide")}
       >
         <ArrowRight className="h-4 w-4" />
-        <span className="sr-only">Następny slajd</span>
+        <span className="sr-only">{t("nextSlide")}</span>
       </Button>
     </div>
   );

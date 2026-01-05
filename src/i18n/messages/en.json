@@ -19,6 +19,14 @@
     "noResults": "No results found",
     "searchPlaceholder": "Search..."
   },
+  "Validation": {
+    "invalidEmail": "Please provide a valid email address.",
+    "aghEmail": "Only AGH email addresses (@agh.edu.pl) are allowed.",
+    "minCharacters": "Must have at least {min} characters.",
+    "maxCharacters": "Cannot exceed {max} characters.",
+    "selectionRequired": "Please select a value.",
+    "memberInfoMissing": "Member information is missing."
+  },
   "VerifyConsultation": {
     "verifying": "Verifying booking...",
     "success": "Success!",

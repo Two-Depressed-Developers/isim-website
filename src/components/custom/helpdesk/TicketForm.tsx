@@ -14,8 +14,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useSubmitTicket } from "@/data/queries/use-tickets";
-import { ticketFormSchema } from "@/lib/schemas";
+import { getTicketFormSchema } from "@/lib/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
+
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -27,10 +28,13 @@ type Props = {
 
 export function TicketForm({ defaultEmail }: Props) {
   const t = useTranslations("TicketForm");
+  const tValidation = useTranslations();
   const submitTicketMutation = useSubmitTicket();
 
-  const form = useForm<z.infer<typeof ticketFormSchema>>({
-    resolver: zodResolver(ticketFormSchema),
+  const ticketSchema = getTicketFormSchema(tValidation);
+
+  const form = useForm<z.infer<typeof ticketSchema>>({
+    resolver: zodResolver(ticketSchema),
     defaultValues: {
       title: "",
       description: "",
@@ -38,7 +42,7 @@ export function TicketForm({ defaultEmail }: Props) {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof ticketFormSchema>) {
+  async function onSubmit(values: z.infer<typeof ticketSchema>) {
     submitTicketMutation.mutate(values, {
       onSuccess: (result) => {
         toast.success(result.success ? t("success") : t("error"));
@@ -90,9 +94,7 @@ export function TicketForm({ defaultEmail }: Props) {
                       disabled={submitTicketMutation.isPending}
                     />
                   </FormControl>
-                  <FormDescription>
-                    {t("emailDescription")}
-                  </FormDescription>
+                  <FormDescription>{t("emailDescription")}</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -112,9 +114,7 @@ export function TicketForm({ defaultEmail }: Props) {
                       disabled={submitTicketMutation.isPending}
                     />
                   </FormControl>
-                  <FormDescription>
-                    {t("descriptionHelp")}
-                  </FormDescription>
+                  <FormDescription>{t("descriptionHelp")}</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -125,9 +125,7 @@ export function TicketForm({ defaultEmail }: Props) {
               disabled={submitTicketMutation.isPending}
               className="w-full"
             >
-              {submitTicketMutation.isPending
-                ? t("submitting")
-                : t("submit")}
+              {submitTicketMutation.isPending ? t("submitting") : t("submit")}
             </Button>
           </form>
         </Form>

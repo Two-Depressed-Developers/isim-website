@@ -50,11 +50,13 @@ import {
   useBookConsultation,
   useConsultationBookings,
 } from "@/data/queries/use-consultations";
-import { consultationBookingFormSchema } from "@/lib/schemas";
+import { getConsultationBookingFormSchema } from "@/lib/schemas";
 import type { MemberData } from "@/types";
 import { useFormatter, useTranslations } from "next-intl";
 
-type BookingFormData = z.infer<typeof consultationBookingFormSchema>;
+type BookingFormData = z.infer<
+  ReturnType<typeof getConsultationBookingFormSchema>
+>;
 
 type TimeSlot = {
   startTime: string;
@@ -70,6 +72,7 @@ type Props = {
 
 const MemberConsultations = ({ member, slug }: Props) => {
   const t = useTranslations("MemberDetails");
+  const tValidation = useTranslations();
   const formatDateTime = useFormatter();
   const [selectedSlot, setSelectedSlot] = useState<TimeSlot | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -79,8 +82,10 @@ const MemberConsultations = ({ member, slug }: Props) => {
     member.documentId,
   );
 
+  const bookingSchema = getConsultationBookingFormSchema(tValidation);
+
   const form = useForm<BookingFormData>({
-    resolver: zodResolver(consultationBookingFormSchema),
+    resolver: zodResolver(bookingSchema),
     defaultValues: {
       studentEmail: "",
       studentName: "",
@@ -237,9 +242,7 @@ const MemberConsultations = ({ member, slug }: Props) => {
         <Separator />
         <div className="flex flex-col items-center justify-center gap-2 py-8">
           <Calendar className="text-muted-foreground h-12 w-12" />
-          <p className="text-muted-foreground">
-            {t("noSlots")}
-          </p>
+          <p className="text-muted-foreground">{t("noSlots")}</p>
         </div>
       </WhiteCard>
     );
@@ -357,7 +360,8 @@ const MemberConsultations = ({ member, slug }: Props) => {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>
-                          {t("formEmail")} <span className="text-red-500">*</span>
+                          {t("formEmail")}{" "}
+                          <span className="text-red-500">*</span>
                         </FormLabel>
                         <FormControl>
                           <Input
@@ -378,7 +382,8 @@ const MemberConsultations = ({ member, slug }: Props) => {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>
-                          {t("formName")} <span className="text-red-500">*</span>
+                          {t("formName")}{" "}
+                          <span className="text-red-500">*</span>
                         </FormLabel>
                         <FormControl>
                           <Input
@@ -399,7 +404,8 @@ const MemberConsultations = ({ member, slug }: Props) => {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>
-                          {t("formField")} <span className="text-red-500">*</span>
+                          {t("formField")}{" "}
+                          <span className="text-red-500">*</span>
                         </FormLabel>
                         <FormControl>
                           <Input

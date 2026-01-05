@@ -75,7 +75,7 @@ export function PanelSidebar() {
     {
       label: "Administracja",
       items: [
-        { href: "/panel/users", label: "Użytkownicy", icon: Users },
+        { href: "/panel/users", label: "Dodaj użytkowników", icon: Users },
         {
           href: "/panel/classrooms",
           label: "Zarządzanie salami",

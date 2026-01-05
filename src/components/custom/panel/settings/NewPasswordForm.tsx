@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -18,6 +17,7 @@ import {
 import { toast } from "sonner";
 import { changePasswordSchema } from "@/lib/schemas";
 import axios from "axios";
+import { useChangePassword } from "@/data/queries/use-panel";
 
 type ErrorResponse = {
   error: string;
@@ -25,7 +25,7 @@ type ErrorResponse = {
 };
 
 export default function NewPasswordForm() {
-  const [isLoading, setIsLoading] = useState(false);
+  const mutation = useChangePassword();
 
   type PasswordFormValues = z.infer<typeof changePasswordSchema>;
 
@@ -39,42 +39,42 @@ export default function NewPasswordForm() {
     mode: "onTouched",
   });
 
-  const onSubmit = async (values: PasswordFormValues) => {
-    setIsLoading(true);
-
-    try {
-      await axios.post("/api/panel/settings/password", {
+  const onSubmit = (values: PasswordFormValues) => {
+    mutation.mutate(
+      {
         currentPassword: values.currentPassword,
         newPassword: values.newPassword,
         confirmPassword: values.confirmPassword,
-      });
+      },
+      {
+        onSuccess: () => {
+          toast.success("Hasło zmienione pomyślnie");
+          form.reset();
+        },
+        onError: (error) => {
+          if (!axios.isAxiosError(error)) {
+            toast.error("Coś poszło nie tak");
+            return;
+          }
 
-      toast.success("Hasło zmienione pomyślnie");
-      form.reset();
-    } catch (error) {
-      if (!axios.isAxiosError(error)) {
-        toast.error("Coś poszło nie tak");
-        return;
-      }
+          const data = error.response?.data as ErrorResponse | undefined;
+          const errorCode = data?.code;
+          const errorMsg = data?.error || "Coś poszło nie tak";
 
-      const data = error.response?.data as ErrorResponse | undefined;
-      const errorCode = data?.code;
-      const errorMsg = data?.error || "Coś poszło nie tak";
-
-      switch (errorCode) {
-        case "INVALID_CURRENT_PASSWORD":
-          form.setError("currentPassword", { message: errorMsg });
-          break;
-        case "VALIDATION_ERROR":
-          toast.error(errorMsg);
-          break;
-        default:
-          toast.error(errorMsg);
-          console.error("Password change error:", error);
-      }
-    } finally {
-      setIsLoading(false);
-    }
+          switch (errorCode) {
+            case "INVALID_CURRENT_PASSWORD":
+              form.setError("currentPassword", { message: errorMsg });
+              break;
+            case "VALIDATION_ERROR":
+              toast.error(errorMsg);
+              break;
+            default:
+              toast.error(errorMsg);
+              console.error("Password change error:", error);
+          }
+        },
+      },
+    );
   };
 
   return (
@@ -98,7 +98,7 @@ export default function NewPasswordForm() {
                     <Input
                       type="password"
                       placeholder="Wpisz aktualne hasło"
-                      disabled={isLoading}
+                      disabled={mutation.isPending}
                       autoComplete="current-password"
                       {...field}
                     />
@@ -118,7 +118,7 @@ export default function NewPasswordForm() {
                     <Input
                       type="password"
                       placeholder="Wpisz nowe hasło"
-                      disabled={isLoading}
+                      disabled={mutation.isPending}
                       autoComplete="new-password"
                       {...field}
                     />
@@ -138,7 +138,7 @@ export default function NewPasswordForm() {
                     <Input
                       type="password"
                       placeholder="Potwierdź nowe hasło"
-                      disabled={isLoading}
+                      disabled={mutation.isPending}
                       autoComplete="new-password"
                       {...field}
                     />
@@ -148,8 +148,12 @@ export default function NewPasswordForm() {
               )}
             />
 
-            <Button type="submit" disabled={isLoading} className="w-full">
-              {isLoading ? "Zmiana..." : "Zmień hasło"}
+            <Button
+              type="submit"
+              disabled={mutation.isPending}
+              className="w-full"
+            >
+              {mutation.isPending ? "Zmiana..." : "Zmień hasło"}
             </Button>
           </form>
         </Form>

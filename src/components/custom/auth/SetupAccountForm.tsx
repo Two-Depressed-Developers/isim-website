@@ -10,7 +10,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -24,9 +23,9 @@ import {
 } from "@/components/ui/form";
 import { setupAccountSchema } from "@/lib/schemas";
 import { useRouter } from "next/navigation";
-import axios from "axios";
 import { getErrorMessage } from "@/lib/axios";
 import { Loader2 } from "lucide-react";
+import { useSetupAccount } from "@/data/queries/use-auth";
 
 type Props = {
   className?: string;
@@ -36,8 +35,7 @@ type Props = {
 
 export function SetupAccountForm({ className, token, email }: Props) {
   const router = useRouter();
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const mutation = useSetupAccount();
 
   type SetupAccountFormValues = z.infer<typeof setupAccountSchema>;
 
@@ -51,24 +49,22 @@ export function SetupAccountForm({ className, token, email }: Props) {
     mode: "onTouched",
   });
 
-  const onSubmit = async (values: SetupAccountFormValues) => {
-    try {
-      setSubmitting(true);
-      setError(null);
-
-      await axios.post("/api/auth/complete-registration", {
+  const onSubmit = (values: SetupAccountFormValues) => {
+    mutation.mutate(
+      {
         token,
         username: values.username,
         password: values.password,
-      });
-
-      router.push("/login?state=setup");
-    } catch (err) {
-      setError(getErrorMessage(err, "Wystąpił błąd podczas aktywacji konta"));
-    } finally {
-      setSubmitting(false);
-    }
+      },
+      {
+        onSuccess: () => router.push("/login?state=setup"),
+      },
+    );
   };
+
+  const error = mutation.error
+    ? getErrorMessage(mutation.error, "Wystąpił błąd podczas aktywacji konta")
+    : null;
 
   return (
     <div className={cn("flex flex-col gap-6", className)}>
@@ -143,8 +139,12 @@ export function SetupAccountForm({ className, token, email }: Props) {
                 )}
               />
 
-              <Button type="submit" className="w-full" disabled={submitting}>
-                {submitting && (
+              <Button
+                type="submit"
+                className="w-full"
+                disabled={mutation.isPending}
+              >
+                {mutation.isPending && (
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 )}
                 Aktywuj konto

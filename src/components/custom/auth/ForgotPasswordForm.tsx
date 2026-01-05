@@ -10,7 +10,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -23,9 +22,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import Link from "next/link";
-import axios from "axios";
 import { getErrorMessage } from "@/lib/axios";
 import { forgotPasswordSchema } from "@/lib/schemas";
+import { useForgotPassword } from "@/data/queries/use-auth";
 
 type ForgotPasswordFormValues = z.infer<typeof forgotPasswordSchema>;
 
@@ -34,9 +33,7 @@ type Props = {
 };
 
 export default function ForgotPasswordForm({ className }: Props) {
-  const [submitting, setSubmitting] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const mutation = useForgotPassword();
 
   const form = useForm<ForgotPasswordFormValues>({
     resolver: zodResolver(forgotPasswordSchema),
@@ -46,24 +43,15 @@ export default function ForgotPasswordForm({ className }: Props) {
     mode: "onTouched",
   });
 
-  const onSubmit = async (values: ForgotPasswordFormValues) => {
-    try {
-      setSubmitting(true);
-      setError(null);
-
-      await axios.post("/api/auth/forgot-password", {
-        email: values.email,
-      });
-
-      setSuccess(true);
-    } catch (err) {
-      setError(getErrorMessage(err, "Wystąpił błąd podczas wysyłania emaila."));
-    } finally {
-      setSubmitting(false);
-    }
+  const onSubmit = (values: ForgotPasswordFormValues) => {
+    mutation.mutate({ email: values.email });
   };
 
-  if (success) {
+  const error = mutation.error
+    ? getErrorMessage(mutation.error, "Wystąpił błąd podczas wysyłania emaila.")
+    : null;
+
+  if (mutation.isSuccess) {
     return (
       <div className={cn("flex flex-col gap-6", className)}>
         <Card>
@@ -127,8 +115,14 @@ export default function ForgotPasswordForm({ className }: Props) {
                   </div>
                 )}
 
-                <Button type="submit" className="w-full" disabled={submitting}>
-                  {submitting ? "Wysyłanie..." : "Wyślij link resetujący"}
+                <Button
+                  type="submit"
+                  className="w-full"
+                  disabled={mutation.isPending}
+                >
+                  {mutation.isPending
+                    ? "Wysyłanie..."
+                    : "Wyślij link resetujący"}
                 </Button>
               </form>
             </Form>

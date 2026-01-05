@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -19,6 +18,7 @@ import { toast } from "sonner";
 import { changeUsernameSchema } from "@/lib/schemas";
 import { useSession } from "next-auth/react";
 import axios from "axios";
+import { useChangeUsername } from "@/data/queries/use-panel";
 
 type ErrorResponse = {
   error: string;
@@ -29,7 +29,8 @@ type UsernameFormValues = z.infer<typeof changeUsernameSchema>;
 
 export default function ChangeUsernameForm() {
   const { data: session, update } = useSession();
-  const [isLoading, setIsLoading] = useState(false);
+
+  const mutation = useChangeUsername();
 
   const form = useForm<UsernameFormValues>({
     resolver: zodResolver(changeUsernameSchema),
@@ -39,47 +40,44 @@ export default function ChangeUsernameForm() {
     mode: "onTouched",
   });
 
-  const onSubmit = async (values: UsernameFormValues) => {
-    setIsLoading(true);
-
-    try {
-      const response = await axios.post("/api/panel/settings/username", {
-        username: values.username,
-      });
-
-      await update({
-        ...session,
-        user: {
-          ...session?.user,
-          username: response.data.username,
+  const onSubmit = (values: UsernameFormValues) => {
+    mutation.mutate(
+      { username: values.username },
+      {
+        onSuccess: async (data) => {
+          await update({
+            ...session,
+            user: {
+              ...session?.user,
+              username: data.username,
+            },
+          });
+          toast.success("Nazwa użytkownika zmieniona pomyślnie");
         },
-      });
+        onError: (error) => {
+          if (!axios.isAxiosError(error)) {
+            toast.error("Coś poszło nie tak");
+            return;
+          }
 
-      toast.success("Nazwa użytkownika zmieniona pomyślnie");
-    } catch (error) {
-      if (!axios.isAxiosError(error)) {
-        toast.error("Coś poszło nie tak");
-        return;
-      }
+          const data = error.response?.data as ErrorResponse | undefined;
+          const errorCode = data?.code;
+          const errorMsg = data?.error || "Coś poszło nie tak";
 
-      const data = error.response?.data as ErrorResponse | undefined;
-      const errorCode = data?.code;
-      const errorMsg = data?.error || "Coś poszło nie tak";
-
-      switch (errorCode) {
-        case "USERNAME_TAKEN":
-          form.setError("username", { message: errorMsg });
-          break;
-        case "VALIDATION_ERROR":
-          toast.error(errorMsg);
-          break;
-        default:
-          toast.error(errorMsg);
-          console.error("Username change error:", error);
-      }
-    } finally {
-      setIsLoading(false);
-    }
+          switch (errorCode) {
+            case "USERNAME_TAKEN":
+              form.setError("username", { message: errorMsg });
+              break;
+            case "VALIDATION_ERROR":
+              toast.error(errorMsg);
+              break;
+            default:
+              toast.error(errorMsg);
+              console.error("Username change error:", error);
+          }
+        },
+      },
+    );
   };
 
   return (
@@ -103,7 +101,7 @@ export default function ChangeUsernameForm() {
                     <Input
                       type="text"
                       placeholder="Wpisz nową nazwę użytkownika"
-                      disabled={isLoading}
+                      disabled={mutation.isPending}
                       autoComplete="username"
                       {...field}
                     />
@@ -113,8 +111,12 @@ export default function ChangeUsernameForm() {
               )}
             />
 
-            <Button type="submit" disabled={isLoading} className="w-full">
-              {isLoading ? "Zapisywanie..." : "Zapisz nazwę"}
+            <Button
+              type="submit"
+              disabled={mutation.isPending}
+              className="w-full"
+            >
+              {mutation.isPending ? "Zapisywanie..." : "Zapisz nazwę"}
             </Button>
           </form>
         </Form>

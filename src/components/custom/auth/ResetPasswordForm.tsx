@@ -10,7 +10,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -24,9 +23,9 @@ import {
 } from "@/components/ui/form";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import axios from "axios";
 import { getErrorMessage } from "@/lib/axios";
 import { resetPasswordSchema } from "@/lib/schemas";
+import { useResetPassword } from "@/data/queries/use-auth";
 
 type ResetPasswordFormValues = z.infer<typeof resetPasswordSchema>;
 
@@ -37,8 +36,8 @@ type Props = {
 
 export default function ResetPasswordForm({ className, token }: Props) {
   const router = useRouter();
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+
+  const mutation = useResetPassword();
 
   const form = useForm<ResetPasswordFormValues>({
     resolver: zodResolver(resetPasswordSchema),
@@ -49,26 +48,25 @@ export default function ResetPasswordForm({ className, token }: Props) {
     mode: "onTouched",
   });
 
-  const onSubmit = async (values: ResetPasswordFormValues) => {
-    try {
-      setSubmitting(true);
-      setError(null);
-
-      await axios.post("/api/auth/reset-password", {
+  const onSubmit = (values: ResetPasswordFormValues) => {
+    mutation.mutate(
+      {
         token,
         password: values.password,
         passwordConfirmation: values.confirmPassword,
-      });
-
-      router.push("/login?state=reset");
-    } catch (err) {
-      setError(
-        getErrorMessage(err, "Wystąpił błąd podczas resetowania hasła."),
-      );
-    } finally {
-      setSubmitting(false);
-    }
+      },
+      {
+        onSuccess: () => router.push("/login?state=reset"),
+      },
+    );
   };
+
+  const error = mutation.error
+    ? getErrorMessage(
+        mutation.error,
+        "Wystąpił błąd podczas resetowania hasła.",
+      )
+    : null;
 
   return (
     <div className={cn("flex flex-col gap-6", className)}>
@@ -131,8 +129,12 @@ export default function ResetPasswordForm({ className, token }: Props) {
                   </div>
                 )}
 
-                <Button type="submit" className="w-full" disabled={submitting}>
-                  {submitting ? "Zapisywanie..." : "Ustaw nowe hasło"}
+                <Button
+                  type="submit"
+                  className="w-full"
+                  disabled={mutation.isPending}
+                >
+                  {mutation.isPending ? "Zapisywanie..." : "Ustaw nowe hasło"}
                 </Button>
               </form>
             </Form>

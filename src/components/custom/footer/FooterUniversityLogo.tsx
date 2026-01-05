@@ -1,7 +1,7 @@
 import { StrapiImage } from "@/components/StrapiImage";
+import { Link } from "@/i18n/navigation";
 import { ImageLink } from "@/types";
 import Image from "next/image";
-import Link from "next/link";
 
 type Props = {
   logo: ImageLink;

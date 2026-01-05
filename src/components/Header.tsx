@@ -1,13 +1,16 @@
 import { getHeaderData } from "@/data/layoutLoaders";
+import { Link } from "@/i18n/navigation";
 import { HeaderData } from "@/types";
-import Link from "next/link";
-import { StrapiImage } from "./StrapiImage";
-import NavLink from "./custom/header/NavLink";
-import { MobileMenu } from "./custom/header/MobileMenu";
 import Image from "next/image";
+import { StrapiImage } from "./StrapiImage";
+import { MobileMenu } from "./custom/header/MobileMenu";
+import NavLink from "./custom/header/NavLink";
+import { LanguageSwitcher } from "./LanguageSwitcher";
+import { getLocale } from "next-intl/server";
 
 const Header = async () => {
-  const headerData: HeaderData = await getHeaderData();
+  const locale = await getLocale();
+  const headerData: HeaderData = await getHeaderData(locale);
 
   return (
     <header className="bg-white p-6">
@@ -30,12 +33,17 @@ const Header = async () => {
             />
           )}
         </Link>
-        <ul className="hidden items-center space-x-3 lg:flex">
-          {headerData.links.map((link) => (
-            <NavLink key={link.id} link={link} />
-          ))}
-        </ul>
-        <MobileMenu links={headerData.links} />
+        <div className="flex flex-1 items-center justify-end gap-6">
+          <ul className="hidden items-center space-x-3 lg:flex">
+            {headerData.links.map((link) => (
+              <NavLink key={link.id} link={link} />
+            ))}
+          </ul>
+          <div className="hidden lg:block">
+            <LanguageSwitcher />
+          </div>
+          <MobileMenu links={headerData.links} />
+        </div>
       </nav>
     </header>
   );

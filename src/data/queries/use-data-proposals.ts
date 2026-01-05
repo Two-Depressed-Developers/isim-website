@@ -1,9 +1,5 @@
-import {
-  getDataProposals,
-  updateDataProposal,
-  type DataProposal,
-  type ScrapedDataItem,
-} from "../api/data-proposals";
+import { DataProposal, ScrapedDataItem } from "@/types";
+import { getDataProposals, updateDataProposal } from "../api/data-proposals";
 import { queryKeys } from "../query-keys";
 import {
   createQueryHookWithParams,
@@ -11,9 +7,10 @@ import {
 } from "./types";
 
 export const useDataProposals = createQueryHookWithParams(
-  (memberDocumentId: string) => queryKeys.dataProposals.byMember(memberDocumentId),
+  (memberDocumentId: string) =>
+    queryKeys.dataProposals.byMember(memberDocumentId),
   getDataProposals,
-  (memberDocumentId: string) => ({ enabled: !!memberDocumentId })
+  (memberDocumentId: string) => ({ enabled: !!memberDocumentId }),
 );
 
 export function useUpdateDataProposal(memberDocumentId: string) {
@@ -27,6 +24,6 @@ export function useUpdateDataProposal(memberDocumentId: string) {
   >(
     ({ documentId, data, accessToken }) =>
       updateDataProposal(documentId, data, accessToken),
-    queryKeys.dataProposals.byMember(memberDocumentId)
+    queryKeys.dataProposals.byMember(memberDocumentId),
   )();
 }

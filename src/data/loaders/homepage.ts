@@ -6,47 +6,59 @@ import { getConferences } from "../api/conferences";
 import { getCourses } from "../api/courses";
 import { getJournals } from "../api/journals";
 import {
-  CollectionLayout,
   ComponentHomepageCollectionFeed,
   HomepageData,
   HomepageSection,
   StrapiBaseItem,
 } from "@/types";
 import { LAYOUT_ITEM_COUNT, FIVE_MINUTES } from "@/consts/homepage";
+import { getLocale } from "next-intl/server";
 
-const getCachedHomepage = unstable_cache(getHomepage, ["homepage"], {
-  revalidate: FIVE_MINUTES,
-  tags: ["homepage"],
-});
-
-const getCachedResearchOffers = unstable_cache(
-  getResearchOffers,
-  ["research-offers"],
-  {
+function getCachedHomepage(locale: string) {
+  return unstable_cache(() => getHomepage(locale), ["homepage", locale], {
     revalidate: FIVE_MINUTES,
-    tags: ["research-offers"],
-  },
-);
+    tags: ["homepage", locale],
+  })();
+}
 
-const getCachedGroups = unstable_cache(getGroupsData, ["groups"], {
-  revalidate: FIVE_MINUTES,
-  tags: ["groups"],
-});
+function getCachedResearchOffers(locale: string) {
+  return unstable_cache(
+    () => getResearchOffers(locale),
+    ["research-offers", locale],
+    {
+      revalidate: FIVE_MINUTES,
+      tags: ["research-offers", locale],
+    },
+  )();
+}
 
-const getCachedConferences = unstable_cache(getConferences, ["conferences"], {
-  revalidate: FIVE_MINUTES,
-  tags: ["conferences"],
-});
+function getCachedGroups(locale: string) {
+  return unstable_cache(() => getGroupsData(locale), ["groups", locale], {
+    revalidate: FIVE_MINUTES,
+    tags: ["groups", locale],
+  })();
+}
 
-const getCachedCourses = unstable_cache(getCourses, ["courses"], {
-  revalidate: FIVE_MINUTES,
-  tags: ["courses"],
-});
+function getCachedConferences(locale: string) {
+  return unstable_cache(() => getConferences(locale), ["conferences", locale], {
+    revalidate: FIVE_MINUTES,
+    tags: ["conferences", locale],
+  })();
+}
 
-const getCachedJournals = unstable_cache(getJournals, ["journals"], {
-  revalidate: FIVE_MINUTES,
-  tags: ["journals"],
-});
+function getCachedCourses(locale: string) {
+  return unstable_cache(() => getCourses(locale), ["courses", locale], {
+    revalidate: FIVE_MINUTES,
+    tags: ["courses", locale],
+  })();
+}
+
+function getCachedJournals(locale: string) {
+  return unstable_cache(() => getJournals(locale), ["journals", locale], {
+    revalidate: FIVE_MINUTES,
+    tags: ["journals", locale],
+  })();
+}
 
 function shuffleArray<T>(array: T[]): T[] {
   const shuffled = [...array];
@@ -82,13 +94,12 @@ function processItems<T extends { createdAt?: string; publishedAt?: string }>(
   }
 }
 
-const SOURCE_CONFIG: Record<
-  string,
-  {
-    fetcher: () => Promise<StrapiBaseItem[]>;
-    key: keyof ComponentHomepageCollectionFeed;
-  }
-> = {
+type SourceConfig = {
+  fetcher: (locale: string) => Promise<StrapiBaseItem[]>;
+  key: keyof ComponentHomepageCollectionFeed;
+};
+
+const SOURCE_CONFIG: Record<string, SourceConfig> = {
   "research-offer": {
     fetcher: getCachedResearchOffers,
     key: "research_offers",
@@ -101,6 +112,7 @@ const SOURCE_CONFIG: Record<
 
 async function hydrateCollectionFeed(
   section: ComponentHomepageCollectionFeed,
+  locale: string,
 ): Promise<ComponentHomepageCollectionFeed> {
   const { sourceType, selectionMode, layout } = section;
   const itemCount = LAYOUT_ITEM_COUNT[layout];
@@ -121,7 +133,7 @@ async function hydrateCollectionFeed(
   if (!config) return section;
 
   try {
-    const data = await config.fetcher();
+    const data = await config.fetcher(locale);
 
     return {
       ...section,
@@ -135,19 +147,21 @@ async function hydrateCollectionFeed(
 
 async function hydrateSection(
   section: HomepageSection,
+  locale: string,
 ): Promise<HomepageSection> {
   if (section.__component === "homepage.collection-feed") {
-    return hydrateCollectionFeed(section);
+    return hydrateCollectionFeed(section, locale);
   }
   return section;
 }
 
 export async function loadHomepageData(): Promise<HomepageData | null> {
   try {
-    const homepage = await getCachedHomepage();
+    const locale = await getLocale();
+    const homepage = await getCachedHomepage(locale);
 
     const hydratedSections = await Promise.all(
-      homepage.sections.map(hydrateSection),
+      homepage.sections.map((section) => hydrateSection(section, locale)),
     );
 
     return {

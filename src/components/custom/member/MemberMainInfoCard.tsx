@@ -1,13 +1,13 @@
 import { Earth } from "lucide-react";
 
-import WhiteCard from "../WhiteCard";
-import MemberInfoLink from "../MemberInfoLink";
+import CustomLink from "@/components/CustomLink";
 import { StrapiImage } from "@/components/StrapiImage";
 import { Button } from "@/components/ui/button";
-import CustomLink from "@/components/CustomLink";
-
 import { cn } from "@/lib/utils";
 import type { MemberData } from "@/types";
+import { useTranslations } from "next-intl";
+import MemberInfoLink from "../MemberInfoLink";
+import WhiteCard from "../WhiteCard";
 
 type Props = {
   member: MemberData;
@@ -15,6 +15,8 @@ type Props = {
 };
 
 const MemberMainInfoCard = ({ member, className }: Props) => {
+  const t = useTranslations("MemberDetails");
+
   const buttonLinks = [
     {
       data: member.PortfolioLink,
@@ -50,11 +52,29 @@ const MemberMainInfoCard = ({ member, className }: Props) => {
         />
       )}
       <div className="flex flex-col gap-y-4">
-        <h3 className="text-2xl font-bold">Contact</h3>
+        <h3 className="text-2xl font-bold">{t("contact")}</h3>
         <div className="flex flex-col gap-y-2">
-          {member.email && <MemberInfoLink type="Email" value={member.email} />}
-          {member.phone && <MemberInfoLink type="Phone" value={member.phone} />}
-          {member.room && <MemberInfoLink type="Room" value={member.room} />}
+          {member.email && (
+            <MemberInfoLink
+              type="Email"
+              value={member.email}
+              label={t("email")}
+            />
+          )}
+          {member.phone && (
+            <MemberInfoLink
+              type="Phone"
+              value={member.phone}
+              label={t("phone")}
+            />
+          )}
+          {member.room && (
+            <MemberInfoLink
+              type="Room"
+              value={member.room}
+              label={t("room")}
+            />
+          )}
         </div>
         <div className="flex flex-col gap-y-2">
           {buttonLinks &&

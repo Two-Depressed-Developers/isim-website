@@ -1,43 +1,45 @@
-import { motion, AnimatePresence } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { cn } from "@/lib/utils";
-import { useCalendar } from "../contexts/calendar-context";
-import { CalendarRange, List, Columns, Grid3X3, Grid2X2 } from "lucide-react";
-import { TCalendarView } from "../types";
+import { CalendarRange, Columns, Grid3X3, List } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { memo } from "react";
-
-const tabs = [
-  {
-    name: "Agenda",
-    value: "agenda",
-    icon: () => <CalendarRange className="h-4 w-4" />,
-  },
-  {
-    name: "Dzień",
-    value: "day",
-    icon: () => <List className="h-4 w-4" />,
-  },
-  {
-    name: "Tydzień",
-    value: "week",
-    icon: () => <Columns className="h-4 w-4" />,
-  },
-  {
-    name: "Miesiąc",
-    value: "month",
-    icon: () => <Grid3X3 className="h-4 w-4" />,
-  },
-  {
-    name: "Rok",
-    value: "year",
-    icon: () => <Grid2X2 className="h-4 w-4" />,
-  },
-];
+import { useCalendar } from "../contexts/calendar-context";
+import { TCalendarView } from "../types";
 
 function Views() {
   const { view, setView } = useCalendar();
+  const t = useTranslations("Calendar");
+
+  const tabs = [
+    {
+      name: t("views.agenda"),
+      value: "agenda",
+      icon: () => <CalendarRange className="h-4 w-4" />,
+    },
+    {
+      name: t("views.day"),
+      value: "day",
+      icon: () => <List className="h-4 w-4" />,
+    },
+    {
+      name: t("views.week"),
+      value: "week",
+      icon: () => <Columns className="h-4 w-4" />,
+    },
+    {
+      name: t("views.month"),
+      value: "month",
+      icon: () => <Grid3X3 className="h-4 w-4" />,
+    },
+    // {
+    //   name: "Rok",
+    //   value: "year",
+    //   icon: () => <Grid2X2 className="h-4 w-4" />,
+    // },
+  ];
 
   return (
     <Tabs

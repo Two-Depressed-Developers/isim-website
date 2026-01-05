@@ -1,5 +1,12 @@
 import { Dot } from "lucide-react";
 
+import { cn } from "@/lib/utils";
+import { MemberData, type Group as GroupType } from "@/types";
+import { useTranslations } from "next-intl";
+import { ContactLink } from "./ContactLink";
+import CustomLink from "./CustomLink";
+import MemberCard from "./MemberCard";
+import { MemberRow } from "./MemberRow";
 import {
   Table,
   TableBody,
@@ -8,13 +15,6 @@ import {
   TableHeader,
   TableRow,
 } from "./ui/table";
-import MemberCard from "./MemberCard";
-import CustomLink from "./CustomLink";
-import { MemberRow } from "./MemberRow";
-import { ContactLink } from "./ContactLink";
-
-import { MemberData, type Group as GroupType } from "@/types";
-import { cn } from "@/lib/utils";
 
 type Props = {
   group: GroupType;
@@ -23,6 +23,7 @@ type Props = {
 
 const Group = (props: Props) => {
   const { name, siteLink, members } = props.group;
+  const t = useTranslations("Group");
 
   return (
     <div>
@@ -50,7 +51,7 @@ const Group = (props: Props) => {
         )
       ) : (
         <div className="flex h-16 items-center justify-center">
-          <p className="text-gray-500">No members in this group</p>
+          <p className="text-gray-500">{t("noMembers")}</p>
         </div>
       )}
     </div>
@@ -70,19 +71,20 @@ const GridLayout = ({ members }: { members: MemberData[] }) => {
 };
 
 const DetailsLayout = ({ members }: { members: MemberData[] }) => {
+  const t = useTranslations("Group");
   return (
     <div className="overflow-hidden rounded-2xl shadow-lg">
       <Table>
         <TableHeader>
           <TableRow className="overflow-hidden rounded-2xl bg-white hover:bg-white">
             <TableHead className="w-[100px] font-bold text-black">
-              Photo
+              {t("photo")}
             </TableHead>
             <TableHead className="w-[250px] font-bold text-black">
-              Title
+              {t("title")}
             </TableHead>
-            <TableHead className="font-bold text-black">Full name</TableHead>
-            <TableHead className="font-bold text-black">Contact</TableHead>
+            <TableHead className="font-bold text-black">{t("fullName")}</TableHead>
+            <TableHead className="font-bold text-black">{t("contact")}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>

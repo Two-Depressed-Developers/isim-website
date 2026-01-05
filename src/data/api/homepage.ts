@@ -70,11 +70,12 @@ const HOMEPAGE_POPULATE = {
   },
 };
 
-export const getHomepage = async () => {
+export const getHomepage = async (locale: string) => {
   const url = new URL(`/api/homepage`, baseAPIUrl);
 
   url.search = qs.stringify({
     populate: HOMEPAGE_POPULATE,
+    locale,
   });
 
   const response = await fetchData(url.href);

@@ -1,13 +1,5 @@
-import {
-  // CheckIcon,
-  // DotIcon,
-  // MoonIcon,
-  // PaletteIcon,
-  SettingsIcon,
-  // SunMediumIcon,
-  // XIcon,
-} from "lucide-react";
-import { useTheme } from "next-themes";
+import { useCalendar } from "@/components/calendar/contexts/calendar-context";
+import { useDragDrop } from "@/components/calendar/contexts/dnd-context";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -22,8 +14,15 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Switch } from "@/components/ui/switch";
-import { useCalendar } from "@/components/calendar/contexts/calendar-context";
-import { useDragDrop } from "@/components/calendar/contexts/dnd-context";
+import {
+  // CheckIcon,
+  // DotIcon,
+  // MoonIcon,
+  // PaletteIcon,
+  SettingsIcon,
+} from "lucide-react";
+import { useTranslations } from "next-intl";
+import { useTheme } from "next-themes";
 
 export function Settings() {
   const {
@@ -34,6 +33,7 @@ export function Settings() {
     agendaModeGroupBy,
     setAgendaModeGroupBy,
   } = useCalendar();
+  const t = useTranslations("Calendar");
   const { showConfirmation, setShowConfirmation } = useDragDrop();
   const { theme, setTheme } = useTheme();
 
@@ -48,11 +48,11 @@ export function Settings() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel>Calendar settings</DropdownMenuLabel>
+        <DropdownMenuLabel>{t("settings")}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem>
-            Use dark mode
+            {t("darkMode")}
             <DropdownMenuShortcut>
               <Switch
                 // icon={
@@ -86,7 +86,7 @@ export function Settings() {
             </DropdownMenuShortcut>
           </DropdownMenuItem>
           <DropdownMenuItem>
-            Use dot badge
+            {t("dotBadge")}
             <DropdownMenuShortcut>
               <Switch
                 // icon={
@@ -104,7 +104,7 @@ export function Settings() {
             </DropdownMenuShortcut>
           </DropdownMenuItem>
           <DropdownMenuItem>
-            Use 24 hour format
+            {t("format24h")}
             <DropdownMenuShortcut>
               <Switch
                 // icon={
@@ -157,15 +157,15 @@ export function Settings() {
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuLabel>Agenda view group by</DropdownMenuLabel>
+          <DropdownMenuLabel>{t("groupBy")}</DropdownMenuLabel>
           <DropdownMenuRadioGroup
             value={agendaModeGroupBy}
             onValueChange={(value) =>
               setAgendaModeGroupBy(value as "date" | "color")
             }
           >
-            <DropdownMenuRadioItem value="date">Date</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="color">Color</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="date">{t("date")}</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="color">{t("color")}</DropdownMenuRadioItem>
           </DropdownMenuRadioGroup>
         </DropdownMenuGroup>
       </DropdownMenuContent>

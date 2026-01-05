@@ -1,17 +1,17 @@
-import { formatDate } from "date-fns";
-import { pl } from "date-fns/locale";
-import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
 import {
 	buttonHover,
 	transition,
 } from "@/components/calendar/animations";
 import { useCalendar } from "@/components/calendar/contexts/calendar-context";
+import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
+import { useFormatter } from "next-intl";
 
 const MotionButton = motion.create(Button);
 
 export function TodayButton() {
 	const { setSelectedDate } = useCalendar();
+  const format = useFormatter();
 
 	const today = new Date();
 	const handleClick = () => setSelectedDate(today);
@@ -32,7 +32,7 @@ export function TodayButton() {
 				animate={{ y: 0, opacity: 1 }}
 				transition={{ delay: 0.1, ...transition }}
 			>
-				{formatDate(today, "MMM", { locale: pl }).toUpperCase()}
+				{format.dateTime(today, { month: "short" }).toUpperCase()}
 			</motion.span>
 			<motion.span
 				className="text-lg font-bold"

@@ -1,7 +1,7 @@
 import { Link as LinkType } from "@/types";
 import { ChevronDown } from "lucide-react";
-import Link from "next/link";
 import SubLinksDropdown from "./SubLinksDropdown";
+import { Link } from "@/i18n/navigation";
 
 type Props = {
   link: LinkType;
@@ -20,7 +20,7 @@ const NavLink = ({ link }: Props) => {
         {link.subLinks && link.subLinks.length > 0 && <ChevronDown size={20} />}
       </Link>
       {link.subLinks && link.subLinks.length > 0 && (
-        <SubLinksDropdown subLinks={link.subLinks} baseUrl={baseUrl} />
+        <SubLinksDropdown subLinks={link.subLinks} />
       )}
     </li>
   );

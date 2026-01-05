@@ -1,8 +1,8 @@
 import { getGroupsData } from "../api/groups";
 import { queryKeys } from "../query-keys";
-import { createQueryHook } from "./types";
+import { createQueryHookWithParams } from "./types";
 
-export const useGroupsData = createQueryHook(
+export const useGroupsData = createQueryHookWithParams(
   queryKeys.groups.all,
   getGroupsData,
 );

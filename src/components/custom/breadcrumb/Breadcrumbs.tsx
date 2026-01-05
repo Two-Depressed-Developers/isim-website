@@ -11,10 +11,9 @@ import {
 import { useBreadcrumbs } from "@/context/BreadcrumbsContext";
 import type { Page } from "@/types";
 import { cn } from "@/lib/utils";
-import { usePathname } from "next/navigation";
 import React from "react";
 import type { Breadcumb } from "./Beadcrumb.types";
-import Link from "next/link";
+import { Link, usePathname } from "@/i18n/navigation";
 
 type Props = {
   className?: string;

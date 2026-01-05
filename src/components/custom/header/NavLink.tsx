@@ -20,7 +20,7 @@ const NavLink = ({ link }: Props) => {
         {link.subLinks && link.subLinks.length > 0 && <ChevronDown size={20} />}
       </Link>
       {link.subLinks && link.subLinks.length > 0 && (
-        <SubLinksDropdown subLinks={link.subLinks} baseUrl={baseUrl} />
+        <SubLinksDropdown subLinks={link.subLinks} />
       )}
     </li>
   );

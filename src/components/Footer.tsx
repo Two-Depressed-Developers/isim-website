@@ -3,12 +3,10 @@ import FooterSection from "./custom/footer/FooterSection";
 import FooterUniversityLogo from "./custom/footer/FooterUniversityLogo";
 import FooterCopyright from "./custom/footer/FooterCopyright";
 import { getFooterData } from "@/data/layoutLoaders";
+import { getLocale } from "next-intl/server";
 
-type Props = {
-  locale: string;
-};
-
-const Footer = async ({ locale }: Props) => {
+const Footer = async () => {
+  const locale = await getLocale();
   const footerData: FooterData = await getFooterData(locale);
 
   return (

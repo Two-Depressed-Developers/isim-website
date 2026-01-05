@@ -32,14 +32,14 @@ export default async function PublicLayout({ children, params }: Props) {
 
   return (
     <LocaleProviders locale={locale} messages={messages}>
-      <Header locale={locale} />
+      <Header />
       <main className="flex grow flex-col">
         <BreadcrumbsProvider>
-          <BreadcrumbsDataLoader locale={locale} />
+          <BreadcrumbsDataLoader />
           {children}
         </BreadcrumbsProvider>
       </main>
-      <Footer locale={locale} />
+      <Footer />
     </LocaleProviders>
   );
 }

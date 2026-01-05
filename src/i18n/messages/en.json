@@ -70,10 +70,10 @@
     "secondDegree": "Second Cycle Studies (Master)",
     "semesters": "semesters",
     "syllabus": "Syllabus",
-    "IDegree": "First Cycle",
-    "IIDegree": "Second Cycle",
-    "fullTime": "Full-time",
-    "partTime": "Part-time"
+    "I stopień": "First Cycle",
+    "II stopień": "Second Cycle",
+    "Stacjonarne": "Full-time",
+    "Niestacjonarne": "Part-time"
   },
   "Helpdesk": {
     "title": "Tickets",

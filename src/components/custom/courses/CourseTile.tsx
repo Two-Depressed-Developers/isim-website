@@ -43,8 +43,7 @@ export default function CourseTile({ course, variant = "default" }: Props) {
             {course.title}
           </h3>
           <p className="text-muted-foreground text-xs">
-            {course.degreeType == "I stopień" ? t("IDegree") : t("IIDegree")} •{" "}
-            {course.semesterCount} {t("semesters")}
+            {t(course.degreeType)} • {course.semesterCount} {t("semesters")}
           </p>
         </div>
       </div>
@@ -66,7 +65,7 @@ export default function CourseTile({ course, variant = "default" }: Props) {
       <div className="z-10 mb-6">
         <div className="mb-4 flex flex-wrap items-center gap-2">
           <Badge variant="outline" className={cn("font-medium", theme.badge)}>
-            {course.degreeType == "I stopień" ? t("IDegree") : t("IIDegree")}
+            {t(course.degreeType)}
           </Badge>
           <Badge
             variant="secondary"
@@ -77,7 +76,7 @@ export default function CourseTile({ course, variant = "default" }: Props) {
                 : "border-orange-200 bg-orange-50 text-orange-700",
             )}
           >
-            {course.format == "Stacjonarne" ? t("fullTime") : t("partTime")}
+            {t(course.format)}
           </Badge>
         </div>
 

@@ -6,12 +6,10 @@ import { StrapiImage } from "./StrapiImage";
 import { MobileMenu } from "./custom/header/MobileMenu";
 import NavLink from "./custom/header/NavLink";
 import { LanguageSwitcher } from "./LanguageSwitcher";
+import { getLocale } from "next-intl/server";
 
-type Props = {
-  locale: string;
-};
-
-const Header = async ({ locale }: Props) => {
+const Header = async () => {
+  const locale = await getLocale();
   const headerData: HeaderData = await getHeaderData(locale);
 
   return (

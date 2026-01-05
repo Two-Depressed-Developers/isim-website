@@ -6,6 +6,9 @@ import { useJournals } from "@/data/queries/use-journals";
 import { BookOpen, CalendarDays, Loader2 } from "lucide-react";
 import PageTitle from "@/components/PageTitle";
 import { useLocale, useTranslations } from "next-intl";
+import { usePrefetchLocales } from "@/hooks/use-prefetch-locales";
+import { queryKeys } from "@/data/query-keys";
+import { getConferences } from "@/data/api/conferences";
 
 export default function ConferencesPage() {
   const t = useTranslations("Conferences");
@@ -16,6 +19,8 @@ export default function ConferencesPage() {
     isPending: isJournalsPending,
     isError: isJournalsError,
   } = useJournals(locale);
+
+  usePrefetchLocales(queryKeys.conferences.all, getConferences);
 
   if (isPending || isJournalsPending) {
     return (

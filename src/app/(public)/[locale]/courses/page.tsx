@@ -2,7 +2,10 @@
 
 import CourseTile from "@/components/custom/courses/CourseTile";
 import PageTitle from "@/components/PageTitle";
+import { getCourses } from "@/data/api/courses";
 import { useCourses } from "@/data/queries/use-courses";
+import { queryKeys } from "@/data/query-keys";
+import { usePrefetchLocales } from "@/hooks/use-prefetch-locales";
 import { Loader2 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 
@@ -10,6 +13,8 @@ export default function CoursesPage() {
   const t = useTranslations("Courses");
   const locale = useLocale();
   const { data: courses, isPending, isError } = useCourses(locale);
+
+  usePrefetchLocales(queryKeys.courses.all, getCourses);
 
   if (isPending) {
     return (

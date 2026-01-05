@@ -2,7 +2,10 @@
 
 import OfferSectionTile from "@/components/custom/offer/OfferSectionTile";
 import PageTitle from "@/components/PageTitle";
+import { getResearchOffers } from "@/data/api/research-offers";
 import { useResearchOffers } from "@/data/queries/use-research-offers";
+import { queryKeys } from "@/data/query-keys";
+import { usePrefetchLocales } from "@/hooks/use-prefetch-locales";
 import { Loader2 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 
@@ -10,6 +13,8 @@ export default function OfferPage() {
   const t = useTranslations("Offer");
   const locale = useLocale();
   const { data: offers, isPending, isError } = useResearchOffers(locale);
+
+  usePrefetchLocales(queryKeys.researchOffers.all, getResearchOffers);
 
   if (isPending) {
     return (

@@ -12,6 +12,7 @@ import {
   StrapiBaseItem,
 } from "@/types";
 import { LAYOUT_ITEM_COUNT, FIVE_MINUTES } from "@/consts/homepage";
+import { getLocale } from "next-intl/server";
 
 function getCachedHomepage(locale: string) {
   return unstable_cache(() => getHomepage(locale), ["homepage", locale], {
@@ -154,10 +155,9 @@ async function hydrateSection(
   return section;
 }
 
-export async function loadHomepageData(
-  locale: string,
-): Promise<HomepageData | null> {
+export async function loadHomepageData(): Promise<HomepageData | null> {
   try {
+    const locale = await getLocale();
     const homepage = await getCachedHomepage(locale);
 
     const hydratedSections = await Promise.all(

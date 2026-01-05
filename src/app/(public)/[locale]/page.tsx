@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: Props) {
 export default async function Home({ params }: Props) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "HomePage" });
-  const homepage = await loadHomepageData(locale);
+  const homepage = await loadHomepageData();
 
   if (!homepage) {
     return (

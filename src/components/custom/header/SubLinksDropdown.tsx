@@ -4,17 +4,13 @@ import path from "path";
 
 type Props = {
   subLinks: LinkType[];
-  baseUrl: string;
 };
 
-const SubLinksDropdown = ({ subLinks, baseUrl }: Props) => {
+const SubLinksDropdown = ({ subLinks }: Props) => {
   return (
     <div className="pointer-events-none invisible absolute left-1/2 flex w-fit -translate-x-1/2 translate-y-2 flex-col overflow-hidden rounded-lg bg-white opacity-0 shadow-md transition-all duration-100 ease-out group-hover:pointer-events-auto group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
       {subLinks.map((subLink) => {
-        const subUrl = path.join(
-          "/",
-          subLink.page?.slug ?? subLink.URL,
-        );
+        const subUrl = path.join("/", subLink.page?.slug ?? subLink.URL);
 
         return (
           <Link

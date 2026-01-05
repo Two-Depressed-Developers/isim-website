@@ -70,10 +70,10 @@
     "secondDegree": "Studia II stopnia (magisterskie)",
     "semesters": "semestrów",
     "syllabus": "Sylabus",
-    "IDegree": "I stopień",
-    "IIDegree": "II stopień",
-    "fullTime": "Stacjonarne",
-    "partTime": "Niestacjonarne"
+    "I stopień": "I stopień",
+    "II stopień": "II stopień",
+    "Stacjonarne": "Stacjonarne",
+    "Niestacjonarne": "Niestacjonarne"
   },
   "Helpdesk": {
     "title": "Zgłoszenia",

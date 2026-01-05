@@ -61,7 +61,7 @@ export default function ResetPasswordForm({ className, token }: Props) {
     );
   };
 
-  const error = mutation.error
+  const error = mutation.isError
     ? getErrorMessage(
         mutation.error,
         "Wystąpił błąd podczas resetowania hasła.",
@@ -123,7 +123,7 @@ export default function ResetPasswordForm({ className, token }: Props) {
                   )}
                 />
 
-                {error && (
+                {mutation.isError && (
                   <div className="rounded-md border-2 border-red-600/10 bg-red-100/25 p-2 text-sm text-red-600">
                     {error}
                   </div>

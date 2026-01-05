@@ -47,7 +47,7 @@ export default function ForgotPasswordForm({ className }: Props) {
     mutation.mutate({ email: values.email });
   };
 
-  const error = mutation.error
+  const error = mutation.isError
     ? getErrorMessage(mutation.error, "Wystąpił błąd podczas wysyłania emaila.")
     : null;
 

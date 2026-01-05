@@ -1,16 +1,16 @@
 import axios from "axios";
 
-export type ForgotPasswordData = {
+type ForgotPasswordData = {
   email: string;
 };
 
-export type ResetPasswordData = {
+type ResetPasswordData = {
   token: string;
   password: string;
   passwordConfirmation: string;
 };
 
-export type SetupAccountData = {
+type SetupAccountData = {
   token: string;
   username: string;
   password: string;

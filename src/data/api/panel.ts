@@ -1,14 +1,14 @@
 import axios from "axios";
 
-export type ChangeUsernameData = {
+type ChangeUsernameData = {
   username: string;
 };
 
-export type ChangeUsernameResponse = {
+type ChangeUsernameResponse = {
   username: string;
 };
 
-export type ChangePasswordData = {
+type ChangePasswordData = {
   currentPassword: string;
   newPassword: string;
   confirmPassword: string;

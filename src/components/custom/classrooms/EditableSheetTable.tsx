@@ -1,16 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { useForm, Path } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import {
@@ -24,14 +24,21 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import { useUploadClassroomResources } from "@/data/queries/use-classrooms";
 import { useSession } from "next-auth/react";
 import { ClassroomResource } from "@/types";
 
-interface EditableSheetTableProps {
+type Props = {
   initialData: string[][];
-}
+};
 
 type FieldName = `row_${number}_col_${number}`;
 
@@ -47,42 +54,24 @@ const createFormSchema = (rowCount: number, colCount: number) => {
     }
   }
 
-  return z
-    .object({
-      ...rowSchemas,
-      excludedColumns: z.array(z.number()),
-    })
-    .refine(
-      (data) => {
-        const selectedCount = colCount - data.excludedColumns.length;
-        return selectedCount === 2;
-      },
-      {
-        message: "Musisz wybrać dokładnie 2 kolumny",
-        path: ["excludedColumns"],
-      },
-    );
+  return z.object({
+    ...rowSchemas,
+  });
 };
 
 type FormSchema = z.infer<ReturnType<typeof createFormSchema>>;
 
-export function EditableSheetTable({ initialData }: EditableSheetTableProps) {
-  const [excludedColumns, setExcludedColumns] = useState<Set<number>>(
-    new Set(),
-  );
+export function EditableSheetTable({ initialData }: Props) {
+  const [roomColIndex, setRoomColIndex] = useState<string>("");
+  const [resourceColIndex, setResourceColIndex] = useState<string>("");
+
   const { data: session } = useSession();
   const uploadMutation = useUploadClassroomResources();
-
-  if (initialData.length === 0) {
-    return <p>Brak danych do edycji.</p>;
-  }
 
   const headers = initialData[0];
   const rows = initialData.slice(1);
 
-  const defaultValues: Record<string, string | number[]> = {
-    excludedColumns: [],
-  };
+  const defaultValues: Record<string, string> = {};
 
   rows.forEach((row, rowIndex) => {
     row.forEach((cell, colIndex) => {
@@ -97,49 +86,87 @@ export function EditableSheetTable({ initialData }: EditableSheetTableProps) {
     defaultValues,
   });
 
-  const toggleColumn = (colIndex: number) => {
-    const newExcluded = new Set(excludedColumns);
-    if (newExcluded.has(colIndex)) {
-      newExcluded.delete(colIndex);
-    } else {
-      newExcluded.add(colIndex);
-    }
-    setExcludedColumns(newExcluded);
-    form.setValue("excludedColumns", Array.from(newExcluded));
-    form.trigger("excludedColumns");
-  };
-
   const onSubmit = async (values: FormSchema) => {
     if (!session?.accessToken) {
       toast.error("Musisz być zalogowany, aby przesyłać dane.");
       return;
     }
 
-    const selectedHeaders = headers.filter(
-      (_, index) => !excludedColumns.has(index),
-    );
+    if (!roomColIndex || !resourceColIndex) {
+      toast.error("Musisz wybrać obie kolumny przed wysłaniem.");
+      return;
+    }
 
-    const dataToUpload: ClassroomResource[] = rows.map((_, rowIndex) => {
-      const rowData: Record<string, string> = {};
-      selectedHeaders.forEach((header, colIndex) => {
-        const originalColIndex = headers.indexOf(header);
-        const fieldName = createFieldName(rowIndex, originalColIndex);
-        const fieldValue = values[fieldName as keyof FormSchema];
-        rowData[header] = typeof fieldValue === "string" ? fieldValue : "";
-      });
+    if (roomColIndex === resourceColIndex) {
+      toast.error("Wybierz dwie różne kolumny.");
+      return;
+    }
 
-      return {
-        building: rowData["Budynek"] || rowData["building"] || "",
-        roomNumber: rowData["Sala"] || rowData["roomNumber"] || "",
-        fullRoomCode:
-          rowData["Kod Sali"] ||
-          rowData["fullRoomCode"] ||
-          `${rowData["Budynek"]}-${rowData["Sala"]}`,
-        resources: rowData["Oprogramowanie"]
-          ? rowData["Oprogramowanie"].split(",").map((s) => s.trim())
-          : [],
+    const rIdx = parseInt(roomColIndex);
+    const resIdx = parseInt(resourceColIndex);
+
+    // Map to aggregate data: Key = "Building RoomNumber"
+    const aggregatedData = new Map<string, ClassroomResource>();
+
+    rows.forEach((row, rowIndex) => {
+      // Helper to safely get value from row at specific index
+      const getVal = (idx: number) => {
+        const fieldName = createFieldName(rowIndex, idx);
+        // Prioritize value from form state (user edits)
+        const val = values[fieldName as keyof FormSchema];
+        return typeof val === "string" ? val : "";
       };
+
+      const rawRoomValue = getVal(rIdx);
+      const rawResourceValue = getVal(resIdx);
+
+      if (!rawRoomValue) return;
+
+      const resources = rawResourceValue
+        ? rawResourceValue
+            .split(",")
+            .map((s) => s.trim())
+            .filter((s) => s.length > 0)
+        : [];
+
+      // Split rooms by comma (e.g. "B4 011, B5 201A")
+      const rooms = rawRoomValue
+        .split(",")
+        .map((s) => s.trim())
+        .filter((s) => s.length > 0);
+
+      rooms.forEach((roomStr) => {
+        // Extract building and room number
+        let building = "";
+        let roomNumber = roomStr;
+
+        // Regex: Starts with Letter(s)+Digit(s) then space then rest
+        const match = roomStr.match(/^([a-zA-Z]+\d+)\s+(.*)$/);
+        if (match) {
+          building = match[1];
+          roomNumber = match[2];
+        }
+
+        const uniqueKey = building ? `${building} ${roomNumber}` : roomNumber;
+
+        if (!aggregatedData.has(uniqueKey)) {
+          aggregatedData.set(uniqueKey, {
+            building,
+            roomNumber,
+            fullRoomCode: uniqueKey,
+            resources: [],
+          });
+        }
+
+        const entry = aggregatedData.get(uniqueKey)!;
+        // Add resources, avoiding duplicates
+        const currentSet = new Set(entry.resources);
+        resources.forEach((r) => currentSet.add(r));
+        entry.resources = Array.from(currentSet);
+      });
     });
+
+    const dataToUpload = Array.from(aggregatedData.values());
 
     try {
       await uploadMutation.mutateAsync({
@@ -155,70 +182,94 @@ export function EditableSheetTable({ initialData }: EditableSheetTableProps) {
 
   const handleReset = () => {
     form.reset();
-    setExcludedColumns(new Set());
-    form.setValue("excludedColumns", []);
+    setRoomColIndex("");
+    setResourceColIndex("");
     toast.info("Zresetowano formularz");
   };
-
-  const visibleColumns = headers
-    .map((_, index) => index)
-    .filter((index) => !excludedColumns.has(index));
-
-  const selectedColumnsCount = headers.length - excludedColumns.size;
-  const isValidSelection = selectedColumnsCount === 2;
-  const formErrors = form.formState.errors;
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center justify-between">
-              <span>Wybierz kolumny które zawierają oprogramowanie i sale</span>
-              <span
-                className={cn(
-                  `text-sm font-normal`,
-                  isValidSelection && "text-green-600 dark:text-green-400",
-                  !isValidSelection && "text-red-600 dark:text-red-400",
-                )}
-              >
-                {selectedColumnsCount} / 2 kolumny wybrane
-              </span>
-            </CardTitle>
+            <CardTitle>Mapowanie Kolumn</CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="flex flex-wrap gap-4">
-              {headers.map((header, index) => (
-                <div key={index} className="flex items-center space-x-2">
-                  <Checkbox
-                    id={`col-${index}`}
-                    checked={!excludedColumns.has(index)}
-                    onCheckedChange={() => toggleColumn(index)}
-                  />
-                  <label
-                    htmlFor={`col-${index}`}
-                    className="cursor-pointer text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                  >
-                    {header || `Column ${index + 1}`}
-                  </label>
-                </div>
-              ))}
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              <div className="space-y-2">
+                <FormLabel className="flex items-center gap-2">
+                  <span className="flex h-2 w-2 rounded-full bg-blue-500" />
+                  Kolumna z Salami (np. &quot;25 612&quot;)
+                </FormLabel>
+                <Select value={roomColIndex} onValueChange={setRoomColIndex}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Wybierz kolumnę" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {headers.map((h, i) => (
+                      <SelectItem key={i} value={i.toString()}>
+                        {h || `Kolumna ${i + 1}`}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <FormLabel className="flex items-center gap-2">
+                  <span className="flex h-2 w-2 rounded-full bg-emerald-500" />
+                  Kolumna z Oprogramowaniem
+                </FormLabel>
+                <Select
+                  value={resourceColIndex}
+                  onValueChange={setResourceColIndex}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Wybierz kolumnę" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {headers.map((h, i) => (
+                      <SelectItem key={i} value={i.toString()}>
+                        {h || `Kolumna ${i + 1}`}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader>
-            <CardTitle>Upewnij się, że wartości są poprawne</CardTitle>
+            <CardTitle>Podgląd i Edycja Danych</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="overflow-x-auto">
               <Table>
                 <TableHeader>
                   <TableRow>
-                    {visibleColumns.map((colIndex) => (
-                      <TableHead key={colIndex}>
-                        {headers[colIndex] || `Column ${colIndex + 1}`}
+                    {headers.map((header, index) => (
+                      <TableHead
+                        key={index}
+                        className={cn(
+                          "transition-colors",
+                          index.toString() === roomColIndex &&
+                            "bg-blue-100 font-bold text-blue-700 dark:bg-blue-900/30 dark:text-blue-300",
+                          index.toString() === resourceColIndex &&
+                            "bg-emerald-100 font-bold text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300",
+                          index.toString() !== roomColIndex &&
+                            index.toString() !== resourceColIndex &&
+                            "text-muted-foreground",
+                        )}
+                      >
+                        {header || `Column ${index + 1}`}
+                        {index.toString() === roomColIndex && (
+                          <span className="ml-2 text-xs">(Sale)</span>
+                        )}
+                        {index.toString() === resourceColIndex && (
+                          <span className="ml-2 text-xs">(Zasoby)</span>
+                        )}
                       </TableHead>
                     ))}
                   </TableRow>
@@ -226,24 +277,27 @@ export function EditableSheetTable({ initialData }: EditableSheetTableProps) {
                 <TableBody>
                   {rows.map((row, rowIndex) => (
                     <TableRow key={rowIndex}>
-                      {visibleColumns.map((colIndex) => {
+                      {row.map((_, colIndex) => {
                         const fieldName = createFieldName(rowIndex, colIndex);
+                        const isSelected =
+                          colIndex.toString() === roomColIndex ||
+                          colIndex.toString() === resourceColIndex;
+
                         return (
-                          <TableCell key={colIndex}>
+                          <TableCell
+                            key={colIndex}
+                            className={cn(!isSelected && "opacity-50")}
+                          >
                             <FormField
                               control={form.control}
-                              name={
-                                fieldName as Exclude<
-                                  Path<FormSchema>,
-                                  "excludedColumns"
-                                >
-                              }
+                              name={fieldName}
                               render={({ field }) => (
                                 <FormItem>
                                   <FormControl>
                                     <Textarea
                                       {...field}
                                       className="min-w-[100px]"
+                                      disabled={!isSelected}
                                     />
                                   </FormControl>
                                   <FormMessage />
@@ -265,10 +319,7 @@ export function EditableSheetTable({ initialData }: EditableSheetTableProps) {
           <Button type="button" variant="outline" onClick={handleReset}>
             Resetuj
           </Button>
-          <Button
-            type="submit"
-            disabled={!isValidSelection || uploadMutation.isPending}
-          >
+          <Button type="submit" disabled={uploadMutation.isPending}>
             {uploadMutation.isPending ? "Przesyłanie..." : "Wyślij"}
           </Button>
         </div>

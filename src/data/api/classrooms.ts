@@ -15,7 +15,7 @@ export async function getClassroomResources(): Promise<ClassroomResource[]> {
   const response = await fetchData<StrapiCollectionResponse<ClassroomResource>>(
     url.href,
   );
-  return response?.data ?? [];
+  return response.data;
 }
 
 export async function uploadClassroomResources(

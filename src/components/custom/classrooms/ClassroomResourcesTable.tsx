@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import { Input } from "@/components/ui/input";
+import { useTranslations } from "next-intl";
 import {
   Table,
   TableBody,
@@ -26,6 +27,7 @@ type Props = {
 };
 
 export function ClassroomResourcesTable({ classrooms }: Props) {
+  const t = useTranslations("Classrooms");
   const [searchTerm, setSearchTerm] = useState("");
   const [buildingFilter, setBuildingFilter] = useState<string>("all");
   const [resourceFilter, setResourceFilter] = useState("");
@@ -75,7 +77,7 @@ export function ClassroomResourcesTable({ classrooms }: Props) {
     return (
       <Card>
         <CardContent className="text-muted-foreground py-8 text-center">
-          Brak danych o salach. Załaduj dane z arkusza.
+          {t("noData")}
         </CardContent>
       </Card>
     );
@@ -85,27 +87,33 @@ export function ClassroomResourcesTable({ classrooms }: Props) {
     <div className="space-y-4">
       <Card>
         <CardHeader>
-          <CardTitle>Filtry</CardTitle>
+          <CardTitle>{t("filters.title")}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid gap-4 md:grid-cols-3">
             <div className="space-y-2">
-              <label className="text-sm font-medium">Szukaj</label>
+              <label className="text-sm font-medium">
+                {t("filters.search")}
+              </label>
               <Input
-                placeholder="Numer sali lub zasób..."
+                placeholder={t("filters.searchPlaceholder")}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium">Budynek</label>
+              <label className="text-sm font-medium">
+                {t("filters.building")}
+              </label>
               <Select value={buildingFilter} onValueChange={setBuildingFilter}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Wszystkie budynki" />
+                  <SelectValue placeholder={t("filters.allBuildings")} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">Wszystkie budynki</SelectItem>
+                  <SelectItem value="all">
+                    {t("filters.allBuildings")}
+                  </SelectItem>
                   {buildings.map((building) => (
                     <SelectItem key={building} value={building}>
                       {building}
@@ -116,9 +124,11 @@ export function ClassroomResourcesTable({ classrooms }: Props) {
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium">Zasób</label>
+              <label className="text-sm font-medium">
+                {t("filters.resource")}
+              </label>
               <Input
-                placeholder="Szukaj zasobu..."
+                placeholder={t("filters.resourcePlaceholder")}
                 value={resourceFilter}
                 onChange={(e) => setResourceFilter(e.target.value)}
                 list="resources-list"
@@ -133,13 +143,16 @@ export function ClassroomResourcesTable({ classrooms }: Props) {
 
           <div className="mt-4 flex items-center justify-between">
             <p className="text-muted-foreground text-sm">
-              Znaleziono: {filteredClassrooms.length} z {classrooms.length} sal
+              {t("filters.found", {
+                found: filteredClassrooms.length,
+                total: classrooms.length,
+              })}
             </p>
             <button
               onClick={handleReset}
               className="text-primary text-sm hover:underline"
             >
-              Wyczyść filtry
+              {t("filters.clear")}
             </button>
           </div>
         </CardContent>
@@ -151,9 +164,11 @@ export function ClassroomResourcesTable({ classrooms }: Props) {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-[150px]">Sala</TableHead>
-                  <TableHead className="w-[100px]">Budynek</TableHead>
-                  <TableHead>Dostępne zasoby</TableHead>
+                  <TableHead className="w-[150px]">{t("table.room")}</TableHead>
+                  <TableHead className="w-[100px]">
+                    {t("table.building")}
+                  </TableHead>
+                  <TableHead>{t("table.resources")}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -163,7 +178,7 @@ export function ClassroomResourcesTable({ classrooms }: Props) {
                       colSpan={3}
                       className="text-muted-foreground text-center"
                     >
-                      Brak wyników spełniających kryteria
+                      {t("table.noResults")}
                     </TableCell>
                   </TableRow>
                 ) : (

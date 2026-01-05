@@ -203,5 +203,28 @@
     "title": "404 - Nie znaleziono!",
     "description": "Strona, której szukasz, nie istnieje.",
     "homeButton": "Wróć do strony głównej"
+  },
+  "Classrooms": {
+    "title": "Sale i zasoby",
+    "loading": "Ładowanie danych o salach...",
+    "error": "Nie udało się załadować danych o salach.",
+    "noData": "Brak dostępnych danych o salach.",
+    "filters": {
+      "title": "Filtry",
+      "search": "Szukaj",
+      "searchPlaceholder": "Numer sali lub zasób...",
+      "building": "Budynek",
+      "allBuildings": "Wszystkie budynki",
+      "resource": "Zasób",
+      "resourcePlaceholder": "Szukaj zasobu...",
+      "found": "Znaleziono: {found} z {total} sal",
+      "clear": "Wyczyść filtry"
+    },
+    "table": {
+      "room": "Sala",
+      "building": "Budynek",
+      "resources": "Dostępne zasoby",
+      "noResults": "Brak wyników spełniających kryteria"
+    }
   }
 }

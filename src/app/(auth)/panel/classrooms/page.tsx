@@ -22,15 +22,12 @@ export default function HomePage() {
       <h1 className="mb-6 text-3xl font-bold">Zarządzanie zasobami sal</h1>
 
       {data === null ? (
-        <DataSourceSelector
-          onDataLoaded={handleDataLoaded}
-          defaultUrl={process.env.NEXT_PUBLIC_SHEET_URL}
-        />
+        <DataSourceSelector onDataLoaded={handleDataLoaded} />
       ) : (
         <div className="space-y-4">
           <Button variant="outline" onClick={handleBack}>
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Change Data Source
+            Zmień źródło danych
           </Button>
           <EditableSheetTable initialData={data} />
         </div>

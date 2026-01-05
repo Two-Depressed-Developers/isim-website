@@ -20,9 +20,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { parseCSV } from "@/lib/csv-utils";
 import { fetchGoogleSheetAsCSV } from "@/lib/google-sheets-utils";
 
-interface DataSourceSelectorProps {
+interface Props {
   onDataLoaded: (data: string[][]) => void;
-  defaultUrl?: string;
 }
 
 const urlSchema = z.object({
@@ -49,16 +48,13 @@ const fileSchema = z.object({
     ),
 });
 
-export function DataSourceSelector({
-  onDataLoaded,
-  defaultUrl,
-}: DataSourceSelectorProps) {
+export function DataSourceSelector({ onDataLoaded }: Props) {
   const [isLoading, setIsLoading] = useState(false);
 
   const urlForm = useForm<z.infer<typeof urlSchema>>({
     resolver: zodResolver(urlSchema),
     defaultValues: {
-      url: defaultUrl || "",
+      url: "",
     },
   });
 
@@ -173,15 +169,15 @@ export function DataSourceSelector({
                 <FormField
                   control={fileForm.control}
                   name="file"
-                  render={({ field: { onChange, value, ...field } }) => (
+                  render={({ field: { value: _value, ...fieldProps } }) => (
                     <FormItem>
                       <FormLabel>CSV File</FormLabel>
                       <FormControl>
                         <Input
                           type="file"
                           accept=".csv"
-                          onChange={(e) => onChange(e.target.files)}
-                          {...field}
+                          {...fieldProps}
+                          onChange={(e) => fieldProps.onChange(e.target.files)}
                         />
                       </FormControl>
                       <FormMessage />

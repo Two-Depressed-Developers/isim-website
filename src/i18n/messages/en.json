@@ -55,7 +55,7 @@
     "title": "Our Team",
     "loading": "Loading staff data...",
     "error": "Error loading data",
-    "noResults": "No results found",
+    "lts": "No results found",
     "memberNotFound": "Member not found"
   },
   "Offer": {
@@ -203,5 +203,28 @@
     "title": "404 - Not Found!",
     "description": "The page you are looking for does not exist.",
     "homeButton": "Go to Home"
+  },
+  "Classrooms": {
+    "title": "Rooms and Resources",
+    "loading": "Loading classroom data...",
+    "error": "Failed to load classroom data.",
+    "noData": "No classroom data available.",
+    "filters": {
+      "title": "Filters",
+      "search": "Search",
+      "searchPlaceholder": "Room number or resource...",
+      "building": "Building",
+      "allBuildings": "All buildings",
+      "resource": "Resource",
+      "resourcePlaceholder": "Search resource...",
+      "found": "Found: {found} of {total} rooms",
+      "clear": "Clear filters"
+    },
+    "table": {
+      "room": "Room",
+      "building": "Building",
+      "resources": "Available resources",
+      "noResults": "No results matching criteria"
+    }
   }
 }

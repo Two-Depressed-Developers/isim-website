@@ -27,6 +27,7 @@ import {
   ChevronLeft,
   Calendar,
   Ticket,
+  LayoutGrid,
 } from "lucide-react";
 import { useSession, signOut } from "next-auth/react";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -73,7 +74,14 @@ export function PanelSidebar() {
   const adminMenuGroup: MenuGroup[] = [
     {
       label: "Administracja",
-      items: [{ href: "/panel/users", label: "Użytkownicy", icon: Users }],
+      items: [
+        { href: "/panel/users", label: "Użytkownicy", icon: Users },
+        {
+          href: "/panel/classrooms",
+          label: "Zarządzanie salami",
+          icon: LayoutGrid,
+        },
+      ],
     },
   ];
 

@@ -1,7 +1,7 @@
 import { StrapiImage } from "@/components/StrapiImage";
-import { Link } from "@/i18n/navigation";
 import { SimpleSection } from "@/types";
 import Image from "next/image";
+import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 

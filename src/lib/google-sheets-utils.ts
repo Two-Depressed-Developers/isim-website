@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export function normalizeGoogleSheetsUrl(url: string): string {
   if (!url.includes("docs.google.com/spreadsheets")) {
     throw new Error("Invalid Google Sheets URL");
@@ -28,21 +30,14 @@ export async function fetchGoogleSheetAsCSV(
 > {
   try {
     const csvUrl = normalizeGoogleSheetsUrl(url);
-    const response = await fetch(csvUrl, { cache: "no-store" });
+    const response = await axios.get(csvUrl);
 
-    if (!response.ok) {
-      return {
-        success: false,
-        error: `Nie udało się pobrać danych: ${response.statusText}`,
-      };
-    }
-
-    const csvText = await response.text();
-    return { success: true, data: csvText };
+    return { success: true, data: response.data };
   } catch (error) {
     return {
       success: false,
-      error: error instanceof Error ? error.message : "Nieznany błąd",
+      error:
+        error instanceof Error ? error.message : "Nie udało się pobrać danych",
     };
   }
 }

@@ -6,7 +6,6 @@ export const API_ITEM_KEYS = {
   CONFERENCE: "api::conference.conference",
   COURSE: "api::course.course",
   JOURNAL: "api::journal.journal",
-  CLASSROOM_RESOURCE: "api::classrooms-resource.classrooms-resource",
 };
 
 export const DEFAULT_LOCALE = "pl";

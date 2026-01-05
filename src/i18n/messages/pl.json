@@ -19,6 +19,14 @@
     "noResults": "Brak wyników",
     "searchPlaceholder": "Szukaj..."
   },
+  "Validation": {
+    "invalidEmail": "Podaj poprawny adres e-mail.",
+    "aghEmail": "Dozwolone są tylko adresy e-mail z domeny AGH (@agh.edu.pl).",
+    "minCharacters": "Musi mieć co najmniej {min} znaków.",
+    "maxCharacters": "Nie może przekraczać {max} znaków.",
+    "selectionRequired": "Proszę wybrać wartość.",
+    "memberInfoMissing": "Brak informacji o pracowniku."
+  },
   "VerifyConsultation": {
     "verifying": "Weryfikacja rezerwacji...",
     "success": "Sukces!",

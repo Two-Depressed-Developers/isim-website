@@ -1,5 +1,5 @@
 import { format, isWithinInterval, parseISO } from "date-fns";
-import { pl } from "date-fns/locale";
+import { useTranslations, useFormatter } from "next-intl";
 import { Calendar, Clock } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { DayPicker } from "@/components/ui/day-picker";
@@ -26,6 +26,8 @@ export function CalendarDayView({ singleDayEvents, multiDayEvents }: IProps) {
     // users,
     use24HourFormat,
   } = useCalendar();
+  const t = useTranslations("Calendar");
+  const formatDateTime = useFormatter();
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
   const hours = Array.from({ length: 15 }, (_, i) => i + 7);
@@ -96,9 +98,9 @@ export function CalendarDayView({ singleDayEvents, multiDayEvents }: IProps) {
           <div className="relative z-20 flex border-b">
             <div className="w-18"></div>
             <span className="text-t-quaternary flex-1 border-l py-2 text-center text-xs font-medium">
-              {format(selectedDate, "EE", { locale: pl })}{" "}
+              {formatDateTime.dateTime(selectedDate, { weekday: "short" })}{" "}
               <span className="text-t-secondary font-semibold">
-                {format(selectedDate, "d")}
+                {formatDateTime.dateTime(selectedDate, { day: "numeric" })}
               </span>
             </span>
           </div>
@@ -199,12 +201,12 @@ export function CalendarDayView({ singleDayEvents, multiDayEvents }: IProps) {
               </span>
 
               <p className="text-t-secondary text-sm font-semibold">
-                Trwa teraz
+                {t("nowHappening")}
               </p>
             </div>
           ) : (
             <p className="text-t-tertiary p-4 text-center text-sm italic">
-              Brak aktualnych wydarzeń
+              {t("noCurrentEvents")}
             </p>
           )}
 
@@ -232,8 +234,10 @@ export function CalendarDayView({ singleDayEvents, multiDayEvents }: IProps) {
                       <div className="flex items-center gap-1.5">
                         <Calendar className="text-t-quinary size-4" />
                         <span className="text-t-tertiary text-sm">
-                          {format(new Date(event.startDate), "MMM d, yyyy", {
-                            locale: pl,
+                          {formatDateTime.dateTime(new Date(event.startDate), {
+                            year: "numeric",
+                            month: "short",
+                            day: "numeric",
                           })}
                         </span>
                       </div>
@@ -241,17 +245,17 @@ export function CalendarDayView({ singleDayEvents, multiDayEvents }: IProps) {
                       <div className="flex items-center gap-1.5">
                         <Clock className="text-t-quinary size-4" />
                         <span className="text-t-tertiary text-sm">
-                          {format(
-                            parseISO(event.startDate),
-                            use24HourFormat ? "HH:mm" : "hh:mm a",
-                            { locale: pl },
-                          )}{" "}
+                          {formatDateTime.dateTime(parseISO(event.startDate), {
+                            hour: "numeric",
+                            minute: "numeric",
+                            hour12: !use24HourFormat,
+                          })}{" "}
                           -
-                          {format(
-                            parseISO(event.endDate),
-                            use24HourFormat ? "HH:mm" : "hh:mm a",
-                            { locale: pl },
-                          )}
+                          {formatDateTime.dateTime(parseISO(event.endDate), {
+                            hour: "numeric",
+                            minute: "numeric",
+                            hour12: !use24HourFormat,
+                          })}
                         </span>
                       </div>
                     </div>

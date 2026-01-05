@@ -2,6 +2,7 @@ import { Page } from "@/types";
 import { Separator } from "@/components/ui/separator";
 import CustomLink from "@/components/CustomLink";
 import { ExternalLink } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 type Props = {
   title?: string;
@@ -16,6 +17,8 @@ export default function SectionHeader({
   page,
   className,
 }: Props) {
+  const t = useTranslations("HomePage");
+
   if (!title && !description) return null;
 
   return (
@@ -34,7 +37,7 @@ export default function SectionHeader({
                 isExternal={false}
                 className="text-primary flex items-center gap-2 hover:underline"
               >
-                Zobacz więcej <ExternalLink className="inline-block h-4 w-4" />
+                {t("seeMore")} <ExternalLink className="inline-block h-4 w-4" />
               </CustomLink>
             </>
           )}

@@ -1,4 +1,5 @@
-import Link, { LinkProps } from "next/link";
+import { LinkProps } from "next/link";
+import { Link } from "@/i18n/navigation";
 
 type Props = LinkProps & {
   isExternal: boolean;
@@ -16,7 +17,7 @@ const isValidUrl = (url: string): boolean => {
 };
 
 export default function CustomLink(props: Props) {
-  const { href, isExternal, className, ...rest } = props;
+  const { href, isExternal, className, locale, ...rest } = props;
 
   const sanitizedHref =
     isExternal && !isValidUrl(href.toString()) ? `https://${href}` : href;
@@ -25,6 +26,7 @@ export default function CustomLink(props: Props) {
     <Link
       href={sanitizedHref}
       className={className}
+      {...(locale !== false && { locale })}
       {...(isExternal && {
         target: "_blank",
         rel: "noopener noreferrer",

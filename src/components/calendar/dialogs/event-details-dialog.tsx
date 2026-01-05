@@ -1,10 +1,8 @@
 "use client";
 
-import { format, parseISO } from "date-fns";
-import { pl } from "date-fns/locale";
-import { Calendar, Clock, Text } from "lucide-react";
-import type { ReactNode } from "react";
-import { toast } from "sonner";
+import { useCalendar } from "@/components/calendar/contexts/calendar-context";
+import { AddEditEventDialog } from "@/components/calendar/dialogs/add-edit-event-dialog";
+import type { IEvent } from "@/components/calendar/interfaces";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -15,10 +13,11 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { useCalendar } from "@/components/calendar/contexts/calendar-context";
-import { AddEditEventDialog } from "@/components/calendar/dialogs/add-edit-event-dialog";
-import { formatTime } from "@/components/calendar/helpers";
-import type { IEvent } from "@/components/calendar/interfaces";
+import { parseISO } from "date-fns";
+import { Calendar, Clock, Text } from "lucide-react";
+import { useFormatter, useTranslations } from "next-intl";
+import type { ReactNode } from "react";
+import { toast } from "sonner";
 
 interface IProps {
   event: IEvent;
@@ -28,7 +27,9 @@ interface IProps {
 export function EventDetailsDialog({ event, children }: IProps) {
   const startDate = parseISO(event.startDate);
   const endDate = parseISO(event.endDate);
-  const { use24HourFormat, removeEvent, readOnly } = useCalendar();
+  const { removeEvent, readOnly } = useCalendar();
+  const t = useTranslations("Calendar.eventDetails");
+  const formatDateTime = useFormatter();
 
   const deleteEvent = (eventId: number) => {
     try {
@@ -62,11 +63,18 @@ export function EventDetailsDialog({ event, children }: IProps) {
             <div className="flex items-start gap-2">
               <Calendar className="text-muted-foreground mt-1 size-4 shrink-0" />
               <div>
-                <p className="text-sm font-medium">Data rozpoczęcia</p>
+                <p className="text-sm font-medium">{t("startDate")}</p>
                 <p className="text-muted-foreground text-sm">
-                  {format(startDate, "EEEE, d LLLL", { locale: pl })}
-                  <span className="mx-1">o</span>
-                  {formatTime(parseISO(event.startDate), use24HourFormat)}
+                  {formatDateTime.dateTime(startDate, {
+                    weekday: "long",
+                    month: "long",
+                    day: "numeric",
+                  })}
+                  <span className="mx-1">{t("at")}</span>
+                  {formatDateTime.dateTime(startDate, {
+                    hour: "numeric",
+                    minute: "numeric",
+                  })}
                 </p>
               </div>
             </div>
@@ -74,11 +82,18 @@ export function EventDetailsDialog({ event, children }: IProps) {
             <div className="flex items-start gap-2">
               <Clock className="text-muted-foreground mt-1 size-4 shrink-0" />
               <div>
-                <p className="text-sm font-medium">Data zakończenia</p>
+                <p className="text-sm font-medium">{t("endDate")}</p>
                 <p className="text-muted-foreground text-sm">
-                  {format(endDate, "EEEE, d LLLL", { locale: pl })}
-                  <span className="mx-1">o</span>
-                  {formatTime(parseISO(event.endDate), use24HourFormat)}
+                  {formatDateTime.dateTime(endDate, {
+                    weekday: "long",
+                    month: "long",
+                    day: "numeric",
+                  })}
+                  <span className="mx-1">{t("at")}</span>
+                  {formatDateTime.dateTime(endDate, {
+                    hour: "numeric",
+                    minute: "numeric",
+                  })}
                 </p>
               </div>
             </div>
@@ -86,7 +101,7 @@ export function EventDetailsDialog({ event, children }: IProps) {
             <div className="flex items-start gap-2">
               <Text className="text-muted-foreground mt-1 size-4 shrink-0" />
               <div>
-                <p className="text-sm font-medium">Opis</p>
+                <p className="text-sm font-medium">{t("description")}</p>
                 <p
                   className="text-muted-foreground text-sm"
                   dangerouslySetInnerHTML={{ __html: event.description }}
@@ -98,7 +113,7 @@ export function EventDetailsDialog({ event, children }: IProps) {
         {!readOnly && (
           <div className="flex justify-end gap-2">
             <AddEditEventDialog event={event}>
-              <Button variant="outline">Edytuj</Button>
+              <Button variant="outline">{t("edit")}</Button>
             </AddEditEventDialog>
             <Button
               variant="destructive"
@@ -106,7 +121,7 @@ export function EventDetailsDialog({ event, children }: IProps) {
                 deleteEvent(event.id);
               }}
             >
-              Usuń
+              {t("delete")}
             </Button>
           </div>
         )}

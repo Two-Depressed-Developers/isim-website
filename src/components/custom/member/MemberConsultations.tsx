@@ -1,36 +1,32 @@
 "use client";
 
-import { useState, useMemo } from "react";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import {
-  format,
   addMinutes,
-  isAfter,
   addWeeks,
-  startOfDay,
+  format,
   getDay,
+  isAfter,
   parseISO,
   setHours,
   setMinutes,
+  startOfDay,
 } from "date-fns";
-import { pl } from "date-fns/locale";
 import {
+  BookOpen,
   Calendar,
+  CheckCircle2,
   Clock,
   Mail,
-  CheckCircle2,
   User,
-  BookOpen,
 } from "lucide-react";
+import { useMemo, useState } from "react";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { z } from "zod";
 
-import WhiteCard from "../WhiteCard";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -46,15 +42,21 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Separator } from "@/components/ui/separator";
+import WhiteCard from "../WhiteCard";
 
-import { consultationBookingFormSchema } from "@/lib/schemas";
 import {
   useBookConsultation,
   useConsultationBookings,
 } from "@/data/queries/use-consultations";
+import { getConsultationBookingFormSchema } from "@/lib/schemas";
 import type { MemberData } from "@/types";
+import { useFormatter, useTranslations } from "next-intl";
 
-type BookingFormData = z.infer<typeof consultationBookingFormSchema>;
+type BookingFormData = z.infer<
+  ReturnType<typeof getConsultationBookingFormSchema>
+>;
 
 type TimeSlot = {
   startTime: string;
@@ -69,6 +71,9 @@ type Props = {
 };
 
 const MemberConsultations = ({ member, slug }: Props) => {
+  const t = useTranslations("MemberDetails");
+  const tValidation = useTranslations();
+  const formatDateTime = useFormatter();
   const [selectedSlot, setSelectedSlot] = useState<TimeSlot | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -77,8 +82,10 @@ const MemberConsultations = ({ member, slug }: Props) => {
     member.documentId,
   );
 
+  const bookingSchema = getConsultationBookingFormSchema(tValidation);
+
   const form = useForm<BookingFormData>({
-    resolver: zodResolver(consultationBookingFormSchema),
+    resolver: zodResolver(bookingSchema),
     defaultValues: {
       studentEmail: "",
       studentName: "",
@@ -191,9 +198,8 @@ const MemberConsultations = ({ member, slug }: Props) => {
         memberDocumentId: member.documentId,
       });
 
-      toast.success("Prośba o konsultację została wysłana!", {
-        description:
-          "Sprawdź swoją skrzynkę email i potwierdź rezerwację klikając w link weryfikacyjny.",
+      toast.success(t("successTitle"), {
+        description: t("successDesc"),
         duration: 8000,
       });
 
@@ -201,9 +207,8 @@ const MemberConsultations = ({ member, slug }: Props) => {
       setSelectedSlot(null);
       form.reset();
     } catch {
-      toast.error("Wystąpił błąd", {
-        description:
-          "Nie udało się wysłać prośby o konsultację. Spróbuj ponownie.",
+      toast.error(t("errorTitle"), {
+        description: t("errorDesc"),
       });
     }
   };
@@ -233,13 +238,11 @@ const MemberConsultations = ({ member, slug }: Props) => {
   if (availableSlots.length === 0) {
     return (
       <WhiteCard className="flex flex-col gap-y-4">
-        <h2 className="text-3xl font-bold">Konsultacje</h2>
+        <h2 className="text-3xl font-bold">{t("consultations")}</h2>
         <Separator />
         <div className="flex flex-col items-center justify-center gap-2 py-8">
           <Calendar className="text-muted-foreground h-12 w-12" />
-          <p className="text-muted-foreground">
-            Brak dostępnych terminów konsultacji
-          </p>
+          <p className="text-muted-foreground">{t("noSlots")}</p>
         </div>
       </WhiteCard>
     );
@@ -251,9 +254,9 @@ const MemberConsultations = ({ member, slug }: Props) => {
     <>
       <WhiteCard className="flex flex-col gap-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-3xl font-bold">Konsultacje</h2>
+          <h2 className="text-3xl font-bold">{t("consultations")}</h2>
           <Badge variant="outline" className="text-sm">
-            {availableSlots.length} dostępnych terminów
+            {t("availableSlots", { count: availableSlots.length })}
           </Badge>
         </div>
         <Separator />
@@ -264,7 +267,12 @@ const MemberConsultations = ({ member, slug }: Props) => {
               <div className="flex items-center gap-2">
                 <Calendar className="text-primary h-4 w-4" />
                 <h3 className="text-lg font-semibold">
-                  {format(parseISO(date), "EEEE, d MMMM yyyy", { locale: pl })}
+                  {formatDateTime.dateTime(parseISO(date), {
+                    weekday: "long",
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
                 </h3>
               </div>
 
@@ -277,8 +285,15 @@ const MemberConsultations = ({ member, slug }: Props) => {
                     className="hover:bg-primary flex items-center gap-2 hover:text-white"
                   >
                     <Clock className="h-4 w-4" />
-                    {format(parseISO(slot.startTime), "HH:mm")} -{" "}
-                    {format(parseISO(slot.endTime), "HH:mm")}
+                    {formatDateTime.dateTime(parseISO(slot.startTime), {
+                      hour: "numeric",
+                      minute: "numeric",
+                    })}
+                    {" - "}
+                    {formatDateTime.dateTime(parseISO(slot.endTime), {
+                      hour: "numeric",
+                      minute: "numeric",
+                    })}
                   </Button>
                 ))}
               </div>
@@ -290,9 +305,7 @@ const MemberConsultations = ({ member, slug }: Props) => {
 
         <div className="rounded-md bg-blue-50 p-4">
           <p className="text-sm text-blue-900">
-            <strong>Informacja:</strong> Wybierz dostępny termin i podaj swój
-            adres e-mail z domeny AGH. Po zatwierdzeniu prośby przez
-            prowadzącego otrzymasz wiadomość e-mail z numerem pokoju.
+            <strong>{t("infoTitle")}</strong> {t("infoContent")}
           </p>
         </div>
       </WhiteCard>
@@ -300,9 +313,9 @@ const MemberConsultations = ({ member, slug }: Props) => {
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Rezerwacja konsultacji</DialogTitle>
+            <DialogTitle>{t("dialogTitle")}</DialogTitle>
             <DialogDescription>
-              Konsultacje z {member.fullName}
+              {t("dialogDescription", { name: member.fullName })}
             </DialogDescription>
           </DialogHeader>
 
@@ -312,18 +325,26 @@ const MemberConsultations = ({ member, slug }: Props) => {
                 <div className="flex items-center gap-2">
                   <Calendar className="text-primary h-4 w-4" />
                   <span className="font-medium">
-                    {format(
-                      parseISO(selectedSlot.startTime),
-                      "EEEE, d MMMM yyyy",
-                      { locale: pl },
-                    )}
+                    {formatDateTime.dateTime(parseISO(selectedSlot.startTime), {
+                      weekday: "long",
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Clock className="text-primary h-4 w-4" />
                   <span className="font-medium">
-                    {format(parseISO(selectedSlot.startTime), "HH:mm")} -{" "}
-                    {format(parseISO(selectedSlot.endTime), "HH:mm")}
+                    {formatDateTime.dateTime(parseISO(selectedSlot.startTime), {
+                      hour: "numeric",
+                      minute: "numeric",
+                    })}
+                    {" - "}
+                    {formatDateTime.dateTime(parseISO(selectedSlot.endTime), {
+                      hour: "numeric",
+                      minute: "numeric",
+                    })}
                   </span>
                 </div>
               </div>
@@ -339,7 +360,7 @@ const MemberConsultations = ({ member, slug }: Props) => {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>
-                          Twój adres e-mail AGH{" "}
+                          {t("formEmail")}{" "}
                           <span className="text-red-500">*</span>
                         </FormLabel>
                         <FormControl>
@@ -361,7 +382,7 @@ const MemberConsultations = ({ member, slug }: Props) => {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>
-                          Imię i nazwisko{" "}
+                          {t("formName")}{" "}
                           <span className="text-red-500">*</span>
                         </FormLabel>
                         <FormControl>
@@ -383,7 +404,7 @@ const MemberConsultations = ({ member, slug }: Props) => {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>
-                          Kierunek i przedmiot{" "}
+                          {t("formField")}{" "}
                           <span className="text-red-500">*</span>
                         </FormLabel>
                         <FormControl>
@@ -409,7 +430,7 @@ const MemberConsultations = ({ member, slug }: Props) => {
                         form.reset();
                       }}
                     >
-                      Anuluj
+                      {t("cancel")}
                     </Button>
                     <Button
                       type="submit"
@@ -419,12 +440,12 @@ const MemberConsultations = ({ member, slug }: Props) => {
                       {bookConsultation.isPending ? (
                         <>
                           <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
-                          Wysyłanie...
+                          {t("sending")}
                         </>
                       ) : (
                         <>
                           <CheckCircle2 className="h-4 w-4" />
-                          Wyślij prośbę
+                          {t("sendRequest")}
                         </>
                       )}
                     </Button>

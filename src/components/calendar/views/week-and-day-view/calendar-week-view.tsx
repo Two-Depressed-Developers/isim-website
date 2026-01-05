@@ -1,5 +1,5 @@
 import { addDays, format, isSameDay, parseISO, startOfWeek } from "date-fns";
-import { pl } from "date-fns/locale";
+import { useFormatter } from "next-intl";
 import { motion } from "framer-motion";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
@@ -23,6 +23,7 @@ interface IProps {
 
 export function CalendarWeekView({ singleDayEvents, multiDayEvents }: IProps) {
   const { selectedDate, use24HourFormat } = useCalendar();
+  const formatDateTime = useFormatter();
 
   const weekStart = startOfWeek(selectedDate);
   const weekDays = Array.from({ length: 7 }, (_, i) => addDays(weekStart, i));
@@ -73,16 +74,16 @@ export function CalendarWeekView({ singleDayEvents, multiDayEvents }: IProps) {
                 >
                   {/* Mobile: Show only day abbreviation and number */}
                   <span className="block sm:hidden">
-                    {format(day, "EEE", { locale: pl }).charAt(0)}
+                    {formatDateTime.dateTime(day, { weekday: "short" }).charAt(0)}
                     <span className="text-t-secondary block text-xs font-semibold">
-                      {format(day, "d")}
+                      {formatDateTime.dateTime(day, { day: "numeric" })}
                     </span>
                   </span>
                   {/* Desktop: Show full format */}
                   <span className="hidden sm:inline">
-                    {format(day, "EE", { locale: pl })}{" "}
+                    {formatDateTime.dateTime(day, { weekday: "short" })}{" "}
                     <span className="text-t-secondary ml-1 font-semibold">
-                      {format(day, "d")}
+                      {formatDateTime.dateTime(day, { day: "numeric" })}
                     </span>
                   </span>
                 </motion.span>

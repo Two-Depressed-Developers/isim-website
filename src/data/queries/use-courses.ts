@@ -1,9 +1,8 @@
 import { getCourses } from "../api/courses";
 import { queryKeys } from "../query-keys";
-import { createQueryHook } from "./types";
-import type { Course } from "@/types";
+import { createQueryHookWithParams } from "./types";
 
-export const useCourses = createQueryHook<Course[]>(
+export const useCourses = createQueryHookWithParams(
   queryKeys.courses.all,
   getCourses,
 );

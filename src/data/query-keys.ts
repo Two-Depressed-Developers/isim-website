@@ -15,26 +15,26 @@ export const queryKeys = {
     verify: (token: string) => ["consultations", "verify", token] as const,
   },
   calendar: {
-    events: ["calendar-events"] as const,
+    events: (locale: string) => ["calendar-events", locale] as const,
   },
   groups: {
-    all: ["groups"] as const,
+    all: (locale: string) => ["groups", locale] as const,
   },
   dataProposals: {
     byMember: (memberDocumentId: string) =>
       ["data-proposals", memberDocumentId] as const,
   },
   researchOffers: {
-    all: ["research-offers"] as const,
+    all: (locale: string) => ["research-offers", locale] as const,
   },
   courses: {
-    all: ["courses"] as const,
+    all: (locale: string) => ["courses", locale] as const,
   },
   conferences: {
-    all: ["conferences"] as const,
+    all: (locale: string) => ["conferences", locale] as const,
   },
   journals: {
-    all: ["journals"] as const,
+    all: (locale: string) => ["journals", locale] as const,
   },
   homepage: {
     data: ["homepage"] as const,

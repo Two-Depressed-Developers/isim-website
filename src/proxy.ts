@@ -1,13 +1,22 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
+import createIntlMiddleware from "next-intl/middleware";
+import { routing } from "@/i18n/routing";
 
 import type { NextRequest } from "next/server";
 import type { Session } from "next-auth";
+
+const intlMiddleware = createIntlMiddleware(routing);
 
 const authRoutes = ["/login"];
 const panelPrefix = "/panel";
 
 export default auth((req: NextRequest & { auth: Session | null }) => {
+  const intlResponse = intlMiddleware(req);
+  if (intlResponse.status !== 200) {
+    return intlResponse;
+  }
+
   const { pathname } = req.nextUrl;
   const isLoggedIn = !!req.auth;
 
@@ -28,5 +37,7 @@ export default auth((req: NextRequest & { auth: Session | null }) => {
 });
 
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+  matcher: [
+    "/((?!api|_next/static|_next/image|favicon.ico|trpc|_vercel|.*\\..*).*)",
+  ],
 };

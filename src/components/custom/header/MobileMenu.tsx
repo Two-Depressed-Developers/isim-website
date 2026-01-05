@@ -1,9 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import { Menu, X } from "lucide-react";
-import Link from "next/link";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import {
   Sheet,
   SheetContent,
@@ -11,14 +10,18 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { Separator } from "@/components/ui/separator";
+import { Link } from "@/i18n/navigation";
 import type { Link as LinkType } from "@/types";
+import { Menu, X } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { useState } from "react";
 
 type Props = {
   links: LinkType[];
 };
 
 export function MobileMenu({ links }: Props) {
+  const t = useTranslations("MobileMenu");
   const [open, setOpen] = useState(false);
   const [expandedLinks, setExpandedLinks] = useState<Set<number>>(new Set());
 
@@ -44,13 +47,16 @@ export function MobileMenu({ links }: Props) {
       <SheetTrigger asChild>
         <Button variant="ghost" size="icon" className="lg:hidden">
           <Menu className="h-6 w-6" />
-          <span className="sr-only">Toggle menu</span>
+          <span className="sr-only">{t("toggle")}</span>
         </Button>
       </SheetTrigger>
       <SheetContent side="right" className="w-[300px] sm:w-[400px]">
         <SheetHeader>
-          <SheetTitle>Menu</SheetTitle>
+          <SheetTitle>{t("menu")}</SheetTitle>
         </SheetHeader>
+        <div className="mt-4 flex justify-center">
+          <LanguageSwitcher />
+        </div>
         <nav className="mt-6 flex flex-col">
           {links.map((link) => {
             const baseUrl = link.page?.slug ?? link.URL;
@@ -86,7 +92,7 @@ export function MobileMenu({ links }: Props) {
                 {hasSubLinks && isExpanded && (
                   <div className="mt-2 ml-4 flex flex-col gap-1">
                     {link.subLinks?.map((subLink) => {
-                      const subUrl = `${baseUrl.startsWith("/") ? baseUrl : `/${baseUrl}`}/${subLink.page?.slug ?? subLink.URL}`;
+                      const subUrl = `/${subLink.page?.slug ?? subLink.URL}`;
                       return (
                         <Link
                           key={subLink.id}

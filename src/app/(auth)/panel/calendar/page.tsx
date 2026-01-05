@@ -1,16 +1,10 @@
 "use client";
 
-import { useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
-import { useMemo, useState, useEffect } from "react";
 import { Calendar } from "@/components/calendar/calendar";
 import {
-  mapStrapiEventToCalendarEvent,
   mapConsultationBookingsToGroupedEvents,
+  mapStrapiEventToCalendarEvent,
 } from "@/components/calendar/mappers";
-import { useConsultationBookings } from "@/data/queries/use-consultations";
-import { useMemberData } from "@/data/queries/use-members";
-import { useCalendarEvents } from "@/data/queries/use-calendar";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -20,9 +14,16 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Link2, Loader2, Copy, Check } from "lucide-react";
-import { toast } from "sonner";
+import { DEFAULT_LOCALE } from "@/consts/common";
+import { useCalendarEvents } from "@/data/queries/use-calendar";
+import { useConsultationBookings } from "@/data/queries/use-consultations";
+import { useMemberData } from "@/data/queries/use-members";
 import axios from "axios";
+import { Check, Copy, Link2, Loader2 } from "lucide-react";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
+import { toast } from "sonner";
 
 export default function CalendarPage() {
   const { data: session, status } = useSession();
@@ -45,7 +46,7 @@ export default function CalendarPage() {
   });
 
   const { data: globalEvents = [], isPending: isGlobalEventsPending } =
-    useCalendarEvents();
+    useCalendarEvents(DEFAULT_LOCALE);
 
   const acceptedBookings = useMemo(
     () =>

@@ -3,6 +3,7 @@ export type InfoLinkTypes = "Email" | "Phone" | "Room";
 type Props = {
   type: InfoLinkTypes;
   value: string;
+  label?: string;
 };
 
 const MemberInfoLink = (props: Props) => {
@@ -19,7 +20,7 @@ const MemberInfoLink = (props: Props) => {
 
   return (
     <div className="flex flex-row justify-between gap-x-2">
-      <h4 className="font-medium">{props.type}:</h4>
+      <h4 className="font-medium">{props.label ?? props.type}:</h4>
       <p className="text-right">{getActionToRender()}</p>
     </div>
   );

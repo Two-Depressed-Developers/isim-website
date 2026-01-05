@@ -19,10 +19,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-import type { StrapiClassroomResource } from "@/data/loaders/classrooms";
+import type { ClassroomResource } from "@/types";
 
 type Props = {
-  classrooms: StrapiClassroomResource[];
+  classrooms: ClassroomResource[];
 };
 
 export function ClassroomResourcesTable({ classrooms }: Props) {

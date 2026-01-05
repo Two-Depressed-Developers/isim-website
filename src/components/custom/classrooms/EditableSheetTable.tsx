@@ -25,6 +25,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
+import { useUploadClassroomResources } from "@/data/queries/use-classrooms";
+import { useSession } from "next-auth/react";
+import { ClassroomResource } from "@/types";
 
 interface EditableSheetTableProps {
   initialData: string[][];
@@ -67,6 +70,8 @@ export function EditableSheetTable({ initialData }: EditableSheetTableProps) {
   const [excludedColumns, setExcludedColumns] = useState<Set<number>>(
     new Set(),
   );
+  const { data: session } = useSession();
+  const uploadMutation = useUploadClassroomResources();
 
   if (initialData.length === 0) {
     return <p>Brak danych do edycji.</p>;
@@ -104,29 +109,48 @@ export function EditableSheetTable({ initialData }: EditableSheetTableProps) {
     form.trigger("excludedColumns");
   };
 
-  const onSubmit = (values: FormSchema) => {
+  const onSubmit = async (values: FormSchema) => {
+    if (!session?.accessToken) {
+      toast.error("Musisz być zalogowany, aby przesyłać dane.");
+      return;
+    }
+
     const selectedHeaders = headers.filter(
       (_, index) => !excludedColumns.has(index),
     );
-    const submittedData: string[][] = [selectedHeaders];
 
-    rows.forEach((_, rowIndex) => {
-      const rowData: string[] = [];
-      headers.forEach((_, colIndex) => {
-        if (!excludedColumns.has(colIndex)) {
-          const fieldName = createFieldName(rowIndex, colIndex);
-          const fieldValue = values[fieldName as keyof FormSchema];
-          if (typeof fieldValue === "string") {
-            rowData.push(fieldValue);
-          }
-        }
+    const dataToUpload: ClassroomResource[] = rows.map((_, rowIndex) => {
+      const rowData: Record<string, string> = {};
+      selectedHeaders.forEach((header, colIndex) => {
+        const originalColIndex = headers.indexOf(header);
+        const fieldName = createFieldName(rowIndex, originalColIndex);
+        const fieldValue = values[fieldName as keyof FormSchema];
+        rowData[header] = typeof fieldValue === "string" ? fieldValue : "";
       });
-      submittedData.push(rowData);
+
+      return {
+        building: rowData["Budynek"] || rowData["building"] || "",
+        roomNumber: rowData["Sala"] || rowData["roomNumber"] || "",
+        fullRoomCode:
+          rowData["Kod Sali"] ||
+          rowData["fullRoomCode"] ||
+          `${rowData["Budynek"]}-${rowData["Sala"]}`,
+        resources: rowData["Oprogramowanie"]
+          ? rowData["Oprogramowanie"].split(",").map((s) => s.trim())
+          : [],
+      };
     });
 
-    toast.success(
-      `Wysłano ${submittedData.length - 1} wierszy z kolumnami: ${selectedHeaders.join(", ")}`,
-    );
+    try {
+      await uploadMutation.mutateAsync({
+        data: dataToUpload,
+        accessToken: session.accessToken as string,
+      });
+      toast.success(`Pomyślnie załadowano ${dataToUpload.length} sal.`);
+    } catch (error) {
+      toast.error("Wystąpił błąd podczas przesyłania danych.");
+      console.error(error);
+    }
   };
 
   const handleReset = () => {
@@ -241,8 +265,11 @@ export function EditableSheetTable({ initialData }: EditableSheetTableProps) {
           <Button type="button" variant="outline" onClick={handleReset}>
             Resetuj
           </Button>
-          <Button type="submit" disabled={!isValidSelection}>
-            Wyślij
+          <Button
+            type="submit"
+            disabled={!isValidSelection || uploadMutation.isPending}
+          >
+            {uploadMutation.isPending ? "Przesyłanie..." : "Wyślij"}
           </Button>
         </div>
       </form>

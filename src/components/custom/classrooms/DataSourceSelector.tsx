@@ -36,9 +36,17 @@ const urlSchema = z.object({
 });
 
 const fileSchema = z.object({
-  file: z.instanceof(FileList).refine((files) => files.length > 0, {
-    message: "Wybierz plik CSV",
-  }),
+  file: z
+    .custom<FileList>()
+    .refine(
+      (files) =>
+        typeof window !== "undefined" &&
+        files instanceof FileList &&
+        files.length > 0,
+      {
+        message: "Wybierz plik CSV",
+      },
+    ),
 });
 
 export function DataSourceSelector({

@@ -19,7 +19,7 @@ export default function HomePage() {
 
   return (
     <div className="container mx-auto py-8">
-      <h1 className="mb-6 text-3xl font-bold">Classes Data Editor</h1>
+      <h1 className="mb-6 text-3xl font-bold">Zarządzanie zasobami sal</h1>
 
       {data === null ? (
         <DataSourceSelector

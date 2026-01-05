@@ -12,16 +12,15 @@ const authRoutes = ["/login"];
 const panelPrefix = "/panel";
 
 export default auth((req: NextRequest & { auth: Session | null }) => {
-  const intlResponse = intlMiddleware(req);
-  if (intlResponse.status !== 200) {
-    return intlResponse;
-  }
-
   const { pathname } = req.nextUrl;
-  const isLoggedIn = !!req.auth;
-
   const isPanelRoute = pathname.startsWith(panelPrefix);
   const isAuthRoute = authRoutes.includes(pathname);
+
+  if (!isPanelRoute && !isAuthRoute) {
+    return intlMiddleware(req);
+  }
+
+  const isLoggedIn = !!req.auth;
 
   if (isPanelRoute && !isLoggedIn) {
     const loginUrl = new URL("/login", req.url);

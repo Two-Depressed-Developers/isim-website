@@ -1,0 +1,37 @@
+"use client";
+
+import { useState } from "react";
+import { DataSourceSelector } from "@/components/custom/classrooms/DataSourceSelector";
+import { EditableSheetTable } from "@/components/custom/classrooms/EditableSheetTable";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft } from "lucide-react";
+
+export default function HomePage() {
+  const [data, setData] = useState<string[][] | null>(null);
+
+  const handleDataLoaded = (loadedData: string[][]) => {
+    setData(loadedData);
+  };
+
+  const handleBack = () => {
+    setData(null);
+  };
+
+  return (
+    <div className="container mx-auto py-8">
+      <h1 className="mb-6 text-3xl font-bold">Zarządzanie zasobami sal</h1>
+
+      {data === null ? (
+        <DataSourceSelector onDataLoaded={handleDataLoaded} />
+      ) : (
+        <div className="space-y-4">
+          <Button variant="outline" onClick={handleBack}>
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Zmień źródło danych
+          </Button>
+          <EditableSheetTable initialData={data} />
+        </div>
+      )}
+    </div>
+  );
+}

@@ -1,16 +1,15 @@
-import { DataProposal, ScrapedDataItem } from "@/types";
+import type { DataProposal, ScrapedDataItem } from "@/types";
 import { getDataProposals, updateDataProposal } from "../api/data-proposals";
 import { queryKeys } from "../query-keys";
 import {
-  createQueryHookWithParams,
+  createSuspenseQueryHookWithParams,
   createMutationHookWithInvalidation,
 } from "./types";
 
-export const useDataProposals = createQueryHookWithParams(
+export const useDataProposals = createSuspenseQueryHookWithParams(
   (memberDocumentId: string) =>
     queryKeys.dataProposals.byMember(memberDocumentId),
   getDataProposals,
-  (memberDocumentId: string) => ({ enabled: !!memberDocumentId }),
 );
 
 export function useUpdateDataProposal(memberDocumentId: string) {

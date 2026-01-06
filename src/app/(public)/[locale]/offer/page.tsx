@@ -2,6 +2,7 @@
 
 import OfferSectionTile from "@/components/custom/offer/OfferSectionTile";
 import PageTitle from "@/components/PageTitle";
+import { QueryWrapper } from "@/components/QueryWrapper";
 import { getResearchOffers } from "@/data/api/research-offers";
 import { useResearchOffers } from "@/data/queries/use-research-offers";
 import { queryKeys } from "@/data/query-keys";
@@ -9,33 +10,14 @@ import { usePrefetchLocales } from "@/hooks/use-prefetch-locales";
 import { Loader2 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 
-export default function OfferPage() {
-  const t = useTranslations("Offer");
+function OfferList() {
   const locale = useLocale();
-  const { data: offers, isPending, isError } = useResearchOffers(locale);
+  const { data: offers } = useResearchOffers(locale);
 
   usePrefetchLocales(queryKeys.researchOffers.all, getResearchOffers);
 
-  if (isPending) {
-    return (
-      <div className="container mx-auto flex min-h-[50vh] items-center justify-center">
-        <Loader2 className="text-muted-foreground h-8 w-8 animate-spin" />
-      </div>
-    );
-  }
-
-  if (isError) {
-    return (
-      <div className="container mx-auto py-8">
-        <p className="text-muted-foreground text-center">{t("error")}</p>
-      </div>
-    );
-  }
-
   return (
-    <div className="container mx-auto max-w-7xl space-y-8 p-8">
-      <PageTitle title={t("title")} />
-
+    <>
       {offers.map((offer, index) => (
         <div key={offer.documentId} className="bg-card rounded-lg border p-6">
           <div className="mb-6 flex items-center gap-3">
@@ -64,6 +46,25 @@ export default function OfferPage() {
           )}
         </div>
       ))}
+    </>
+  );
+}
+
+export default function OfferPage() {
+  const t = useTranslations("Offer");
+
+  return (
+    <div className="container mx-auto max-w-7xl space-y-8 p-8">
+      <PageTitle title={t("title")} />
+      <QueryWrapper
+        loadingFallback={
+          <div className="flex min-h-[50vh] items-center justify-center">
+            <Loader2 className="text-muted-foreground h-8 w-8 animate-spin" />
+          </div>
+        }
+      >
+        <OfferList />
+      </QueryWrapper>
     </div>
   );
 }

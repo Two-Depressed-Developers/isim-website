@@ -1,14 +1,18 @@
 "use client";
 
-import ActionBar from "@/components/ActionBar";
+import { useMemo } from "react";
+import { useSearchParams } from "next/navigation";
+import { Loader2 } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
+
 import Group from "@/components/Group";
+import ActionBar from "@/components/ActionBar";
 import PageTitle from "@/components/PageTitle";
+import { QueryWrapper } from "@/components/QueryWrapper";
+
 import { useGroupsData } from "@/data/queries/use-groups";
 import { useDebounce } from "@/lib/hooks";
-import type { Group as GroupType, MemberData } from "@/types";
-import { useLocale, useTranslations } from "next-intl";
-import { useSearchParams } from "next/navigation";
-import { useMemo } from "react";
+import type { MemberData, Group as GroupType } from "@/types";
 
 type SortingType = "position" | "team";
 type LayoutType = "grid" | "details" | "list";
@@ -66,7 +70,7 @@ const transformGroupsData = (
   }));
 };
 
-export default function StaffContent() {
+function StaffList() {
   const t = useTranslations("Staff");
   const locale = useLocale();
   const searchParams = useSearchParams();
@@ -77,13 +81,7 @@ export default function StaffContent() {
 
   const debouncedQuery = useDebounce(search, 600);
 
-  const {
-    data: groups,
-    isPending,
-    isError,
-  } = useGroupsData(locale, {
-    cache: true,
-  });
+  const { data: groups } = useGroupsData(locale, { cache: true });
 
   const sortedGroups = useMemo(() => {
     if (!groups) return null;
@@ -117,38 +115,38 @@ export default function StaffContent() {
       .filter(Boolean);
   }, [sortedGroups, debouncedQuery]);
 
-  if (isPending) {
-    return (
-      <div className="mx-auto flex max-w-7xl flex-col items-center justify-center p-8">
-        <p>{t("loading")}</p>
-      </div>
-    );
-  }
+  return (
+    <div className="flex flex-col gap-16">
+      {filteredGroups && filteredGroups.length > 0 ? (
+        filteredGroups.map(
+          (group) =>
+            group && <Group key={group.id} group={group} layout={layout} />,
+        )
+      ) : (
+        <div className="flex h-16 items-center justify-center">
+          <p>{t("noResults")}</p>
+        </div>
+      )}
+    </div>
+  );
+}
 
-  if (isError) {
-    return (
-      <div className="mx-auto flex max-w-7xl flex-col items-center justify-center p-8">
-        <p>{t("error")}</p>
-      </div>
-    );
-  }
+export default function StaffContent() {
+  const t = useTranslations("Staff");
 
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col space-y-8 p-8">
       <PageTitle title={t("title")} />
       <ActionBar />
-      <div className="flex flex-col gap-16">
-        {filteredGroups && filteredGroups.length > 0 ? (
-          filteredGroups.map(
-            (group) =>
-              group && <Group key={group.id} group={group} layout={layout} />,
-          )
-        ) : (
-          <div className="flex h-16 items-center justify-center">
-            <p>{t("noResults")}</p>
+      <QueryWrapper
+        loadingFallback={
+          <div className="mx-auto flex max-w-7xl flex-col items-center justify-center p-8">
+            <Loader2 className="text-primary h-8 w-8 animate-spin" />
           </div>
-        )}
-      </div>
+        }
+      >
+        <StaffList />
+      </QueryWrapper>
     </div>
   );
 }

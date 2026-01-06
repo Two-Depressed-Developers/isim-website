@@ -1,42 +1,23 @@
 "use client";
 
 import PublicationTile from "@/components/custom/conferences/PublicationTile";
+import PageTitle from "@/components/PageTitle";
+import { QueryWrapper } from "@/components/QueryWrapper";
+import { getConferences } from "@/data/api/conferences";
 import { useConferences } from "@/data/queries/use-conferences";
 import { useJournals } from "@/data/queries/use-journals";
-import { BookOpen, CalendarDays, Loader2 } from "lucide-react";
-import PageTitle from "@/components/PageTitle";
-import { useLocale, useTranslations } from "next-intl";
-import { usePrefetchLocales } from "@/hooks/use-prefetch-locales";
 import { queryKeys } from "@/data/query-keys";
-import { getConferences } from "@/data/api/conferences";
+import { usePrefetchLocales } from "@/hooks/use-prefetch-locales";
+import { BookOpen, CalendarDays, Loader2 } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 
-export default function ConferencesPage() {
+function PublicationsList() {
   const t = useTranslations("Conferences");
   const locale = useLocale();
-  const { data: conferences, isPending, isError } = useConferences(locale);
-  const {
-    data: journals,
-    isPending: isJournalsPending,
-    isError: isJournalsError,
-  } = useJournals(locale);
+  const { data: conferences } = useConferences(locale);
+  const { data: journals } = useJournals(locale);
 
   usePrefetchLocales(queryKeys.conferences.all, getConferences);
-
-  if (isPending || isJournalsPending) {
-    return (
-      <div className="container mx-auto flex items-center justify-center py-16">
-        <Loader2 className="text-primary h-8 w-8 animate-spin" />
-      </div>
-    );
-  }
-
-  if (isError || isJournalsError) {
-    return (
-      <div className="container mx-auto py-8">
-        <p className="text-muted-foreground text-center">{t("error")}</p>
-      </div>
-    );
-  }
 
   if (conferences.length === 0 && journals.length === 0) {
     return (
@@ -47,9 +28,7 @@ export default function ConferencesPage() {
   }
 
   return (
-    <div className="container mx-auto max-w-7xl space-y-12 p-8">
-      <PageTitle title={t("title")} />
-
+    <>
       {journals.length > 0 && (
         <div className="space-y-6">
           <div className="flex items-center gap-3">
@@ -85,6 +64,25 @@ export default function ConferencesPage() {
           </div>
         </div>
       )}
+    </>
+  );
+}
+
+export default function ConferencesPage() {
+  const t = useTranslations("Conferences");
+
+  return (
+    <div className="container mx-auto max-w-7xl space-y-12 p-8">
+      <PageTitle title={t("title")} />
+      <QueryWrapper
+        loadingFallback={
+          <div className="flex items-center justify-center py-16">
+            <Loader2 className="text-primary h-8 w-8 animate-spin" />
+          </div>
+        }
+      >
+        <PublicationsList />
+      </QueryWrapper>
     </div>
   );
 }

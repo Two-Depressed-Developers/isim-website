@@ -1,8 +1,9 @@
 import { getJournals } from "../api/journals";
 import { queryKeys } from "../query-keys";
-import { createQueryHookWithParams } from "./types";
+import { createSuspenseQueryHookWithParams } from "./types";
+import type { Journal } from "@/types";
 
-export const useJournals = createQueryHookWithParams(
-  queryKeys.journals.all,
-  getJournals,
-);
+export const useJournals = createSuspenseQueryHookWithParams<
+  Journal[],
+  [string]
+>(queryKeys.journals.all, getJournals);

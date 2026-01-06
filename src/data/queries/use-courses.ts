@@ -1,8 +1,9 @@
 import { getCourses } from "../api/courses";
 import { queryKeys } from "../query-keys";
-import { createQueryHookWithParams } from "./types";
+import { createSuspenseQueryHookWithParams } from "./types";
+import type { Course } from "@/types";
 
-export const useCourses = createQueryHookWithParams(
+export const useCourses = createSuspenseQueryHookWithParams<Course[], [string]>(
   queryKeys.courses.all,
   getCourses,
 );

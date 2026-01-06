@@ -1,8 +1,10 @@
 import {
   useQuery,
+  useSuspenseQuery,
   useMutation,
   useQueryClient,
   type UseQueryOptions,
+  type UseSuspenseQueryOptions,
   type UseMutationOptions,
   type QueryKey,
 } from "@tanstack/react-query";
@@ -12,6 +14,12 @@ type CustomQueryOptions = {
 };
 
 export type QueryOptions<T> = Omit<UseQueryOptions<T>, "queryKey" | "queryFn"> &
+  CustomQueryOptions;
+
+export type SuspenseQueryOptions<T> = Omit<
+  UseSuspenseQueryOptions<T>,
+  "queryKey" | "queryFn"
+> &
   CustomQueryOptions;
 
 export type MutationOptions<TData, TVariables> = Omit<
@@ -160,6 +168,77 @@ export function createMutationHookWithInvalidation<TData, TVariables>(
           (additionalOnSuccess as (...args: unknown[]) => void)(...args);
         }
       },
+    });
+  };
+}
+
+export function createSuspenseQueryHook<TData>(
+  queryKey: QueryKey | (() => QueryKey),
+  queryFn: () => Promise<TData>,
+  defaultOptions?: SuspenseQueryOptions<TData>,
+) {
+  return (options?: SuspenseQueryOptions<TData>) => {
+    const processedDefaults = processCustomOptions(defaultOptions);
+    const processedOptions = processCustomOptions(options);
+
+    return useSuspenseQuery({
+      queryKey: typeof queryKey === "function" ? queryKey() : queryKey,
+      queryFn,
+      ...processedDefaults,
+      ...processedOptions,
+    });
+  };
+}
+
+export function createSuspenseQueryHookWithParams<
+  TData,
+  TParams extends unknown[],
+>(
+  queryKey: (...params: TParams) => QueryKey,
+  queryFn: (...params: TParams) => Promise<TData>,
+  defaultOptions?:
+    | ((...params: TParams) => SuspenseQueryOptions<TData>)
+    | SuspenseQueryOptions<TData>,
+) {
+  return (...args: unknown[]) => {
+    let params: TParams;
+    let options: SuspenseQueryOptions<TData> | undefined;
+
+    const lastArg = args[args.length - 1];
+    const isOptions =
+      lastArg !== null &&
+      lastArg !== undefined &&
+      typeof lastArg === "object" &&
+      !Array.isArray(lastArg) &&
+      ("enabled" in lastArg ||
+        "staleTime" in lastArg ||
+        "retry" in lastArg ||
+        "refetchInterval" in lastArg ||
+        "onSuccess" in lastArg ||
+        "onError" in lastArg ||
+        "cache" in lastArg);
+
+    if (isOptions) {
+      params = args.slice(0, -1) as TParams;
+      options = lastArg as SuspenseQueryOptions<TData>;
+    } else {
+      params = args as TParams;
+      options = undefined;
+    }
+
+    const defaults =
+      typeof defaultOptions === "function"
+        ? defaultOptions(...params)
+        : defaultOptions;
+
+    const processedDefaults = processCustomOptions(defaults);
+    const processedOptions = processCustomOptions(options);
+
+    return useSuspenseQuery({
+      queryKey: queryKey(...params),
+      queryFn: () => queryFn(...params),
+      ...processedDefaults,
+      ...processedOptions,
     });
   };
 }

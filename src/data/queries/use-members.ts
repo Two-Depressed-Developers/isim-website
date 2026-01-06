@@ -2,18 +2,17 @@ import type { MemberData } from "@/types";
 import { getMemberData, getMemberSchema, updateMember } from "../api/members";
 import { queryKeys } from "../query-keys";
 import {
-  createQueryHook,
-  createQueryHookWithParams,
+  createSuspenseQueryHook,
+  createSuspenseQueryHookWithParams,
   createMutationHookWithInvalidation,
 } from "./types";
 
-export const useMemberData = createQueryHookWithParams(
+export const useMemberData = createSuspenseQueryHookWithParams(
   (slug: string) => queryKeys.members.bySlug(slug),
   getMemberData,
-  (slug: string) => ({ enabled: !!slug }),
 );
 
-export const useMemberSchema = createQueryHook(
+export const useMemberSchema = createSuspenseQueryHook(
   queryKeys.members.schema,
   getMemberSchema,
 );

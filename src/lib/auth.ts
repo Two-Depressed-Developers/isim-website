@@ -2,8 +2,9 @@ import NextAuth from "next-auth";
 import GitHub from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
 import axios from "axios";
+import { env } from "@ryankshaw/next-runtime-env";
 
-const strapiApiUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL;
+const strapiApiUrl = env("NEXT_PUBLIC_STRAPI_API_URL");
 
 if (!strapiApiUrl) {
   throw new Error("NEXT_PUBLIC_STRAPI_API_URL environment variable is not set");

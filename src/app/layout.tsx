@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { K2D } from "next/font/google";
 import { Providers } from "./providers";
+import { PublicEnvScript } from "@ryankshaw/next-runtime-env";
 import "./globals.css";
 
 export const dynamic = "force-dynamic";
@@ -22,6 +23,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <PublicEnvScript />
+      </head>
       <body
         className={`${k2d.className} bg-background flex min-h-screen flex-col antialiased`}
       >

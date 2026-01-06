@@ -79,8 +79,7 @@ export const getHomepage = async (locale: string) => {
   });
 
   try {
-    const response = await fetchData<HomepageData>(url.href);
-    return response;
+    return await fetchData<HomepageData>(url.href);
   } catch {
     return null;
   }

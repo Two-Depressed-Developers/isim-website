@@ -2,6 +2,9 @@
   "Metadata": {
     "title": "ISiM - Home Page"
   },
+  "Breadcrumbs": {
+    "home": "Home"
+  },
   "HomePage": {
     "error": "Failed to load home page. Please try again later.",
     "seeMore": "See more",
@@ -11,7 +14,10 @@
     },
     "supervisor": {
       "photoAlt": "Supervisor photo"
-    }
+    },
+    "department": "Department of Applied Computer Science and Modelling",
+    "AGHUniversity": "AGH University of Krakow",
+    "facultyOf": "Faculty of Metals Engineering and Industrial Computer Science"
   },
   "Common": {
     "loading": "Loading...",
@@ -56,7 +62,8 @@
     "loading": "Loading staff data...",
     "error": "Error loading data",
     "lts": "No results found",
-    "memberNotFound": "Member not found"
+    "memberNotFound": "Member not found",
+    "noResults": "No results found"
   },
   "Offer": {
     "title": "Our Offer",

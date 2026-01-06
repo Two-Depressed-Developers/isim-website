@@ -3,6 +3,8 @@ import { K2D } from "next/font/google";
 import { Providers } from "./providers";
 import "./globals.css";
 
+export const dynamic = "force-dynamic";
+
 const k2d = K2D({
   weight: ["400", "500", "600"],
   subsets: ["latin"],

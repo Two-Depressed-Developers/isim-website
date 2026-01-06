@@ -95,7 +95,7 @@ function processItems<T extends { createdAt?: string; publishedAt?: string }>(
 }
 
 type SourceConfig = {
-  fetcher: (locale: string) => Promise<StrapiBaseItem[]>;
+  fetcher: (locale: string) => Promise<StrapiBaseItem[] | null>;
   key: keyof ComponentHomepageCollectionFeed;
 };
 
@@ -135,12 +135,14 @@ async function hydrateCollectionFeed(
   try {
     const data = await config.fetcher(locale);
 
+    if (!data) return section;
+
     return {
       ...section,
       [config.key]: processItems(data, selectionMode, itemCount),
     };
   } catch (error) {
-    console.error(`Błąd ładowania danych dla ${sourceType}:`, error);
+    console.warn(`Błąd ładowania danych dla ${sourceType}:`, error);
     return section;
   }
 }
@@ -160,6 +162,10 @@ export async function loadHomepageData(): Promise<HomepageData | null> {
     const locale = await getLocale();
     const homepage = await getCachedHomepage(locale);
 
+    if (!homepage || !homepage.sections) {
+      return null;
+    }
+
     const hydratedSections = await Promise.all(
       homepage.sections.map((section) => hydrateSection(section, locale)),
     );
@@ -169,7 +175,7 @@ export async function loadHomepageData(): Promise<HomepageData | null> {
       sections: hydratedSections,
     };
   } catch (error) {
-    console.error("Błąd podczas ładowania danych strony głównej:", error);
+    console.warn("Błąd podczas ładowania danych strony głównej:", error);
     return null;
   }
 }

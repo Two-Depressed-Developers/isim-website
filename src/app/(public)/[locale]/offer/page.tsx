@@ -28,7 +28,6 @@ export default function OfferPage() {
     return (
       <div className="container mx-auto py-8">
         <p className="text-muted-foreground text-center">{t("error")}</p>
-        <div className="bg-primary h-1 w-28 rounded-full" />
       </div>
     );
   }

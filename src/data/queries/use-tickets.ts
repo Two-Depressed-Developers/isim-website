@@ -8,7 +8,7 @@ import {
 } from "../api/tickets";
 import { queryKeys } from "../query-keys";
 import {
-  createQueryHookWithParams,
+  createSuspenseQueryHookWithParams,
   createMutationHook,
   createMutationHookWithInvalidation,
 } from "./types";
@@ -17,24 +17,23 @@ export function useSubmitTicket() {
   return createMutationHook(submitTicket)();
 }
 
-export const useVerifyTicket = createQueryHookWithParams(
+export const useVerifyTicket = createSuspenseQueryHookWithParams(
   (token: string | null) => queryKeys.tickets.verify(token!),
   (token: string | null) => verifyTicket(token!),
-  (token: string | null) => ({ enabled: !!token, retry: false }),
+  () => ({ retry: false }),
 );
 
-export const useTickets = createQueryHookWithParams(
+export const useTickets = createSuspenseQueryHookWithParams(
   (accessToken: string) => queryKeys.tickets.all(accessToken),
   (accessToken: string) => getTickets(accessToken),
-  (accessToken: string) => ({ enabled: !!accessToken }),
 );
 
-export const useTicketDetails = createQueryHookWithParams(
+export const useTicketDetails = createSuspenseQueryHookWithParams(
   (ticketId: string, token?: string | null) =>
     queryKeys.tickets.byId(ticketId, token || ""),
   (ticketId: string, token?: string | null) =>
     getTicketById(ticketId, token || undefined),
-  (ticketId: string) => ({ enabled: !!ticketId, retry: false }),
+  () => ({ retry: false }),
 );
 
 export function useUpdateTicketStatus(accessToken: string) {

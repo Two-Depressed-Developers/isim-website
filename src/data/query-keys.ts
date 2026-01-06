@@ -40,4 +40,7 @@ export const queryKeys = {
     data: ["homepage"] as const,
     schema: ["homepage-schema"] as const,
   },
+  classrooms: {
+    all: ["classrooms"] as const,
+  },
 };

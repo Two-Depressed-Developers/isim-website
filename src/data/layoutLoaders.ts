@@ -39,6 +39,18 @@ const getHardcodedHeaderData = (): HeaderData => {
     links: [
       {
         id: 0,
+        label: "Classrooms",
+        URL: "/classrooms",
+        isExternal: false,
+        openInNewWindow: false,
+        page: {
+          name: "Classrooms",
+          slug: "/classrooms",
+        },
+        subLinks: [],
+      },
+      {
+        id: 1,
         label: "Calendar",
         URL: "/calendar",
         isExternal: false,
@@ -50,7 +62,7 @@ const getHardcodedHeaderData = (): HeaderData => {
         subLinks: [],
       },
       {
-        id: 1,
+        id: 2,
         label: "About us",
         URL: "/about-us",
         isExternal: false,
@@ -96,7 +108,7 @@ const getHardcodedHeaderData = (): HeaderData => {
         ],
       },
       {
-        id: 2,
+        id: 3,
         label: "Contact",
         URL: "/contact",
         isExternal: false,

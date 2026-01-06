@@ -27,6 +27,7 @@ import {
   ChevronLeft,
   Calendar,
   Ticket,
+  LayoutGrid,
 } from "lucide-react";
 import { useSession, signOut } from "next-auth/react";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -75,6 +76,11 @@ export function PanelSidebar() {
       label: "Administracja",
       items: [
         { href: "/panel/users", label: "Dodaj użytkowników", icon: Users },
+        {
+          href: "/panel/classrooms",
+          label: "Zarządzanie salami",
+          icon: LayoutGrid,
+        },
       ],
     },
   ];

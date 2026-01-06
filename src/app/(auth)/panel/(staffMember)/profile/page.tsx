@@ -1,9 +1,11 @@
 import { auth } from "@/lib/auth";
 import { PanelPageTitle } from "@/components/custom/panel/PanelPageTitle";
 import ProfilePageClient from "@/components/custom/panel/profile/ProfilePageClient";
+import { requireStaffMember } from "@/lib/auth.utils";
 
 export default async function ProfilePage() {
   const session = await auth();
+  await requireStaffMember();
   const slug = session?.user?.memberProfileSlug;
 
   if (!slug) {

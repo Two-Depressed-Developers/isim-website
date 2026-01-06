@@ -13,7 +13,7 @@ if (!strapiApiUrl) {
 export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
     GitHub({
-      clientId: process.env.NEXT_PUBLIC_GITHUB_ID,
+      clientId: env("NEXT_PUBLIC_GITHUB_ID"),
       clientSecret: process.env.AUTH_GITHUB_SECRET,
       profile(profile) {
         return {

@@ -8,7 +8,12 @@ import type { Session } from "next-auth";
 
 const intlMiddleware = createIntlMiddleware(routing);
 
-const authRoutes = ["/login"];
+const authRoutes = [
+  "/login",
+  "/forgot-password",
+  "/reset-password",
+  "/setup-account",
+];
 const panelPrefix = "/panel";
 
 export default auth((req: NextRequest & { auth: Session | null }) => {

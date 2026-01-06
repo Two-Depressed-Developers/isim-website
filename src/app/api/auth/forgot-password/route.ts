@@ -3,11 +3,12 @@ import axios from "axios";
 import { getServerStrapiClient } from "@/lib/strapi-server";
 import { getEmailForDev } from "@/lib/utils";
 import { Resend } from "resend";
+import { env } from "@ryankshaw/next-runtime-env";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 async function sendResetPasswordLink(email: string, token: string) {
-  const setupUrl = `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/reset-password/${token}`;
+  const setupUrl = `${env("NEXT_PUBLIC_APP_URL") || "http://localhost:3000"}/reset-password/${token}`;
   const recipientEmail = getEmailForDev(email);
 
   await resend.emails.send({

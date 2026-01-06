@@ -1,21 +1,23 @@
-import { formatDate } from "date-fns";
-import { pl } from "date-fns/locale";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useTranslations, useFormatter } from "next-intl";
 import { useMemo } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { buttonHover, transition } from "@/components/calendar/animations";
 import { useCalendar } from "@/components/calendar/contexts/calendar-context";
-
-import {
-  getEventsCount,
-  navigateDate,
-  rangeText,
-} from "@/components/calendar/helpers";
-
 import type { IEvent } from "@/components/calendar/interfaces";
 import type { TCalendarView } from "@/components/calendar/types";
+
+import {
+  endOfMonth,
+  endOfWeek,
+  endOfYear,
+  startOfMonth,
+  startOfWeek,
+  startOfYear,
+} from "date-fns";
+import { getEventsCount, navigateDate } from "../helpers";
 
 interface IProps {
   view: TCalendarView;
@@ -27,9 +29,8 @@ const MotionBadge = motion.create(Badge);
 
 export function DateNavigator({ view, events }: IProps) {
   const { selectedDate, setSelectedDate } = useCalendar();
-
-  const month = formatDate(selectedDate, "LLLL", { locale: pl });
-  const year = selectedDate.getFullYear();
+  const format = useFormatter();
+  const t = useTranslations("Calendar");
 
   const eventCount = useMemo(
     () => getEventsCount(events, selectedDate, view),
@@ -41,6 +42,41 @@ export function DateNavigator({ view, events }: IProps) {
   const handleNext = () =>
     setSelectedDate(navigateDate(selectedDate, view, "next"));
 
+  const getRangeText = () => {
+    let start = selectedDate;
+    let end = selectedDate;
+
+    switch (view) {
+      case "month":
+      case "agenda":
+        start = startOfMonth(selectedDate);
+        end = endOfMonth(selectedDate);
+        break;
+      case "week":
+        start = startOfWeek(selectedDate);
+        end = endOfWeek(selectedDate);
+        break;
+      case "year":
+        start = startOfYear(selectedDate);
+        end = endOfYear(selectedDate);
+        break;
+      case "day":
+        return format.dateTime(selectedDate, {
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+        });
+      default:
+        break;
+    }
+
+    return format.dateTimeRange(start, end, {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    });
+  };
+
   return (
     <div className="space-y-0.5">
       <div className="flex items-center gap-2">
@@ -50,7 +86,8 @@ export function DateNavigator({ view, events }: IProps) {
           animate={{ x: 0, opacity: 1 }}
           transition={transition}
         >
-          {month} {year}
+          {format.dateTime(selectedDate, { month: "long" })}{" "}
+          {selectedDate.getFullYear()}
         </motion.span>
         <AnimatePresence mode="wait">
           <MotionBadge
@@ -62,14 +99,7 @@ export function DateNavigator({ view, events }: IProps) {
             transition={transition}
             suppressHydrationWarning
           >
-            {eventCount}{" "}
-            {eventCount === 0
-              ? "wydarzeń"
-              : eventCount === 1
-                ? "wydarzenie"
-                : eventCount < 5
-                  ? "wydarzenia"
-                  : "wydarzeń"}
+            {eventCount} {t("events", { count: eventCount })}
           </MotionBadge>
         </AnimatePresence>
       </div>
@@ -93,7 +123,7 @@ export function DateNavigator({ view, events }: IProps) {
           animate={{ opacity: 1 }}
           transition={transition}
         >
-          {rangeText(view, selectedDate)}
+          {getRangeText()}
         </motion.p>
 
         <MotionButton

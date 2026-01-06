@@ -7,3 +7,5 @@ export const API_ITEM_KEYS = {
   COURSE: "api::course.course",
   JOURNAL: "api::journal.journal",
 };
+
+export const DEFAULT_LOCALE = "pl";

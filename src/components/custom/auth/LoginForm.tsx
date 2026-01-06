@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/card";
 import { Github } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
@@ -144,6 +145,15 @@ export function LoginForm({ errorCode, className }: Props) {
                       </FormItem>
                     )}
                   />
+
+                  <div className="-mt-2 text-right">
+                    <Link
+                      href="/forgot-password"
+                      className="text-muted-foreground hover:text-primary text-sm hover:underline"
+                    >
+                      Nie pamiętasz hasła?
+                    </Link>
+                  </div>
 
                   <Button
                     type="submit"

@@ -2,7 +2,9 @@ import qs from "qs";
 import type { ResearchOffer, StrapiCollectionResponse } from "@/types";
 import { baseAPIUrl, fetchData } from "./base";
 
-export async function getResearchOffers(): Promise<ResearchOffer[]> {
+export async function getResearchOffers(
+  locale: string,
+): Promise<ResearchOffer[]> {
   const url = new URL("/api/research-offers", baseAPIUrl);
 
   url.search = qs.stringify({
@@ -13,6 +15,7 @@ export async function getResearchOffers(): Promise<ResearchOffer[]> {
         },
       },
     },
+    locale,
   });
 
   const response = await fetchData<StrapiCollectionResponse<ResearchOffer>>(

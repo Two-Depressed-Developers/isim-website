@@ -3,9 +3,11 @@ import FooterSection from "./custom/footer/FooterSection";
 import FooterUniversityLogo from "./custom/footer/FooterUniversityLogo";
 import FooterCopyright from "./custom/footer/FooterCopyright";
 import { getFooterData } from "@/data/layoutLoaders";
+import { getLocale } from "next-intl/server";
 
 const Footer = async () => {
-  const footerData: FooterData = await getFooterData();
+  const locale = await getLocale();
+  const footerData: FooterData = await getFooterData(locale);
 
   return (
     <footer className="bg-light-gray">

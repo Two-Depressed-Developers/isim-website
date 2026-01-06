@@ -9,17 +9,10 @@ import {
   ZodIssueCode,
 } from "zod";
 
-export const memberFormSchema = object({
-  fullName: string()
-    .min(3, { message: "Imię i nazwisko musi mieć co najmniej 3 znaki." })
-    .max(100, { message: "Imię i nazwisko nie może przekraczać 100 znaków." }),
-  email: string()
-    .email({ message: "Podaj poprawny adres e-mail." })
-    .max(100, { message: "Adres e-mail nie może przekraczać 100 znaków." }),
-  phone: string()
-    .max(20, { message: "Numer telefonu nie może przekraczać 20 znaków." })
-    .optional(),
-});
+export type TFunction = (
+  key: string,
+  values?: Record<string, string | number>,
+) => string;
 
 export const loginFormSchema = object({
   email: string()
@@ -60,56 +53,92 @@ export const changePasswordSchema = object({
   path: ["confirmPassword"],
 });
 
-export const ticketFormSchema = object({
-  title: string()
-    .min(5, { message: "Tytuł musi mieć co najmniej 5 znaków." })
-    .max(200, { message: "Tytuł nie może przekraczać 200 znaków." }),
-  description: string()
-    .min(10, { message: "Opis musi mieć co najmniej 10 znaków." })
-    .max(2000, { message: "Opis nie może przekraczać 2000 znaków." }),
+export const changeUsernameSchema = object({
+  username: string()
+    .min(3, { message: "Nazwa użytkownika musi mieć co najmniej 3 znaki." })
+    .max(50, { message: "Nazwa użytkownika nie może przekraczać 50 znaków." })
+    .regex(/^[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ0-9._\s-]+$/, {
+      message:
+        "Nazwa użytkownika może zawierać tylko litery, cyfry, spacje, kropki, myślniki i podkreślenia.",
+    }),
+});
+
+export const forgotPasswordSchema = object({
   email: string()
+    .min(1, { message: "Email jest wymagany." })
     .email({ message: "Podaj poprawny adres e-mail." })
-    .refine(
-      (email) => email.endsWith("@agh.edu.pl") || email.endsWith(".agh.edu.pl"),
-      {
-        message: "Dozwolone są tylko adresy e-mail z domeny AGH (@agh.edu.pl).",
-      },
-    ),
+    .max(100, { message: "Adres e-mail nie może przekraczać 100 znaków." }),
 });
 
-export const ticketStatusSchema = zEnum([
-  "pending",
-  "open",
-  "in-progress",
-  "resolved",
-  "closed",
-]);
-
-export const updateTicketStatusSchema = object({
-  ticketStatus: ticketStatusSchema,
+export const resetPasswordSchema = object({
+  password: string()
+    .min(6, { message: "Hasło musi mieć co najmniej 6 znaków." })
+    .max(128, { message: "Hasło nie może przekraczać 128 znaków." }),
+  confirmPassword: string(),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Hasła nie są identyczne",
+  path: ["confirmPassword"],
 });
 
-export const consultationBookingFormSchema = object({
-  studentEmail: string()
-    .email({ message: "Podaj poprawny adres e-mail." })
-    .refine(
-      (email) => email.endsWith("@agh.edu.pl") || email.endsWith(".agh.edu.pl"),
-      {
-        message: "Dozwolone są tylko adresy e-mail z domeny AGH (@agh.edu.pl).",
-      },
-    ),
-  studentName: string().min(3, {
-    message: "Imię i nazwisko musi mieć minimum 3 znaki.",
-  }),
-  fieldAndSubject: string().min(3, {
-    message: "Kierunek i przedmiot musi mieć minimum 3 znaki.",
-  }),
-  startTime: string().min(1, { message: "Wybierz termin konsultacji." }),
-  endTime: string().min(1, { message: "Wybierz termin konsultacji." }),
-  memberDocumentId: string().min(1, {
-    message: "Brak informacji o pracowniku.",
-  }),
+export const setupAccountSchema = object({
+  username: string()
+    .min(3, { message: "Nazwa użytkownika musi mieć co najmniej 3 znaki." })
+    .max(50, { message: "Nazwa użytkownika nie może przekraczać 50 znaków." })
+    .regex(/^[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ0-9._\s-]+$/, {
+      message:
+        "Nazwa użytkownika może zawierać tylko litery, cyfry, spacje, kropki, myślniki i podkreślenia.",
+    }),
+  password: string()
+    .min(6, { message: "Hasło musi mieć co najmniej 6 znaków." })
+    .max(128, { message: "Hasło nie może przekraczać 128 znaków." }),
+  confirmPassword: string(),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Hasła nie są identyczne",
+  path: ["confirmPassword"],
 });
+
+export const getTicketFormSchema = (t: TFunction) =>
+  object({
+    title: string()
+      .min(5, { message: t("Validation.minCharacters", { min: 5 }) })
+      .max(200, { message: t("Validation.maxCharacters", { max: 200 }) }),
+    description: string()
+      .min(10, { message: t("Validation.minCharacters", { min: 10 }) })
+      .max(2000, { message: t("Validation.maxCharacters", { max: 2000 }) }),
+    email: string()
+      .email({ message: t("Validation.invalidEmail") })
+      .refine(
+        (email) =>
+          email.endsWith("@agh.edu.pl") || email.endsWith(".agh.edu.pl"),
+        {
+          message: t("Validation.aghEmail"),
+        },
+      ),
+  });
+
+export const getConsultationBookingFormSchema = (t: TFunction) =>
+  object({
+    studentEmail: string()
+      .email({ message: t("Validation.invalidEmail") })
+      .refine(
+        (email) =>
+          email.endsWith("@agh.edu.pl") || email.endsWith(".agh.edu.pl"),
+        {
+          message: t("Validation.aghEmail"),
+        },
+      ),
+    studentName: string().min(3, {
+      message: t("Validation.minCharacters", { min: 3 }),
+    }),
+    fieldAndSubject: string().min(3, {
+      message: t("Validation.minCharacters", { min: 3 }),
+    }),
+    startTime: string().min(1, { message: t("Validation.selectionRequired") }),
+    endTime: string().min(1, { message: t("Validation.selectionRequired") }),
+    memberDocumentId: string().min(1, {
+      message: t("Validation.memberInfoMissing"),
+    }),
+  });
 
 export const consultationAvailabilitySchema = object({
   id: number().optional(),

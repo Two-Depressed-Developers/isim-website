@@ -8,9 +8,10 @@ import {
   ExternalLink,
   RefreshCw,
 } from "lucide-react";
-import { format, parseISO, isSameDay } from "date-fns";
-import { pl } from "date-fns/locale";
+import { format, parseISO, isSameDay, Locale } from "date-fns";
+import { pl, enUS } from "date-fns/locale";
 import CustomLink from "@/components/CustomLink";
+import { useLocale, useTranslations } from "next-intl";
 
 type Props = {
   variant?: "default" | "compact";
@@ -19,15 +20,15 @@ type Props = {
   | { type: "journal"; item: Journal }
 );
 
-function formatDateRange(startDate: string, endDate?: string) {
+function formatDateRange(locale: Locale, startDate: string, endDate?: string) {
   const start = parseISO(startDate);
 
   if (!endDate || isSameDay(start, parseISO(endDate))) {
-    return format(start, "d MMMM yyyy", { locale: pl });
+    return format(start, "d MMMM yyyy", { locale: locale });
   }
 
   const end = parseISO(endDate);
-  return `${format(start, "d", { locale: pl })}-${format(end, "d MMMM yyyy", { locale: pl })}`;
+  return `${format(start, "d", { locale: locale })}-${format(end, "d MMMM yyyy", { locale: locale })}`;
 }
 
 export default function PublicationTile({
@@ -35,6 +36,10 @@ export default function PublicationTile({
   type,
   variant = "default",
 }: Props) {
+  const t = useTranslations("Conferences");
+  const currentLocale = useLocale();
+  const dateFnsLocale = currentLocale === "pl" ? pl : enUS;
+
   const isConf = type === "conference";
   const isRecurring = isConf && item.eventType === "Cykliczne";
   const isUpcoming = isConf && new Date(item.startDate) >= new Date();
@@ -48,10 +53,14 @@ export default function PublicationTile({
           {isConf ? (
             <>
               <span className="text-xs font-medium">
-                {format(parseISO(item.startDate), "MMM", { locale: pl })}
+                {format(parseISO(item.startDate), "MMM", {
+                  locale: dateFnsLocale,
+                })}
               </span>
               <span className="text-lg leading-none font-bold">
-                {format(parseISO(item.startDate), "d")}
+                {format(parseISO(item.startDate), "d", {
+                  locale: dateFnsLocale,
+                })}
               </span>
             </>
           ) : (
@@ -64,7 +73,7 @@ export default function PublicationTile({
           </h3>
           {isConf && (
             <p className="text-muted-foreground text-sm">
-              {formatDateRange(item.startDate, item.endDate)}
+              {formatDateRange(dateFnsLocale, item.startDate, item.endDate)}
             </p>
           )}
         </div>
@@ -89,7 +98,7 @@ export default function PublicationTile({
             <div className="flex items-center gap-2">
               {isUpcoming && (
                 <Badge className="bg-primary text-primary-foreground border-0">
-                  Nadchodzące
+                  {t("incoming")}
                 </Badge>
               )}
               {isRecurring && (
@@ -98,7 +107,7 @@ export default function PublicationTile({
                   className="border-0 bg-white/20 text-white backdrop-blur-sm"
                 >
                   <RefreshCw className="mr-1 h-3 w-3" />
-                  Cykliczne
+                  {t("cyclic")}
                 </Badge>
               )}
             </div>
@@ -117,13 +126,13 @@ export default function PublicationTile({
           <div className="absolute bottom-4 left-4 flex items-center gap-2">
             {isUpcoming && (
               <Badge className="bg-primary text-primary-foreground border-0">
-                Nadchodzące
+                {t("incoming")}
               </Badge>
             )}
             {isRecurring && (
               <Badge className="bg-secondary text-secondary-foreground border-0">
                 <RefreshCw className="mr-1 h-3 w-3" />
-                Cykliczne
+                {t("cyclic")}
               </Badge>
             )}
           </div>
@@ -135,7 +144,7 @@ export default function PublicationTile({
           <div className="text-muted-foreground mb-3 flex items-center gap-4 text-sm">
             <span className="flex items-center gap-1">
               <Calendar className="h-4 w-4" />
-              {formatDateRange(item.startDate, item.endDate)}
+              {formatDateRange(dateFnsLocale, item.startDate, item.endDate)}
             </span>
           </div>
         )}
@@ -157,7 +166,7 @@ export default function PublicationTile({
               isExternal={link.isExternal}
               className="border-input bg-muted hover:bg-accent hover:text-accent-foreground flex w-full items-center justify-center gap-3 rounded-md border px-4 py-1.5 text-center text-sm font-medium transition-colors"
             >
-              {isConf ? "Strona wydarzenia" : "Strona czasopisma"}
+              {isConf ? t("eventSite") : t("journalSite")}
               <ExternalLink className="h-3.5 w-3.5" />
             </CustomLink>
           )}

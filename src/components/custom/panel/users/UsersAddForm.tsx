@@ -28,6 +28,7 @@ import { createUsersByEmailSchema } from "@/lib/schemas";
 type BulkCreateUsersResponse = {
   createdUsers: { email: string }[];
   failedEmails: { email: string; reason: string }[];
+  emailResults: { email: string; sent: boolean; error?: string }[];
 };
 
 export default function UsersAddForm() {
@@ -52,15 +53,32 @@ export default function UsersAddForm() {
 
     try {
       const { data } = await axios.post<BulkCreateUsersResponse>(
-        "/api/panel/admin/users",
+        "/api/panel/admin/users/create",
         { emails },
       );
 
-      const { createdUsers = [], failedEmails = [] }: BulkCreateUsersResponse =
-        data;
+      const {
+        createdUsers = [],
+        failedEmails = [],
+        emailResults = [],
+      }: BulkCreateUsersResponse = data;
 
       if (createdUsers.length) {
         toast.success(`Utworzono ${createdUsers.length} użytkowników`);
+      }
+
+      if (emailResults.length) {
+        const failedEmails = emailResults.filter((e) => !e.sent);
+        if (failedEmails.length) {
+          toast.warning(
+            `Nie wysłano maili do ${failedEmails.length} użytkowników`,
+            {
+              description: failedEmails
+                .map((e) => `${e.email} (${e.error})`)
+                .join(", "),
+            },
+          );
+        }
       }
 
       if (failedEmails.length) {

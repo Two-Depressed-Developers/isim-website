@@ -5,6 +5,7 @@ import {
   mapConsultationBookingsToGroupedEvents,
   mapStrapiEventToCalendarEvent,
 } from "@/components/calendar/mappers";
+import { QueryWrapper } from "@/components/QueryWrapper";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -25,28 +26,20 @@ import { redirect } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 
-export default function CalendarPage() {
-  const { data: session, status } = useSession();
-  const memberSlug = session?.user?.memberProfileSlug;
+function CalendarContent({ memberSlug }: { memberSlug: string }) {
+  const { data: session } = useSession();
   const [copied, setCopied] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [calendarToken, setCalendarToken] = useState<string | null>(null);
+  const [tokenLoading, setTokenLoading] = useState(false);
 
-  const {
-    data: memberData,
-    isPending: isMemberPending,
-    isError: isMemberError,
-  } = useMemberData(memberSlug || "", { enabled: !!memberSlug });
+  const { data: memberData } = useMemberData(memberSlug);
 
-  const {
-    data: bookings = [],
-    isPending: isBookingsPending,
-    isError: isBookingsError,
-  } = useConsultationBookings(memberData?.documentId || "", {
-    enabled: !!memberData?.documentId,
-  });
+  const { data: bookings = [] } = useConsultationBookings(
+    memberData.documentId,
+  );
 
-  const { data: globalEvents = [], isPending: isGlobalEventsPending } =
-    useCalendarEvents(DEFAULT_LOCALE);
+  const { data: globalEvents = [] } = useCalendarEvents(DEFAULT_LOCALE);
 
   const acceptedBookings = useMemo(
     () =>
@@ -68,9 +61,6 @@ export default function CalendarPage() {
     () => [...consultationEvents, ...globalCalendarEvents],
     [consultationEvents, globalCalendarEvents],
   );
-
-  const [calendarToken, setCalendarToken] = useState<string | null>(null);
-  const [tokenLoading, setTokenLoading] = useState(false);
 
   useEffect(() => {
     const fetchCalendarToken = async () => {
@@ -109,62 +99,6 @@ export default function CalendarPage() {
       toast.error("Nie udało się skopiować linku");
     }
   };
-
-  if (
-    status === "loading" ||
-    isMemberPending ||
-    isBookingsPending ||
-    isGlobalEventsPending
-  ) {
-    return (
-      <div className="space-y-6">
-        <div>
-          <h1 className="text-3xl font-bold">Kalendarz konsultacji</h1>
-          <p className="text-muted-foreground">Zaakceptowane konsultacje</p>
-        </div>
-        <div className="flex items-center justify-center py-12">
-          <Loader2 className="text-primary h-8 w-8 animate-spin" />
-        </div>
-      </div>
-    );
-  }
-
-  if (status === "unauthenticated" || !session?.user) {
-    redirect("/login");
-  }
-
-  if (!memberSlug) {
-    return (
-      <div className="space-y-6">
-        <div>
-          <h1 className="text-3xl font-bold">Kalendarz konsultacji</h1>
-          <p className="text-muted-foreground">Zaakceptowane konsultacje</p>
-        </div>
-        <div className="flex flex-col items-center justify-center gap-2 rounded-xl border py-12">
-          <p className="text-muted-foreground">
-            Aby wyświetlić kalendarz konsultacji, najpierw musisz powiązać
-            profil pracownika.
-          </p>
-        </div>
-      </div>
-    );
-  }
-
-  if (isMemberError || isBookingsError || !memberData?.documentId) {
-    return (
-      <div className="space-y-6">
-        <div>
-          <h1 className="text-3xl font-bold">Kalendarz konsultacji</h1>
-          <p className="text-muted-foreground">Zaakceptowane konsultacje</p>
-        </div>
-        <div className="flex items-center justify-center py-12">
-          <p className="text-muted-foreground">
-            Wystąpił błąd podczas ładowania konsultacji.
-          </p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="space-y-6">
@@ -252,5 +186,63 @@ export default function CalendarPage() {
         <Calendar events={mappedEvents} users={[]} readOnly={true} />
       )}
     </div>
+  );
+}
+
+export default function CalendarPage() {
+  const { data: session, status } = useSession();
+  const memberSlug = session?.user?.memberProfileSlug;
+
+  if (status === "loading") {
+    return (
+      <div className="space-y-6">
+        <div>
+          <h1 className="text-3xl font-bold">Kalendarz konsultacji</h1>
+          <p className="text-muted-foreground">Zaakceptowane konsultacje</p>
+        </div>
+        <div className="flex items-center justify-center py-12">
+          <Loader2 className="text-primary h-8 w-8 animate-spin" />
+        </div>
+      </div>
+    );
+  }
+
+  if (status === "unauthenticated" || !session?.user) {
+    redirect("/login");
+  }
+
+  if (!memberSlug) {
+    return (
+      <div className="space-y-6">
+        <div>
+          <h1 className="text-3xl font-bold">Kalendarz konsultacji</h1>
+          <p className="text-muted-foreground">Zaakceptowane konsultacje</p>
+        </div>
+        <div className="flex flex-col items-center justify-center gap-2 rounded-xl border py-12">
+          <p className="text-muted-foreground">
+            Aby wyświetlić kalendarz konsultacji, najpierw musisz powiązać
+            profil pracownika.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <QueryWrapper
+      loadingFallback={
+        <div className="space-y-6">
+          <div>
+            <h1 className="text-3xl font-bold">Kalendarz konsultacji</h1>
+            <p className="text-muted-foreground">Zaakceptowane konsultacje</p>
+          </div>
+          <div className="flex items-center justify-center py-12">
+            <Loader2 className="text-primary h-8 w-8 animate-spin" />
+          </div>
+        </div>
+      }
+    >
+      <CalendarContent memberSlug={memberSlug} />
+    </QueryWrapper>
   );
 }

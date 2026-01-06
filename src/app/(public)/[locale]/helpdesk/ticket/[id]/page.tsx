@@ -3,9 +3,9 @@
 import { QueryWrapper } from "@/components/QueryWrapper";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
 import { useTicketDetails } from "@/data/queries/use-tickets";
 import type { TicketStatus } from "@/types";
+import { Loader2 } from "lucide-react";
 import { useFormatter, useTranslations } from "next-intl";
 import { useParams, useSearchParams } from "next/navigation";
 
@@ -154,16 +154,9 @@ export default function TicketStatusPage() {
     <div className="container mx-auto max-w-3xl py-8">
       <QueryWrapper
         loadingFallback={
-          <Card>
-            <CardHeader>
-              <Skeleton className="h-8 w-64" />
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <Skeleton className="h-20 w-full" />
-              <Skeleton className="h-20 w-full" />
-              <Skeleton className="h-20 w-full" />
-            </CardContent>
-          </Card>
+          <div className="flex items-center justify-center py-12">
+            <Loader2 className="text-primary h-8 w-8 animate-spin" />
+          </div>
         }
       >
         <TicketDetails />

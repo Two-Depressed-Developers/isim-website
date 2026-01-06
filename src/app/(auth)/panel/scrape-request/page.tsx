@@ -17,24 +17,12 @@ import { useScrapeRequest } from "@/data/queries/use-scrape";
 import { useMemberData } from "@/data/queries/use-members";
 import { useDataProposals } from "@/data/queries/use-data-proposals";
 import { DataProposalsList } from "@/components/custom/panel/DataProposalsList";
+import { QueryWrapper } from "@/components/QueryWrapper";
 
-export default function ScrapeRequestPage() {
-  const { data: session } = useSession();
-  const memberSlug = session?.user?.memberProfileSlug;
+function ScrapeRequestContent({ memberSlug }: { memberSlug: string }) {
+  const { data: member } = useMemberData(memberSlug);
 
-  const { data: member, isLoading: isLoadingMember } = useMemberData(
-    memberSlug || "",
-    {
-      enabled: !!memberSlug,
-    },
-  );
-
-  const { data: proposals, isLoading: _isLoadingProposals } = useDataProposals(
-    member?.documentId || "",
-    {
-      enabled: !!member?.documentId,
-    },
-  );
+  const { data: proposals } = useDataProposals(member.documentId);
 
   const { mutate: requestScrape, isPending } = useScrapeRequest();
 
@@ -66,29 +54,6 @@ export default function ScrapeRequestPage() {
       },
     });
   };
-
-  if (isLoadingMember) {
-    return (
-      <div className="flex h-full w-full items-center justify-center p-8">
-        <Loader2 className="text-muted-foreground h-8 w-8 animate-spin" />
-      </div>
-    );
-  }
-
-  if (!memberSlug) {
-    return (
-      <div className="p-4">
-        <PanelPageTitle title="Wyszukiwanie danych" />
-        <Card>
-          <CardContent className="pt-6">
-            <p className="text-muted-foreground">
-              Twój profil nie jest powiązany z żadnym pracownikiem.
-            </p>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
 
   return (
     <div className="space-y-6">
@@ -123,5 +88,37 @@ export default function ScrapeRequestPage() {
         />
       )}
     </div>
+  );
+}
+
+export default function ScrapeRequestPage() {
+  const { data: session } = useSession();
+  const memberSlug = session?.user?.memberProfileSlug;
+
+  if (!memberSlug) {
+    return (
+      <div className="p-4">
+        <PanelPageTitle title="Wyszukiwanie danych" />
+        <Card>
+          <CardContent className="pt-6">
+            <p className="text-muted-foreground">
+              Twój profil nie jest powiązany z żadnym pracownikiem.
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  return (
+    <QueryWrapper
+      loadingFallback={
+        <div className="flex h-full w-full items-center justify-center p-8">
+          <Loader2 className="text-muted-foreground h-8 w-8 animate-spin" />
+        </div>
+      }
+    >
+      <ScrapeRequestContent memberSlug={memberSlug} />
+    </QueryWrapper>
   );
 }

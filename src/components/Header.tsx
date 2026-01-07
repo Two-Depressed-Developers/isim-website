@@ -34,12 +34,12 @@ const Header = async () => {
           )}
         </Link>
         <div className="flex flex-1 items-center justify-end gap-6">
-          <ul className="hidden items-center space-x-3 lg:flex">
+          <ul className="hidden items-center space-x-3 xl:flex">
             {headerData.links.map((link) => (
               <NavLink key={link.id} link={link} />
             ))}
           </ul>
-          <div className="hidden lg:block">
+          <div className="hidden xl:block">
             <LanguageSwitcher />
           </div>
           <MobileMenu links={headerData.links} />

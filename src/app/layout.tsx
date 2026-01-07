@@ -4,8 +4,6 @@ import { Providers } from "./providers";
 import { PublicEnvScript } from "@ryankshaw/next-runtime-env";
 import "./globals.css";
 
-export const dynamic = "force-dynamic";
-
 const k2d = K2D({
   weight: ["400", "500", "600"],
   subsets: ["latin"],

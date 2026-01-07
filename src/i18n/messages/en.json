@@ -67,7 +67,8 @@
   },
   "Offer": {
     "title": "Our Offer",
-    "error": "Failed to load offer."
+    "error": "Failed to load offer.",
+    "notFound": "Nie znaleziono ofert naukowych."
   },
   "ResearchGroups": {
     "title": "Research Groups",

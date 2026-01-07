@@ -59,7 +59,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       },
     }),
   ],
-  session: { strategy: "jwt" },
+  session: { strategy: "jwt", maxAge: 8 * 60 * 60 },
   callbacks: {
     async signIn({ user, account, profile }) {
       if (account?.provider === "github") {
@@ -94,13 +94,26 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if (user) {
         token.accessToken = user.strapiToken;
         token.user = user.strapiUser;
+
+        if (user.strapiToken) {
+          const payload = JSON.parse(
+            Buffer.from(user.strapiToken.split(".")[1], "base64").toString(),
+          );
+          token.exp = payload.exp;
+          console.log("Token exp set to:", token.exp);
+          console.log("Token payload:", user.strapiToken);
+        }
       }
 
       if (trigger === "update" && session?.user) {
         token.user = { ...token.user, ...session.user };
       }
 
-      return token;
+      if (Date.now() < (token.exp as number) * 1000) {
+        return token;
+      } else {
+        return null;
+      }
     },
 
     async session({ session, token }) {

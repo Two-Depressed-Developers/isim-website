@@ -66,7 +66,8 @@
   },
   "Offer": {
     "title": "Nasza oferta",
-    "error": "Nie udało się załadować oferty."
+    "error": "Nie udało się załadować oferty.",
+    "notFound": "Nie znaleziono ofert naukowych."
   },
   "ResearchGroups": {
     "title": "Grupy badawcze",

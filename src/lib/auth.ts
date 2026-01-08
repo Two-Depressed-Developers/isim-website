@@ -2,8 +2,9 @@ import NextAuth from "next-auth";
 import GitHub from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
 import axios from "axios";
+import { env } from "@ryankshaw/next-runtime-env";
 
-const strapiApiUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL;
+const strapiApiUrl = env("NEXT_PUBLIC_STRAPI_API_URL");
 
 if (!strapiApiUrl) {
   throw new Error("NEXT_PUBLIC_STRAPI_API_URL environment variable is not set");
@@ -12,7 +13,7 @@ if (!strapiApiUrl) {
 export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
     GitHub({
-      clientId: process.env.NEXT_PUBLIC_GITHUB_ID,
+      clientId: env("NEXT_PUBLIC_GITHUB_ID"),
       clientSecret: process.env.AUTH_GITHUB_SECRET,
       profile(profile) {
         return {
@@ -58,7 +59,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       },
     }),
   ],
-  session: { strategy: "jwt" },
+  session: { strategy: "jwt", maxAge: 8 * 60 * 60 },
   callbacks: {
     async signIn({ user, account, profile }) {
       if (account?.provider === "github") {
@@ -93,13 +94,26 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if (user) {
         token.accessToken = user.strapiToken;
         token.user = user.strapiUser;
+
+        if (user.strapiToken) {
+          const payload = JSON.parse(
+            Buffer.from(user.strapiToken.split(".")[1], "base64").toString(),
+          );
+          token.exp = payload.exp;
+          console.log("Token exp set to:", token.exp);
+          console.log("Token payload:", user.strapiToken);
+        }
       }
 
       if (trigger === "update" && session?.user) {
         token.user = { ...token.user, ...session.user };
       }
 
-      return token;
+      if (Date.now() < (token.exp as number) * 1000) {
+        return token;
+      } else {
+        return null;
+      }
     },
 
     async session({ session, token }) {

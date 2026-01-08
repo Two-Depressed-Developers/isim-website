@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/select";
 import { VisibleFormField } from "./DynamicForm.types";
 import Image from "next/image";
+import { env } from "@ryankshaw/next-runtime-env";
 
 export const getInputType = (field: VisibleFormField): string => {
   const typeMap: Record<string, string> = {
@@ -91,7 +92,7 @@ export const FieldComponents = {
         const uploadedFile = await onUpload(file);
         const fullUrl = uploadedFile.url.startsWith("http")
           ? uploadedFile.url
-          : `${process.env.NEXT_PUBLIC_STRAPI_API_URL}${uploadedFile.url}`;
+          : `${env("NEXT_PUBLIC_STRAPI_API_URL")}${uploadedFile.url}`;
         setPreviewUrl(fullUrl);
         formField.onChange(fullUrl);
       } catch (error) {
@@ -155,11 +156,17 @@ export const FieldComponents = {
     );
   },
 
-  ComponentField: ({ field }: { field: VisibleFormField; formField: ControllerRenderProps }) => (
-    <div className="text-muted-foreground">{field.label}</div>
-  ),
+  ComponentField: ({
+    field,
+  }: {
+    field: VisibleFormField;
+    formField: ControllerRenderProps;
+  }) => <div className="text-muted-foreground">{field.label}</div>,
 
-  DynamicZone: ({ field }: { field: VisibleFormField; formField: ControllerRenderProps }) => (
-    <div className="text-muted-foreground">{field.label}</div>
-  ),
+  DynamicZone: ({
+    field,
+  }: {
+    field: VisibleFormField;
+    formField: ControllerRenderProps;
+  }) => <div className="text-muted-foreground">{field.label}</div>,
 };

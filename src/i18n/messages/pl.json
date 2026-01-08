@@ -2,6 +2,9 @@
   "Metadata": {
     "title": "ISiM - Strona główna"
   },
+  "Breadcrumbs": {
+    "home": "Strona główna"
+  },
   "HomePage": {
     "error": "Nie udało się załadować strony głównej. Spróbuj ponownie później.",
     "seeMore": "Zobacz więcej",
@@ -11,7 +14,10 @@
     },
     "supervisor": {
       "photoAlt": "Zdjęcie opiekuna"
-    }
+    },
+    "department": "Katedra Informatyki Stosowanej i Modelowania",
+    "AGHUniversity": "Akademia Górniczo-Hutnicza im. Stanisława Staszica w Krakowie",
+    "facultyOf": "Wydział Inżynierii Metali i Informatyki Przemysłowej"
   },
   "Common": {
     "loading": "Ładowanie...",
@@ -60,7 +66,8 @@
   },
   "Offer": {
     "title": "Nasza oferta",
-    "error": "Nie udało się załadować oferty."
+    "error": "Nie udało się załadować oferty.",
+    "notFound": "Nie znaleziono ofert naukowych."
   },
   "ResearchGroups": {
     "title": "Grupy badawcze",

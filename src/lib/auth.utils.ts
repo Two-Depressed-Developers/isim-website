@@ -31,7 +31,7 @@ export const isStaffMember = cache(() => hasRole("StaffMember"));
 export const isHelpdeskMember = cache(() => hasRole("Helpdesk"));
 
 const requireRole = cache(async (role: Role) => {
-  const isAuthorized = await hasRole(role);
+  const isAuthorized = (await hasRole(role)) || (await isAdmin());
 
   if (!isAuthorized) {
     redirect("/panel");

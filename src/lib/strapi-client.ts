@@ -1,8 +1,9 @@
 import axios, { AxiosInstance } from "axios";
 import { useMemo } from "react";
 import { useSession } from "next-auth/react";
+import { env } from "@ryankshaw/next-runtime-env";
 
-const baseURL = process.env.NEXT_PUBLIC_STRAPI_API_URL;
+const baseURL = env("NEXT_PUBLIC_STRAPI_API_URL");
 
 export function getStrapiClient(token?: string): AxiosInstance {
   const instance = axios.create({

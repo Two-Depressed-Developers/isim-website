@@ -20,5 +20,5 @@ export async function getCalendarEvents(
     url.href,
   );
 
-  return response.data;
+  return response?.data ?? [];
 }

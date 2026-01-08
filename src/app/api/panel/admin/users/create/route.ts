@@ -4,6 +4,7 @@ import { getServerStrapiClient } from "@/lib/strapi-server";
 import axios from "axios";
 import { Resend } from "resend";
 import { getEmailForDev } from "@/lib/utils";
+import { env } from "@ryankshaw/next-runtime-env";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -23,7 +24,7 @@ type StrapiResponse = {
 };
 
 async function sendAccountSetupEmail(email: string, token: string) {
-  const setupUrl = `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/setup/${token}`;
+  const setupUrl = `${env("NEXT_PUBLIC_APP_URL") || "http://localhost:3000"}/setup/${token}`;
   const recipientEmail = getEmailForDev(email);
 
   await resend.emails.send({

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { Resend } from "resend";
 import { getEmailForDev } from "@/lib/utils";
 import { getErrorMessage } from "@/lib/axios";
+import { env } from "@ryankshaw/next-runtime-env";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -16,7 +17,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const statusUrl = `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/helpdesk/ticket/${ticketId}`;
+    const statusUrl = `${env("NEXT_PUBLIC_APP_URL") || "http://localhost:3000"}/helpdesk/ticket/${ticketId}`;
 
     let subject = "";
     let message = "";

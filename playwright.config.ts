@@ -73,7 +73,7 @@ export default defineConfig({
   /* Run your local dev server before starting the tests */
   webServer: [
     {
-      command: 'node e2e/mock-cms.js',
+      command: 'node e2e/mock-cms.mjs',
       url: 'http://localhost:1337',
       reuseExistingServer: !process.env.CI,
     },
@@ -85,6 +85,8 @@ export default defineConfig({
         NEXT_PUBLIC_STRAPI_API_URL: 'http://localhost:1337',
         NEXTAUTH_SECRET: 'changeme',
         NEXT_PUBLIC_URL: 'http://localhost:3000',
+        NEXT_PUBLIC_GITHUB_ID: 'mock-github-id',
+        AUTH_GITHUB_SECRET: 'mock-github-secret',
       },
     }
   ],

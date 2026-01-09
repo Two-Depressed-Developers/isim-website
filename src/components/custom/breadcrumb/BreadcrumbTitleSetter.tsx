@@ -12,6 +12,10 @@ export function BreadcrumbTitleSetter({ title }: Props) {
 
   useEffect(() => {
     setTitle(title);
+
+    return () => {
+      setTitle("");
+    };
   }, [title, setTitle]);
 
   return null;

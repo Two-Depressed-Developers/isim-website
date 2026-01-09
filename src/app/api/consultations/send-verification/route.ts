@@ -1,4 +1,5 @@
 import { getEmailForDev } from "@/lib/utils";
+import { env } from "@ryankshaw/next-runtime-env";
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 
@@ -15,7 +16,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const verificationUrl = `${process.env.NEXT_PUBLIC_APP_URL}/consultations/verify?token=${token}`;
+    const verificationUrl = `${env("NEXT_PUBLIC_APP_URL")}/consultations/verify?token=${token}`;
     const recipientEmail = getEmailForDev(email);
 
     console.log("Sending verification email to:", recipientEmail);

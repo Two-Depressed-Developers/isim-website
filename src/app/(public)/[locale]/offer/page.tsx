@@ -11,10 +11,19 @@ import { Loader2 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 
 function OfferList() {
+  const t = useTranslations("Offer");
   const locale = useLocale();
   const { data: offers } = useResearchOffers(locale);
 
   usePrefetchLocales(queryKeys.researchOffers.all, getResearchOffers);
+
+  if (offers.length === 0) {
+    return (
+      <div className="text-muted-foreground py-12 text-center">
+        {t("notFound")}
+      </div>
+    );
+  }
 
   return (
     <>

@@ -45,7 +45,7 @@ export function MobileMenu({ links }: Props) {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button variant="ghost" size="icon" className="lg:hidden">
+        <Button variant="ghost" size="icon" className="xl:hidden">
           <Menu className="h-6 w-6" />
           <span className="sr-only">{t("toggle")}</span>
         </Button>

@@ -78,9 +78,11 @@ export const getHomepage = async (locale: string) => {
     locale,
   });
 
-  const response = await fetchData(url.href);
-
-  return response as HomepageData;
+  try {
+    return await fetchData<HomepageData>(url.href);
+  } catch {
+    return null;
+  }
 };
 
 export async function getHomepageSchema(): Promise<Record<string, unknown>> {

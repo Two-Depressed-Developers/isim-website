@@ -14,6 +14,7 @@ import { cn } from "@/lib/utils";
 import React from "react";
 import type { Breadcumb } from "./Beadcrumb.types";
 import { Link, usePathname } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 
 type Props = {
   className?: string;
@@ -49,6 +50,7 @@ function generateBreadcrumbItems(path: string, pages: Page[]): Breadcumb[] {
 const pathWithoutBreadcrumbs = ["/", "/login"];
 
 const Breadcrumbs = ({ className, pagesData }: Props) => {
+  const t = useTranslations("Breadcrumbs");
   const { title } = useBreadcrumbs();
   const path = usePathname();
 
@@ -74,7 +76,7 @@ const Breadcrumbs = ({ className, pagesData }: Props) => {
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
               <Link href="/" className="text-primary">
-                Home
+                {t("home")}
               </Link>
             </BreadcrumbLink>
           </BreadcrumbItem>

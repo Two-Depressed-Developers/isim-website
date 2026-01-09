@@ -5,8 +5,6 @@ import { baseAPIUrl, fetchData } from "./base";
 export async function getConferences(locale: string): Promise<Conference[]> {
   const url = new URL("/api/conferences", baseAPIUrl);
 
-  console.log("Fetching conferences for locale:", locale);
-
   url.search = qs.stringify({
     populate: {
       conferenceLink: {

@@ -15,9 +15,13 @@ export async function fetchData<T>(
     ? { Authorization: `Bearer ${accessToken}` }
     : undefined;
 
-  const response = await api.get(url, { headers });
-
-  return flattenAttributes<T>(response.data);
+  try {
+    const response = await api.get(url, { headers });
+    return flattenAttributes<T>(response.data);
+  } catch (error) {
+    console.error("API Fetch Error:", error);
+    return null as T;
+  }
 }
 
 export async function uploadFile(

@@ -8,13 +8,14 @@ import type { Session } from "next-auth";
 
 const intlMiddleware = createIntlMiddleware(routing);
 
-const authRoutes = ["/login"];
+const authRoutes = ["/login", "/forgot-password", "/reset-password", "/setup"];
 const panelPrefix = "/panel";
 
 export default auth((req: NextRequest & { auth: Session | null }) => {
   const { pathname } = req.nextUrl;
+
   const isPanelRoute = pathname.startsWith(panelPrefix);
-  const isAuthRoute = authRoutes.includes(pathname);
+  const isAuthRoute = authRoutes.some((route) => pathname.startsWith(route));
 
   if (!isPanelRoute && !isAuthRoute) {
     return intlMiddleware(req);

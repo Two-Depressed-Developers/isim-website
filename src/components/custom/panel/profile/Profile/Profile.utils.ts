@@ -1,5 +1,6 @@
 import { MemberData } from "@/types";
 import { FormSchema, isVisibleField } from "../DynamicForm/DynamicForm.types";
+import { env } from "@ryankshaw/next-runtime-env/build/script/env";
 
 const EXCLUDED_FIELDS = new Set([
   "id",
@@ -89,7 +90,7 @@ export const extractDefaultValues = (
         const linkData = memberValue as { URL?: string };
         acc[fieldName] = linkData?.URL || "";
       } else if (fieldName === "photo" && member.photo) {
-        const baseUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL || "";
+        const baseUrl = env("NEXT_PUBLIC_STRAPI_API_URL") || "";
         const photoUrl =
           member.photo.url.startsWith("http") ||
           member.photo.url.startsWith("https")

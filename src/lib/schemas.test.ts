@@ -7,7 +7,7 @@ import {
   consultationAvailabilitySchema
 } from './schemas';
 
-const t = (key: string, values?: any) => {
+const t = (key: string, values?: unknown) => {
   if (values) {
     return `${key} ${JSON.stringify(values)}`;
   }

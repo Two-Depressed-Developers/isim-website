@@ -1,4 +1,4 @@
-name: Tests (unit)
+name: Tests (unit/integration)
 
 on:
   pull_request:

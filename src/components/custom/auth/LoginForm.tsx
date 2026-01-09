@@ -170,17 +170,10 @@ export function LoginForm({ errorCode, className }: Props) {
               <Button
                 variant="outline"
                 className="w-full"
-                onClick={() =>
-                  signIn("github", {
-                    redirect: true,
-                    redirectTo: "/panel/profile",
-                  })
-                }
+                onClick={() => {
+                  window.location.href = "/api/auth/saml/login";
+                }}
               >
-                <Github />
-                Login with Github
-              </Button>
-              <Button variant="outline" className="w-full" disabled>
                 <Image
                   src="/images/agh_logo.png"
                   alt="AGH Logo"

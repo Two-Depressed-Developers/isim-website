@@ -1,4 +1,4 @@
-import { SAML, ValidateInResponseTo } from "@node-saml/node-saml";
+import { SAML } from "@node-saml/node-saml";
 import { env } from "@ryankshaw/next-runtime-env";
 
 const formatCert = (cert: string | undefined) => {

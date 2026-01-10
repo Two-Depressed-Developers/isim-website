@@ -109,8 +109,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             Buffer.from(user.strapiToken.split(".")[1], "base64").toString(),
           );
           token.exp = payload.exp;
-          console.log("Token exp set to:", token.exp);
-          console.log("Token payload:", user.strapiToken);
         }
       }
 

@@ -17,7 +17,7 @@ export const samlStrategy = new SAML({
   callbackUrl: `${env("NEXT_PUBLIC_APP_URL") ?? "http://localhost:3000"}/api/auth/saml/callback`,
   entryPoint: process.env.SAML_ENTRY_POINT,
   idpCert: formatCert(process.env.SAML_CERT ?? ""),
-  issuer: "isim-website",
+  issuer: process.env.SAML_ISSUER ?? "isim-website",
   wantAssertionsSigned: true,
   wantAuthnResponseSigned: false,
   audience: false,

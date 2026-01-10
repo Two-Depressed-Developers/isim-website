@@ -1,5 +1,4 @@
 import NextAuth from "next-auth";
-import GitHub from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
 import axios from "axios";
 import { env } from "@ryankshaw/next-runtime-env";
@@ -12,18 +11,53 @@ if (!strapiApiUrl) {
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
-    GitHub({
-      clientId: env("NEXT_PUBLIC_GITHUB_ID"),
-      clientSecret: process.env.AUTH_GITHUB_SECRET,
-      profile(profile) {
-        return {
-          id: profile.id.toString(),
-          name: profile.name || profile.login,
-          email: profile.email,
-          image: profile.avatar_url,
-        };
+    CredentialsProvider({
+      id: "saml-sso",
+      name: "SAML SSO",
+      credentials: {
+        token: { label: "Token", type: "text" },
+      },
+      async authorize(credentials) {
+        if (!credentials?.token) return null;
+
+        try {
+          const decoded = JSON.parse(
+            Buffer.from(credentials.token as string, "base64").toString(),
+          );
+
+          const { email, groups } = decoded;
+
+          const res = await axios.post(
+            `${strapiApiUrl}/api/auth-custom/sso-login`,
+            {
+              email: email,
+              groups: groups,
+            },
+            {
+              headers: {
+                "x-api-secret-key": process.env.STRAPI_SECRET_API_KEY || "",
+              },
+            },
+          );
+
+          if (res.status === 404) return null;
+
+          const data = res.data;
+
+          return {
+            id: data.user.id.toString(),
+            name: data.user.username,
+            email: data.user.email,
+            strapiToken: data.jwt,
+            strapiUser: data.user,
+          };
+        } catch (err) {
+          console.error("SAML Authorize Error:", err);
+          return null;
+        }
       },
     }),
+
     CredentialsProvider({
       name: "Credentials",
       credentials: {
@@ -61,32 +95,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   ],
   session: { strategy: "jwt", maxAge: 8 * 60 * 60 },
   callbacks: {
-    async signIn({ user, account, profile }) {
-      if (account?.provider === "github") {
-        try {
-          const res = await axios.post(
-            `${strapiApiUrl}/api/auth-custom/sso-login`,
-            {
-              email: profile?.email,
-              providerId: account.providerAccountId,
-            },
-          );
-
-          if (res.status === 404) {
-            return "/login?error=UserNotFound";
-          }
-
-          const data = res.data;
-
-          user.strapiToken = data.jwt;
-          user.strapiUser = data.user;
-
-          return true;
-        } catch (err) {
-          console.error("SSO Error:", err);
-          return "/login?error=ConnectionError";
-        }
-      }
+    async signIn() {
       return true;
     },
 

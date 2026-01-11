@@ -9,9 +9,10 @@ import { useTranslations } from "next-intl";
 
 type Props = {
   data: ComponentHomepageHeroSlider;
+  isPriorityImg: boolean;
 };
 
-export default function HeroSlider({ data }: Props) {
+export default function HeroSlider({ data, isPriorityImg }: Props) {
   const t = useTranslations("HomePage.heroSlider");
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
     Autoplay({ delay: 5000 }),
@@ -47,9 +48,10 @@ export default function HeroSlider({ data }: Props) {
                 src={image.url}
                 alt={image.alternativeText || "Hero Slide Image"}
                 fill
-                priority={index === 0}
-                sizes="100vw"
-                className="object-cover"
+                priority={isPriorityImg && index === 0}
+                sizes="(max-width: 1280px) 100vw, 1920px"
+                objectFit="cover"
+                loading={!isPriorityImg || index != 0 ? "lazy" : "eager"}
               />
             </div>
           ))}

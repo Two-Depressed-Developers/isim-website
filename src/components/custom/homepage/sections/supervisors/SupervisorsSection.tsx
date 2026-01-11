@@ -4,9 +4,10 @@ import SupervisorCard from "./SupervisorCard";
 
 type Props = {
   data: ComponentHomepageSupervisors;
+  isPriorityImg: boolean;
 };
 
-export default function SupervisorsSection({ data }: Props) {
+export default function SupervisorsSection({ data, isPriorityImg }: Props) {
   return (
     <section className="flex flex-col gap-y-4">
       <SectionHeader
@@ -16,7 +17,11 @@ export default function SupervisorsSection({ data }: Props) {
       />
       <div className="grid gap-6 md:grid-cols-2">
         {data.members?.map((member) => (
-          <SupervisorCard key={`member_${member.id}`} member={member} />
+          <SupervisorCard
+            key={`member_${member.id}`}
+            member={member}
+            isPriorityImg={isPriorityImg}
+          />
         ))}
       </div>
     </section>

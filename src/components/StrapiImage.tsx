@@ -10,6 +10,8 @@ type Props = {
   fill?: boolean;
   sizes?: string;
   priority?: boolean;
+  loading?: "lazy" | "eager";
+  objectFit?: "cover" | "contain";
 };
 
 export function StrapiImage({
@@ -21,6 +23,8 @@ export function StrapiImage({
   fill,
   sizes,
   priority,
+  loading,
+  objectFit = "cover",
 }: Props) {
   if (!src) return null;
 
@@ -37,8 +41,9 @@ export function StrapiImage({
       alt={alt}
       className={className}
       priority={priority}
+      loading={priority ? undefined : loading}
       {...imageProps}
-      style={fill ? { objectFit: "cover" } : undefined}
+      style={fill ? { objectFit } : undefined}
     />
   );
 }

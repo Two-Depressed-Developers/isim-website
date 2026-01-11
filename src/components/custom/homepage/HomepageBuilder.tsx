@@ -13,18 +13,29 @@ type Props = {
 };
 
 export default function HomepageBuilder({ homepage }: Props) {
-  const getComponentByType = (section: HomepageSection) => {
+  const getComponentByType = (
+    section: HomepageSection,
+    isPriorityImg: boolean,
+  ) => {
     switch (section.__component) {
       case "homepage.hero-slider":
-        return <HeroSlider data={section} />;
+        return <HeroSlider data={section} isPriorityImg={isPriorityImg} />;
       case "homepage.supervisors":
-        return <SupervisorsSection data={section} />;
+        return (
+          <SupervisorsSection data={section} isPriorityImg={isPriorityImg} />
+        );
       case "homepage.collaborations":
-        return <CollaborationsSection data={section} />;
+        return (
+          <CollaborationsSection data={section} isPriorityImg={isPriorityImg} />
+        );
       case "homepage.student-groups":
-        return <StudentGroupsSection data={section} />;
+        return (
+          <StudentGroupsSection data={section} isPriorityImg={isPriorityImg} />
+        );
       case "homepage.collection-feed":
-        return <CollectionFeedSection data={section} />;
+        return (
+          <CollectionFeedSection data={section} isPriorityImg={isPriorityImg} />
+        );
       default:
         return null;
     }
@@ -43,7 +54,7 @@ export default function HomepageBuilder({ homepage }: Props) {
               isHeroFirst ? "max-w-fhd" : "max-w-7xl px-6 py-4",
             )}
           >
-            {getComponentByType(section)}
+            {getComponentByType(section, index <= 1)}
           </div>
         );
       })}

@@ -19,7 +19,8 @@ const FooterUniversityLogo = ({ logo }: Props) => {
           alt={logo.alt}
           width={60}
           height={120}
-          className="h-auto w-auto"
+          className="h-24 w-12"
+          priority={true}
         />
       ) : (
         <StrapiImage
@@ -27,7 +28,8 @@ const FooterUniversityLogo = ({ logo }: Props) => {
           alt={logo.alt}
           width={60}
           height={120}
-          className="h-auto w-auto"
+          className="h-24 w-12"
+          priority={true}
         />
       )}
     </Link>

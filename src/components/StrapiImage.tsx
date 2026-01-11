@@ -1,18 +1,12 @@
-import Image from "next/image";
+import Image, { ImageProps } from "next/image";
 import { getStrapiMedia } from "@/lib/utils";
 
 type Props = {
   src: string;
   alt: string;
   className?: string;
-  height?: number;
-  width?: number;
-  fill?: boolean;
-  sizes?: string;
-  priority?: boolean;
-  loading?: "lazy" | "eager";
   objectFit?: "cover" | "contain";
-};
+} & ImageProps;
 
 export function StrapiImage({
   src,
@@ -22,7 +16,7 @@ export function StrapiImage({
   className,
   fill,
   sizes,
-  priority,
+  preload,
   loading,
   objectFit = "cover",
 }: Props) {
@@ -40,8 +34,8 @@ export function StrapiImage({
       src={imageUrl ?? imageFallback}
       alt={alt}
       className={className}
-      priority={priority}
-      loading={priority ? undefined : loading}
+      preload={preload}
+      loading={preload ? undefined : loading}
       {...imageProps}
       style={fill ? { objectFit } : undefined}
     />

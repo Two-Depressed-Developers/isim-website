@@ -8,7 +8,7 @@ import { LAYOUT_COMPONENTS } from "./CollectionLayouts";
 
 type Props = {
   data: ComponentHomepageCollectionFeed;
-  isPriorityImg: boolean;
+  preloadImg: boolean;
 };
 
 function renderItems(data: ComponentHomepageCollectionFeed) {

@@ -12,10 +12,10 @@ import CollaborationItem from "./CollaborationItem";
 
 type Props = {
   data: ComponentHomepageCollaborations;
-  isPriorityImg: boolean;
+  preloadImg: boolean;
 };
 
-export default function CollaborationsSection({ data, isPriorityImg }: Props) {
+export default function CollaborationsSection({ data, preloadImg }: Props) {
   const items = data.items ?? [];
 
   const minItems = 10;
@@ -50,7 +50,7 @@ export default function CollaborationsSection({ data, isPriorityImg }: Props) {
               key={`${item.id}-${index}`}
               className="basis-1/1 p-2 sm:basis-1/2 md:basis-1/3 lg:basis-1/4"
             >
-              <CollaborationItem item={item} isPriorityImg={isPriorityImg} />
+              <CollaborationItem item={item} preloadImg={preloadImg} />
             </CarouselItem>
           ))}
         </CarouselContent>

@@ -4,10 +4,10 @@ import CustomLink from "@/components/CustomLink";
 
 type Props = {
   group: ComponentHomepageGroupItem;
-  isPriorityImg: boolean;
+  preloadImg: boolean;
 };
 
-export default function StudentGroupCard({ group, isPriorityImg }: Props) {
+export default function StudentGroupCard({ group, preloadImg }: Props) {
   const content = (
     <div className="group flex h-full items-center gap-6 overflow-hidden rounded-2xl bg-white p-6 shadow-md transition-transform hover:scale-[1.02]">
       {group.image?.url && (
@@ -17,8 +17,8 @@ export default function StudentGroupCard({ group, isPriorityImg }: Props) {
             alt={group.image.alternativeText || group.name}
             width={160}
             height={80}
-            priority={isPriorityImg}
-            loading={!isPriorityImg ? "lazy" : "eager"}
+            preload={preloadImg}
+            loading={!preloadImg ? "lazy" : "eager"}
             objectFit="contain"
           />
         </div>

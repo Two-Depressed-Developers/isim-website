@@ -4,10 +4,10 @@ import StudentGroupCard from "./StudentGroupCard";
 
 type Props = {
   data: ComponentHomepageStudentGroups;
-  isPriorityImg: boolean;
+  preloadImg: boolean;
 };
 
-export default function StudentGroupsSection({ data, isPriorityImg }: Props) {
+export default function StudentGroupsSection({ data, preloadImg }: Props) {
   const groups = data.groups ?? [];
   const isOdd = groups.length % 2 === 1;
 
@@ -22,7 +22,7 @@ export default function StudentGroupsSection({ data, isPriorityImg }: Props) {
               key={`group_${group.id}`}
               className={isLastAndOdd ? "md:col-span-2" : ""}
             >
-              <StudentGroupCard group={group} isPriorityImg={isPriorityImg} />
+              <StudentGroupCard group={group} preloadImg={preloadImg} />
             </div>
           );
         })}

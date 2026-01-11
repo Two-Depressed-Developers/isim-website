@@ -23,7 +23,7 @@ const Header = async () => {
               width={160}
               height={80}
               className="h-20 w-40"
-              priority={true}
+              preload={true}
             />
           ) : (
             <StrapiImage
@@ -32,7 +32,7 @@ const Header = async () => {
               width={160}
               height={80}
               className="h-20 w-40"
-              priority={true}
+              preload={true}
             />
           )}
         </Link>

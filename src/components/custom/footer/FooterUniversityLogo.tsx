@@ -20,7 +20,7 @@ const FooterUniversityLogo = ({ logo }: Props) => {
           width={60}
           height={120}
           className="h-24 w-12"
-          priority={true}
+          preload={true}
         />
       ) : (
         <StrapiImage
@@ -29,7 +29,7 @@ const FooterUniversityLogo = ({ logo }: Props) => {
           width={60}
           height={120}
           className="h-24 w-12"
-          priority={true}
+          preload={true}
         />
       )}
     </Link>

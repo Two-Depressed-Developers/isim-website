@@ -7,10 +7,10 @@ import { useTranslations } from "next-intl";
 
 type Props = {
   member: Member;
-  isPriorityImg: boolean;
+  preloadImg: boolean;
 };
 
-export default function SupervisorCard({ member, isPriorityImg }: Props) {
+export default function SupervisorCard({ member, preloadImg }: Props) {
   const t = useTranslations("HomePage.supervisor");
 
   return (
@@ -27,9 +27,9 @@ export default function SupervisorCard({ member, isPriorityImg }: Props) {
               alt={member.photo.alternativeText || t("photoAlt")}
               width={80}
               height={80}
-              priority={isPriorityImg}
+              preload={preloadImg}
               sizes="80px"
-              loading={!isPriorityImg ? "lazy" : "eager"}
+              loading={!preloadImg ? "lazy" : "eager"}
               objectFit="cover"
             />
           </div>

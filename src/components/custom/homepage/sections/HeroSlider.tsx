@@ -41,15 +41,17 @@ export default function HeroSlider({ data }: Props) {
     <div className="relative w-full">
       <div className="aspect-[3/1] w-full overflow-hidden" ref={emblaRef}>
         <div className="flex h-full">
-          {data.images?.map((image) => (
-            <StrapiImage
-              src={image.url}
-              alt={image.alternativeText || "Hero Slide Image"}
-              width={1920}
-              height={480}
-              key={image.url}
-              className="h-full min-w-full object-cover"
-            />
+          {data.images?.map((image, index) => (
+            <div key={image.url} className="relative h-full min-w-full">
+              <StrapiImage
+                src={image.url}
+                alt={image.alternativeText || "Hero Slide Image"}
+                fill
+                priority={index === 0}
+                sizes="100vw"
+                className="object-cover"
+              />
+            </div>
           ))}
         </div>
       </div>

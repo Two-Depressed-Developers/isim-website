@@ -30,6 +30,7 @@ const Header = async () => {
               alt={headerData.logo.alt}
               width={160}
               height={80}
+              className="h-20 w-40"
             />
           )}
         </Link>

@@ -27,6 +27,7 @@ const FooterUniversityLogo = ({ logo }: Props) => {
           alt={logo.alt}
           width={60}
           height={120}
+          className="h-auto w-auto"
         />
       )}
     </Link>

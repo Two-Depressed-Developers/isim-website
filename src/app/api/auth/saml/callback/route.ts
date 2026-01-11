@@ -1,9 +1,11 @@
 import { samlStrategy } from "@/lib/saml";
 import { signIn } from "@/lib/auth";
 import { NextRequest, NextResponse } from "next/server";
+import { env } from "@ryankshaw/next-runtime-env";
 
 export async function POST(req: NextRequest) {
   let token: string | null = null;
+  const baseUrl = env("NEXT_PUBLIC_APP_URL") || "http://localhost:3000";
 
   try {
     const formData = await req.formData();
@@ -22,7 +24,7 @@ export async function POST(req: NextRequest) {
 
     if (!result.profile) {
       return NextResponse.redirect(
-        new URL("/login?error=SAMLValidationFailed", req.url),
+        new URL("/login?error=SAMLValidationFailed", baseUrl),
       );
     }
 
@@ -33,13 +35,11 @@ export async function POST(req: NextRequest) {
       groups: profile.groups ?? [],
     };
 
-    console.log("SAML User Data:", userData);
-
     token = Buffer.from(JSON.stringify(userData)).toString("base64");
   } catch (error) {
     console.error("SAML Processing Error:", error);
     return NextResponse.redirect(
-      new URL("/login?error=SAMLAuthFailed", req.url),
+      new URL("/login?error=SAMLAuthFailed", baseUrl),
     );
   }
 
@@ -49,12 +49,12 @@ export async function POST(req: NextRequest) {
         token: token,
         redirect: false,
       });
-      return NextResponse.redirect(new URL("/panel/profile", req.url));
+      return NextResponse.redirect(new URL("/panel/profile", baseUrl));
     } catch (error) {
       console.error("SSO SignIn Error:", error);
 
       return NextResponse.redirect(
-        new URL("/login?error=AccessDenied", req.url),
+        new URL("/login?error=AccessDenied", baseUrl),
       );
     }
   }

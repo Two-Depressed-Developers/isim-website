@@ -13,13 +13,13 @@ export default function StudentGroupCard({ group, preloadImg }: Props) {
       {group.image?.url && (
         <div className="flex h-full w-36 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-gray-50 p-4 md:w-50">
           <StrapiImage
-            src={group.image.url}
+            imageLink={group.image.url}
             alt={group.image.alternativeText || group.name}
             width={160}
             height={80}
             preload={preloadImg}
             loading={!preloadImg ? "lazy" : "eager"}
-            objectFit="contain"
+            className="h-auto max-h-full w-full object-contain"
           />
         </div>
       )}

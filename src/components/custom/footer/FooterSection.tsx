@@ -36,7 +36,7 @@ const FooterSection = ({ section }: Props) => {
                 />
               ) : (
                 <StrapiImage
-                  src={image.image.url}
+                  imageLink={image.image.url}
                   alt={image.alt}
                   width={24}
                   height={24}

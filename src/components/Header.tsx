@@ -27,7 +27,7 @@ const Header = async () => {
             />
           ) : (
             <StrapiImage
-              src={headerData.logo.image.url}
+              imageLink={headerData.logo.image.url}
               alt={headerData.logo.alt}
               width={160}
               height={80}

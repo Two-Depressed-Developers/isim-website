@@ -24,7 +24,7 @@ const FooterUniversityLogo = ({ logo }: Props) => {
         />
       ) : (
         <StrapiImage
-          src={logo.image.url}
+          imageLink={logo.image.url}
           alt={logo.alt}
           width={60}
           height={120}

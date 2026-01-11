@@ -23,14 +23,14 @@ export default function SupervisorCard({ member, preloadImg }: Props) {
         {member.photo?.url ? (
           <div className="h-20 w-20 shrink-0 overflow-hidden rounded-full shadow-xs">
             <StrapiImage
-              src={member.photo.url}
+              imageLink={member.photo.url}
               alt={member.photo.alternativeText || t("photoAlt")}
               width={80}
               height={80}
               preload={preloadImg}
               sizes="80px"
               loading={!preloadImg ? "lazy" : "eager"}
-              objectFit="cover"
+              className="object-cover"
             />
           </div>
         ) : (

@@ -45,13 +45,13 @@ export default function HeroSlider({ data, preloadImg: preloadImg }: Props) {
           {data.images?.map((image, index) => (
             <div key={image.url} className="relative h-full min-w-full">
               <StrapiImage
-                src={image.url}
+                imageLink={image.url}
                 alt={image.alternativeText || "Hero Slide Image"}
                 fill
                 preload={preloadImg && index === 0}
                 sizes="(max-width: 1280px) 100vw, 1920px"
-                objectFit="cover"
                 loading={!preloadImg || index != 0 ? "lazy" : "eager"}
+                className="object-cover"
               />
             </div>
           ))}

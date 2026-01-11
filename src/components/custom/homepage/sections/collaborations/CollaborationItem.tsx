@@ -13,13 +13,13 @@ export default function CollaborationItem({ item, preloadImg }: Props) {
     <div className="group relative flex h-32 w-full items-center justify-center rounded-xl bg-white p-4 shadow-md transition-transform hover:scale-105">
       <div className="relative h-full w-full">
         <StrapiImage
-          src={item.logo.url}
+          imageLink={item.logo.url}
           alt={item.logo.alternativeText || item.name}
           fill
           sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 300px"
-          objectFit="contain"
           preload={preloadImg}
           loading={!preloadImg ? "lazy" : "eager"}
+          className="object-contain"
         />
       </div>
       <div className="absolute inset-0 flex items-center justify-center rounded-xl bg-black/70 opacity-0 transition-opacity group-hover:opacity-100">

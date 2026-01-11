@@ -1,26 +1,18 @@
-import Image from "next/image";
+import Image, { ImageProps } from "next/image";
 import { getStrapiMedia } from "@/lib/utils";
 
+type ImageWithoutSrc = Omit<ImageProps, "src">;
+
 type Props = {
-  src: string;
-  alt: string;
-  height: number;
-  width: number;
-  className?: string;
-};
+  imageLink: string;
+} & ImageWithoutSrc;
 
-export function StrapiImage({ src, alt, height, width, className }: Props) {
-  if (!src) return null;
-  const imageUrl = getStrapiMedia(src);
-  const imageFallback = `https://placehold.co/${width}x${height}`;
+export function StrapiImage({ imageLink, alt, ...props }: Props) {
+  if (!imageLink) return null;
 
-  return (
-    <Image
-      src={imageUrl ?? imageFallback}
-      alt={alt}
-      height={height}
-      width={width}
-      className={className}
-    />
-  );
+  const imageUrl =
+    getStrapiMedia(imageLink) ??
+    `https://placehold.co/${props.width ?? 400}x${props.height ?? 400}`;
+
+  return <Image src={imageUrl} alt={alt} {...props} />;
 }

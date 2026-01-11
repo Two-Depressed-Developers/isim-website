@@ -8,6 +8,7 @@ import { LAYOUT_COMPONENTS } from "./CollectionLayouts";
 
 type Props = {
   data: ComponentHomepageCollectionFeed;
+  preloadImg: boolean;
 };
 
 function renderItems(data: ComponentHomepageCollectionFeed) {

@@ -44,7 +44,7 @@ const MemberMainInfoCard = ({ member, className }: Props) => {
     <WhiteCard className={cn("flex h-fit flex-col gap-y-6", className)}>
       {member.photo?.url && (
         <StrapiImage
-          src={member.photo?.url}
+          imageLink={member.photo?.url}
           alt={member.photo?.alternativeText || "Member photo"}
           className="mx-auto h-64 w-64 rounded-md object-cover shadow-md"
           height={256}
@@ -69,11 +69,7 @@ const MemberMainInfoCard = ({ member, className }: Props) => {
             />
           )}
           {member.room && (
-            <MemberInfoLink
-              type="Room"
-              value={member.room}
-              label={t("room")}
-            />
+            <MemberInfoLink type="Room" value={member.room} label={t("room")} />
           )}
         </div>
         <div className="flex flex-col gap-y-2">

@@ -20,7 +20,7 @@ export const MemberRow = ({
         {member.photo?.url ? (
           <div className="h-20 w-20 shrink-0 overflow-hidden rounded-full shadow-xs">
             <StrapiImage
-              src={member.photo.url}
+              imageLink={member.photo.url}
               className="h-full w-full object-cover"
               alt={member.photo.alternativeText || "Member photo"}
               width={80}

@@ -9,9 +9,10 @@ import { useTranslations } from "next-intl";
 
 type Props = {
   data: ComponentHomepageHeroSlider;
+  preloadImg: boolean;
 };
 
-export default function HeroSlider({ data }: Props) {
+export default function HeroSlider({ data, preloadImg: preloadImg }: Props) {
   const t = useTranslations("HomePage.heroSlider");
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
     Autoplay({ delay: 5000 }),
@@ -41,15 +42,18 @@ export default function HeroSlider({ data }: Props) {
     <div className="relative w-full">
       <div className="aspect-[3/1] w-full overflow-hidden" ref={emblaRef}>
         <div className="flex h-full">
-          {data.images?.map((image) => (
-            <StrapiImage
-              src={image.url}
-              alt={image.alternativeText || "Hero Slide Image"}
-              width={1920}
-              height={480}
-              key={image.url}
-              className="h-full min-w-full object-cover"
-            />
+          {data.images?.map((image, index) => (
+            <div key={image.url} className="relative h-full min-w-full">
+              <StrapiImage
+                imageLink={image.url}
+                alt={image.alternativeText || "Hero Slide Image"}
+                fill
+                preload={preloadImg && index === 0}
+                sizes="(max-width: 1280px) 100vw, 1920px"
+                loading={!preloadImg || index != 0 ? "lazy" : "eager"}
+                className="object-cover"
+              />
+            </div>
           ))}
         </div>
       </div>

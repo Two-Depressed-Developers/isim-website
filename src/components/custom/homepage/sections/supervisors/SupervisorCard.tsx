@@ -7,9 +7,10 @@ import { useTranslations } from "next-intl";
 
 type Props = {
   member: Member;
+  preloadImg: boolean;
 };
 
-export default function SupervisorCard({ member }: Props) {
+export default function SupervisorCard({ member, preloadImg }: Props) {
   const t = useTranslations("HomePage.supervisor");
 
   return (
@@ -22,11 +23,14 @@ export default function SupervisorCard({ member }: Props) {
         {member.photo?.url ? (
           <div className="h-20 w-20 shrink-0 overflow-hidden rounded-full shadow-xs">
             <StrapiImage
-              src={member.photo.url}
-              className="h-full w-full object-cover"
+              imageLink={member.photo.url}
               alt={member.photo.alternativeText || t("photoAlt")}
               width={80}
               height={80}
+              preload={preloadImg}
+              sizes="80px"
+              loading={!preloadImg ? "lazy" : "eager"}
+              className="object-cover"
             />
           </div>
         ) : (

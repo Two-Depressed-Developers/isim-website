@@ -6,7 +6,6 @@ import { env } from "@ryankshaw/next-runtime-env";
 export async function POST(req: NextRequest) {
   let token: string | null = null;
   const baseUrl = env("NEXT_PUBLIC_APP_URL") || "http://localhost:3000";
-  console.log("Request URL: ", req.url);
 
   try {
     const formData = await req.formData();

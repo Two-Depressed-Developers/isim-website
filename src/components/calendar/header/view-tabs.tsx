@@ -56,10 +56,9 @@ function Views() {
               key={value}
               layout
               className={cn(
-                "flex h-8 items-center justify-center overflow-hidden rounded-md",
+                "flex h-8 items-center justify-center rounded-md",
                 isActive ? "flex-1" : "flex-none",
               )}
-              onClick={() => setView(value as TCalendarView)}
               initial={false}
               animate={{
                 width: isActive ? 120 : 32,
@@ -70,8 +69,12 @@ function Views() {
                 damping: 25,
               }}
             >
-              <TabsTrigger value={value} asChild>
-                <motion.div className="flex h-8 w-full cursor-pointer items-center justify-center gap-2">
+              <TabsTrigger value={value} asChild aria-label={name}>
+                <motion.button
+                  className={cn(
+                    "flex h-8 w-full cursor-pointer items-center justify-center gap-2 border-none bg-transparent",
+                  )}
+                >
                   <div className="shrink-0">
                     <Icon />
                   </div>
@@ -88,7 +91,7 @@ function Views() {
                       </motion.span>
                     )}
                   </AnimatePresence>
-                </motion.div>
+                </motion.button>
               </TabsTrigger>
             </motion.div>
           );

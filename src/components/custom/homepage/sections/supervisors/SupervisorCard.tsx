@@ -14,12 +14,17 @@ export default function SupervisorCard({ member, preloadImg }: Props) {
   const t = useTranslations("HomePage.supervisor");
 
   return (
-    <CustomLink
-      href={`/staff-members/${member.slug}`}
-      isExternal={false}
-      className="flex flex-col gap-1"
-    >
-      <div className="grid grid-cols-[80px_1px_1fr] grid-rows-2 items-center gap-x-6 rounded-2xl bg-white p-6 shadow-md">
+    <div className="group relative flex flex-col gap-1">
+      <div className="relative grid grid-cols-[80px_1px_1fr] grid-rows-2 items-center gap-x-6 overflow-hidden rounded-2xl bg-white p-6 shadow-md">
+        <CustomLink
+          href={`/staff-members/${member.slug}`}
+          isExternal={false}
+          className="absolute inset-0 z-10"
+          aria-label={`View profile of ${member.fullName}`}
+        >
+          <span className="sr-only">View profile</span>
+        </CustomLink>
+
         {member.photo?.url ? (
           <div className="h-20 w-20 shrink-0 overflow-hidden rounded-full shadow-xs">
             <StrapiImage
@@ -51,11 +56,12 @@ export default function SupervisorCard({ member, preloadImg }: Props) {
           )}
         </div>
         <div />
-        <div className="space-y-1">
+
+        <div className="relative z-20 space-y-1">
           {member.phone && <ContactLink type="phone" value={member.phone} />}
           {member.email && <ContactLink type="mail" value={member.email} />}
         </div>
       </div>
-    </CustomLink>
+    </div>
   );
 }

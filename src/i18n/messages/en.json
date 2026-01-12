@@ -245,5 +245,18 @@
     "hoursHeader": "Secretariat Opening Hours",
     "mapCaption": "Building B-4 is located in the main AGH campus.",
     "notFound": "No contact information available."
+  },
+  "Accessibility": {
+    "metaTitle": "Accessibility Statement",
+    "lastUpdated": "Last updated:",
+    "statusHeader": "Compliance Status",
+    "preparedOn": "Statement prepared on",
+    "feedbackHeader": "Feedback and Contact Information",
+    "feedbackIntro": "If you encounter accessibility issues on this website, please contact us.",
+    "contactPersonTitle": "Contact Person",
+    "requestDetails": "Request Procedure",
+    "procedureHeader": "Appeal Procedure",
+    "appealPersonTitle": "Head of Unit (Appeals)",
+    "notFound": "No accessibility information available."
   }
 }

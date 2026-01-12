@@ -244,5 +244,18 @@
     "hoursHeader": "Godziny Otwarcia Sekretariatu",
     "mapCaption": "Budynek B-4 znajduje się w głównym kampusie AGH.",
     "notFound": "Nie udało się załadować danych kontaktowych."
+  },
+  "Accessibility": {
+    "metaTitle": "Deklaracja Dostępności",
+    "lastUpdated": "Ostatnia aktualizacja",
+    "statusHeader": "Status zgodności",
+    "preparedOn": "Deklarację sporządzono dnia",
+    "feedbackHeader": "Informacje zwrotne i dane kontaktowe",
+    "feedbackIntro": "W przypadku problemów z dostępnością strony internetowej prosimy o kontakt.",
+    "contactPersonTitle": "Osoba kontaktowa",
+    "requestDetails": "Procedura wnioskowania",
+    "procedureHeader": "Postępowanie odwoławcze",
+    "appealPersonTitle": "Kierownik Jednostki (Odwołania)",
+    "notFound": "Brak dostępnych informacji o dostępności."
   }
 }

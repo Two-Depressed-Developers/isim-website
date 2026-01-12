@@ -233,5 +233,16 @@
       "resources": "Dostępne zasoby",
       "noResults": "Brak wyników spełniających kryteria"
     }
+  },
+  "Contact": {
+    "metaTitle": "Kontakt - Katedra Informatyki Stosowanej i Modelowania",
+    "title": "Kontakt",
+    "addressHeader": "Adres Korespondencyjny",
+    "contactHeader": "Dane Kontaktowe",
+    "phoneLabel": "Telefon",
+    "emailLabel": "E-mail",
+    "hoursHeader": "Godziny Otwarcia Sekretariatu",
+    "mapCaption": "Budynek B-4 znajduje się w głównym kampusie AGH.",
+    "notFound": "Nie udało się załadować danych kontaktowych."
   }
 }

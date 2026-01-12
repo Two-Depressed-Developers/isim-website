@@ -234,5 +234,16 @@
       "resources": "Available resources",
       "noResults": "No results matching criteria"
     }
+  },
+  "Contact": {
+    "metaTitle": "Contact - Department of Applied Computer Science and Modelling",
+    "title": "Contact",
+    "addressHeader": "Correspondence Address",
+    "contactHeader": "Contact Information",
+    "phoneLabel": "Phone",
+    "emailLabel": "E-mail",
+    "hoursHeader": "Secretariat Opening Hours",
+    "mapCaption": "Building B-4 is located in the main AGH campus.",
+    "notFound": "No contact information available."
   }
 }

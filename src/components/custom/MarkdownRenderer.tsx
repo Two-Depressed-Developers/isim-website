@@ -5,12 +5,8 @@ import CustomLink from "../CustomLink";
 
 const markdownComponents = {
   a: ({ href, children, ...props }: any) => {
-    const isExternal =
-      href?.startsWith("http") ||
-      href?.startsWith("mailto:") ||
-      href?.startsWith("tel:");
-
     const isSpecial = href?.startsWith("mailto:") || href?.startsWith("tel:");
+    const isExternal = href?.startsWith("http");
 
     return (
       <CustomLink

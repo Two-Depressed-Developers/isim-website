@@ -83,8 +83,12 @@ const DetailsLayout = ({ members }: { members: MemberData[] }) => {
             <TableHead className="w-[250px] font-bold text-black">
               {t("title")}
             </TableHead>
-            <TableHead className="font-bold text-black">{t("fullName")}</TableHead>
-            <TableHead className="font-bold text-black">{t("contact")}</TableHead>
+            <TableHead className="font-bold text-black">
+              {t("fullName")}
+            </TableHead>
+            <TableHead className="font-bold text-black">
+              {t("contact")}
+            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>

@@ -96,10 +96,10 @@ export default async function AccessibilityPage({ params }: Props) {
                 <ReactMarkdown>{data.enforcementProcedureText}</ReactMarkdown>
               </div>
 
-              {data.appealContactPerson && (
+              {data.appealPersonContact && (
                 <div className="mt-6">
                   <ContactCard
-                    member={data.appealContactPerson}
+                    member={data.appealPersonContact}
                     title={t("appealPersonTitle")}
                   />
                 </div>

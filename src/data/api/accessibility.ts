@@ -7,7 +7,7 @@ export const getAccessibilityPage = async (locale: string) => {
 
   url.search = qs.stringify({
     locale,
-    populate: ["feedbackPersonContact", "appealContactPerson"],
+    populate: ["feedbackPersonContact", "appealPersonContact"],
   });
 
   try {

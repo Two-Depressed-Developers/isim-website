@@ -10,5 +10,5 @@ export interface AccessibilityPageData {
   feedbackProcedureText: string;
   enforcementProcedureText: string;
   feedbackPersonContact: Member;
-  appealContactPerson: Member;
+  appealPersonContact: Member;
 }

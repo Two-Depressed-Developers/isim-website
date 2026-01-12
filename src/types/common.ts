@@ -22,6 +22,7 @@ export type Link = {
 };
 
 export type Page = {
+  id: number;
   name: string;
   slug: string;
 };

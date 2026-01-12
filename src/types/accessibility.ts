@@ -1,6 +1,6 @@
 import { Member } from "./member";
 
-export interface AccessibilityPageData {
+export type AccessibilityPageData = {
   id: number;
   title: string;
   publicationDate: string;
@@ -11,4 +11,4 @@ export interface AccessibilityPageData {
   enforcementProcedureText: string;
   feedbackPersonContact: Member;
   appealPersonContact: Member;
-}
+};

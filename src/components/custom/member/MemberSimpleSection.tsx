@@ -1,8 +1,7 @@
 import { SimpleSection } from "@/types";
 import WhiteCard from "../WhiteCard";
 import { Separator } from "@/components/ui/separator";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
+import { MarkdownRenderer } from "../MarkdownRenderer";
 
 type Props = {
   sectionData?: SimpleSection;
@@ -16,9 +15,7 @@ const MemberSimpleSection = ({ sectionData }: Props) => {
       <h2 className="text-3xl font-bold">{sectionData.title}</h2>
       <Separator />
       <div className="prose w-full max-w-none p-2">
-        <ReactMarkdown remarkPlugins={[remarkGfm]}>
-          {sectionData.text}
-        </ReactMarkdown>
+        <MarkdownRenderer content={sectionData.text} />
       </div>
     </WhiteCard>
   );

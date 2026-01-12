@@ -1,9 +1,9 @@
 import { getAccessibilityPage } from "@/data/api/accessibility";
 import { getFormatter, getTranslations } from "next-intl/server";
 import PageTitle from "@/components/PageTitle";
-import ReactMarkdown from "react-markdown";
 import { Card, CardContent } from "@/components/ui/card";
 import ContactCard from "@/components/custom/accessibility/ContactCard";
+import { MarkdownRenderer } from "@/components/custom/MarkdownRenderer";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -45,7 +45,7 @@ export default async function AccessibilityPage({ params }: Props) {
 
           <div className="space-y-12">
             <section className="prose max-w-none">
-              <ReactMarkdown>{data.introText}</ReactMarkdown>
+              <MarkdownRenderer content={data.introText} />
             </section>
 
             <section className="border-l-4 border-yellow-600 bg-yellow-50 p-6">
@@ -83,7 +83,7 @@ export default async function AccessibilityPage({ params }: Props) {
                   {t("requestDetails")}
                 </h3>
                 <div className="prose prose-sm max-w-none">
-                  <ReactMarkdown>{data.feedbackProcedureText}</ReactMarkdown>
+                  <MarkdownRenderer content={data.feedbackProcedureText} />
                 </div>
               </div>
             </section>
@@ -93,7 +93,7 @@ export default async function AccessibilityPage({ params }: Props) {
                 {t("procedureHeader")}
               </h2>
               <div className="prose max-w-none">
-                <ReactMarkdown>{data.enforcementProcedureText}</ReactMarkdown>
+                <MarkdownRenderer content={data.enforcementProcedureText} />
               </div>
 
               {data.appealPersonContact && (

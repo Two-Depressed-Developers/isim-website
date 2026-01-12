@@ -2,11 +2,11 @@
 
 import dynamic from "next/dynamic";
 import { Mail, MapPin, Phone, Clock } from "lucide-react";
-import ReactMarkdown from "react-markdown";
 import { ContactPageData } from "@/types/contact";
 import { useTranslations } from "next-intl";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { MarkdownRenderer } from "@/components/custom/MarkdownRenderer";
 
 const LeafletMap = dynamic(
   () => import("@/components/custom/contact/LeafletMap"),
@@ -93,7 +93,7 @@ export default function ContactContent({ data }: Props) {
               </h2>
             </CardHeader>
             <CardContent className="prose-sm prose-gray">
-              <ReactMarkdown>{data.openingHours}</ReactMarkdown>
+              <MarkdownRenderer content={data.openingHours} />
             </CardContent>
           </Card>
         </div>

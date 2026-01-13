@@ -20,9 +20,9 @@ export default function SupervisorCard({ member, preloadImg }: Props) {
           href={`/staff-members/${member.slug}`}
           isExternal={false}
           className="absolute inset-0 z-10"
-          aria-label={`View profile of ${member.fullName}`}
+          aria-label={`${t("viewProfileOf")} ${member.fullName}`}
         >
-          <span className="sr-only">View profile</span>
+          <span className="sr-only">{t("viewProfile")}</span>
         </CustomLink>
 
         {member.photo?.url ? (

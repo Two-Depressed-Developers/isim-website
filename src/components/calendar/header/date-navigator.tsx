@@ -113,6 +113,7 @@ export function DateNavigator({ view, events }: IProps) {
           variants={buttonHover}
           whileHover="hover"
           whileTap="tap"
+          aria-label="Previous Date"
         >
           <ChevronLeft className="h-4 w-4" />
         </MotionButton>
@@ -134,6 +135,7 @@ export function DateNavigator({ view, events }: IProps) {
           variants={buttonHover}
           whileHover="hover"
           whileTap="tap"
+          aria-label="Next Date"
         >
           <ChevronRight className="h-4 w-4" />
         </MotionButton>

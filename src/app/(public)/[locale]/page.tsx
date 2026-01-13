@@ -32,6 +32,7 @@ export default async function Home({ params }: Props) {
 
   return (
     <div className="flex grow flex-col">
+      <h1 className="sr-only">{t("department")}</h1>
       <HomepageBuilder homepage={homepage} />
     </div>
   );

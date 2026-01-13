@@ -21,7 +21,7 @@ const MemberMainInfoCard = ({ member, className }: Props) => {
     {
       data: member.PortfolioLink,
       altText: "Homepage",
-      bgColor: "bg-[#0493dc]",
+      bgColor: "bg-[#0079b6]",
     },
     {
       data: member.USOSLink,

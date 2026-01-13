@@ -68,6 +68,7 @@ export default function ActionBar() {
             "text-gray-text": sortingType !== "position",
             "hover:bg-inactive/70": sortingType !== "position",
           })}
+          aria-label="Sort by position"
         >
           <GraduationCap size="20" />
         </Button>
@@ -82,6 +83,7 @@ export default function ActionBar() {
             "text-gray-text": sortingType !== "team",
             "hover:bg-inactive/70": sortingType !== "team",
           })}
+          aria-label="Sort by team"
         >
           <UsersRound size="20" />
         </Button>
@@ -93,6 +95,7 @@ export default function ActionBar() {
         />
         <Input
           placeholder={t("searchPlaceholder")}
+          aria-label={t("searchPlaceholder")}
           className="bg-inactive placeholder:text-light-gray-text focus-visible:ring-primary mx-2 rounded-2xl border-none pr-10 pl-8 placeholder:font-semibold"
           value={searchQuery}
           onChange={handleSearchQueryChange}
@@ -110,6 +113,7 @@ export default function ActionBar() {
             "text-gray-text": layoutType !== "grid",
             "hover:bg-inactive/70": layoutType !== "grid",
           })}
+          aria-label="Grid layout"
         >
           <LayoutGrid size="20" />
         </Button>
@@ -124,6 +128,7 @@ export default function ActionBar() {
             "text-gray-text": layoutType !== "details",
             "hover:bg-inactive/70": layoutType !== "details",
           })}
+          aria-label="Details layout"
         >
           <LayoutPanelTop size="20" />
         </Button>
@@ -139,6 +144,7 @@ export default function ActionBar() {
             "text-gray-text": layoutType !== "list",
             "hover:bg-inactive/70": layoutType !== "list",
           })}
+          aria-label="List layout"
         >
           <List size="20" />
         </Button>

@@ -84,6 +84,15 @@ export async function getFooterData(locale: string) {
             cta: true,
           },
         },
+        navigation: {
+          populate: {
+            pages: {
+              populate: {
+                page: true,
+              },
+            },
+          },
+        },
       },
     },
   };

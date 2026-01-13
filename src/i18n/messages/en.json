@@ -63,7 +63,12 @@
     "error": "Error loading data",
     "lts": "No results found",
     "memberNotFound": "Member not found",
-    "noResults": "No results found"
+    "noResults": "No results found",
+    "sortByPosition": "Sort by position",
+    "sortByTeam": "Sort by team",
+    "gridLayout": "Grid layout",
+    "detailsLayout": "Details layout",
+    "listLayout": "List layout"
   },
   "Offer": {
     "title": "Our Offer",
@@ -182,7 +187,9 @@
       "edit": "Edit",
       "delete": "Delete",
       "at": "at"
-    }
+    },
+    "previousDate": "Previous date",
+    "nextDate": "Next date"
   },
   "MemberDetails": {
     "contact": "Contact",

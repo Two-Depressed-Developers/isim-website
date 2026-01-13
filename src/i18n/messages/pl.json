@@ -62,7 +62,12 @@
     "loading": "Ładowanie danych pracowników...",
     "error": "Błąd ładowania danych",
     "noResults": "Nie znaleziono wyników",
-    "memberNotFound": "Nie znaleziono pracownika"
+    "memberNotFound": "Nie znaleziono pracownika",
+    "sortByPosition": "Sortuj według stanowiska",
+    "sortByTeam": "Sortuj według zespołu",
+    "gridLayout": "Układ siatki",
+    "detailsLayout": "Układ szczegółowy",
+    "listLayout": "Układ listy"
   },
   "Offer": {
     "title": "Nasza oferta",
@@ -181,7 +186,9 @@
       "edit": "Edytuj",
       "delete": "Usuń",
       "at": "o"
-    }
+    },
+    "previousDate": "Poprzednia data",
+    "nextDate": "Następna data"
   },
   "MemberDetails": {
     "contact": "Kontakt",

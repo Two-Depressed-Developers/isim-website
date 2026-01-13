@@ -68,7 +68,7 @@ export default function ActionBar() {
             "text-gray-text": sortingType !== "position",
             "hover:bg-inactive/70": sortingType !== "position",
           })}
-          aria-label="Sort by position"
+          aria-label={t("sortByPosition")}
         >
           <GraduationCap size="20" />
         </Button>
@@ -83,7 +83,7 @@ export default function ActionBar() {
             "text-gray-text": sortingType !== "team",
             "hover:bg-inactive/70": sortingType !== "team",
           })}
-          aria-label="Sort by team"
+          aria-label={t("sortByTeam")}
         >
           <UsersRound size="20" />
         </Button>
@@ -113,7 +113,7 @@ export default function ActionBar() {
             "text-gray-text": layoutType !== "grid",
             "hover:bg-inactive/70": layoutType !== "grid",
           })}
-          aria-label="Grid layout"
+          aria-label={t("gridLayout")}
         >
           <LayoutGrid size="20" />
         </Button>
@@ -128,7 +128,7 @@ export default function ActionBar() {
             "text-gray-text": layoutType !== "details",
             "hover:bg-inactive/70": layoutType !== "details",
           })}
-          aria-label="Details layout"
+          aria-label={t("detailsLayout")}
         >
           <LayoutPanelTop size="20" />
         </Button>
@@ -144,7 +144,7 @@ export default function ActionBar() {
             "text-gray-text": layoutType !== "list",
             "hover:bg-inactive/70": layoutType !== "list",
           })}
-          aria-label="List layout"
+          aria-label={t("listLayout")}
         >
           <List size="20" />
         </Button>

@@ -1,9 +1,17 @@
-import type { ImageLink, Link, SimpleSection } from "./common";
+import type { ImageLink, Link, Page, SimpleSection } from "./common";
+
+export type FooterNavigationSection = {
+  title: string;
+  pages: {
+    page: Page;
+  }[];
+};
 
 export type Footer = {
   copyrightText: string;
   universityLogo: ImageLink;
   sections: SimpleSection[];
+  navigation: FooterNavigationSection;
 };
 
 export type FooterData = Footer & {

@@ -57,26 +57,30 @@ export default function HeroSlider({ data, preloadImg: preloadImg }: Props) {
           ))}
         </div>
       </div>
-      <Button
-        variant="ghost"
-        size="icon"
-        className="absolute top-1/2 left-4 h-8 w-8 -translate-y-1/2 rounded-full bg-black/50 text-white hover:bg-black/70 hover:text-white"
-        onClick={scrollPrev}
-        aria-label={t("prevSlide")}
-      >
-        <ArrowLeft className="h-4 w-4" />
-        <span className="sr-only">{t("prevSlide")}</span>
-      </Button>
-      <Button
-        variant="ghost"
-        size="icon"
-        className="absolute top-1/2 right-4 h-8 w-8 -translate-y-1/2 rounded-full bg-black/50 text-white hover:bg-black/70 hover:text-white"
-        onClick={scrollNext}
-        aria-label={t("nextSlide")}
-      >
-        <ArrowRight className="h-4 w-4" />
-        <span className="sr-only">{t("nextSlide")}</span>
-      </Button>
+      {data.images && data.images.length > 1 && (
+        <>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="absolute top-1/2 left-4 h-8 w-8 -translate-y-1/2 rounded-full bg-black/50 text-white hover:bg-black/70 hover:text-white"
+            onClick={scrollPrev}
+            aria-label={t("prevSlide")}
+          >
+            <ArrowLeft className="h-4 w-4" />
+            <span className="sr-only">{t("prevSlide")}</span>
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="absolute top-1/2 right-4 h-8 w-8 -translate-y-1/2 rounded-full bg-black/50 text-white hover:bg-black/70 hover:text-white"
+            onClick={scrollNext}
+            aria-label={t("nextSlide")}
+          >
+            <ArrowRight className="h-4 w-4" />
+            <span className="sr-only">{t("nextSlide")}</span>
+          </Button>
+        </>
+      )}
     </div>
   );
 }

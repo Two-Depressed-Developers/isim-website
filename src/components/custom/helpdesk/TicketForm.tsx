@@ -75,6 +75,9 @@ export function TicketForm({ defaultEmail }: Props) {
                       disabled={submitTicketMutation.isPending}
                     />
                   </FormControl>
+                  <FormDescription className="sr-only">
+                    {t("titleLabel")}
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}

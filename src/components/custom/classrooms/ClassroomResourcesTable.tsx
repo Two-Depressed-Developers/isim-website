@@ -92,10 +92,11 @@ export function ClassroomResourcesTable({ classrooms }: Props) {
         <CardContent>
           <div className="grid gap-4 md:grid-cols-3">
             <div className="space-y-2">
-              <label className="text-sm font-medium">
+              <label className="text-sm font-medium" htmlFor="search-filter">
                 {t("filters.search")}
               </label>
               <Input
+                id="search-filter"
                 placeholder={t("filters.searchPlaceholder")}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -103,11 +104,11 @@ export function ClassroomResourcesTable({ classrooms }: Props) {
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium">
+              <label className="text-sm font-medium" htmlFor="building-filter">
                 {t("filters.building")}
               </label>
               <Select value={buildingFilter} onValueChange={setBuildingFilter}>
-                <SelectTrigger>
+                <SelectTrigger id="building-filter">
                   <SelectValue placeholder={t("filters.allBuildings")} />
                 </SelectTrigger>
                 <SelectContent>
@@ -124,10 +125,11 @@ export function ClassroomResourcesTable({ classrooms }: Props) {
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium">
+              <label className="text-sm font-medium" htmlFor="resource-filter">
                 {t("filters.resource")}
               </label>
               <Input
+                id="resource-filter"
                 placeholder={t("filters.resourcePlaceholder")}
                 value={resourceFilter}
                 onChange={(e) => setResourceFilter(e.target.value)}

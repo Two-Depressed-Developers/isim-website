@@ -6,15 +6,16 @@ import { ExternalLink } from "lucide-react";
 type Props = {
   item: ComponentHomepageCollaborationItem;
   preloadImg: boolean;
+  index: number;
 };
 
-export default function CollaborationItem({ item, preloadImg }: Props) {
+export default function CollaborationItem({ item, preloadImg, index }: Props) {
   const content = (
     <div className="group relative flex h-32 w-full items-center justify-center rounded-xl bg-white p-4 shadow-md transition-transform hover:scale-105">
       <div className="relative h-full w-full">
         <StrapiImage
           imageLink={item.logo.url}
-          alt={item.logo.alternativeText || item.name}
+          alt={`${item.logo.alternativeText || item.name} ${index + 1}`}
           fill
           sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 300px"
           preload={preloadImg}

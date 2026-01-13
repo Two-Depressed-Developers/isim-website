@@ -46,7 +46,7 @@ export default function HeroSlider({ data, preloadImg: preloadImg }: Props) {
             <div key={image.url} className="relative h-full min-w-full">
               <StrapiImage
                 imageLink={image.url}
-                alt={image.alternativeText || "Hero Slide Image"}
+                alt={image.alternativeText ?? ""}
                 fill
                 preload={preloadImg && index === 0}
                 sizes="(max-width: 1280px) 100vw, 1920px"

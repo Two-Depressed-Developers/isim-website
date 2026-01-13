@@ -5,6 +5,12 @@
   "Breadcrumbs": {
     "home": "Home"
   },
+  "Navigation": {
+    "changeLanguageToPolish": "Change language to Polish",
+    "changeLanguageToEnglish": "Change language to English",
+    "Polish": "Polish",
+    "English": "English"
+  },
   "HomePage": {
     "error": "Failed to load home page. Please try again later.",
     "seeMore": "See more",
@@ -13,7 +19,9 @@
       "nextSlide": "Next slide"
     },
     "supervisor": {
-      "photoAlt": "Supervisor photo"
+      "photoAlt": "Supervisor photo",
+      "viewProfileOf": "View profile of",
+      "viewProfile": "View profile"
     },
     "department": "Department of Applied Computer Science and Modelling",
     "AGHUniversity": "AGH University of Krakow",
@@ -63,7 +71,15 @@
     "error": "Error loading data",
     "lts": "No results found",
     "memberNotFound": "Member not found",
-    "noResults": "No results found"
+    "noResults": "No results found",
+    "sortByPosition": "Sort by position",
+    "sortByTeam": "Sort by team",
+    "gridLayout": "Grid layout",
+    "detailsLayout": "Details layout",
+    "listLayout": "List layout",
+    "viewProfileOf": "View profile of",
+    "viewProfile": "View profile",
+    "memberPhoto": "Member photo"
   },
   "Offer": {
     "title": "Our Offer",
@@ -182,7 +198,9 @@
       "edit": "Edit",
       "delete": "Delete",
       "at": "at"
-    }
+    },
+    "previousDate": "Previous date",
+    "nextDate": "Next date"
   },
   "MemberDetails": {
     "contact": "Contact",

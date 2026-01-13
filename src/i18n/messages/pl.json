@@ -5,6 +5,12 @@
   "Breadcrumbs": {
     "home": "Strona główna"
   },
+  "Navigation": {
+    "changeLanguageToPolish": "Zmień język na polski",
+    "changeLanguageToEnglish": "Zmień język na angielski",
+    "Polish": "Polski",
+    "English": "Angielski"
+  },
   "HomePage": {
     "error": "Nie udało się załadować strony głównej. Spróbuj ponownie później.",
     "seeMore": "Zobacz więcej",
@@ -13,7 +19,9 @@
       "nextSlide": "Następny slajd"
     },
     "supervisor": {
-      "photoAlt": "Zdjęcie opiekuna"
+      "photoAlt": "Zdjęcie opiekuna",
+      "viewProfileOf": "Zobacz profil",
+      "viewProfile": "Zobacz profil"
     },
     "department": "Katedra Informatyki Stosowanej i Modelowania",
     "AGHUniversity": "Akademia Górniczo-Hutnicza im. Stanisława Staszica w Krakowie",
@@ -62,7 +70,15 @@
     "loading": "Ładowanie danych pracowników...",
     "error": "Błąd ładowania danych",
     "noResults": "Nie znaleziono wyników",
-    "memberNotFound": "Nie znaleziono pracownika"
+    "memberNotFound": "Nie znaleziono pracownika",
+    "sortByPosition": "Sortuj według stanowiska",
+    "sortByTeam": "Sortuj według zespołu",
+    "gridLayout": "Układ siatki",
+    "detailsLayout": "Układ szczegółowy",
+    "listLayout": "Układ listy",
+    "viewProfileOf": "Zobacz profil",
+    "viewProfile": "Zobacz profil",
+    "memberPhoto": "Zdjęcie pracownika"
   },
   "Offer": {
     "title": "Nasza oferta",
@@ -181,7 +197,9 @@
       "edit": "Edytuj",
       "delete": "Usuń",
       "at": "o"
-    }
+    },
+    "previousDate": "Poprzednia data",
+    "nextDate": "Następna data"
   },
   "MemberDetails": {
     "contact": "Kontakt",

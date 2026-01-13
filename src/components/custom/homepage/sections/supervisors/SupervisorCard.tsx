@@ -15,14 +15,14 @@ export default function SupervisorCard({ member, preloadImg }: Props) {
 
   return (
     <div className="group relative flex flex-col gap-1">
-      <div className="relative grid grid-cols-[80px_1px_1fr] grid-rows-2 items-center gap-x-6 overflow-hidden rounded-2xl bg-white p-6 shadow-md">
+      <div className="relative grid h-full grid-cols-[80px_1px_1fr] grid-rows-2 items-center gap-x-6 overflow-hidden rounded-2xl bg-white p-6 shadow-md">
         <CustomLink
           href={`/staff-members/${member.slug}`}
           isExternal={false}
           className="absolute inset-0 z-10"
-          aria-label={`View profile of ${member.fullName}`}
+          aria-label={`${t("viewProfileOf")} ${member.fullName}`}
         >
-          <span className="sr-only">View profile</span>
+          <span className="sr-only">{t("viewProfile")}</span>
         </CustomLink>
 
         {member.photo?.url ? (

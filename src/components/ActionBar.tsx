@@ -21,6 +21,7 @@ type LayoutType = "grid" | "details" | "list";
 
 export default function ActionBar() {
   const t = useTranslations("Common");
+  const tStaff = useTranslations("Staff");
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -68,7 +69,7 @@ export default function ActionBar() {
             "text-gray-text": sortingType !== "position",
             "hover:bg-inactive/70": sortingType !== "position",
           })}
-          aria-label={t("sortByPosition")}
+          aria-label={tStaff("sortByPosition")}
         >
           <GraduationCap size="20" />
         </Button>
@@ -83,7 +84,7 @@ export default function ActionBar() {
             "text-gray-text": sortingType !== "team",
             "hover:bg-inactive/70": sortingType !== "team",
           })}
-          aria-label={t("sortByTeam")}
+          aria-label={tStaff("sortByTeam")}
         >
           <UsersRound size="20" />
         </Button>
@@ -113,7 +114,7 @@ export default function ActionBar() {
             "text-gray-text": layoutType !== "grid",
             "hover:bg-inactive/70": layoutType !== "grid",
           })}
-          aria-label={t("gridLayout")}
+          aria-label={tStaff("gridLayout")}
         >
           <LayoutGrid size="20" />
         </Button>
@@ -128,7 +129,7 @@ export default function ActionBar() {
             "text-gray-text": layoutType !== "details",
             "hover:bg-inactive/70": layoutType !== "details",
           })}
-          aria-label={t("detailsLayout")}
+          aria-label={tStaff("detailsLayout")}
         >
           <LayoutPanelTop size="20" />
         </Button>
@@ -144,7 +145,7 @@ export default function ActionBar() {
             "text-gray-text": layoutType !== "list",
             "hover:bg-inactive/70": layoutType !== "list",
           })}
-          aria-label={t("listLayout")}
+          aria-label={tStaff("listLayout")}
         >
           <List size="20" />
         </Button>

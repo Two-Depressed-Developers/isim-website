@@ -15,7 +15,7 @@ export default function SupervisorCard({ member, preloadImg }: Props) {
 
   return (
     <div className="group relative flex flex-col gap-1">
-      <div className="relative grid grid-cols-[80px_1px_1fr] grid-rows-2 items-center gap-x-6 overflow-hidden rounded-2xl bg-white p-6 shadow-md">
+      <div className="relative grid h-full grid-cols-[80px_1px_1fr] grid-rows-2 items-center gap-x-6 overflow-hidden rounded-2xl bg-white p-6 shadow-md">
         <CustomLink
           href={`/staff-members/${member.slug}`}
           isExternal={false}

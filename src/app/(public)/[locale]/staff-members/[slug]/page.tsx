@@ -1,8 +1,10 @@
 import { BreadcrumbTitleSetter } from "@/components/custom/breadcrumb/BreadcrumbTitleSetter";
 import MemberConsultations from "@/components/custom/member/MemberConsultations";
 import MemberMainInfoCard from "@/components/custom/member/MemberMainInfoCard";
+import MemberPublications from "@/components/custom/member/MemberPublications";
 import MemberSections from "@/components/custom/member/MemberSections";
 import { getMemberData } from "@/data/api/members";
+import { getDataProposals } from "@/data/api/data-proposals";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
 export async function generateMetadata({
@@ -35,6 +37,7 @@ export default async function Page({
 
   const t = await getTranslations("Staff");
   const member = await getMemberData(slug);
+  const dataProposals = await getDataProposals(member.documentId);
 
   if (member.error) {
     return <div>{t("memberNotFound")}</div>;
@@ -58,6 +61,8 @@ export default async function Page({
         </div>
 
         <MemberConsultations member={member} slug={slug} />
+
+        <MemberPublications dataProposals={dataProposals} />
 
         <MemberSections memberSections={member.sections} />
       </div>

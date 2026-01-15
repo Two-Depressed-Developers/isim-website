@@ -80,6 +80,9 @@ const MemberConsultations = ({ member, slug }: Props) => {
   const bookConsultation = useBookConsultation(slug);
   const { data: existingBookings } = useConsultationBookings(
     member.documentId,
+    {
+      enabled: (member.consultationAvailability?.length ?? 0) > 0,
+    },
   );
 
   const bookingSchema = getConsultationBookingFormSchema(tValidation);

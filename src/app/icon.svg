@@ -1,0 +1,135 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="1000" height="1000"><style>
+    #light-icon {
+      display: inline;
+    }
+    #dark-icon {
+      display: none;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      #light-icon {
+        display: none;
+      }
+      #dark-icon {
+        display: inline;
+      }
+    }
+  </style><g id="light-icon"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="1000" height="1000"><g clip-path="url(#SvgjsClipPath1203)"><rect width="1000" height="1000" fill="#ffffff"/><g transform="matrix(9.394572025052192,0,0,9.394572025052192,50.00000000000006,183.40292275574114)"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="95.8" height="67.4"><svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 95.8 67.4">
+  <!-- Generator: Adobe Illustrator 29.0.0, SVG Export Plug-In . SVG Version: 2.1.0 Build 186)  -->
+  <defs>
+    <style>
+      .st0 {
+        fill: #d8d9d9;
+      }
+
+      .st0, .st1, .st2, .st3 {
+        fill-rule: evenodd;
+      }
+
+      .st1 {
+        fill: #009de2;
+      }
+
+      .st4 {
+        stroke-width: .4px;
+      }
+
+      .st4, .st5 {
+        fill: none;
+        stroke: #1a1a18;
+        stroke-miterlimit: 22.9;
+      }
+
+      .st2 {
+        fill: #cbcbcb;
+      }
+
+      .st3 {
+        fill: #b1b1b1;
+      }
+    </style>
+  <clipPath id="SvgjsClipPath1203"><rect width="1000" height="1000" x="0" y="0" rx="150" ry="150"/></clipPath></defs>
+  <line class="st4" x1="95.8" y1="48.2" x2="87.2" y2="47"/>
+  <path class="st5" d="M4.1,4.5c21.2,8.3,45.2,15.3,60.2,13.4,7.2,10.4,17.5,22.5,24.7,29.2-20.7-5.6-46.6,1.5-60,12.9M37.1,67.3C32.7,45.4,19.5,17.5,4.3.1"/>
+  <path class="st5" d="M0,28.5c26.9-1.5,24.2-2,50.1-.7"/>
+  <polyline class="st4" points="39.7 9 49 25.3 59.1 48.2"/>
+  <path class="st2" d="M34.4,53.8c1.2,0,2.3,1,2.3,2.2s-1,2.2-2.3,2.2-2.3-1-2.3-2.2,1-2.2,2.3-2.2Z"/>
+  <path class="st4" d="M34.4,53.8c1.2,0,2.3,1,2.3,2.2s-1,2.2-2.3,2.2-2.3-1-2.3-2.2,1-2.2,2.3-2.2Z"/>
+  <path class="st3" d="M50.1,27.8l22,.6,16.8,18.7c-10-.6-19.5-2.3-30.4-.4l-8.4-18.9h0Z"/>
+  <path class="st5" d="M50.1,27.8l22,.6,16.8,18.7c-10-.6-19.5-2.3-30.4-.4l-8.4-18.9h0Z"/>
+  <path class="st1" d="M64.2,14.6c1.9,0,3.4,1.5,3.4,3.3s-1.5,3.3-3.4,3.3-3.4-1.5-3.4-3.3,1.5-3.3,3.4-3.3Z"/>
+  <path class="st4" d="M64.2,14.6c1.9,0,3.4,1.5,3.4,3.3s-1.5,3.3-3.4,3.3-3.4-1.5-3.4-3.3,1.5-3.3,3.4-3.3Z"/>
+  <path class="st0" d="M9.5,4.6c1.3,0,2.3,1,2.3,2.2s-1,2.2-2.3,2.2-2.3-1-2.3-2.2,1-2.2,2.3-2.2Z"/>
+  <path class="st4" d="M9.5,4.6c1.3,0,2.3,1,2.3,2.2s-1,2.2-2.3,2.2-2.3-1-2.3-2.2,1-2.2,2.3-2.2Z"/>
+  <path class="st2" d="M22.4,25.1c1.3,0,2.3,1,2.3,2.2s-1,2.2-2.3,2.2-2.3-1-2.3-2.2,1-2.2,2.3-2.2Z"/>
+  <path class="st4" d="M22.4,25.1c1.3,0,2.3,1,2.3,2.2s-1,2.2-2.3,2.2-2.3-1-2.3-2.2,1-2.2,2.3-2.2Z"/>
+  <line class="st5" x1="95.8" y1="48.2" x2="87.2" y2="47"/>
+  <polyline class="st5" points="39.7 9 49 25.3 59.1 48.2"/>
+  <path class="st2" d="M58.5,44.5c1.3,0,2.3,1,2.3,2.2s-1,2.2-2.3,2.2-2.3-1-2.3-2.2,1-2.2,2.3-2.2Z"/>
+  <path class="st4" d="M58.5,44.5c1.3,0,2.3,1,2.3,2.2s-1,2.2-2.3,2.2-2.3-1-2.3-2.2,1-2.2,2.3-2.2Z"/>
+  <path class="st2" d="M88.9,45c1.3,0,2.3,1,2.3,2.2s-1,2.2-2.3,2.2-2.3-1-2.3-2.2,1-2.2,2.3-2.2Z"/>
+  <path class="st4" d="M88.9,45c1.3,0,2.3,1,2.3,2.2s-1,2.2-2.3,2.2-2.3-1-2.3-2.2,1-2.2,2.3-2.2Z"/>
+  <path class="st2" d="M50.1,25.6c1.3,0,2.3,1,2.3,2.2s-1,2.2-2.3,2.2-2.3-1-2.3-2.2,1-2.2,2.3-2.2Z"/>
+  <path class="st4" d="M50.1,25.6c1.3,0,2.3,1,2.3,2.2s-1,2.2-2.3,2.2-2.3-1-2.3-2.2,1-2.2,2.3-2.2Z"/>
+  <path class="st2" d="M44.1,14.7c1.3,0,2.3,1,2.3,2.2s-1,2.2-2.3,2.2-2.3-1-2.3-2.2,1-2.2,2.3-2.2Z"/>
+  <path class="st4" d="M44.1,14.7c1.3,0,2.3,1,2.3,2.2s-1,2.2-2.3,2.2-2.3-1-2.3-2.2,1-2.2,2.3-2.2Z"/>
+</svg></svg></g></g></svg></g><g id="dark-icon"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="1000" height="1000"><g clip-path="url(#SvgjsClipPath1204)"><rect width="1000" height="1000" fill="#ffffff"/><g transform="matrix(9.394572025052192,0,0,9.394572025052192,50.00000000000006,183.40292275574114)"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="95.8" height="67.4"><svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 95.8 67.4">
+  <!-- Generator: Adobe Illustrator 29.0.0, SVG Export Plug-In . SVG Version: 2.1.0 Build 186)  -->
+  <defs>
+    <style>
+      .st0 {
+        fill: #d8d9d9;
+      }
+
+      .st0, .st1, .st2, .st3 {
+        fill-rule: evenodd;
+      }
+
+      .st1 {
+        fill: #009de2;
+      }
+
+      .st4 {
+        stroke-width: .4px;
+      }
+
+      .st4, .st5 {
+        fill: none;
+        stroke: #1a1a18;
+        stroke-miterlimit: 22.9;
+      }
+
+      .st2 {
+        fill: #cbcbcb;
+      }
+
+      .st3 {
+        fill: #b1b1b1;
+      }
+    </style>
+  <clipPath id="SvgjsClipPath1204"><rect width="1000" height="1000" x="0" y="0" rx="150" ry="150"/></clipPath></defs>
+  <line class="st4" x1="95.8" y1="48.2" x2="87.2" y2="47"/>
+  <path class="st5" d="M4.1,4.5c21.2,8.3,45.2,15.3,60.2,13.4,7.2,10.4,17.5,22.5,24.7,29.2-20.7-5.6-46.6,1.5-60,12.9M37.1,67.3C32.7,45.4,19.5,17.5,4.3.1"/>
+  <path class="st5" d="M0,28.5c26.9-1.5,24.2-2,50.1-.7"/>
+  <polyline class="st4" points="39.7 9 49 25.3 59.1 48.2"/>
+  <path class="st2" d="M34.4,53.8c1.2,0,2.3,1,2.3,2.2s-1,2.2-2.3,2.2-2.3-1-2.3-2.2,1-2.2,2.3-2.2Z"/>
+  <path class="st4" d="M34.4,53.8c1.2,0,2.3,1,2.3,2.2s-1,2.2-2.3,2.2-2.3-1-2.3-2.2,1-2.2,2.3-2.2Z"/>
+  <path class="st3" d="M50.1,27.8l22,.6,16.8,18.7c-10-.6-19.5-2.3-30.4-.4l-8.4-18.9h0Z"/>
+  <path class="st5" d="M50.1,27.8l22,.6,16.8,18.7c-10-.6-19.5-2.3-30.4-.4l-8.4-18.9h0Z"/>
+  <path class="st1" d="M64.2,14.6c1.9,0,3.4,1.5,3.4,3.3s-1.5,3.3-3.4,3.3-3.4-1.5-3.4-3.3,1.5-3.3,3.4-3.3Z"/>
+  <path class="st4" d="M64.2,14.6c1.9,0,3.4,1.5,3.4,3.3s-1.5,3.3-3.4,3.3-3.4-1.5-3.4-3.3,1.5-3.3,3.4-3.3Z"/>
+  <path class="st0" d="M9.5,4.6c1.3,0,2.3,1,2.3,2.2s-1,2.2-2.3,2.2-2.3-1-2.3-2.2,1-2.2,2.3-2.2Z"/>
+  <path class="st4" d="M9.5,4.6c1.3,0,2.3,1,2.3,2.2s-1,2.2-2.3,2.2-2.3-1-2.3-2.2,1-2.2,2.3-2.2Z"/>
+  <path class="st2" d="M22.4,25.1c1.3,0,2.3,1,2.3,2.2s-1,2.2-2.3,2.2-2.3-1-2.3-2.2,1-2.2,2.3-2.2Z"/>
+  <path class="st4" d="M22.4,25.1c1.3,0,2.3,1,2.3,2.2s-1,2.2-2.3,2.2-2.3-1-2.3-2.2,1-2.2,2.3-2.2Z"/>
+  <line class="st5" x1="95.8" y1="48.2" x2="87.2" y2="47"/>
+  <polyline class="st5" points="39.7 9 49 25.3 59.1 48.2"/>
+  <path class="st2" d="M58.5,44.5c1.3,0,2.3,1,2.3,2.2s-1,2.2-2.3,2.2-2.3-1-2.3-2.2,1-2.2,2.3-2.2Z"/>
+  <path class="st4" d="M58.5,44.5c1.3,0,2.3,1,2.3,2.2s-1,2.2-2.3,2.2-2.3-1-2.3-2.2,1-2.2,2.3-2.2Z"/>
+  <path class="st2" d="M88.9,45c1.3,0,2.3,1,2.3,2.2s-1,2.2-2.3,2.2-2.3-1-2.3-2.2,1-2.2,2.3-2.2Z"/>
+  <path class="st4" d="M88.9,45c1.3,0,2.3,1,2.3,2.2s-1,2.2-2.3,2.2-2.3-1-2.3-2.2,1-2.2,2.3-2.2Z"/>
+  <path class="st2" d="M50.1,25.6c1.3,0,2.3,1,2.3,2.2s-1,2.2-2.3,2.2-2.3-1-2.3-2.2,1-2.2,2.3-2.2Z"/>
+  <path class="st4" d="M50.1,25.6c1.3,0,2.3,1,2.3,2.2s-1,2.2-2.3,2.2-2.3-1-2.3-2.2,1-2.2,2.3-2.2Z"/>
+  <path class="st2" d="M44.1,14.7c1.3,0,2.3,1,2.3,2.2s-1,2.2-2.3,2.2-2.3-1-2.3-2.2,1-2.2,2.3-2.2Z"/>
+  <path class="st4" d="M44.1,14.7c1.3,0,2.3,1,2.3,2.2s-1,2.2-2.3,2.2-2.3-1-2.3-2.2,1-2.2,2.3-2.2Z"/>
+</svg></svg></g></g></svg></g></svg>

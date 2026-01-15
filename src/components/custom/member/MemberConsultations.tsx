@@ -78,7 +78,7 @@ const MemberConsultations = ({ member, slug }: Props) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const bookConsultation = useBookConsultation(slug);
-  const { data: existingBookings = [] } = useConsultationBookings(
+  const { data: existingBookings } = useConsultationBookings(
     member.documentId,
   );
 

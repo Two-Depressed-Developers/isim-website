@@ -1,26 +1,24 @@
-"use client";
+import { getTranslations } from "next-intl/server";
+import ClassroomsContent from "./classrooms-content";
+import { QueryWrapper } from "@/components/QueryWrapper";
 
-import { ClassroomResourcesTable } from "@/components/custom/classrooms/ClassroomResourcesTable";
-import PageTitle from "@/components/PageTitle";
-import { useClassroomResources } from "@/data/queries/use-classrooms";
-import { useTranslations } from "next-intl";
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Classrooms" });
 
-export default function ClassesPage() {
-  const t = useTranslations("Classrooms");
-  const { data: classrooms, isPending, isError } = useClassroomResources();
+  return {
+    title: t("title"),
+  };
+}
 
-  if (isPending) {
-    return <div>{t("loading")}</div>;
-  }
-
-  if (isError) {
-    return <div>{t("error")}</div>;
-  }
-
+export default function ClassroomsPage() {
   return (
-    <div className="mx-auto flex w-full max-w-7xl flex-col space-y-8 px-2 py-8">
-      <PageTitle title={t("title")} />
-      <ClassroomResourcesTable classrooms={classrooms || []} />
-    </div>
+    <QueryWrapper>
+      <ClassroomsContent />
+    </QueryWrapper>
   );
 }

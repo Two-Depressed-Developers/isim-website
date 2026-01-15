@@ -2,6 +2,19 @@ import { TicketForm } from "@/components/custom/helpdesk/TicketForm";
 import PageTitle from "@/components/PageTitle";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Helpdesk" });
+
+  return {
+    title: t("title"),
+  };
+}
+
 export default async function HelpdeskPage({
   params,
 }: {

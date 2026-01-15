@@ -1,5 +1,6 @@
 import { ScrapedDataItem } from "@/types";
 import { BookOpen } from "lucide-react";
+import Link from "next/link";
 
 type Props = {
   item: ScrapedDataItem;
@@ -17,7 +18,7 @@ export default function ScrapedDataTile({ item }: Props) {
   };
 
   return (
-    <a
+    <Link
       href={link.URL}
       target="_blank"
       rel="noopener noreferrer"
@@ -36,6 +37,6 @@ export default function ScrapedDataTile({ item }: Props) {
           </p>
         </div>
       </div>
-    </a>
+    </Link>
   );
 }

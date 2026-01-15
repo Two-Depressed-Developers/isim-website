@@ -6,7 +6,6 @@ import { getGroupsData } from "@/data/api/groups";
 import { useGroupsData } from "@/data/queries/use-groups";
 import { queryKeys } from "@/data/query-keys";
 import { usePrefetchLocales } from "@/hooks/use-prefetch-locales";
-import { Loader2 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 
 function ResearchGroupsList() {

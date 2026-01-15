@@ -108,6 +108,10 @@ export const HARDCODED_DATA: Record<
       error: false,
       copyrightText:
         "Wszystkie prawa zastrzeżone © {currentYear} Akademia Górniczo-Hutnicza ",
+      navigation: {
+        title: "Przydatne Linki",
+        pages: [],
+      },
       universityLogo: {
         id: 53,
         alt: "Akademia Górniczo Hutnicza AGH Logo",
@@ -259,6 +263,10 @@ export const HARDCODED_DATA: Record<
       error: false,
       copyrightText:
         "All rights reserved © {currentYear} Akademia Górniczo-Hutnicza ",
+      navigation: {
+        title: "Useful Links",
+        pages: [],
+      },
       universityLogo: {
         id: 50,
         alt: "Akademia Górniczo Hutnicza AGH Logo",

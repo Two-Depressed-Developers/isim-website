@@ -50,7 +50,11 @@ describe('layoutLoaders', () => {
 
   describe('getFooterData', () => {
     it('should return API data when fetch is successful', async () => {
-      const mockFooterData = { universityLogo: { url: '/uni.png' }, sections: [] };
+      const mockFooterData = {
+        universityLogo: { url: "/uni.png" },
+        sections: [],
+        navigation: { title: "Nav", pages: [] },
+      };
       vi.mocked(fetchData).mockResolvedValueOnce({ footer: mockFooterData });
 
       const result = await getFooterData('pl');

@@ -6,6 +6,7 @@ import {
 } from "../api/consultations";
 import { queryKeys } from "../query-keys";
 import {
+  createQueryHookWithParams,
   createSuspenseQueryHookWithParams,
   createMutationHookWithInvalidation,
 } from "./types";
@@ -23,7 +24,7 @@ export const useVerifyConsultationBooking = createSuspenseQueryHookWithParams(
   () => ({ retry: false }),
 );
 
-export const useConsultationBookings = createSuspenseQueryHookWithParams(
+export const useConsultationBookings = createQueryHookWithParams(
   (memberDocumentId: string) =>
     queryKeys.consultations.bookings(memberDocumentId),
   getMemberConsultationBookings,

@@ -4,19 +4,22 @@ import CustomLink from "@/components/CustomLink";
 
 type Props = {
   group: ComponentHomepageGroupItem;
+  preloadImg: boolean;
 };
 
-export default function StudentGroupCard({ group }: Props) {
+export default function StudentGroupCard({ group, preloadImg }: Props) {
   const content = (
     <div className="group flex h-full items-center gap-6 overflow-hidden rounded-2xl bg-white p-6 shadow-md transition-transform hover:scale-[1.02]">
       {group.image?.url && (
         <div className="flex h-full w-36 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-gray-50 p-4 md:w-50">
           <StrapiImage
-            src={group.image.url}
+            imageLink={group.image.url}
             alt={group.image.alternativeText || group.name}
             width={160}
             height={80}
-            className="h-full w-full object-contain"
+            preload={preloadImg}
+            loading={!preloadImg ? "lazy" : "eager"}
+            className="h-auto max-h-full w-full object-contain"
           />
         </div>
       )}

@@ -44,9 +44,9 @@ export default function ResearchGroupTile({
     <div className="group border-l-primary/60 bg-card hover:from-primary/5 relative block rounded-lg border border-l-4 p-6 transition hover:bg-gradient-to-r hover:to-transparent">
       <div className="flex items-start justify-between gap-6">
         <div className="space-y-1">
-          <h3 className="text-xl leading-snug font-semibold transition-colors">
+          <h2 className="text-xl leading-snug font-semibold transition-colors">
             {group.name}
-          </h3>
+          </h2>
 
           {group.supervisor && (
             <p className="text-muted-foreground text-sm font-semibold">

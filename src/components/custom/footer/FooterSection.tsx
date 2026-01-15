@@ -2,8 +2,7 @@ import { StrapiImage } from "@/components/StrapiImage";
 import { SimpleSection } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
+import { MarkdownRenderer } from "../MarkdownRenderer";
 
 type Props = {
   section: SimpleSection;
@@ -11,15 +10,11 @@ type Props = {
 
 const FooterSection = ({ section }: Props) => {
   return (
-    <div className="text-gray-text flex flex-col space-y-2">
+    <div className="text-gray-text flex h-full flex-col space-y-2">
       {section.title && <h4 className="text-lg font-bold">{section.title}</h4>}
-      {section.text && (
-        <ReactMarkdown remarkPlugins={[remarkGfm]} className="text-sm">
-          {section.text}
-        </ReactMarkdown>
-      )}
+      {section.text && <MarkdownRenderer content={section.text} />}
       {section.images && section.images.length > 0 && (
-        <div className="flex space-x-2">
+        <div className="flex justify-center space-x-2 sm:justify-start">
           {section.images.map((image) => (
             <Link
               key={image.id}
@@ -36,7 +31,7 @@ const FooterSection = ({ section }: Props) => {
                 />
               ) : (
                 <StrapiImage
-                  src={image.image.url}
+                  imageLink={image.image.url}
                   alt={image.alt}
                   width={24}
                   height={24}

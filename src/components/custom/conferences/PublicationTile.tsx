@@ -86,7 +86,7 @@ export default function PublicationTile({
       {image?.url ? (
         <div className="relative h-48 overflow-hidden">
           <StrapiImage
-            src={image.url}
+            imageLink={image.url}
             alt={item.title}
             width={600}
             height={300}

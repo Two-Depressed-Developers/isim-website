@@ -36,10 +36,6 @@ export const queryKeys = {
   journals: {
     all: (locale: string) => ["journals", locale] as const,
   },
-  homepage: {
-    data: ["homepage"] as const,
-    schema: ["homepage-schema"] as const,
-  },
   classrooms: {
     all: ["classrooms"] as const,
   },

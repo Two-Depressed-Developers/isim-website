@@ -7,26 +7,35 @@ import { useTranslations } from "next-intl";
 
 type Props = {
   member: Member;
+  preloadImg: boolean;
 };
 
-export default function SupervisorCard({ member }: Props) {
+export default function SupervisorCard({ member, preloadImg }: Props) {
   const t = useTranslations("HomePage.supervisor");
 
   return (
-    <CustomLink
-      href={`/staff-members/${member.slug}`}
-      isExternal={false}
-      className="flex flex-col gap-1"
-    >
-      <div className="grid grid-cols-[80px_1px_1fr] grid-rows-2 items-center gap-x-6 rounded-2xl bg-white p-6 shadow-md">
+    <div className="group relative flex flex-col gap-1">
+      <div className="relative grid h-full grid-cols-[80px_1px_1fr] grid-rows-2 items-center gap-x-6 overflow-hidden rounded-2xl bg-white p-6 shadow-md">
+        <CustomLink
+          href={`/staff-members/${member.slug}`}
+          isExternal={false}
+          className="absolute inset-0 z-10"
+          aria-label={`${t("viewProfileOf")} ${member.fullName}`}
+        >
+          <span className="sr-only">{t("viewProfile")}</span>
+        </CustomLink>
+
         {member.photo?.url ? (
           <div className="h-20 w-20 shrink-0 overflow-hidden rounded-full shadow-xs">
             <StrapiImage
-              src={member.photo.url}
-              className="h-full w-full object-cover"
+              imageLink={member.photo.url}
               alt={member.photo.alternativeText || t("photoAlt")}
               width={80}
               height={80}
+              preload={preloadImg}
+              sizes="80px"
+              loading={!preloadImg ? "lazy" : "eager"}
+              className="object-cover"
             />
           </div>
         ) : (
@@ -47,11 +56,12 @@ export default function SupervisorCard({ member }: Props) {
           )}
         </div>
         <div />
-        <div className="space-y-1">
+
+        <div className="relative z-20 space-y-1">
           {member.phone && <ContactLink type="phone" value={member.phone} />}
           {member.email && <ContactLink type="mail" value={member.email} />}
         </div>
       </div>
-    </CustomLink>
+    </div>
   );
 }

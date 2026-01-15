@@ -9,7 +9,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/calendar",
     "/classrooms",
     "/conferences",
-    "/consultations",
     "/contact",
     "/courses",
     "/helpdesk",

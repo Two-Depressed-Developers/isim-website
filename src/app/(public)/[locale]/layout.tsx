@@ -3,12 +3,65 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { BreadcrumbsProvider } from "@/context/BreadcrumbsContext";
 import { routing } from "@/i18n/routing";
+import { PublicEnvScript } from "@ryankshaw/next-runtime-env";
 import { hasLocale } from "next-intl";
-import { getMessages, setRequestLocale } from "next-intl/server";
+import {
+  getMessages,
+  getTranslations,
+  setRequestLocale,
+} from "next-intl/server";
+import { K2D } from "next/font/google";
 import { notFound } from "next/navigation";
+import "../../globals.css";
+import { Providers } from "../../providers";
 import { LocaleProviders } from "./providers";
 
+const k2d = K2D({
+  weight: ["400", "500", "600"],
+  subsets: ["latin"],
+});
+
 export const revalidate = 3600; // 1 hour
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Metadata" });
+
+  return {
+    metadataBase: new URL(
+      process.env.NEXT_PUBLIC_URL || "https://isim.agh.edu.pl",
+    ),
+    title: {
+      default: t("defaultTitle"),
+      template: t("titleTemplate"),
+    },
+    description: t("description"),
+    openGraph: {
+      title: {
+        default: t("defaultTitle"),
+        template: t("titleTemplate"),
+      },
+      description: t("description"),
+      type: "website",
+      locale: locale,
+      siteName: "ISiM",
+      images: [{ url: "/images/logo.png", alt: "ISiM Logo" }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: {
+        default: t("defaultTitle"),
+        template: t("titleTemplate"),
+      },
+      description: t("description"),
+      images: ["/images/logo.png"],
+    },
+  };
+}
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -31,15 +84,26 @@ export default async function PublicLayout({ children, params }: Props) {
   const messages = await getMessages();
 
   return (
-    <LocaleProviders locale={locale} messages={messages}>
-      <Header />
-      <main className="flex grow flex-col">
-        <BreadcrumbsProvider>
-          <BreadcrumbsDataLoader />
-          {children}
-        </BreadcrumbsProvider>
-      </main>
-      <Footer />
-    </LocaleProviders>
+    <html lang={locale}>
+      <head>
+        <PublicEnvScript />
+      </head>
+      <body
+        className={`${k2d.className} bg-background flex min-h-screen flex-col antialiased`}
+      >
+        <Providers>
+          <LocaleProviders locale={locale} messages={messages}>
+            <Header />
+            <main className="flex grow flex-col">
+              <BreadcrumbsProvider>
+                <BreadcrumbsDataLoader />
+                {children}
+              </BreadcrumbsProvider>
+            </main>
+            <Footer />
+          </LocaleProviders>
+        </Providers>
+      </body>
+    </html>
   );
 }

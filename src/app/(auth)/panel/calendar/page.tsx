@@ -35,9 +35,7 @@ function CalendarContent({ memberSlug }: { memberSlug: string }) {
 
   const { data: memberData } = useMemberData(memberSlug);
 
-  const { data: bookings = [] } = useConsultationBookings(
-    memberData.documentId,
-  );
+  const { data: bookings } = useConsultationBookings(memberData.documentId);
 
   const { data: globalEvents = [] } = useCalendarEvents(DEFAULT_LOCALE);
 

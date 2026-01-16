@@ -7,6 +7,26 @@ import { getMemberData } from "@/data/api/members";
 import { getDataProposals } from "@/data/api/data-proposals";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string; locale: string }>;
+}) {
+  const { slug, locale } = await params;
+  const member = await getMemberData(slug);
+  
+  if (member.error) {
+    const t = await getTranslations({ locale, namespace: "Staff" });
+    return {
+      title: t("memberNotFound"),
+    };
+  }
+
+  return {
+    title: member.fullName,
+  };
+}
+
 export default async function Page({
   params,
 }: {

@@ -1,17 +1,16 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "../query-keys";
 import {
   getClassroomResources,
   uploadClassroomResources,
 } from "../api/classrooms";
 import { ClassroomResource } from "@/types";
+import { createSuspenseQueryHook } from "./types";
 
-export function useClassroomResources() {
-  return useQuery({
-    queryKey: queryKeys.classrooms.all,
-    queryFn: getClassroomResources,
-  });
-}
+export const useClassroomResources = createSuspenseQueryHook(
+  queryKeys.classrooms.all,
+  getClassroomResources,
+);
 
 export function useUploadClassroomResources() {
   const queryClient = useQueryClient();

@@ -1,6 +1,8 @@
 {
   "Metadata": {
-    "title": "ISiM - Home Page"
+    "defaultTitle": "ISiM - Department of Applied Computer Science and Modelling",
+    "titleTemplate": "%s - ISiM",
+    "description": "Portal of the Department of Applied Computer Science and Modelling AGH"
   },
   "Breadcrumbs": {
     "home": "Home"
@@ -170,6 +172,7 @@
     "toggle": "Toggle menu"
   },
   "Calendar": {
+    "title": "Calendar",
     "loading": "Loading...",
     "error": "Error loading calendar events.",
     "settings": "Calendar settings",

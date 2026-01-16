@@ -89,11 +89,7 @@ function ConsultationBookingsContent({
   memberRoom,
   session,
 }: ContentProps) {
-  const {
-    data: bookings = [],
-    isPending: isBookingsPending,
-    isError: isBookingsError,
-  } = useConsultationBookings(memberDocumentId);
+  const { data: bookings } = useConsultationBookings(memberDocumentId);
 
   const updateStatus = useUpdateConsultationBookingStatus(memberDocumentId);
 
@@ -103,24 +99,6 @@ function ConsultationBookingsContent({
     () => bookings.filter((booking) => booking.reservationStatus === "pending"),
     [bookings],
   );
-
-  if (isBookingsPending) {
-    return (
-      <div className="flex items-center justify-center py-12">
-        <Loader2 className="text-primary h-8 w-8 animate-spin" />
-      </div>
-    );
-  }
-
-  if (isBookingsError) {
-    return (
-      <div className="flex items-center justify-center py-12">
-        <p className="text-muted-foreground">
-          Wystąpił błąd podczas ładowania próśb o konsultacje.
-        </p>
-      </div>
-    );
-  }
 
   const handleStatusUpdate = async (
     booking: ConsultationBooking,

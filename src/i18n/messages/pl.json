@@ -1,6 +1,8 @@
 {
   "Metadata": {
-    "title": "ISiM - Strona główna"
+    "defaultTitle": "ISiM - Katedra Informatyki Stosowanej i Modelowania",
+    "titleTemplate": "%s - ISiM",
+    "description": "Portal Katedry Informatyki Stosowanej i Modelowania AGH"
   },
   "Breadcrumbs": {
     "home": "Strona główna"
@@ -169,6 +171,7 @@
     "toggle": "Przełącz menu"
   },
   "Calendar": {
+    "title": "Kalendarz",
     "loading": "Ładowanie...",
     "error": "Błąd ładowania wydarzeń kalendarza.",
     "settings": "Ustawienia kalendarza",

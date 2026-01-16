@@ -2,13 +2,11 @@
 
 import { useMemo } from "react";
 import { useSearchParams } from "next/navigation";
-import { Loader2 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 
 import Group from "@/components/Group";
 import ActionBar from "@/components/ActionBar";
 import PageTitle from "@/components/PageTitle";
-import { QueryWrapper } from "@/components/QueryWrapper";
 
 import { useGroupsData } from "@/data/queries/use-groups";
 import { useDebounce } from "@/lib/hooks";
@@ -138,15 +136,7 @@ export default function StaffContent() {
     <div className="mx-auto flex w-full max-w-7xl flex-col space-y-8 p-8">
       <PageTitle title={t("title")} />
       <ActionBar />
-      <QueryWrapper
-        loadingFallback={
-          <div className="mx-auto flex max-w-7xl flex-col items-center justify-center p-8">
-            <Loader2 className="text-primary h-8 w-8 animate-spin" />
-          </div>
-        }
-      >
-        <StaffList />
-      </QueryWrapper>
+      <StaffList />
     </div>
   );
 }

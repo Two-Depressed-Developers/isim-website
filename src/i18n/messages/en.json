@@ -305,6 +305,8 @@
   },
   "Accessibility": {
     "metaTitle": "Accessibility Statement",
+    "label": "Accessibility",
+    "description": "Information about website accessibility for people with disabilities",
     "lastUpdated": "Last updated:",
     "statusHeader": "Compliance Status",
     "preparedOn": "Statement prepared on",

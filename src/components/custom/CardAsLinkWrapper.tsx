@@ -3,6 +3,7 @@ import { PropsWithChildren } from "react";
 import CustomLink from "../CustomLink";
 import { ArrowUpRight } from "lucide-react";
 import { Card } from "../ui/card";
+import { cn } from "@/lib/utils";
 
 type Props = {
   link?: SimpleLink;
@@ -19,7 +20,10 @@ export default function CardAsLinkWrapper({
       <CustomLink
         href={link.URL}
         isExternal={link.isExternal ?? false}
-        className={className}
+        className={cn(
+          "group border-gray-accent bg-card relative border",
+          className,
+        )}
       >
         <ArrowUpRight className="group-hover:text-primary absolute top-4 right-4 h-5 w-5 text-gray-400 transition-colors" />
 

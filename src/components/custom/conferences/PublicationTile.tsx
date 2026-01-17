@@ -12,6 +12,7 @@ import { format, parseISO, isSameDay, Locale } from "date-fns";
 import { pl, enUS } from "date-fns/locale";
 import CustomLink from "@/components/CustomLink";
 import { useLocale, useTranslations } from "next-intl";
+import CardAsLinkWrapper from "../CardAsLinkWrapper";
 
 type Props = {
   variant?: "default" | "compact";
@@ -48,36 +49,44 @@ export default function PublicationTile({
 
   if (variant === "compact") {
     return (
-      <div className="group bg-card flex items-center gap-4 rounded-xl p-4 shadow-sm transition-all hover:shadow-md">
-        <div className="bg-muted text-muted-foreground flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-lg">
+      <CardAsLinkWrapper
+        link={link}
+        className="hover:border-primary/50 flex items-center gap-4 p-6 transition-all"
+      >
+        <div className="bg-second-background text-primary border-gray-accent grid aspect-square min-w-16 place-content-center border p-2 text-center">
           {isConf ? (
             <>
-              <span className="text-xs font-medium">
-                {format(parseISO(item.startDate), "MMM", {
-                  locale: dateFnsLocale,
-                })}
-              </span>
-              <span className="text-lg leading-none font-bold">
-                {format(parseISO(item.startDate), "d", {
-                  locale: dateFnsLocale,
-                })}
-              </span>
+              {image?.url ? (
+                <StrapiImage
+                  imageLink={image.url}
+                  alt={item.title}
+                  width={48}
+                  height={48}
+                  className="h-12 w-12 object-contain"
+                />
+              ) : (
+                <CalendarDays size={32} />
+              )}
             </>
           ) : (
-            <BookOpen className="h-6 w-6" />
+            <BookOpen size={32} />
           )}
         </div>
-        <div className="min-w-0 flex-1">
-          <h3 className="group-hover:text-primary text-foreground truncate font-semibold">
+        <div className="flex h-full min-w-0 flex-col justify-between gap-2">
+          <h3 className="group-hover:text-primary truncate text-lg font-semibold">
             {item.title}
           </h3>
-          {isConf && (
-            <p className="text-muted-foreground text-sm">
+          {isConf ? (
+            <p className="text-xs text-gray-500">
               {formatDateRange(dateFnsLocale, item.startDate, item.endDate)}
+            </p>
+          ) : (
+            <p className="line-clamp-2 text-xs text-gray-500">
+              {item.description ?? ""}
             </p>
           )}
         </div>
-      </div>
+      </CardAsLinkWrapper>
     );
   }
 

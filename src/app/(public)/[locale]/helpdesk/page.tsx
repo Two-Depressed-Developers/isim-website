@@ -26,7 +26,11 @@ export default async function HelpdeskPage({
 
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col space-y-8 px-2 py-8">
-      <PageTitle title={t("title")} description={t("subtitle")} />
+      <PageTitle
+        title={t("title")}
+        description={t("subtitle")}
+        label={t("label")}
+      />
 
       <div className="flex justify-center">
         <TicketForm />

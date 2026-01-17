@@ -125,8 +125,9 @@
     "description": "Discover our study programs offered by the Department of Applied Computer Science and Modelling AGH and start your journey towards a career in the IT industry."
   },
   "Helpdesk": {
-    "title": "Tickets",
+    "title": "New ticket",
     "subtitle": "Report a problem with a laboratory or equipment. We will try to solve it as soon as possible.",
+    "label": "Support",
     "back": "Back to home page",
     "create": "Create new ticket"
   },

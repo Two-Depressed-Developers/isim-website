@@ -74,7 +74,9 @@ export function CalendarWeekView({ singleDayEvents, multiDayEvents }: IProps) {
                 >
                   {/* Mobile: Show only day abbreviation and number */}
                   <span className="block sm:hidden">
-                    {formatDateTime.dateTime(day, { weekday: "short" }).charAt(0)}
+                    {formatDateTime
+                      .dateTime(day, { weekday: "short" })
+                      .charAt(0)}
                     <span className="text-t-secondary block text-xs font-semibold">
                       {formatDateTime.dateTime(day, { day: "numeric" })}
                     </span>

@@ -1,18 +1,21 @@
 import IconWithBackground from "@/components/custom/IconWithBackground";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
+import { LucideIcon } from "lucide-react";
+import { PropsWithChildren } from "react";
+
+type Props = {
+  icon: LucideIcon;
+  title: string;
+  gray?: boolean;
+};
 
 export const AccessibilitySection = ({
   icon: Icon,
   title,
   children,
   gray = false,
-}: {
-  icon: any;
-  title: string;
-  children: React.ReactNode;
-  gray?: boolean;
-}) => (
+}: PropsWithChildren<Props>) => (
   <div
     className={cn(
       "border-gray-accent border-b py-16",

@@ -47,31 +47,29 @@ export default async function Page({
   }
 
   return (
-    <div className="w-screen">
-      <div className="mx-auto max-w-7xl px-4 pt-4 pb-8">
-        <Link
-          href="/staff"
-          className="hover:text-primary mb-8 inline-flex items-center gap-2 text-sm text-slate-600 transition-colors"
-        >
-          <ArrowLeft size="16" />
-          {t("backToDirectory")}
-        </Link>
-        <BreadcrumbTitleSetter title={member.fullName} />
-        <PageTitle
-          title={member.fullName}
-          description={member.title}
-          label={member.position}
-        />
-        <div className="flex flex-col gap-8 pb-8 md:flex-row">
-          <div className="w-full shrink-0 md:w-[320px]">
-            <MemberMainInfoCard member={member} />
-          </div>
+    <div className="mx-auto w-full max-w-7xl px-4 pt-4 pb-8">
+      <Link
+        href="/staff"
+        className="hover:text-primary mb-8 inline-flex items-center gap-2 text-sm text-slate-600 transition-colors"
+      >
+        <ArrowLeft size="16" />
+        {t("backToDirectory")}
+      </Link>
+      <BreadcrumbTitleSetter title={member.fullName} />
+      <PageTitle
+        title={member.fullName}
+        description={member.title}
+        label={member.position}
+      />
+      <div className="flex flex-col gap-8 pb-8 md:flex-row">
+        <div className="w-full shrink-0 md:w-[320px]">
+          <MemberMainInfoCard member={member} />
+        </div>
 
-          <div className="flex w-full min-w-0 flex-1 flex-col gap-y-4">
-            <StaffConsultations member={member} slug={slug} />
-            <StaffPublications dataProposals={dataProposals} />
-            <MemberSections memberSections={member.sections} />
-          </div>
+        <div className="flex w-full min-w-0 flex-1 flex-col gap-y-4">
+          <StaffConsultations member={member} slug={slug} />
+          <StaffPublications dataProposals={dataProposals} />
+          <MemberSections memberSections={member.sections} />
         </div>
       </div>
     </div>

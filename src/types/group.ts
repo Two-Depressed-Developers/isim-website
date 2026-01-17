@@ -13,6 +13,7 @@ export type Group = {
   keywords?: string;
   supervisor?: MemberData;
   members?: MemberData[];
+  reseachGroup: boolean;
   updatedAt?: string;
   createdAt?: string;
   publishedAt?: string;

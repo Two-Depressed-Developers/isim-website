@@ -6,3 +6,9 @@ export const useGroupsData = createSuspenseQueryHookWithParams(
   queryKeys.groups.all,
   getGroupsData,
 );
+
+export const useResearchGroupsData = createSuspenseQueryHookWithParams(
+  (locale: string, onlyResearch: boolean) =>
+    queryKeys.groups.researchGroups(locale, onlyResearch),
+  getGroupsData,
+);

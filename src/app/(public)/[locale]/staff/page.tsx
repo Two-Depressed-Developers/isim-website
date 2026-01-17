@@ -3,6 +3,7 @@ import StaffContent from "./staff-content";
 import { QueryWrapper } from "@/components/QueryWrapper";
 import PageTitle from "@/components/PageTitle";
 import ActionBar from "@/components/ActionBar";
+import { Suspense } from "react";
 
 export async function generateMetadata({
   params,
@@ -32,8 +33,8 @@ export default async function StaffPage({
         label={t("label")}
         description={t("description")}
       />
-      <ActionBar />
       <QueryWrapper>
+        <ActionBar />
         <StaffContent />
       </QueryWrapper>
     </div>

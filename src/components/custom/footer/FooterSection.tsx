@@ -11,7 +11,7 @@ type Props = {
 const FooterSection = ({ section }: Props) => {
   return (
     <div className="flex h-full flex-col space-y-2 text-white/75">
-      {section.title && <h4 className="text-lg font-bold">{section.title}</h4>}
+      {section.title && <p className="text-lg font-bold">{section.title}</p>}
       {section.text && (
         <MarkdownRenderer
           content={section.text}

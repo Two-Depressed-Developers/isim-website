@@ -92,7 +92,7 @@ export function DayCell({ cell, events, eventPositions }: IProps) {
               <EventBullet className="lg:hidden" color={event.color} />
             )}
             <MonthEventBadge
-              className="hidden lg:flex"
+              className="hidden rounded-none lg:flex"
               event={event}
               cellDate={startOfDay(date)}
             />
@@ -126,7 +126,7 @@ export function DayCell({ cell, events, eventPositions }: IProps) {
               "h-6 px-1 text-xs font-semibold lg:px-2",
               !currentMonth && "opacity-60",
               isToday(date) &&
-                "bg-primary text-primary-foreground flex w-6 translate-x-1 items-center justify-center rounded-full px-0 font-bold",
+                "bg-primary text-primary-foreground flex w-6 translate-x-1 items-center justify-center rounded-none px-0 font-bold",
             )}
           >
             {day}

@@ -93,6 +93,7 @@ export function DateNavigator({ view, events }: IProps) {
           <MotionBadge
             key={eventCount}
             variant="secondary"
+            className="rounded-none"
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.8, opacity: 0 }}

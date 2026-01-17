@@ -183,6 +183,8 @@
   },
   "Calendar": {
     "title": "Kalendarz",
+    "label": "Centrum wydarzeń",
+    "description": "Sprawdź nadchodzące wydarzenia i ważne daty",
     "loading": "Ładowanie...",
     "error": "Błąd ładowania wydarzeń kalendarza.",
     "settings": "Ustawienia kalendarza",

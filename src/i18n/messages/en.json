@@ -184,6 +184,8 @@
   },
   "Calendar": {
     "title": "Calendar",
+    "label": "Event Hub",
+    "description": "Check out upcoming events and important dates",
     "loading": "Loading...",
     "error": "Error loading calendar events.",
     "settings": "Calendar settings",

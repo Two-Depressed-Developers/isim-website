@@ -17,7 +17,7 @@ export function Calendar({ events, users, readOnly = true }: Props) {
       view="month"
       readOnly={readOnly}
     >
-      <div className="w-full rounded-xl border">
+      <div className="border-gray-accent w-full border">
         <CalendarHeader />
         <CalendarBody />
       </div>

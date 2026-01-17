@@ -245,6 +245,8 @@
   },
   "Classrooms": {
     "title": "Sale i zasoby",
+    "label": "Zasoby edukacyjne",
+    "description": "Sprawdź dostępność sal i zasobów w Katedrze Informatyki Stosowanej i Modelowania AGH.",
     "loading": "Ładowanie danych o salach...",
     "error": "Nie udało się załadować danych o salach.",
     "noData": "Brak dostępnych danych o salach.",

@@ -46,7 +46,9 @@ export function QueryWrapper({
       {({ reset }) => (
         <ErrorBoundary
           onReset={reset}
-          fallbackRender={errorFallback || DefaultErrorFallback}
+          fallbackRender={
+            errorFallback || ((props) => <DefaultErrorFallback {...props} />)
+          }
         >
           <Suspense fallback={loadingFallback || <DefaultLoadingFallback />}>
             {children}

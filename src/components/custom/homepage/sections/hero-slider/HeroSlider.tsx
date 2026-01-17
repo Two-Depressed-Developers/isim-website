@@ -1,7 +1,6 @@
 import { ComponentHomepageHeroSlider } from "@/types";
 import { StrapiImage } from "@/components/StrapiImage";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import CustomLink from "@/components/CustomLink";

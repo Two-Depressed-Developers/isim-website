@@ -1,12 +1,7 @@
 import { Course } from "@/types";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
-import {
-  ArrowUpRight,
-  Calendar,
-  ExternalLink,
-  GraduationCap,
-} from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import CustomLink from "@/components/CustomLink";
 import { useTranslations } from "next-intl";
 import { StrapiImage } from "@/components/StrapiImage";
@@ -23,7 +18,6 @@ export default function CourseTile({
   variant = "default",
 }: Props) {
   const t = useTranslations("Courses");
-  const isFirstDegree = course.degreeType === "I stopień";
 
   if (variant === "compact") {
     return (
@@ -57,8 +51,8 @@ export default function CourseTile({
           </div>
           <div className="flex justify-end">
             <CustomLink
-              href={course.syllabusLink?.URL || "#"}
-              isExternal={course.syllabusLink?.isExternal || false}
+              href={course.syllabusLink?.URL ?? "#"}
+              isExternal={course.syllabusLink?.isExternal ?? false}
               className="text-primary flex items-center gap-x-1 text-base font-semibold underline-offset-4 hover:underline"
             >
               {t("syllabus")}

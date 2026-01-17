@@ -17,7 +17,7 @@ export default function HeaderLogo({ headerData }: Props) {
           width={90}
           height={45}
           className="h-12 w-24"
-          preload={true}
+          preload
         />
       ) : (
         <StrapiImage
@@ -26,7 +26,7 @@ export default function HeaderLogo({ headerData }: Props) {
           width={90}
           height={45}
           className="h-12 w-24"
-          preload={true}
+          preload
         />
       )}
       {(headerData.title || headerData.subtitle) && (

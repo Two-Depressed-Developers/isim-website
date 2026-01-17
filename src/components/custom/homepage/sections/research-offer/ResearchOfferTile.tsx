@@ -1,8 +1,5 @@
-"use client";
-
-import { useState, useEffect } from "react";
 import OfferSectionTile from "@/components/custom/offer/OfferSectionTile";
-import { ResearchOffer, OfferSection } from "@/types";
+import { ResearchOffer } from "@/types";
 import { LucideIcon } from "lucide-react";
 
 type Props = {
@@ -11,20 +8,13 @@ type Props = {
 };
 
 export default function ResearchOfferTile({ offer, icons }: Props) {
-  const [randomSections, setRandomSections] = useState<OfferSection[]>([]);
+  const displaySections = (offer.offerSections ?? []).slice(0, 2);
 
-  useEffect(() => {
-    const shuffled = [...(offer.offerSections ?? [])]
-      .sort(() => 0.5 - Math.random())
-      .slice(0, 2);
-    setRandomSections(shuffled);
-  }, [offer.offerSections]);
-
-  if (randomSections.length === 0) return null;
+  if (displaySections.length === 0) return null;
 
   return (
     <div className="flex flex-col gap-8">
-      {randomSections.map((section, idx) => (
+      {displaySections.map((section, idx) => (
         <OfferSectionTile
           key={`${offer.id}_section_${section.id}`}
           section={section}

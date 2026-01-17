@@ -1,5 +1,6 @@
 import { OfferSection } from "@/types";
-import { CheckCircle, Lightbulb, LucideIcon } from "lucide-react";
+import { CheckCircle, LucideIcon } from "lucide-react";
+import { useMemo } from "react";
 
 type Props = {
   section: OfferSection;
@@ -13,13 +14,11 @@ export default function OfferSectionTile({
   icon: Icon,
 }: Props) {
   if (variant === "compact") {
-    const randomFeatures = [...(section.features ?? [])]
-      .sort(() => 0.5 - Math.random())
-      .slice(0, 3);
+    const displayFeatures = (section.features ?? []).slice(0, 3);
 
     return (
       <div className="group hover:border-primary/50 border-gray-accent flex gap-6 border bg-white p-6 transition-all">
-        <div className="bg-second-background border-gray-accent flex h-10 w-10 min-w-10 items-center justify-center border">
+        <div className="bg-second-background border-gray-accent flex aspect-square h-10 w-10 items-center justify-center border">
           {Icon ? <Icon className="text-primary h-6 w-6 shrink-0" /> : null}
         </div>
         <div>
@@ -28,7 +27,7 @@ export default function OfferSectionTile({
           </h3>
           <div className="text-xs text-gray-500">
             <ul className="space-y-2">
-              {randomFeatures.map((feature) => (
+              {displayFeatures.map((feature) => (
                 <li key={feature.id} className="flex items-start gap-2">
                   <span className="bg-primary my-auto h-1 w-1 shrink-0 rounded-full" />
 

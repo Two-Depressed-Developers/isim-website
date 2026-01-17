@@ -15,6 +15,7 @@ import React from "react";
 import type { Breadcumb } from "./Beadcrumb.types";
 import { Link, usePathname } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
+import { ChevronRight } from "lucide-react";
 
 type Props = {
   className?: string;
@@ -70,7 +71,7 @@ const Breadcrumbs = ({ className, pagesData }: Props) => {
   }
 
   return (
-    <div className={cn("bg-light-gray py-4", className)}>
+    <div className={cn("py-8 font-medium", className)}>
       <Breadcrumb className="mx-auto max-w-7xl px-8">
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -83,7 +84,7 @@ const Breadcrumbs = ({ className, pagesData }: Props) => {
 
           {breadData.length > 0 && (
             <BreadcrumbSeparator className="text-light-gray-text">
-              /
+              <ChevronRight size={14} />
             </BreadcrumbSeparator>
           )}
 
@@ -117,7 +118,7 @@ const Breadcrumbs = ({ className, pagesData }: Props) => {
 
                 {index < breadData.length - 1 && (
                   <BreadcrumbSeparator className="text-light-gray-text">
-                    /
+                    <ChevronRight size={14} />
                   </BreadcrumbSeparator>
                 )}
               </React.Fragment>

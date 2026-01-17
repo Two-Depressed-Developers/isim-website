@@ -38,7 +38,7 @@ export type ComponentHomepageSupervisors = {
   eyebrow?: string;
   title?: string;
   description?: string;
-  supervisors: ComponentHomepageSupervisorCard[];
+  supervisors?: ComponentHomepageSupervisorCard[];
 };
 
 export type ComponentHomepageCollaborationItem = {

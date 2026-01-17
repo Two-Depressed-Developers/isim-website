@@ -17,7 +17,7 @@ export default function FooterNavigation({ navigation }: Props) {
             <CustomLink
               href={`/${page.slug}`}
               isExternal={false}
-              className="hover:text-primary items-baseline text-white/50 no-underline transition-colors duration-200"
+              className="hover:text-primary items-baseline text-slate-400 no-underline transition-colors duration-200"
             >
               {page.name}
             </CustomLink>

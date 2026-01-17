@@ -11,7 +11,7 @@ const Header = async () => {
   const headerData: HeaderData = await getHeaderData(locale);
 
   return (
-    <header className="bg-white px-8 py-6 2xl:px-2">
+    <header className="border-gray-accent/50 border-b bg-white px-8 py-6 2xl:px-4">
       <nav className="max-w-fhd mx-auto flex items-center justify-between">
         <HeaderLogo headerData={headerData} />
         <div className="flex flex-1 items-center justify-end gap-6">

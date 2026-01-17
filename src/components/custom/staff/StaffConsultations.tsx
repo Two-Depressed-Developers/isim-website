@@ -14,7 +14,7 @@ import {
 } from "date-fns";
 import {
   BookOpen,
-  Calendar,
+  Calendar as CalendarIcon,
   CheckCircle2,
   Clock,
   Mail,
@@ -25,7 +25,6 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -44,7 +43,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import WhiteCard from "../WhiteCard";
+import { StaffDetailsTile } from "./StaffDetailsTile";
 
 import {
   useBookConsultation,
@@ -70,7 +69,7 @@ type Props = {
   slug: string;
 };
 
-const MemberConsultations = ({ member, slug }: Props) => {
+export default function StaffConsultations({ member, slug }: Props) {
   const t = useTranslations("MemberDetails");
   const tValidation = useTranslations();
   const formatDateTime = useFormatter();
@@ -161,20 +160,21 @@ const MemberConsultations = ({ member, slug }: Props) => {
       }
     });
 
-    const bookedSlots = existingBookings
-      .filter(
-        (booking) =>
-          booking.reservationStatus === "pending" ||
-          booking.reservationStatus === "accepted",
-      )
-      .reduce(
-        (acc, booking) => {
-          const key = `${booking.startTime}-${booking.endTime}`;
-          acc[key] = (acc[key] || 0) + 1;
-          return acc;
-        },
-        {} as Record<string, number>,
-      );
+    const bookedSlots =
+      existingBookings
+        ?.filter(
+          (booking) =>
+            booking.reservationStatus === "pending" ||
+            booking.reservationStatus === "accepted",
+        )
+        .reduce(
+          (acc, booking) => {
+            const key = `${booking.startTime}-${booking.endTime}`;
+            acc[key] = (acc[key] || 0) + 1;
+            return acc;
+          },
+          {} as Record<string, number>,
+        ) ?? {};
 
     const availableSlots = slots.filter((slot) => {
       const key = `${slot.startTime}-${slot.endTime}`;
@@ -240,14 +240,16 @@ const MemberConsultations = ({ member, slug }: Props) => {
 
   if (availableSlots.length === 0) {
     return (
-      <WhiteCard className="flex flex-col gap-y-4">
-        <h2 className="text-3xl font-bold">{t("consultations")}</h2>
-        <Separator />
+      <StaffDetailsTile
+        title={t("consultations")}
+        icon={CalendarIcon}
+        count={0}
+      >
         <div className="flex flex-col items-center justify-center gap-2 py-8">
-          <Calendar className="text-muted-foreground h-12 w-12" />
+          <CalendarIcon className="text-muted-foreground h-12 w-12" />
           <p className="text-muted-foreground">{t("noSlots")}</p>
         </div>
-      </WhiteCard>
+      </StaffDetailsTile>
     );
   }
 
@@ -255,21 +257,17 @@ const MemberConsultations = ({ member, slug }: Props) => {
 
   return (
     <>
-      <WhiteCard className="flex flex-col gap-y-4">
-        <div className="flex items-center justify-between">
-          <h2 className="text-3xl font-bold">{t("consultations")}</h2>
-          <Badge variant="outline" className="text-sm">
-            {t("availableSlots", { count: availableSlots.length })}
-          </Badge>
-        </div>
-        <Separator />
-
-        <div className="space-y-6">
+      <StaffDetailsTile
+        title={t("consultations")}
+        icon={CalendarIcon}
+        count={availableSlots.length}
+      >
+        <div className="space-y-6 py-4">
           {groupedSlots.map(([date, slots]) => (
             <div key={date} className="space-y-3">
               <div className="flex items-center gap-2">
-                <Calendar className="text-primary h-4 w-4" />
-                <h3 className="text-lg font-semibold">
+                <CalendarIcon size="16" className="text-primary" />
+                <h3 className="text-sm font-medium text-slate-900">
                   {formatDateTime.dateTime(parseISO(date), {
                     weekday: "long",
                     year: "numeric",
@@ -279,15 +277,15 @@ const MemberConsultations = ({ member, slug }: Props) => {
                 </h3>
               </div>
 
-              <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
+              <div className="grid grid-cols-[repeat(auto-fill,minmax(140px,1fr))] gap-2">
                 {slots.map((slot, index) => (
                   <Button
                     key={`${slot.startTime}-${index}`}
                     variant="outline"
                     onClick={() => handleSlotSelect(slot)}
-                    className="hover:bg-primary flex items-center gap-2 hover:text-white"
+                    className="hover:bg-primary flex items-center justify-center gap-2 hover:text-white"
                   >
-                    <Clock className="h-4 w-4" />
+                    <Clock size="16" />
                     {formatDateTime.dateTime(parseISO(slot.startTime), {
                       hour: "numeric",
                       minute: "numeric",
@@ -306,12 +304,12 @@ const MemberConsultations = ({ member, slug }: Props) => {
 
         <Separator />
 
-        <div className="rounded-md bg-blue-50 p-4">
-          <p className="text-sm text-blue-900">
+        <div className="mt-4 border bg-blue-50 p-4">
+          <p className="text-primary text-sm">
             <strong>{t("infoTitle")}</strong> {t("infoContent")}
           </p>
         </div>
-      </WhiteCard>
+      </StaffDetailsTile>
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="sm:max-w-md">
@@ -326,7 +324,7 @@ const MemberConsultations = ({ member, slug }: Props) => {
             <div className="space-y-4">
               <div className="space-y-2 rounded-md bg-gray-50 p-4">
                 <div className="flex items-center gap-2">
-                  <Calendar className="text-primary h-4 w-4" />
+                  <CalendarIcon size="16" className="text-primary" />
                   <span className="font-medium">
                     {formatDateTime.dateTime(parseISO(selectedSlot.startTime), {
                       weekday: "long",
@@ -337,7 +335,7 @@ const MemberConsultations = ({ member, slug }: Props) => {
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Clock className="text-primary h-4 w-4" />
+                  <Clock size="16" className="text-primary" />
                   <span className="font-medium">
                     {formatDateTime.dateTime(parseISO(selectedSlot.startTime), {
                       hour: "numeric",
@@ -370,7 +368,7 @@ const MemberConsultations = ({ member, slug }: Props) => {
                           <Input
                             type="email"
                             placeholder="imie.nazwisko@student.agh.edu.pl"
-                            startContent={<Mail className="h-4 w-4" />}
+                            startContent={<Mail size="16" />}
                             {...field}
                           />
                         </FormControl>
@@ -392,7 +390,7 @@ const MemberConsultations = ({ member, slug }: Props) => {
                           <Input
                             type="text"
                             placeholder="Jan Kowalski"
-                            startContent={<User className="h-4 w-4" />}
+                            startContent={<User size="16" />}
                             {...field}
                           />
                         </FormControl>
@@ -414,7 +412,7 @@ const MemberConsultations = ({ member, slug }: Props) => {
                           <Input
                             type="text"
                             placeholder="Informatyka, Bazy Danych"
-                            startContent={<BookOpen className="h-4 w-4" />}
+                            startContent={<BookOpen size="16" />}
                             {...field}
                           />
                         </FormControl>
@@ -447,7 +445,7 @@ const MemberConsultations = ({ member, slug }: Props) => {
                         </>
                       ) : (
                         <>
-                          <CheckCircle2 className="h-4 w-4" />
+                          <CheckCircle2 size="16" />
                           {t("sendRequest")}
                         </>
                       )}
@@ -461,6 +459,4 @@ const MemberConsultations = ({ member, slug }: Props) => {
       </Dialog>
     </>
   );
-};
-
-export default MemberConsultations;
+}

@@ -70,7 +70,7 @@ export const AgendaEvents: FC = () => {
               <CommandItem
                 key={event.id}
                 className={cn(
-                  "data-[selected=true]:bg-bg data-[selected=true]:text-none mb-2 rounded-md border p-4 transition-all hover:cursor-pointer",
+                  "data-[selected=true]:bg-bg data-[selected=true]:text-none mb-2 rounded-none border p-4 transition-all hover:cursor-pointer",
                   {
                     [getColorClass(event.color)]: badgeVariant === "colored",
                     "hover:bg-zinc-200 dark:hover:bg-gray-900":
@@ -81,7 +81,7 @@ export const AgendaEvents: FC = () => {
               >
                 <EventDetailsDialog event={event}>
                   <div className="flex w-full items-center justify-between gap-4">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-4">
                       {badgeVariant === "dot" ? (
                         <EventBullet color={event.color} />
                       ) : (

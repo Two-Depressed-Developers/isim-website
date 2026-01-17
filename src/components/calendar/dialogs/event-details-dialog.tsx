@@ -50,16 +50,6 @@ export function EventDetailsDialog({ event, children }: IProps) {
 
         <ScrollArea className="max-h-[80vh]">
           <div className="space-y-4 p-4">
-            {/* <div className="flex items-start gap-2">
-							<User className="mt-1 size-4 shrink-0 text-muted-foreground" />
-							<div>
-								<p className="text-sm font-medium">Responsible</p>
-								<p className="text-sm text-muted-foreground">
-									{event.user.name}
-								</p>
-							</div>
-						</div> */}
-
             <div className="flex items-start gap-2">
               <Calendar className="text-muted-foreground mt-1 size-4 shrink-0" />
               <div>

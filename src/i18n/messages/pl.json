@@ -18,7 +18,8 @@
     "seeMore": "Zobacz więcej",
     "heroSlider": {
       "prevSlide": "Poprzedni slajd",
-      "nextSlide": "Następny slajd"
+      "nextSlide": "Następny slajd",
+      "goToSlide": "Przejdź do slajdu"
     },
     "supervisor": {
       "photoAlt": "Zdjęcie opiekuna",
@@ -65,10 +66,17 @@
     "incoming": "Nadchodzące",
     "cyclic": "Cykliczne",
     "eventSite": "Strona wydarzenia",
-    "journalSite": "Strona czasopisma"
+    "journalSite": "Strona czasopisma",
+    "label": "Zdobywanie wiedzy",
+    "description": "Poznaj nasze publikacje naukowe oraz wydarzenia organizowane przez Katedrę Informatyki Stosowanej i Modelowania AGH.",
+    "viewPublication": "Zobacz publikację"
   },
+  
   "Staff": {
-    "title": "Nasz zespół",
+    "backToDirectory": "Powrót do katalogu pracowników",
+    "title": "Katalog pracowników",
+    "label": "Nasz zespół",
+    "description": "Przeglądaj naszych pracowników naukowych i badawczych",
     "loading": "Ładowanie danych pracowników...",
     "error": "Błąd ładowania danych",
     "noResults": "Nie znaleziono wyników",
@@ -85,7 +93,10 @@
   "Offer": {
     "title": "Nasza oferta",
     "error": "Nie udało się załadować oferty.",
-    "notFound": "Nie znaleziono ofert naukowych."
+    "notFound": "Nie znaleziono ofert naukowych.",
+    "label": "Innowacje",
+    "topics": "Tematy",
+    "description": "Poznaj naszą ofertę badawczą i innowacyjne rozwiązania, które tworzymy w Katedrze Informatyki Stosowanej i Modelowania AGH."
   },
   "ResearchGroups": {
     "title": "Grupy badawcze",
@@ -93,7 +104,9 @@
     "notFound": "Nie znaleziono grup badawczych.",
     "members": "członków",
     "leader": "Kierownik",
-    "teamSite": "Strona zespołu"
+    "teamSite": "Strona zespołu",
+    "label": "Badania naukowe",
+    "description": "Odkryj nasze grupy badawcze w Katedrze Informatyki Stosowanej i Modelowania AGH i dowiedz się więcej o ich innowacyjnych projektach i osiągnięciach."
   },
   "Courses": {
     "title": "Kierunki studiów",
@@ -101,16 +114,20 @@
     "noResults": "Brak dostępnych kierunków.",
     "firstDegree": "Studia I stopnia (inżynierskie)",
     "secondDegree": "Studia II stopnia (magisterskie)",
-    "semesters": "semestrów",
-    "syllabus": "Sylabus",
+    "semesters": "semestry",
+    "semesters_v2": "semestrów",
+    "syllabus": "Zobacz Sylabus",
     "I stopień": "I stopień",
     "II stopień": "II stopień",
     "Stacjonarne": "Stacjonarne",
-    "Niestacjonarne": "Niestacjonarne"
+    "Niestacjonarne": "Niestacjonarne",
+    "label": "Rozwój kariery",
+    "description": "Odkryj nasze kierunki studiów oferowane przez Katedrę Informatyki Stosowanej i Modelowania AGH i rozpocznij swoją drogę do kariery w branży IT."
   },
   "Helpdesk": {
-    "title": "Zgłoszenia",
+    "title": "Nowe zgłoszenie",
     "subtitle": "Zgłoś problem z laboratorium lub sprzętem. Postaramy się rozwiązać go jak najszybciej.",
+    "label": "Wsparcie",
     "back": "Wróć na stronę główną",
     "create": "Utwórz nowe zgłoszenie"
   },
@@ -164,7 +181,9 @@
     "photo": "Zdjęcie",
     "title": "Tytuł",
     "fullName": "Imię i nazwisko",
-    "contact": "Kontakt"
+    "contact": "Kontakt",
+    "viewProfileOf": "Zobacz profil {name}",
+    "memberPhotoAlt": "Zdjęcie pracownika"
   },
   "MobileMenu": {
     "menu": "Menu",
@@ -172,6 +191,8 @@
   },
   "Calendar": {
     "title": "Kalendarz",
+    "label": "Centrum wydarzeń",
+    "description": "Sprawdź nadchodzące wydarzenia i ważne daty",
     "loading": "Ładowanie...",
     "error": "Błąd ładowania wydarzeń kalendarza.",
     "settings": "Ustawienia kalendarza",
@@ -205,6 +226,11 @@
     "nextDate": "Następna data"
   },
   "MemberDetails": {
+    "memberPhotoAlt": "Zdjęcie pracownika",
+    "homepage": "Strona domowa",
+    "USOS": "USOS",
+    "BADAP": "BADAP",
+    "SKOS": "SKOS",
     "contact": "Kontakt",
     "email": "Email",
     "phone": "Telefon",
@@ -225,7 +251,14 @@
     "successTitle": "Prośba o konsultację została wysłana!",
     "successDesc": "Sprawdź swoją skrzynkę email i potwierdź rezerwację klikając w link weryfikacyjny.",
     "errorTitle": "Wystąpił błąd",
-    "errorDesc": "Nie udało się wysłać prośby o konsultację. Spróbuj ponownie."
+    "errorDesc": "Nie udało się wysłać prośby o konsultację. Spróbuj ponownie.",
+    "items": "{count, plural, =0 {elementów} one {element} few {elementy} other {elementów}}",
+    "research": "Badania",
+    "publicationsAlt": "Publikacje",
+    "orcidAlt": "ORCID",
+    "researchgateAlt": "Researchgate",
+    "researcherIdAlt": "Researcher ID",
+    "publicationsTitle": "Publikacje"
   },
   "NotFound": {
     "title": "404 - Nie znaleziono!",
@@ -234,6 +267,8 @@
   },
   "Classrooms": {
     "title": "Sale i zasoby",
+    "label": "Zasoby edukacyjne",
+    "description": "Sprawdź dostępność sal i zasobów w Katedrze Informatyki Stosowanej i Modelowania AGH.",
     "loading": "Ładowanie danych o salach...",
     "error": "Nie udało się załadować danych o salach.",
     "noData": "Brak dostępnych danych o salach.",
@@ -258,16 +293,25 @@
   "Contact": {
     "metaTitle": "Kontakt - Katedra Informatyki Stosowanej i Modelowania",
     "title": "Kontakt",
+    "label": "Skontaktuj się z nami",
+    "description": "Skontaktuj się z Katedrą Informatyki Stosowanej i Modelowania",
     "addressHeader": "Adres Korespondencyjny",
     "contactHeader": "Dane Kontaktowe",
     "phoneLabel": "Telefon",
     "emailLabel": "E-mail",
     "hoursHeader": "Godziny Otwarcia Sekretariatu",
-    "mapCaption": "Budynek B-4 znajduje się w głównym kampusie AGH.",
-    "notFound": "Nie udało się załadować danych kontaktowych."
+    "findUsHeader": "Jak nas znaleźć",
+    "notFound": "Nie udało się załadować danych kontaktowych.",
+    "lines": "Linie",
+    "tramLabel": "Tramwaj",
+    "busLabel": "Autobus",
+    "carLabel": "Samochód",
+    "parking": "Parking dostępny przy ul. Reymonta (płatny)"
   },
   "Accessibility": {
     "metaTitle": "Deklaracja Dostępności",
+    "label": "Dostępność",
+    "description": "Informacje o dostępności serwisu internetowego dla osób z niepełnosprawnościami",
     "lastUpdated": "Ostatnia aktualizacja",
     "statusHeader": "Status zgodności",
     "preparedOn": "Deklarację sporządzono dnia",

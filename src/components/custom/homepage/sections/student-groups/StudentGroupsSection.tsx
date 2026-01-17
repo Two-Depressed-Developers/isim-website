@@ -12,8 +12,8 @@ export default function StudentGroupsSection({ data, preloadImg }: Props) {
   const isOdd = groups.length % 2 === 1;
 
   return (
-    <section>
-      <SectionHeader title={data.title} className="mb-8" />
+    <section className="flex flex-col gap-y-8">
+      <SectionHeader title={data.title} eyebrow={data.eyebrow} />
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         {groups.map((group, index) => {
           const isLastAndOdd = isOdd && index === groups.length - 1;

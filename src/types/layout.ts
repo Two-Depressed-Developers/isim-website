@@ -19,6 +19,8 @@ export type FooterData = Footer & {
 };
 
 export type Header = {
+  title?: string;
+  subtitle?: string;
   logo: ImageLink;
   links: Link[];
 };

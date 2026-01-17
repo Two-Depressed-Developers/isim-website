@@ -43,7 +43,7 @@ const CommandInput = React.forwardRef<
     className={cn(
       "flex items-center border-b px-3 transition-all",
       "has-[:focus-visible]:ring-ring has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-offset-2",
-      "rounded-lg",
+      "rounded-none",
     )}
     cmdk-input-wrapper=""
   >

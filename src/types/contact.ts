@@ -12,4 +12,6 @@ export type ContactPageData = {
   openingHours: string;
   latitude: number;
   longitude: number;
+  tramLines: string;
+  busLines: string;
 };

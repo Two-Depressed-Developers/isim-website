@@ -1,4 +1,4 @@
-import { SimpleLink, Image, Page } from "./common";
+import { SimpleLink, Image, Page, Link } from "./common";
 import { Conference, Course, Journal, ResearchOffer } from "./content";
 import { Group } from "./group";
 import { Member } from "./member";
@@ -12,18 +12,33 @@ export type CollectionSourceType =
 export type CollectionLayout = "row_3" | "grid_2x2" | "list";
 export type CollectionSelectionMode = "newest" | "random" | "manual";
 
+export type ComponentHeroSliderSection = {
+  id: number;
+  title?: string;
+  subtitle?: string;
+  photo: Image;
+  cta?: Link;
+};
+
 export type ComponentHomepageHeroSlider = {
   id: number;
   __component: "homepage.hero-slider";
-  images: Image[];
+  slides: ComponentHeroSliderSection[];
+};
+
+export type ComponentHomepageSupervisorCard = {
+  id: number;
+  role: string;
+  member: Member;
 };
 
 export type ComponentHomepageSupervisors = {
   id: number;
   __component: "homepage.supervisors";
+  eyebrow?: string;
   title?: string;
   description?: string;
-  members: Member[];
+  supervisors?: ComponentHomepageSupervisorCard[];
 };
 
 export type ComponentHomepageCollaborationItem = {
@@ -36,6 +51,7 @@ export type ComponentHomepageCollaborationItem = {
 export type ComponentHomepageCollaborations = {
   id: number;
   __component: "homepage.collaborations";
+  eyebrow?: string;
   title?: string;
   description?: string;
   items: ComponentHomepageCollaborationItem[];
@@ -52,6 +68,7 @@ export type ComponentHomepageGroupItem = {
 export type ComponentHomepageStudentGroups = {
   id: number;
   __component: "homepage.student-groups";
+  eyebrow?: string;
   title?: string;
   groups: ComponentHomepageGroupItem[];
 };
@@ -59,6 +76,7 @@ export type ComponentHomepageStudentGroups = {
 export type ComponentHomepageCollectionFeed = {
   id: number;
   __component: "homepage.collection-feed";
+  eyebrow?: string;
   title?: string;
   sourceType: CollectionSourceType;
   layout: CollectionLayout;

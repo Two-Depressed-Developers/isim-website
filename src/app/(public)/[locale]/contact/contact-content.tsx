@@ -1,18 +1,38 @@
 "use client";
 
-import dynamic from "next/dynamic";
-import { Mail, MapPin, Phone, Clock } from "lucide-react";
-import { ContactPageData } from "@/types/contact";
-import { useTranslations } from "next-intl";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import IconWithBackground from "@/components/custom/IconWithBackground";
 import { MarkdownRenderer } from "@/components/custom/MarkdownRenderer";
+import { Card, CardContent } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+import { ContactPageData } from "@/types/contact";
+import { Clock, Contact, MapPin, Navigation2 } from "lucide-react";
+import { useTranslations } from "next-intl";
+import dynamic from "next/dynamic";
+
+const contactData = {
+  address: {
+    icon: MapPin,
+    title: "addressHeader",
+  },
+  contact: {
+    icon: Contact,
+    title: "contactHeader",
+  },
+  hours: {
+    icon: Clock,
+    title: "hoursHeader",
+  },
+  findUs: {
+    icon: Navigation2,
+    title: "findUsHeader",
+  },
+};
 
 const LeafletMap = dynamic(
   () => import("@/components/custom/contact/LeafletMap"),
   {
     ssr: false,
-    loading: () => <Skeleton className="h-[400px] w-full" />,
+    loading: () => <Skeleton className="h-full w-full" />,
   },
 );
 
@@ -24,93 +44,107 @@ export default function ContactContent({ data }: Props) {
   const t = useTranslations("Contact");
 
   return (
-    <div className="grid gap-8 lg:grid-cols-2">
-      <div className="space-y-8">
-        <Card>
-          <CardHeader>
-            <h2 className="text-primary flex items-center gap-2 text-xl font-semibold">
-              <MapPin className="h-5 w-5" />
-              {t("addressHeader")}
-            </h2>
-          </CardHeader>
-
-          <CardContent className="space-y-1 text-gray-700">
+    <div className="grid gap-4 gap-x-8 lg:grid-cols-2">
+      <div className="row-span-4 min-h-80">
+        <LeafletMap
+          lat={data.latitude}
+          lng={data.longitude}
+          popupText={data.buildingInfo}
+        />
+      </div>
+      <ContactCard
+        type="address"
+        content={
+          <div className="text-gray-text">
             <p className="font-medium">{data.departmentName}</p>
             <p>{data.facultyName}</p>
-            <p>{data.universityName}</p>
-            <div className="border-primary/20 mt-4 border-l-2 pl-4">
-              <p>{data.streetAddress}</p>
-              <p>{data.buildingInfo}</p>
-              <p>{data.cityZip}</p>
+            <p className="mb-2">{data.universityName}</p>
+            <p>{data.streetAddress}</p>
+            <p>{data.buildingInfo}</p>
+            <p>{data.cityZip}</p>
+          </div>
+        }
+      />
+      <ContactCard
+        type="contact"
+        content={
+          <div className="space-y-2">
+            <div>
+              <p className="text-sm font-medium text-gray-500">
+                {t("phoneLabel")}
+              </p>
+              <a
+                href={`tel:${data.phoneNumber}`}
+                className="hover:text-primary font-medium"
+              >
+                {data.phoneNumber}
+              </a>
             </div>
-          </CardContent>
-        </Card>
-
-        <div className="grid gap-6 sm:grid-cols-2">
-          <Card>
-            <CardHeader>
-              <h2 className="mb-4 text-lg font-semibold text-gray-900">
-                {t("contactHeader")}
-              </h2>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center gap-3">
-                <div className="bg-primary/5 text-primary flex h-10 w-10 items-center justify-center rounded-full">
-                  <Phone className="h-5 w-5" />
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500">{t("phoneLabel")}</p>
-                  <a
-                    href={`tel:${data.phoneNumber}`}
-                    className="font-medium hover:text-blue-600"
-                  >
-                    {data.phoneNumber}
-                  </a>
-                </div>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="bg-primary/5 text-primary flex h-10 w-10 items-center justify-center rounded-full">
-                  <Mail className="h-5 w-5" />
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500">{t("emailLabel")}</p>
-                  <a
-                    href={`mailto:${data.email}`}
-                    className="hover:text-primary font-medium"
-                  >
-                    {data.email}
-                  </a>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <h2 className="mb-4 flex items-center gap-2 text-lg font-semibold text-gray-900">
-                <Clock className="h-5 w-5 text-gray-500" />
-                {t("hoursHeader")}
-              </h2>
-            </CardHeader>
-            <CardContent className="prose-sm prose-gray">
-              <MarkdownRenderer content={data.openingHours} />
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-
-      <div className="flex flex-col">
-        <div className="sticky top-24 space-y-4">
-          <Card>
-            <LeafletMap
-              lat={data.latitude}
-              lng={data.longitude}
-              popupText={data.buildingInfo}
-            />
-          </Card>
-          <p className="text-center text-sm text-gray-500">{t("mapCaption")}</p>
-        </div>
-      </div>
+            <div>
+              <p className="text-sm font-medium text-gray-500">
+                {t("emailLabel")}
+              </p>
+              <a
+                href={`mailto:${data.email}`}
+                className="hover:text-primary font-medium"
+              >
+                {data.email}
+              </a>
+            </div>
+          </div>
+        }
+      />
+      <ContactCard
+        type="hours"
+        content={
+          <div className="prose-sm prose-gray">
+            <MarkdownRenderer content={data.openingHours} />
+          </div>
+        }
+      />
+      <ContactCard
+        type="findUs"
+        content={
+          <div className="space-y-2 font-medium">
+            <div>
+              <p className="text-sm text-gray-500">{t("tramLabel")}</p>
+              <p>{t("lines") + " " + data.tramLines}</p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-500">{t("busLabel")}</p>
+              <p>{t("lines") + " " + data.busLines}</p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-500">{t("carLabel")}</p>
+              <p>{t("parking")}</p>
+            </div>
+          </div>
+        }
+      />
     </div>
   );
 }
+
+const ContactCard = ({
+  type,
+  content,
+}: {
+  type: keyof typeof contactData;
+  content: React.ReactNode;
+}) => {
+  const t = useTranslations("Contact");
+  const data = contactData[type];
+
+  return (
+    <Card>
+      <CardContent className="grid grid-cols-[64px_1fr] pt-6">
+        <IconWithBackground className="row-span-full" icon={data.icon} />
+
+        <div>
+          <h2 className="text-lg font-semibold">{t(data.title)}</h2>
+          {content}
+        </div>
+      </CardContent>
+    </Card>
+  );
+};

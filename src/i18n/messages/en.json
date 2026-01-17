@@ -18,7 +18,8 @@
     "seeMore": "See more",
     "heroSlider": {
       "prevSlide": "Previous slide",
-      "nextSlide": "Next slide"
+      "nextSlide": "Next slide",
+      "goToSlide": "Go to slide"
     },
     "supervisor": {
       "photoAlt": "Supervisor photo",
@@ -65,10 +66,16 @@
     "incoming": "Upcoming",
     "cyclic": "Cyclic",
     "eventSite": "Event site",
-    "journalSite": "Journal site"
+    "journalSite": "Journal site",
+    "label": "Knowledge Sharing",
+    "description": "Explore our scientific publications and events organized by the Department of Applied Computer Science and Modelling AGH.",
+    "viewPublication": "View publication"
   },
   "Staff": {
-    "title": "Our Team",
+    "backToDirectory": "Back to Staff Directory",
+    "title": "Staff Directory",
+    "label": "Our Team",
+    "description": "Browse our academic and research staff members",
     "loading": "Loading staff data...",
     "error": "Error loading data",
     "lts": "No results found",
@@ -86,7 +93,10 @@
   "Offer": {
     "title": "Our Offer",
     "error": "Failed to load offer.",
-    "notFound": "Nie znaleziono ofert naukowych."
+    "notFound": "Nie znaleziono ofert naukowych.",
+    "label": "Innovations",
+    "topics": "Topics",
+    "description": "Explore our research offer and innovative solutions created at the Department of Applied Computer Science and Modelling AGH."
   },
   "ResearchGroups": {
     "title": "Research Groups",
@@ -94,7 +104,9 @@
     "notFound": "No research groups found.",
     "members": "members",
     "leader": "Leader",
-    "teamSite": "Team site"
+    "teamSite": "Team site",
+    "label": "Research",
+    "description": "Discover our research groups at the Department of Applied Computer Science and Modelling and learn more about their innovative projects and achievements."
   },
   "Courses": {
     "title": "Study Courses",
@@ -103,15 +115,19 @@
     "firstDegree": "First Cycle Studies (Bachelor/Engineer)",
     "secondDegree": "Second Cycle Studies (Master)",
     "semesters": "semesters",
-    "syllabus": "Syllabus",
+    "semesters_v2": "semesters",
+    "syllabus": "View Syllabus",
     "I stopień": "First Cycle",
     "II stopień": "Second Cycle",
     "Stacjonarne": "Full-time",
-    "Niestacjonarne": "Part-time"
+    "Niestacjonarne": "Part-time",
+    "label": "Career Development",
+    "description": "Discover our study programs offered by the Department of Applied Computer Science and Modelling AGH and start your journey towards a career in the IT industry."
   },
   "Helpdesk": {
-    "title": "Tickets",
+    "title": "New ticket",
     "subtitle": "Report a problem with a laboratory or equipment. We will try to solve it as soon as possible.",
+    "label": "Support",
     "back": "Back to home page",
     "create": "Create new ticket"
   },
@@ -165,7 +181,9 @@
     "photo": "Photo",
     "title": "Title",
     "fullName": "Full name",
-    "contact": "Contact"
+    "contact": "Contact",
+    "viewProfileOf": "View {name}'s profile",
+    "memberPhotoAlt": "Member photo"
   },
   "MobileMenu": {
     "menu": "Menu",
@@ -173,6 +191,8 @@
   },
   "Calendar": {
     "title": "Calendar",
+    "label": "Event Hub",
+    "description": "Check out upcoming events and important dates",
     "loading": "Loading...",
     "error": "Error loading calendar events.",
     "settings": "Calendar settings",
@@ -206,6 +226,11 @@
     "nextDate": "Next date"
   },
   "MemberDetails": {
+    "memberPhotoAlt": "Member photo",
+    "homepage": "Homepage",
+    "USOS": "USOS",
+    "BADAP": "BADAP",
+    "SKOS": "SKOS",
     "contact": "Contact",
     "email": "Email",
     "phone": "Phone",
@@ -226,7 +251,14 @@
     "successTitle": "Consultation request sent!",
     "successDesc": "Check your email inbox and confirm the reservation by clicking the verification link.",
     "errorTitle": "Error occurred",
-    "errorDesc": "Failed to send consultation request. Please try again."
+    "errorDesc": "Failed to send consultation request. Please try again.",
+    "items": "{count, plural, =0 {items} one {item} other {items}}",
+    "research": "Research",
+    "publicationsAlt": "Publications",
+    "orcidAlt": "ORCID",
+    "researchgateAlt": "Researchgate",
+    "researcherIdAlt": "Researcher ID",
+    "publicationsTitle": "Publications"
   },
   "NotFound": {
     "title": "404 - Not Found!",
@@ -235,6 +267,8 @@
   },
   "Classrooms": {
     "title": "Rooms and Resources",
+    "label": "Educational resources",
+    "description": "Explore the available classrooms and their resources at the Department of Applied Computer Science and Modelling AGH.",
     "loading": "Loading classroom data...",
     "error": "Failed to load classroom data.",
     "noData": "No classroom data available.",
@@ -259,16 +293,25 @@
   "Contact": {
     "metaTitle": "Contact - Department of Applied Computer Science and Modelling",
     "title": "Contact",
+    "label": "Get in touch",
+    "description": "Reach out to the Department of Applied Computer Science and Modelling",
     "addressHeader": "Correspondence Address",
     "contactHeader": "Contact Information",
     "phoneLabel": "Phone",
     "emailLabel": "E-mail",
     "hoursHeader": "Secretariat Opening Hours",
-    "mapCaption": "Building B-4 is located in the main AGH campus.",
-    "notFound": "No contact information available."
+    "findUsHeader": "How to Find Us",
+    "notFound": "No contact information available.",
+    "lines": "Lines",
+    "tramLabel": "By Tram",
+    "busLabel": "By Bus",
+    "carLabel": "By Car",
+    "parking": "Parking available at ul. Reymonta (paid)"
   },
   "Accessibility": {
     "metaTitle": "Accessibility Statement",
+    "label": "Accessibility",
+    "description": "Information about website accessibility for people with disabilities",
     "lastUpdated": "Last updated:",
     "statusHeader": "Compliance Status",
     "preparedOn": "Statement prepared on",

@@ -25,7 +25,7 @@ interface Props {
 
 const LeafletMap = ({ lat, lng, popupText }: Props) => {
   return (
-    <div className="h-[400px] w-full overflow-hidden rounded-xl border shadow-sm">
+    <div className="h-full w-full overflow-hidden border shadow-sm">
       <MapContainer
         center={[lat, lng]}
         zoom={16}

@@ -6,6 +6,9 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-playfair);
+
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
   --color-light-gray-text: hsl(var(--light-gray-text));
@@ -13,6 +16,9 @@
   --color-light-gray: hsl(var(--light-gray));
   --color-light-gray-border: hsl(var(--light-gray-border));
   --color-inactive: hsl(var(--inactive));
+  --color-gray-accent: hsl(var(--gray-accent));
+  --color-second-background: hsl(var(--second-background));
+  --color-dark-accent: hsl(var(--dark-accent));
 
   --color-card: hsl(var(--card));
   --color-card-foreground: hsl(var(--card-foreground));
@@ -73,7 +79,7 @@
 @layer base {
   :root {
     --radius: 0.5rem;
-    --background: 0 0% 98%;
+    --background: 0 0% 100%;
     --light-gray-text: 0 0% 42%;
     --gray-text: 0 0% 31%;
     --inactive: 0 0% 89.8%;
@@ -102,6 +108,10 @@
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
+
+    --gray-accent: 218 32% 88%;
+    --second-background: 210 40% 98%;
+    --dark-accent: 224 28% 18%;
   }
   .dark {
     --background: 0 0% 3.9%;
@@ -129,6 +139,10 @@
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+
+    --gray-accent: 213 31% 20%;
+    --second-background: 210 40% 8%;
+    --dark-accent: 218 32% 88%;
   }
 }
 
@@ -137,6 +151,7 @@
     @apply border-border;
   }
   body {
+    font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
     @apply bg-background text-foreground;
   }
 }

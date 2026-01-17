@@ -96,7 +96,8 @@ function ConsultationBookingsContent({
   const [processingId, setProcessingId] = useState<string | null>(null);
 
   const pendingBookings = useMemo(
-    () => bookings.filter((booking) => booking.reservationStatus === "pending"),
+    () =>
+      bookings?.filter((booking) => booking.reservationStatus === "pending"),
     [bookings],
   );
 
@@ -138,7 +139,7 @@ function ConsultationBookingsContent({
     }
   };
 
-  if (pendingBookings.length === 0) {
+  if (!pendingBookings || pendingBookings.length === 0) {
     return (
       <Card>
         <CardContent className="flex flex-col items-center justify-center gap-2 py-12">

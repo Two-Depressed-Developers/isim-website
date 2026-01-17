@@ -2,7 +2,10 @@ import qs from "qs";
 import type { Group, StrapiCollectionResponse } from "@/types";
 import { fetchData, baseAPIUrl } from "./base";
 
-export async function getGroupsData(locale: string): Promise<Group[]> {
+export async function getGroupsData(
+  locale: string,
+  onlyResearch = false,
+): Promise<Group[]> {
   const url = new URL("/api/groups", baseAPIUrl);
 
   const populateOptions = {
@@ -30,6 +33,7 @@ export async function getGroupsData(locale: string): Promise<Group[]> {
       supervisor: populateOptions,
       members: populateOptions,
     },
+    filters: onlyResearch ? { researchGroup: true } : undefined,
     locale,
   });
 

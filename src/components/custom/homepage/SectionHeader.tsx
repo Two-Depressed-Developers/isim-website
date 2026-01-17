@@ -1,11 +1,13 @@
 import { Page } from "@/types";
 import { Separator } from "@/components/ui/separator";
 import CustomLink from "@/components/CustomLink";
-import { ExternalLink } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { cn } from "@/lib/utils";
 
 type Props = {
   title?: string;
+  eyebrow?: string;
   description?: string;
   page?: Page;
   className?: string;
@@ -13,6 +15,7 @@ type Props = {
 
 export default function SectionHeader({
   title,
+  eyebrow,
   description,
   page,
   className,
@@ -22,28 +25,32 @@ export default function SectionHeader({
   if (!title && !description) return null;
 
   return (
-    <div className={className}>
-      {title && (
-        <div className="flex items-center gap-4">
-          <h2 className="text-3xl font-bold">{title}</h2>
-          {page && (
-            <>
-              <Separator
-                orientation="vertical"
-                className="bg-primary h-8 w-1 rounded"
-              />
-              <CustomLink
-                href={page.slug ? `/${page.slug}` : "/"}
-                isExternal={false}
-                className="text-primary flex items-center gap-2 hover:underline"
-              >
-                {t("seeMore")} <ExternalLink className="inline-block h-4 w-4" />
-              </CustomLink>
-            </>
+    <div className={cn("flex flex-col gap-y-6", className)}>
+      <div className="flex flex-col justify-between gap-y-2 sm:flex-row sm:items-end">
+        <div className="flex flex-col gap-y-2">
+          {eyebrow && (
+            <p className="text-primary text-base font-medium uppercase">
+              {eyebrow}
+            </p>
           )}
+          {title && (
+            <h2 className="font-display text-3xl font-medium">{title}</h2>
+          )}
+          {description && <p className="text-gray-600">{description}</p>}
         </div>
-      )}
-      {description && <p className="mt-4 text-gray-600">{description}</p>}
+        {page && (
+          <CustomLink
+            href={page.slug ? `/${page.slug}` : "/"}
+            isExternal={false}
+            className="text-primary flex items-end"
+          >
+            <span className="flex items-center gap-1 hover:underline">
+              {t("seeMore")} <ArrowUpRight className="inline-block h-4 w-4" />
+            </span>
+          </CustomLink>
+        )}
+      </div>
+      <Separator className="bg-gray-accent w-full px-4" />
     </div>
   );
 }

@@ -10,6 +10,9 @@ export async function getCourses(locale: string): Promise<Course[]> {
       syllabusLink: {
         populate: true,
       },
+      image: {
+        fields: ["url", "alternativeText"],
+      },
     },
     locale,
   });

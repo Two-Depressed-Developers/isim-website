@@ -1,6 +1,6 @@
 import { ComponentHomepageSupervisors } from "@/types";
 import SectionHeader from "../../SectionHeader";
-import SupervisorCard from "./SupervisorCard";
+import MemberCard from "../../../member/MemberCard";
 
 type Props = {
   data: ComponentHomepageSupervisors;
@@ -9,17 +9,18 @@ type Props = {
 
 export default function SupervisorsSection({ data, preloadImg }: Props) {
   return (
-    <section className="flex flex-col gap-y-4">
+    <section className="flex flex-col gap-y-8">
       <SectionHeader
         title={data.title}
+        eyebrow={data.eyebrow}
         description={data.description}
-        className="mb-4"
       />
-      <div className="grid gap-6 md:grid-cols-2">
-        {data.members?.map((member) => (
-          <SupervisorCard
-            key={`member_${member.id}`}
-            member={member}
+      <div className="grid gap-6 xl:grid-cols-2">
+        {data.supervisors?.map((supervisor) => (
+          <MemberCard
+            key={`member_${supervisor.id}`}
+            member={supervisor.member}
+            role={supervisor.role}
             preloadImg={preloadImg}
           />
         ))}

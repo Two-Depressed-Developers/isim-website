@@ -1,19 +1,20 @@
 type Props = {
+  label?: string;
   title: string;
   description?: string;
 };
 
-export default function PageTitle({ title, description }: Props) {
+export default function PageTitle({ label, title, description }: Props) {
   return (
-    <div>
-      <div>
-        <h1 className="text-4xl leading-12 font-semibold">{title}</h1>
-        <div className="bg-primary h-1 w-26 rounded-full" />
-      </div>
-      {description && (
-        <p className="text-muted-foreground mt-2 max-w-3xl text-lg">
-          {description}
+    <div className="mb-12">
+      {label && (
+        <p className="text-primary mb-2 text-sm font-semibold tracking-wider uppercase">
+          {label}
         </p>
+      )}
+      <h1 className="font-display text-4xl font-bold md:text-5xl">{title}</h1>
+      {description && (
+        <p className="text-muted-foreground mt-2">{description}</p>
       )}
     </div>
   );

@@ -1,34 +1,32 @@
 import { ComponentHomepageCollaborationItem } from "@/types";
 import { StrapiImage } from "@/components/StrapiImage";
 import CustomLink from "@/components/CustomLink";
-import { ExternalLink } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 type Props = {
   item: ComponentHomepageCollaborationItem;
   preloadImg: boolean;
-  index: number;
 };
 
-export default function CollaborationItem({ item, preloadImg, index }: Props) {
+export default function CollaborationItem({ item, preloadImg }: Props) {
   const content = (
-    <div className="group relative flex h-32 w-full items-center justify-center rounded-xl bg-white p-4 shadow-md transition-transform hover:scale-105">
+    <div className="group hover:border-primary/50 border-gray-accent relative aspect-2/1 w-full overflow-hidden border bg-white p-8 transition-all duration-300">
       <div className="relative h-full w-full">
         <StrapiImage
           imageLink={item.logo.url}
-          alt={`${item.logo.alternativeText || item.name} ${index + 1}`}
+          alt={item.logo.alternativeText || item.name}
           fill
-          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 300px"
+          sizes="(max-width: 640px) 140px, 180px"
           preload={preloadImg}
           loading={!preloadImg ? "lazy" : "eager"}
-          className="object-contain"
+          className="object-contain transition-transform duration-500"
         />
       </div>
-      <div className="absolute inset-0 flex items-center justify-center rounded-xl bg-black/70 opacity-0 transition-opacity group-hover:opacity-100">
-        <span className="flex items-center justify-center gap-1.5 px-2 text-center text-sm font-semibold text-white">
+
+      <div className="absolute inset-0 flex items-center justify-center bg-black/70 p-3 text-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+        <span className="flex items-center gap-1 text-sm font-medium tracking-wider text-white">
           {item.name}
-          {item.link?.URL && (
-            <ExternalLink className="h-3.5 w-3.5 opacity-75" />
-          )}
+          {item.link?.URL && <ArrowUpRight className="size-4" />}
         </span>
       </div>
     </div>
@@ -39,6 +37,7 @@ export default function CollaborationItem({ item, preloadImg, index }: Props) {
       <CustomLink
         href={item.link.URL}
         isExternal={item.link.isExternal ?? true}
+        className="block"
       >
         {content}
       </CustomLink>

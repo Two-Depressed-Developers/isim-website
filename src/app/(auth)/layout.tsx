@@ -1,8 +1,10 @@
+import { NextIntlClientProvider } from "next-intl";
 import { PublicEnvScript } from "@ryankshaw/next-runtime-env";
 import { Metadata } from "next";
 import { K2D } from "next/font/google";
 import "../globals.css";
 import { Providers } from "../providers";
+import messages from "@/i18n/messages/pl.json";
 
 const k2d = K2D({
   weight: ["400", "500", "600"],
@@ -44,9 +46,11 @@ export default function AuthLayout({
       <body
         className={`${k2d.className} bg-background flex min-h-screen flex-col antialiased`}
       >
-        <Providers>
-          <main className="flex grow flex-col">{children}</main>
-        </Providers>
+        <NextIntlClientProvider locale="pl" messages={messages}>
+          <Providers>
+            <main className="flex grow flex-col">{children}</main>
+          </Providers>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

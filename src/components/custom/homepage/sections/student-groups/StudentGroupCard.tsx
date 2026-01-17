@@ -1,6 +1,6 @@
 import { ComponentHomepageGroupItem } from "@/types";
 import { StrapiImage } from "@/components/StrapiImage";
-import CustomLink from "@/components/CustomLink";
+import CardAsLinkWrapper from "@/components/custom/CardAsLinkWrapper";
 
 type Props = {
   group: ComponentHomepageGroupItem;
@@ -8,13 +8,16 @@ type Props = {
 };
 
 export default function StudentGroupCard({ group, preloadImg }: Props) {
-  const content = (
-    <div className="group flex h-full items-center gap-6 overflow-hidden rounded-2xl bg-white p-6 shadow-md transition-transform hover:scale-[1.02]">
+  return (
+    <CardAsLinkWrapper
+      link={group.link}
+      className="group hover:border-primary/50 relative flex flex-col gap-y-4 border border-gray-200 bg-white p-6 transition-all"
+    >
       {group.image?.url && (
-        <div className="flex h-full w-36 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-gray-50 p-4 md:w-50">
+        <div className="border-gray-accent bg-second-background relative flex aspect-auto h-16 max-w-36 items-center justify-center border p-4">
           <StrapiImage
             imageLink={group.image.url}
-            alt={group.image.alternativeText || group.name}
+            alt={group.image.alternativeText ?? group.name}
             width={160}
             height={80}
             preload={preloadImg}
@@ -23,26 +26,12 @@ export default function StudentGroupCard({ group, preloadImg }: Props) {
           />
         </div>
       )}
-      <div className="flex flex-1 flex-col gap-1">
-        <h3 className="text-2xl font-bold">{group.name}</h3>
-        {group.description && (
-          <p className="line-clamp-4 text-gray-600">{group.description}</p>
-        )}
+      <div className="flex flex-1 flex-col gap-2">
+        <h3 className="text-md font-semibold">{group.name}</h3>
+        <p className="text-muted-foreground line-clamp-4 text-sm">
+          {group.description ?? ""}
+        </p>
       </div>
-    </div>
+    </CardAsLinkWrapper>
   );
-
-  if (group.link?.URL) {
-    return (
-      <CustomLink
-        href={group.link.URL}
-        isExternal={group.link.isExternal ?? false}
-        className="h-full"
-      >
-        {content}
-      </CustomLink>
-    );
-  }
-
-  return content;
 }

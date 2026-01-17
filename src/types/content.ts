@@ -1,4 +1,4 @@
-import type { SimpleLink } from "./common";
+import type { Image, SimpleLink } from "./common";
 
 export type SectionFeatureItem = {
   id: number;
@@ -31,6 +31,7 @@ export type Course = {
   semesterCount: number;
   description?: string;
   syllabusLink?: SimpleLink;
+  image?: Image;
   createdAt?: string;
   updatedAt?: string;
   publishedAt?: string;

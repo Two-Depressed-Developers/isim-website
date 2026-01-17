@@ -19,6 +19,8 @@ export const queryKeys = {
   },
   groups: {
     all: (locale: string) => ["groups", locale] as const,
+    researchGroups: (locale: string, onlyResearch: boolean) =>
+      ["research-groups", locale, onlyResearch] as const,
   },
   dataProposals: {
     byMember: (memberDocumentId: string) =>

@@ -260,13 +260,20 @@
   "Contact": {
     "metaTitle": "Contact - Department of Applied Computer Science and Modelling",
     "title": "Contact",
+    "label": "Get in touch",
+    "description": "Reach out to the Department of Applied Computer Science and Modelling",
     "addressHeader": "Correspondence Address",
     "contactHeader": "Contact Information",
     "phoneLabel": "Phone",
     "emailLabel": "E-mail",
     "hoursHeader": "Secretariat Opening Hours",
-    "mapCaption": "Building B-4 is located in the main AGH campus.",
-    "notFound": "No contact information available."
+    "findUsHeader": "How to Find Us",
+    "notFound": "No contact information available.",
+    "lines": "Lines",
+    "tramLabel": "By Tram",
+    "busLabel": "By Bus",
+    "carLabel": "By Car",
+    "parking": "Parking available at ul. Reymonta (paid)"
   },
   "Accessibility": {
     "metaTitle": "Accessibility Statement",

@@ -30,7 +30,11 @@ export default async function ContactPage({ params }: Props) {
 
   return (
     <div className="container mx-auto max-w-7xl space-y-12 px-4 py-8">
-      <PageTitle title={t("title")} />
+      <PageTitle
+        label={t("label")}
+        title={t("title")}
+        description={t("description")}
+      />
       <ContactContent data={data} />
     </div>
   );

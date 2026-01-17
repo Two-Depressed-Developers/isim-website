@@ -286,6 +286,8 @@
   },
   "Accessibility": {
     "metaTitle": "Deklaracja Dostępności",
+    "label": "Dostępność",
+    "description": "Informacje o dostępności serwisu internetowego dla osób z niepełnosprawnościami",
     "lastUpdated": "Ostatnia aktualizacja",
     "statusHeader": "Status zgodności",
     "preparedOn": "Deklarację sporządzono dnia",

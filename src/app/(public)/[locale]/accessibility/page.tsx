@@ -1,9 +1,10 @@
 import { getAccessibilityPage } from "@/data/api/accessibility";
 import { getFormatter, getTranslations } from "next-intl/server";
 import PageTitle from "@/components/PageTitle";
-import { Card, CardContent } from "@/components/ui/card";
-import ContactCard from "@/components/custom/accessibility/ContactCard";
 import { MarkdownRenderer } from "@/components/custom/MarkdownRenderer";
+import { ShieldCheck, MessageSquare, Scale, Calendar } from "lucide-react";
+import { AccessibilitySection } from "@/components/custom/accessibility/AccessibilitySection";
+import { ContactCard } from "@/components/custom/accessibility/ContactCard";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -21,93 +22,90 @@ export default async function AccessibilityPage({ params }: Props) {
   const format = await getFormatter();
   const data = await getAccessibilityPage(locale);
 
-  if (!data)
+  if (!data) {
     return (
       <div className="flex grow flex-col items-center justify-center">
         <h1 className="text-4xl font-semibold">{t("notFound")}</h1>
       </div>
     );
+  }
 
   return (
-    <div className="mx-auto flex max-w-7xl flex-col gap-y-12 px-4 py-10">
-      <PageTitle title={data.title} />
+    <div className="flex flex-col text-slate-900">
+      <div className="bg-white py-8">
+        <div className="mx-auto max-w-7xl px-4">
+          <PageTitle
+            title={data.title}
+            label={t("label")}
+            description={t("description")}
+          />
+          <div className="mb-4 flex items-center gap-2 text-sm text-slate-500">
+            <Calendar size={16} />
+            <span>
+              {t("lastUpdated")}:{" "}
+              {format.dateTime(new Date(data.publicationDate), {
+                year: "numeric",
+                month: "long",
+                day: "2-digit",
+              })}
+            </span>
+          </div>
+        </div>
+      </div>
 
-      <Card>
-        <CardContent>
-          <div className="my-6 text-sm text-gray-600">
-            {t("lastUpdated")}:{" "}
-            {format.dateTime(new Date(data.publicationDate), {
+      <div className="bg-second-background border-gray-accent border-y py-16">
+        <div className="prose mx-auto max-w-7xl px-4">
+          <MarkdownRenderer content={data.introText} />
+        </div>
+      </div>
+
+      <AccessibilitySection icon={ShieldCheck} title={t("statusHeader")}>
+        <p>{data.complianceStatus}</p>
+        <div className="mt-4 flex items-center gap-2 text-sm text-slate-500">
+          <Calendar size={16} />
+          <span>
+            {t("preparedOn")}:{" "}
+            {format.dateTime(new Date(data.preparationDate), {
               year: "numeric",
               month: "long",
               day: "2-digit",
             })}
+          </span>
+        </div>
+      </AccessibilitySection>
+
+      <AccessibilitySection
+        icon={MessageSquare}
+        title={t("feedbackHeader")}
+        gray
+      >
+        <p className="mb-8">{t("feedbackIntro")}</p>
+        <div className="flex flex-col gap-6">
+          {data.feedbackPersonContact && (
+            <ContactCard
+              contact={data.feedbackPersonContact}
+              title={t("contactPersonTitle")}
+            />
+          )}
+          <div className="border-gray-accent border bg-white p-6">
+            <h3 className="mt-0 mb-4 font-semibold">{t("requestDetails")}</h3>
+            <MarkdownRenderer content={data.feedbackProcedureText} />
           </div>
+        </div>
+      </AccessibilitySection>
 
-          <div className="space-y-12">
-            <section className="prose max-w-none">
-              <MarkdownRenderer content={data.introText} />
-            </section>
-
-            <section className="border-l-4 border-yellow-600 bg-yellow-50 p-6">
-              <h2 className="mb-3 text-xl font-semibold text-gray-900">
-                {t("statusHeader")}
-              </h2>
-              <p className="text-gray-800">{data.complianceStatus}</p>
-              <p className="mt-3 text-sm text-gray-600">
-                {t("preparedOn")}:{" "}
-                {format.dateTime(new Date(data.preparationDate), {
-                  year: "numeric",
-                  month: "long",
-                  day: "2-digit",
-                })}
-              </p>
-            </section>
-
-            <section>
-              <h2 className="mb-4 text-xl font-semibold text-gray-900">
-                {t("feedbackHeader")}
-              </h2>
-              <p className="mb-6 text-gray-700">{t("feedbackIntro")}</p>
-
-              {data.feedbackPersonContact && (
-                <div className="mb-6">
-                  <ContactCard
-                    member={data.feedbackPersonContact}
-                    title={t("contactPersonTitle")}
-                  />
-                </div>
-              )}
-
-              <div className="border-l-4 border-gray-300 bg-gray-50 p-6">
-                <h3 className="mb-3 font-semibold text-gray-900">
-                  {t("requestDetails")}
-                </h3>
-                <div className="prose prose-sm max-w-none">
-                  <MarkdownRenderer content={data.feedbackProcedureText} />
-                </div>
-              </div>
-            </section>
-
-            <section>
-              <h2 className="mb-4 text-xl font-semibold text-gray-900">
-                {t("procedureHeader")}
-              </h2>
-              <div className="prose max-w-none">
-                <MarkdownRenderer content={data.enforcementProcedureText} />
-              </div>
-
-              {data.appealPersonContact && (
-                <div className="mt-6">
-                  <ContactCard
-                    member={data.appealPersonContact}
-                    title={t("appealPersonTitle")}
-                  />
-                </div>
-              )}
-            </section>
+      <AccessibilitySection icon={Scale} title={t("procedureHeader")}>
+        <MarkdownRenderer content={data.enforcementProcedureText} />
+        {data.appealPersonContact && (
+          <div className="mt-8">
+            <ContactCard
+              contact={data.appealPersonContact}
+              title={t("appealPersonTitle")}
+              gray
+            />
           </div>
-        </CardContent>
-      </Card>
+        )}
+      </AccessibilitySection>
     </div>
   );
 }

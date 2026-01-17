@@ -42,7 +42,7 @@ function Views() {
       onValueChange={(value) => setView(value as TCalendarView)}
       className="w-full gap-4 sm:w-auto"
     >
-      <TabsList className="border-gray-accent h-auto w-full gap-2 rounded-none border p-1">
+      <TabsList className="border-gray-accent h-auto w-full rounded-none border p-0">
         {tabs.map(({ icon: Icon, name, value }) => {
           const isActive = view === value;
 
@@ -68,20 +68,25 @@ function Views() {
                 value={value}
                 asChild
                 aria-label={name}
-                className="border-gray-accent rounded-none"
+                className="border-gray-accent data-[state=active]:bg-primary rounded-none data-[state=active]:text-white"
               >
                 <motion.button
                   className={cn(
-                    "flex h-8 w-full cursor-pointer items-center justify-center gap-2 rounded-none border-none bg-transparent",
+                    "data-[state=active]:hover:bg-primary flex h-8 w-full cursor-pointer items-center justify-center gap-2 rounded-none border-none transition-colors hover:bg-slate-50",
                   )}
                 >
-                  <div className="shrink-0">
+                  <div
+                    className={cn(
+                      "shrink-0 transition-colors",
+                      isActive ? "text-white" : "text-slate-900",
+                    )}
+                  >
                     <Icon />
                   </div>
                   <AnimatePresence initial={false}>
                     {isActive && (
                       <motion.span
-                        className="font-medium"
+                        className="font-medium text-white"
                         initial={{ opacity: 0, scaleX: 0.8 }}
                         animate={{ opacity: 1, scaleX: 1 }}
                         transition={{ duration: 0.25, ease: "easeOut" }}

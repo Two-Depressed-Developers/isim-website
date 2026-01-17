@@ -21,9 +21,11 @@ const MemberSections = ({ memberSections }: Props) => {
   if (!memberSections) return null;
 
   return (
-    <div className="flex grow flex-col gap-y-4">
-      {memberSections.map((section) => (
-        <div key={section.id}>{blockRenderer(section)}</div>
+    <div className="flex w-full flex-col gap-y-4">
+      {memberSections.map((section, index) => (
+        <div key={`section-${section.id}-${index}`}>
+          {blockRenderer(section)}
+        </div>
       ))}
     </div>
   );

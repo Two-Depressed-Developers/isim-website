@@ -6,7 +6,7 @@ type Props = {
   value: string;
 };
 
-export default function SupervisorInfo({ type, value }: Props) {
+export default function MemberInfo({ type, value }: Props) {
   const config = {
     mail: {
       Icon: Mail,
@@ -25,7 +25,7 @@ export default function SupervisorInfo({ type, value }: Props) {
   const { Icon, href } = config[type];
 
   return (
-    <div className="flex items-center gap-2 text-sm transition-all">
+    <div className="z-1000 flex items-center gap-2 text-sm transition-all">
       <Icon className="h-4 w-4 shrink-0" />
 
       {href ? (

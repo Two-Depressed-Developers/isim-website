@@ -68,10 +68,15 @@
     "eventSite": "Strona wydarzenia",
     "journalSite": "Strona czasopisma",
     "label": "Zdobywanie wiedzy",
-    "description": "Poznaj nasze publikacje naukowe oraz wydarzenia organizowane przez Katedrę Informatyki Stosowanej i Modelowania AGH."
+    "description": "Poznaj nasze publikacje naukowe oraz wydarzenia organizowane przez Katedrę Informatyki Stosowanej i Modelowania AGH.",
+    "viewPublication": "Zobacz publikację"
   },
+  
   "Staff": {
-    "title": "Nasz zespół",
+    "backToDirectory": "Powrót do katalogu pracowników",
+    "title": "Katalog pracowników",
+    "label": "Nasz zespół",
+    "description": "Przeglądaj naszych pracowników naukowych i badawczych",
     "loading": "Ładowanie danych pracowników...",
     "error": "Błąd ładowania danych",
     "noResults": "Nie znaleziono wyników",
@@ -175,7 +180,9 @@
     "photo": "Zdjęcie",
     "title": "Tytuł",
     "fullName": "Imię i nazwisko",
-    "contact": "Kontakt"
+    "contact": "Kontakt",
+    "viewProfileOf": "Zobacz profil {name}",
+    "memberPhotoAlt": "Zdjęcie pracownika"
   },
   "MobileMenu": {
     "menu": "Menu",
@@ -216,6 +223,11 @@
     "nextDate": "Następna data"
   },
   "MemberDetails": {
+    "memberPhotoAlt": "Zdjęcie pracownika",
+    "homepage": "Strona domowa",
+    "USOS": "USOS",
+    "BADAP": "BADAP",
+    "SKOS": "SKOS",
     "contact": "Kontakt",
     "email": "Email",
     "phone": "Telefon",
@@ -236,7 +248,14 @@
     "successTitle": "Prośba o konsultację została wysłana!",
     "successDesc": "Sprawdź swoją skrzynkę email i potwierdź rezerwację klikając w link weryfikacyjny.",
     "errorTitle": "Wystąpił błąd",
-    "errorDesc": "Nie udało się wysłać prośby o konsultację. Spróbuj ponownie."
+    "errorDesc": "Nie udało się wysłać prośby o konsultację. Spróbuj ponownie.",
+    "items": "{count, plural, =0 {elementów} one {element} few {elementy} other {elementów}}",
+    "research": "Badania",
+    "publicationsAlt": "Publikacje",
+    "orcidAlt": "ORCID",
+    "researchgateAlt": "Researchgate",
+    "researcherIdAlt": "Researcher ID",
+    "publicationsTitle": "Publikacje"
   },
   "NotFound": {
     "title": "404 - Nie znaleziono!",

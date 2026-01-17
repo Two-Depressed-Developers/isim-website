@@ -1,43 +1,51 @@
+import { ArrowUpRight } from "lucide-react";
 import { ContactLink } from "./ContactLink";
 import { StrapiImage } from "./StrapiImage";
 import { TableCell, TableRow } from "./ui/table";
 import { MemberData } from "@/types";
-import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
+import Link from "next/link";
 
-export const MemberRow = ({
-  current,
-  member,
-}: {
-  current: number;
-  member: MemberData;
-}) => {
+export const MemberRow = ({ member }: { member: MemberData }) => {
+  const t = useTranslations("Group");
+
   return (
-    <TableRow
-      key={member.id}
-      className={cn("bg-white", { "bg-primary/5": current % 2 === 0 })}
-    >
-      <TableCell>
+    <TableRow key={member.id} className="hover:bg-slate-50">
+      <TableCell className="flex items-center">
         {member.photo?.url ? (
-          <div className="h-20 w-20 shrink-0 overflow-hidden rounded-full shadow-xs">
+          <div className="h-10 w-10 shrink-0 overflow-hidden shadow-xs">
             <StrapiImage
               imageLink={member.photo.url}
-              className="h-full w-full object-cover"
-              alt={member.photo.alternativeText || "Member photo"}
-              width={80}
-              height={80}
+              className="border-gray-accent h-full w-full border object-cover"
+              alt={member.photo.alternativeText || t("memberPhotoAlt")}
+              width={40}
+              height={40}
             />
           </div>
         ) : (
-          <div className="h-20 w-20 shrink-0 overflow-hidden rounded-full bg-gray-200"></div>
+          <div className="bg-gray-accent border-gray-accent h-10 w-10 shrink-0 overflow-hidden border"></div>
         )}
       </TableCell>
-      <TableCell className="text-xl font-semibold">{member.title}</TableCell>
-      <TableCell className="text-xl font-semibold">{member.fullName}</TableCell>
+      <TableCell className="text-primary text-sm font-medium">
+        {member.title}
+      </TableCell>
+      <TableCell className="hover:text-primary text-sm font-semibold text-slate-900 transition-colors">
+        {member.fullName}
+      </TableCell>
       <TableCell>
-        <div className="space-y-1">
+        <div className="space-y-1 text-sm text-slate-600">
           {member.phone && <ContactLink type="phone" value={member.phone} />}
           {member.email && <ContactLink type="mail" value={member.email} />}
         </div>
+      </TableCell>
+      <TableCell>
+        <Link
+          href={`/staff-members/${member.slug}`}
+          className="hover:text-primary inline-flex h-8 w-8 items-center justify-center rounded-sm text-slate-400 transition-colors hover:bg-slate-100"
+          aria-label={t("viewProfileOf", { name: member.fullName })}
+        >
+          <ArrowUpRight size="16" />
+        </Link>
       </TableCell>
     </TableRow>
   );

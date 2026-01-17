@@ -7,7 +7,7 @@ type Props = {
 
 const WhiteCard = ({ className, children }: Props) => {
   return (
-    <div className={cn("rounded-xl bg-white p-6 shadow-md", className)}>
+    <div className={cn("border-gray-accent border bg-white p-6", className)}>
       {children}
     </div>
   );

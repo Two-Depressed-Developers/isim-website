@@ -1,11 +1,14 @@
 import { BreadcrumbTitleSetter } from "@/components/custom/breadcrumb/BreadcrumbTitleSetter";
-import MemberConsultations from "@/components/custom/member/MemberConsultations";
+import StaffConsultations from "@/components/custom/staff/StaffConsultations";
 import MemberMainInfoCard from "@/components/custom/member/MemberMainInfoCard";
-import MemberPublications from "@/components/custom/member/MemberPublications";
+import StaffPublications from "@/components/custom/staff/StaffPublications";
 import MemberSections from "@/components/custom/member/MemberSections";
 import { getMemberData } from "@/data/api/members";
 import { getDataProposals } from "@/data/api/data-proposals";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import PageTitle from "@/components/PageTitle";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 
 export async function generateMetadata({
   params,
@@ -14,7 +17,7 @@ export async function generateMetadata({
 }) {
   const { slug, locale } = await params;
   const member = await getMemberData(slug);
-  
+
   if (member.error) {
     const t = await getTranslations({ locale, namespace: "Staff" });
     return {
@@ -44,27 +47,32 @@ export default async function Page({
   }
 
   return (
-    <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 p-4 md:flex-row md:p-8">
-      <BreadcrumbTitleSetter title={member.fullName} />
+    <div className="w-screen">
+      <div className="mx-auto max-w-7xl p-8">
+        <Link
+          href="/staff"
+          className="mb-8 inline-flex items-center gap-2 text-sm text-slate-600 transition-colors hover:text-[#0e759a]"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          {t("backToDirectory")}
+        </Link>
+        <BreadcrumbTitleSetter title={member.fullName} />
+        <PageTitle
+          title={member.fullName}
+          description={member.title}
+          label={member.position}
+        />
+        <div className="flex flex-col gap-8 pb-8 md:flex-row">
+          <div className="w-full shrink-0 md:w-[320px]">
+            <MemberMainInfoCard member={member} />
+          </div>
 
-      <div className="p-4 md:hidden">
-        <h2 className="text-2xl font-medium">{member.title}</h2>
-        <h1 className="text-4xl font-bold">{`${member.fullName}`}</h1>
-      </div>
-
-      <MemberMainInfoCard member={member} />
-
-      <div className="flex grow flex-col gap-y-4">
-        <div className="hidden p-4 md:block">
-          <h2 className="text-2xl font-medium">{member.title}</h2>
-          <h1 className="text-4xl font-bold">{`${member.fullName}`}</h1>
+          <div className="flex w-full min-w-0 flex-1 flex-col gap-y-4">
+            <StaffConsultations member={member} slug={slug} />
+            <StaffPublications dataProposals={dataProposals} />
+            <MemberSections memberSections={member.sections} />
+          </div>
         </div>
-
-        <MemberConsultations member={member} slug={slug} />
-
-        <MemberPublications dataProposals={dataProposals} />
-
-        <MemberSections memberSections={member.sections} />
       </div>
     </div>
   );

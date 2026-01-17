@@ -1,46 +1,50 @@
+"use client";
+
+import { useTranslations } from "next-intl";
 import { MemberResearch as ResearchType } from "@/types";
-import WhiteCard from "../WhiteCard";
-import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import CustomLink from "@/components/CustomLink";
+import { StaffDetailsTile } from "../staff/StaffDetailsTile";
+import { FlaskConical } from "lucide-react";
 
 type Props = {
   researchData: ResearchType;
 };
 
 const MemberResearch = ({ researchData }: Props) => {
+  const t = useTranslations("MemberDetails");
+
   const researchLinks = researchData
     ? [
         {
           data: researchData.PublicationsLink,
-          altText: "Publications",
+          altText: t("publicationsAlt"),
         },
         {
           data: researchData.ORCIDLink,
-          altText: "ORCID",
+          altText: t("orcidAlt"),
         },
         {
           data: researchData.ResearchgateLink,
-          altText: "Researchgate",
+          altText: t("researchgateAlt"),
         },
         {
           data: researchData.ReasercherIdLink,
-          altText: "Researcher ID",
+          altText: t("researcherIdAlt"),
         },
       ]
     : null;
 
   return (
-    <WhiteCard className="flex flex-col gap-y-4">
-      <h2 className="text-3xl font-bold">Research</h2>
-      <Separator />
-      <div className="grid grid-cols-2 gap-2">
+    <StaffDetailsTile title={t("research")} icon={FlaskConical}>
+      <div className="grid grid-cols-2 gap-2 pt-4">
         {researchLinks &&
           researchLinks.map((researchLink, index) => (
             <Button
               asChild
+              variant="outline"
               key={index}
-              className="bg-light-gray hover:bg-inactive flex items-center gap-2 text-black shadow-xs hover:opacity-90"
+              className="border-accent-gray flex items-center gap-2 border text-black shadow-xs hover:opacity-90"
             >
               <CustomLink
                 href={researchLink.data?.URL ?? "#"}
@@ -51,7 +55,7 @@ const MemberResearch = ({ researchData }: Props) => {
             </Button>
           ))}
       </div>
-    </WhiteCard>
+    </StaffDetailsTile>
   );
 };
 

@@ -1,99 +1,99 @@
-import { Earth } from "lucide-react";
+import { ArrowUpRight, Mail, MapPin, Phone } from "lucide-react";
 
 import CustomLink from "@/components/CustomLink";
 import { StrapiImage } from "@/components/StrapiImage";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 import type { MemberData } from "@/types";
 import { useTranslations } from "next-intl";
-import MemberInfoLink from "../MemberInfoLink";
-import WhiteCard from "../WhiteCard";
 
 type Props = {
   member: MemberData;
-  className?: string;
 };
 
-const MemberMainInfoCard = ({ member, className }: Props) => {
+const MemberMainInfoCard = ({ member }: Props) => {
   const t = useTranslations("MemberDetails");
 
-  const buttonLinks = [
-    {
-      data: member.PortfolioLink,
-      altText: "Homepage",
-      bgColor: "bg-[#0079b6]",
-    },
-    {
-      data: member.USOSLink,
-      altText: "USOS",
-      bgColor: "bg-linear-to-r from-[#383556] to-[#444160]",
-    },
-    {
-      data: member.BADAPLink,
-      altText: "BADAP",
-      bgColor: "bg-black",
-    },
-    {
-      data: member.SKOSLink,
-      altText: "SKOS",
-      bgColor: "bg-[#00693c]",
-    },
-  ];
+  const links = {
+    PortfolioLink: {
+      label: t("homepage"),
+    } as const,
+    USOSLink: {
+      label: t("USOS"),
+    } as const,
+    BADAPLink: {
+      label: t("BADAP"),
+    } as const,
+    SKOSLink: {
+      label: t("SKOS"),
+    } as const,
+  } as const;
 
   return (
-    <WhiteCard className={cn("flex h-fit flex-col gap-y-6", className)}>
+    <div className="mx-auto flex h-fit w-full max-w-[320px] flex-col space-y-4 md:mx-0">
       {member.photo?.url && (
-        <StrapiImage
-          imageLink={member.photo?.url}
-          alt={member.photo?.alternativeText || "Member photo"}
-          className="mx-auto h-64 w-64 rounded-md object-cover shadow-md"
-          height={256}
-          width={256}
-        />
-      )}
-      <div className="flex flex-col gap-y-4">
-        <h3 className="text-2xl font-bold">{t("contact")}</h3>
-        <div className="flex flex-col gap-y-2">
-          {member.email && (
-            <MemberInfoLink
-              type="Email"
-              value={member.email}
-              label={t("email")}
-            />
-          )}
-          {member.phone && (
-            <MemberInfoLink
-              type="Phone"
-              value={member.phone}
-              label={t("phone")}
-            />
-          )}
-          {member.room && (
-            <MemberInfoLink type="Room" value={member.room} label={t("room")} />
-          )}
+        <div className="relative aspect-3/4 w-full overflow-hidden bg-slate-100">
+          <StrapiImage
+            imageLink={member.photo?.url}
+            alt={member.photo?.alternativeText || t("memberPhotoAlt")}
+            className="object-cover"
+            fill
+          />
         </div>
-        <div className="flex flex-col gap-y-2">
-          {buttonLinks &&
-            buttonLinks.map((buttonLink, index) =>
-              buttonLink.data ? (
-                <Button
-                  asChild
-                  key={index}
-                  className={`flex items-center gap-2 ${buttonLink.bgColor} text-white shadow-xs hover:opacity-90`}
-                >
-                  <CustomLink
-                    href={buttonLink.data.URL}
-                    isExternal={buttonLink.data.isExternal}
-                  >
-                    <Earth className="h-2 w-2" />
-                    {buttonLink.data.label ?? buttonLink.altText}
-                  </CustomLink>
-                </Button>
-              ) : null,
-            )}
+      )}
+      <div className="space-y-3 border-t border-slate-200 pt-4">
+        <div className="flex items-center gap-3 text-sm">
+          <MapPin className="h-4 w-4 shrink-0 text-slate-400" />
+          <span className="text-slate-600">{member.room}</span>
+        </div>
+        <div className="flex items-center gap-3 text-sm">
+          <Phone className="h-4 w-4 shrink-0 text-slate-400" />
+          <a
+            href={`tel:${member.phone}`}
+            className="text-slate-600 hover:text-[#0e759a]"
+          >
+            {member.phone}
+          </a>
+        </div>
+        <div className="flex items-center gap-3 text-sm">
+          <Mail className="h-4 w-4 shrink-0 text-slate-400" />
+          <a
+            href={`mailto:${member.email}`}
+            className="text-slate-600 hover:text-[#0e759a]"
+          >
+            {member.email}
+          </a>
         </div>
       </div>
-    </WhiteCard>
+      <div className="border-t border-slate-200 pt-4">
+        <div className="flex flex-col gap-y-2">
+          {Object.entries(links).map(([key, value], index) => {
+            const link = member[key as keyof typeof links];
+            const label = link?.label ?? value.label;
+
+            return link ? (
+              <Button
+                asChild
+                variant="outline"
+                key={index}
+                className="border-primary text-primary hover:text-primary flex items-center gap-2"
+              >
+                <CustomLink
+                  className="relative"
+                  href={link.URL}
+                  isExternal={link.isExternal}
+                >
+                  {label}
+                  <ArrowUpRight
+                    size="16"
+                    className="absolute top-1/2 right-2 -translate-y-1/2"
+                  />
+                </CustomLink>
+              </Button>
+            ) : null;
+          })}
+        </div>
+      </div>
+    </div>
   );
 };
 

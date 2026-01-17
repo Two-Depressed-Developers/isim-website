@@ -68,9 +68,11 @@
     "eventSite": "Event site",
     "journalSite": "Journal site",
     "label": "Knowledge Sharing",
-    "description": "Explore our scientific publications and events organized by the Department of Applied Computer Science and Modelling AGH."
+    "description": "Explore our scientific publications and events organized by the Department of Applied Computer Science and Modelling AGH.",
+    "viewPublication": "View publication"
   },
   "Staff": {
+    "backToDirectory": "Back to Staff Directory",
     "title": "Staff Directory",
     "label": "Our Team",
     "description": "Browse our academic and research staff members",
@@ -221,6 +223,11 @@
     "nextDate": "Next date"
   },
   "MemberDetails": {
+    "memberPhotoAlt": "Member photo",
+    "homepage": "Homepage",
+    "USOS": "USOS",
+    "BADAP": "BADAP",
+    "SKOS": "SKOS",
     "contact": "Contact",
     "email": "Email",
     "phone": "Phone",
@@ -241,7 +248,14 @@
     "successTitle": "Consultation request sent!",
     "successDesc": "Check your email inbox and confirm the reservation by clicking the verification link.",
     "errorTitle": "Error occurred",
-    "errorDesc": "Failed to send consultation request. Please try again."
+    "errorDesc": "Failed to send consultation request. Please try again.",
+    "items": "{count, plural, =0 {items} one {item} other {items}}",
+    "research": "Research",
+    "publicationsAlt": "Publications",
+    "orcidAlt": "ORCID",
+    "researchgateAlt": "Researchgate",
+    "researcherIdAlt": "Researcher ID",
+    "publicationsTitle": "Publications"
   },
   "NotFound": {
     "title": "404 - Not Found!",

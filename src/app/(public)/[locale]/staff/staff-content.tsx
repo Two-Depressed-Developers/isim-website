@@ -50,6 +50,7 @@ const transformGroupsData = (
         groupedByPosition[member.position] = {
           id: member.id,
           documentId: `${member.position}`,
+          reseachGroup: false,
           name: member.position,
           shortDescription: "",
           members: [],

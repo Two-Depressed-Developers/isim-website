@@ -69,7 +69,9 @@
     "journalSite": "Journal site"
   },
   "Staff": {
-    "title": "Our Team",
+    "title": "Staff Directory",
+    "label": "Our Team",
+    "description": "Browse our academic and research staff members",
     "loading": "Loading staff data...",
     "error": "Error loading data",
     "lts": "No results found",
@@ -166,7 +168,9 @@
     "photo": "Photo",
     "title": "Title",
     "fullName": "Full name",
-    "contact": "Contact"
+    "contact": "Contact",
+    "viewProfileOf": "View {name}'s profile",
+    "memberPhotoAlt": "Member photo"
   },
   "MobileMenu": {
     "menu": "Menu",

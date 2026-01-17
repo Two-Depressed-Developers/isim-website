@@ -4,10 +4,7 @@ import { useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 
-import Group from "@/components/Group";
-import ActionBar from "@/components/ActionBar";
-import PageTitle from "@/components/PageTitle";
-
+import MemberGroup from "@/components/custom/member/MemberGroup";
 import { useGroupsData } from "@/data/queries/use-groups";
 import { useDebounce } from "@/lib/hooks";
 import type { MemberData, Group as GroupType } from "@/types";
@@ -68,7 +65,7 @@ const transformGroupsData = (
   }));
 };
 
-function StaffList() {
+export default function StaffContent() {
   const t = useTranslations("Staff");
   const locale = useLocale();
   const searchParams = useSearchParams();
@@ -118,25 +115,15 @@ function StaffList() {
       {filteredGroups && filteredGroups.length > 0 ? (
         filteredGroups.map(
           (group) =>
-            group && <Group key={group.id} group={group} layout={layout} />,
+            group && (
+              <MemberGroup key={group.id} group={group} layout={layout} />
+            ),
         )
       ) : (
         <div className="flex h-16 items-center justify-center">
           <p>{t("noResults")}</p>
         </div>
       )}
-    </div>
-  );
-}
-
-export default function StaffContent() {
-  const t = useTranslations("Staff");
-
-  return (
-    <div className="mx-auto flex w-full max-w-7xl flex-col space-y-8 p-8">
-      <PageTitle title={t("title")} />
-      <ActionBar />
-      <StaffList />
     </div>
   );
 }

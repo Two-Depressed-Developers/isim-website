@@ -22,7 +22,7 @@ export const inputVariants = cva(
       },
     },
     defaultVariants: {
-      rounded: "md",
+      rounded: "none",
       variant: "outline",
     },
   },

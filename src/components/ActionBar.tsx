@@ -1,7 +1,6 @@
 "use client";
 
 import { usePathname, useRouter } from "@/i18n/navigation";
-import { cn } from "@/lib/utils";
 import {
   GraduationCap,
   LayoutGrid,
@@ -56,82 +55,65 @@ export default function ActionBar() {
   };
 
   return (
-    <div className="flex flex-wrap justify-between gap-2 rounded-2xl bg-white p-4 shadow-xs">
-      <div className="flex gap-2">
+    <div className="flex flex-col items-start gap-4 border-b border-slate-200 pb-6 sm:flex-row sm:items-center">
+      <div className="relative w-full sm:w-80">
+        <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-slate-400" />
+        <Input
+          placeholder={t("searchPlaceholder")}
+          aria-label={t("searchPlaceholder")}
+          className="focus-visible:ring-primary pl-10"
+          value={searchQuery}
+          onChange={handleSearchQueryChange}
+        />
+      </div>
+      <div className="self-end sm:ml-auto sm:self-center">
         <Button
           onClick={() => {
             setSortingType("position");
             handleChangeSortingType("position");
           }}
-          className={cn("h-10 w-10", {
-            "bg-primary": sortingType === "position",
-            "bg-inactive": sortingType !== "position",
-            "text-gray-text": sortingType !== "position",
-            "hover:bg-inactive/70": sortingType !== "position",
-          })}
+          className="border-gray-accent border-y border-l"
+          size="sm"
+          variant={sortingType === "position" ? "default" : "ghost"}
           aria-label={tStaff("sortByPosition")}
         >
-          <GraduationCap size="20" />
+          <GraduationCap size="16" />
         </Button>
         <Button
           onClick={() => {
             setSortingType("team");
             handleChangeSortingType("team");
           }}
-          className={cn("h-10 w-10", {
-            "bg-primary": sortingType === "team",
-            "bg-inactive": sortingType !== "team",
-            "text-gray-text": sortingType !== "team",
-            "hover:bg-inactive/70": sortingType !== "team",
-          })}
+          variant={sortingType === "team" ? "default" : "ghost"}
+          size="sm"
+          className="border-gray-accent border-y border-r"
           aria-label={tStaff("sortByTeam")}
         >
-          <UsersRound size="20" />
+          <UsersRound size="16" />
         </Button>
-      </div>
-      <div className="relative hidden grow items-center sm:flex">
-        <Search
-          size="16"
-          className="text-light-gray-text pointer-events-none absolute top-1/2 left-4 -translate-y-1/2"
-        />
-        <Input
-          placeholder={t("searchPlaceholder")}
-          aria-label={t("searchPlaceholder")}
-          className="bg-inactive placeholder:text-light-gray-text focus-visible:ring-primary mx-2 rounded-2xl border-none pr-10 pl-8 placeholder:font-semibold"
-          value={searchQuery}
-          onChange={handleSearchQueryChange}
-        />
-      </div>
-      <div className="flex gap-2">
         <Button
           onClick={() => {
             setLayoutType("grid");
             handleChangeLayout("grid");
           }}
-          className={cn("h-10 w-10", {
-            "bg-primary": layoutType === "grid",
-            "bg-inactive": layoutType !== "grid",
-            "text-gray-text": layoutType !== "grid",
-            "hover:bg-inactive/70": layoutType !== "grid",
-          })}
+          variant={layoutType === "grid" ? "default" : "ghost"}
+          size="sm"
+          className="border-gray-accent ml-2 border-y border-l"
           aria-label={tStaff("gridLayout")}
         >
-          <LayoutGrid size="20" />
+          <LayoutGrid size="16" />
         </Button>
         <Button
           onClick={() => {
             setLayoutType("details");
             handleChangeLayout("details");
           }}
-          className={cn("h-10 w-10", {
-            "bg-primary": layoutType === "details",
-            "bg-inactive": layoutType !== "details",
-            "text-gray-text": layoutType !== "details",
-            "hover:bg-inactive/70": layoutType !== "details",
-          })}
+          size="sm"
+          variant={layoutType === "details" ? "default" : "ghost"}
+          className="border-gray-accent border"
           aria-label={tStaff("detailsLayout")}
         >
-          <LayoutPanelTop size="20" />
+          <LayoutPanelTop size="16" />
         </Button>
 
         <Button
@@ -139,28 +121,13 @@ export default function ActionBar() {
             setLayoutType("list");
             handleChangeLayout("list");
           }}
-          className={cn("h-10 w-10", {
-            "bg-primary": layoutType === "list",
-            "bg-inactive": layoutType !== "list",
-            "text-gray-text": layoutType !== "list",
-            "hover:bg-inactive/70": layoutType !== "list",
-          })}
+          size="sm"
+          variant={layoutType === "list" ? "default" : "ghost"}
+          className="border-gray-accent border-y border-r"
           aria-label={tStaff("listLayout")}
         >
-          <List size="20" />
+          <List size="16" />
         </Button>
-      </div>
-      <div className="relative flex w-full grow items-center sm:hidden">
-        <Search
-          size="16"
-          className="text-light-gray-text pointer-events-none absolute top-1/2 left-2 -translate-y-1/2"
-        />
-        <Input
-          placeholder={t("searchPlaceholder")}
-          className="bg-inactive placeholder:text-light-gray-text focus-visible:ring-primary rounded-2xl border-none pr-10 pl-8 placeholder:font-semibold"
-          value={searchQuery}
-          onChange={handleSearchQueryChange}
-        />
       </div>
     </div>
   );

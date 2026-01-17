@@ -69,7 +69,9 @@
     "journalSite": "Strona czasopisma"
   },
   "Staff": {
-    "title": "Nasz zespół",
+    "title": "Katalog pracowników",
+    "label": "Nasz zespół",
+    "description": "Przeglądaj naszych pracowników naukowych i badawczych",
     "loading": "Ładowanie danych pracowników...",
     "error": "Błąd ładowania danych",
     "noResults": "Nie znaleziono wyników",
@@ -165,7 +167,9 @@
     "photo": "Zdjęcie",
     "title": "Tytuł",
     "fullName": "Imię i nazwisko",
-    "contact": "Kontakt"
+    "contact": "Kontakt",
+    "viewProfileOf": "Zobacz profil {name}",
+    "memberPhotoAlt": "Zdjęcie pracownika"
   },
   "MobileMenu": {
     "menu": "Menu",

@@ -161,20 +161,21 @@ const MemberConsultations = ({ member, slug }: Props) => {
       }
     });
 
-    const bookedSlots = existingBookings
-      .filter(
-        (booking) =>
-          booking.reservationStatus === "pending" ||
-          booking.reservationStatus === "accepted",
-      )
-      .reduce(
-        (acc, booking) => {
-          const key = `${booking.startTime}-${booking.endTime}`;
-          acc[key] = (acc[key] || 0) + 1;
-          return acc;
-        },
-        {} as Record<string, number>,
-      );
+    const bookedSlots =
+      existingBookings
+        ?.filter(
+          (booking) =>
+            booking.reservationStatus === "pending" ||
+            booking.reservationStatus === "accepted",
+        )
+        .reduce(
+          (acc, booking) => {
+            const key = `${booking.startTime}-${booking.endTime}`;
+            acc[key] = (acc[key] || 0) + 1;
+            return acc;
+          },
+          {} as Record<string, number>,
+        ) ?? {};
 
     const availableSlots = slots.filter((slot) => {
       const key = `${slot.startTime}-${slot.endTime}`;

@@ -35,7 +35,7 @@ export default function StaffPublications({ dataProposals }: Props) {
           <div key={index} className="group">
             <div className="flex items-start justify-between gap-2">
               <div>
-                <p className="text-sm font-medium text-slate-900 transition-colors group-hover:text-[#0e759a]">
+                <p className="group-hover:text-primary text-sm font-medium text-slate-900 transition-colors">
                   {pub.title}
                 </p>
                 {!!pub.raw_data.year && (
@@ -51,10 +51,10 @@ export default function StaffPublications({ dataProposals }: Props) {
                 href={pub.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="shrink-0 rounded-sm p-1.5 text-slate-400 transition-colors hover:bg-slate-100 hover:text-[#0e759a]"
+                className="hover:text-primary shrink-0 rounded-sm p-1.5 text-slate-400 transition-colors hover:bg-slate-100"
                 aria-label={t("viewPublication")}
               >
-                <ExternalLink className="h-4 w-4" />
+                <ExternalLink size="16" />
               </a>
             </div>
           </div>

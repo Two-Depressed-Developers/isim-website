@@ -42,23 +42,23 @@ const MemberMainInfoCard = ({ member }: Props) => {
       )}
       <div className="space-y-3 border-t border-slate-200 pt-4">
         <div className="flex items-center gap-3 text-sm">
-          <MapPin className="h-4 w-4 shrink-0 text-slate-400" />
+          <MapPin size="16" className="shrink-0 text-slate-400" />
           <span className="text-slate-600">{member.room}</span>
         </div>
         <div className="flex items-center gap-3 text-sm">
-          <Phone className="h-4 w-4 shrink-0 text-slate-400" />
+          <Phone size="16" className="shrink-0 text-slate-400" />
           <a
             href={`tel:${member.phone}`}
-            className="text-slate-600 hover:text-[#0e759a]"
+            className="hover:text-primary text-slate-600"
           >
             {member.phone}
           </a>
         </div>
         <div className="flex items-center gap-3 text-sm">
-          <Mail className="h-4 w-4 shrink-0 text-slate-400" />
+          <Mail size="16" className="shrink-0 text-slate-400" />
           <a
             href={`mailto:${member.email}`}
-            className="text-slate-600 hover:text-[#0e759a]"
+            className="hover:text-primary text-slate-600"
           >
             {member.email}
           </a>

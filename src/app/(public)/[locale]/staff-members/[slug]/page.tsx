@@ -53,7 +53,7 @@ export default async function Page({
           href="/staff"
           className="hover:text-primary mb-8 inline-flex items-center gap-2 text-sm text-slate-600 transition-colors"
         >
-          <ArrowLeft className="h-4 w-4" />
+          <ArrowLeft size="16" />
           {t("backToDirectory")}
         </Link>
         <BreadcrumbTitleSetter title={member.fullName} />

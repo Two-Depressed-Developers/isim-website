@@ -41,10 +41,10 @@ export const MemberRow = ({ member }: { member: MemberData }) => {
       <TableCell>
         <Link
           href={`/staff-members/${member.slug}`}
-          className="inline-flex h-8 w-8 items-center justify-center rounded-sm text-slate-400 transition-colors hover:bg-slate-100 hover:text-[#0e759a]"
+          className="hover:text-primary inline-flex h-8 w-8 items-center justify-center rounded-sm text-slate-400 transition-colors hover:bg-slate-100"
           aria-label={t("viewProfileOf", { name: member.fullName })}
         >
-          <ArrowUpRight className="h-4 w-4" />
+          <ArrowUpRight size="16" />
         </Link>
       </TableCell>
     </TableRow>

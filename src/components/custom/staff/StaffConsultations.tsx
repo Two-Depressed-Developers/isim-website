@@ -266,7 +266,7 @@ export default function StaffConsultations({ member, slug }: Props) {
           {groupedSlots.map(([date, slots]) => (
             <div key={date} className="space-y-3">
               <div className="flex items-center gap-2">
-                <CalendarIcon className="text-primary h-4 w-4" />
+                <CalendarIcon size="16" className="text-primary" />
                 <h3 className="text-sm font-medium text-slate-900">
                   {formatDateTime.dateTime(parseISO(date), {
                     weekday: "long",
@@ -285,7 +285,7 @@ export default function StaffConsultations({ member, slug }: Props) {
                     onClick={() => handleSlotSelect(slot)}
                     className="hover:bg-primary flex items-center justify-center gap-2 hover:text-white"
                   >
-                    <Clock className="h-4 w-4" />
+                    <Clock size="16" />
                     {formatDateTime.dateTime(parseISO(slot.startTime), {
                       hour: "numeric",
                       minute: "numeric",
@@ -324,7 +324,7 @@ export default function StaffConsultations({ member, slug }: Props) {
             <div className="space-y-4">
               <div className="space-y-2 rounded-md bg-gray-50 p-4">
                 <div className="flex items-center gap-2">
-                  <CalendarIcon className="text-primary h-4 w-4" />
+                  <CalendarIcon size="16" className="text-primary" />
                   <span className="font-medium">
                     {formatDateTime.dateTime(parseISO(selectedSlot.startTime), {
                       weekday: "long",
@@ -335,7 +335,7 @@ export default function StaffConsultations({ member, slug }: Props) {
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Clock className="text-primary h-4 w-4" />
+                  <Clock size="16" className="text-primary" />
                   <span className="font-medium">
                     {formatDateTime.dateTime(parseISO(selectedSlot.startTime), {
                       hour: "numeric",
@@ -368,7 +368,7 @@ export default function StaffConsultations({ member, slug }: Props) {
                           <Input
                             type="email"
                             placeholder="imie.nazwisko@student.agh.edu.pl"
-                            startContent={<Mail className="h-4 w-4" />}
+                            startContent={<Mail size="16" />}
                             {...field}
                           />
                         </FormControl>
@@ -390,7 +390,7 @@ export default function StaffConsultations({ member, slug }: Props) {
                           <Input
                             type="text"
                             placeholder="Jan Kowalski"
-                            startContent={<User className="h-4 w-4" />}
+                            startContent={<User size="16" />}
                             {...field}
                           />
                         </FormControl>
@@ -412,7 +412,7 @@ export default function StaffConsultations({ member, slug }: Props) {
                           <Input
                             type="text"
                             placeholder="Informatyka, Bazy Danych"
-                            startContent={<BookOpen className="h-4 w-4" />}
+                            startContent={<BookOpen size="16" />}
                             {...field}
                           />
                         </FormControl>
@@ -445,7 +445,7 @@ export default function StaffConsultations({ member, slug }: Props) {
                         </>
                       ) : (
                         <>
-                          <CheckCircle2 className="h-4 w-4" />
+                          <CheckCircle2 size="16" />
                           {t("sendRequest")}
                         </>
                       )}

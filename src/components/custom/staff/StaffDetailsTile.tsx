@@ -44,7 +44,7 @@ export function StaffDetailsTile({
           animate={{ rotate: isOpen ? 180 : 0 }}
           transition={{ duration: 0.2 }}
         >
-          <ChevronDown className="h-5 w-5 text-slate-400" />
+          <ChevronDown size="20" className="text-slate-400" />
         </motion.div>
       </button>
       <AnimatePresence initial={false}>

@@ -11,7 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from "../../ui/table";
-import SupervisorCard from "./MemberCard";
+import MemberCard from "./MemberCard";
 
 type Props = {
   group: GroupType;
@@ -56,7 +56,7 @@ const GridLayout = ({ members }: { members: MemberData[] }) => {
   return (
     <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
       {members.map((member) => (
-        <SupervisorCard key={member.id} member={member} />
+        <MemberCard key={member.id} member={member} />
       ))}
     </div>
   );

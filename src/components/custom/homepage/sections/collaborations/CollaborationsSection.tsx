@@ -1,12 +1,4 @@
 import { ComponentHomepageCollaborations } from "@/types";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
-import Autoplay from "embla-carousel-autoplay";
 import SectionHeader from "../../SectionHeader";
 import CollaborationItem from "./CollaborationItem";
 
@@ -16,51 +8,24 @@ type Props = {
 };
 
 export default function CollaborationsSection({ data, preloadImg }: Props) {
-  const items = data.items ?? [];
-
-  const minItems = 10;
-  const multiplier = items.length > 0 ? Math.ceil(minItems / items.length) : 1;
-  const duplicatedItems = Array(multiplier).fill(items).flat();
-
   return (
-    <section>
+    <section className="flex flex-col gap-y-8">
       <SectionHeader
         title={data.title}
         description={data.description}
-        className="mb-8"
+        eyebrow={data.eyebrow}
       />
-      <Carousel
-        opts={{
-          align: "start",
-          loop: true,
-          dragFree: true,
-        }}
-        plugins={[
-          Autoplay({
-            delay: 2000,
-            stopOnInteraction: false,
-            stopOnMouseEnter: true,
-          }),
-        ]}
-        className="w-full px-6"
-      >
-        <CarouselContent className="ml-1">
-          {duplicatedItems.map((item, index) => (
-            <CarouselItem
-              key={`${item.id}-${index}`}
-              className="basis-1/1 p-2 sm:basis-1/2 md:basis-1/3 lg:basis-1/4"
-            >
-              <CollaborationItem
-                item={item}
-                preloadImg={preloadImg}
-                index={index}
-              />
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-        <CarouselPrevious className="left-0 -translate-x-1/2" />
-        <CarouselNext className="right-0 translate-x-1/2" />
-      </Carousel>
+
+      <div className="mx-auto flex w-full max-w-6xl flex-wrap justify-center gap-6 px-4">
+        {data.items?.map((item, index) => (
+          <div key={item.id || index} className="w-52 sm:w-60">
+            <CollaborationItem
+              item={item}
+              preloadImg={preloadImg && index === 0}
+            />
+          </div>
+        ))}
+      </div>
     </section>
   );
 }

@@ -10,15 +10,20 @@ import {
   getTranslations,
   setRequestLocale,
 } from "next-intl/server";
-import { K2D } from "next/font/google";
 import { notFound } from "next/navigation";
+import { Inter, Playfair_Display } from "next/font/google";
 import "../../globals.css";
 import { Providers } from "../../providers";
 import { LocaleProviders } from "./providers";
 
-const k2d = K2D({
-  weight: ["400", "500", "600"],
+const playfair = Playfair_Display({
   subsets: ["latin"],
+  variable: "--font-playfair",
+});
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  weight: ["400", "500", "600", "700"],
 });
 
 export const revalidate = 3600; // 1 hour
@@ -84,12 +89,12 @@ export default async function PublicLayout({ children, params }: Props) {
   const messages = await getMessages();
 
   return (
-    <html lang={locale}>
+    <html lang={locale} className={`${playfair.variable} ${inter.variable}`}>
       <head>
         <PublicEnvScript />
       </head>
       <body
-        className={`${k2d.className} bg-background flex min-h-screen flex-col antialiased`}
+        className={`bg-background flex min-h-screen flex-col font-sans antialiased`}
       >
         <Providers>
           <LocaleProviders locale={locale} messages={messages}>

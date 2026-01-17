@@ -18,7 +18,8 @@
     "seeMore": "Zobacz więcej",
     "heroSlider": {
       "prevSlide": "Poprzedni slajd",
-      "nextSlide": "Następny slajd"
+      "nextSlide": "Następny slajd",
+      "goToSlide": "Przejdź do slajdu"
     },
     "supervisor": {
       "photoAlt": "Zdjęcie opiekuna",
@@ -102,7 +103,7 @@
     "firstDegree": "Studia I stopnia (inżynierskie)",
     "secondDegree": "Studia II stopnia (magisterskie)",
     "semesters": "semestrów",
-    "syllabus": "Sylabus",
+    "syllabus": "Zobacz Sylabus",
     "I stopień": "I stopień",
     "II stopień": "II stopień",
     "Stacjonarne": "Stacjonarne",

@@ -1,8 +1,9 @@
 import { Group } from "@/types";
 import { Badge } from "@/components/ui/badge";
-import { ExternalLink, Users } from "lucide-react";
+import { ArrowUpRight, ExternalLink, Users } from "lucide-react";
 import CustomLink from "@/components/CustomLink";
 import { useTranslations } from "next-intl";
+import { Separator } from "@/components/ui/separator";
 
 type Props = {
   group: Group;
@@ -19,25 +20,50 @@ export default function ResearchGroupTile({
   const keywords = group.keywords?.split(",").map((k) => k.trim()) ?? [];
 
   if (variant === "compact") {
-    return (
-      <div className="group border-l-primary/60 bg-card hover:from-primary/5 relative flex h-full flex-col justify-between rounded-md border border-l-4 p-4 transition hover:bg-gradient-to-r hover:to-transparent">
-        <div className="space-y-1">
-          <h3 className="group-hover:text-primary text-sm leading-snug font-semibold transition-colors">
-            {group.name}
-          </h3>
-
-          {group.shortDescription && (
-            <p className="text-muted-foreground line-clamp-2 text-xs">
-              {group.shortDescription}
-            </p>
-          )}
+    const Content = (
+      <>
+        <div className="flex flex-col gap-y-3">
+          <div className="flex flex-col gap-y-1">
+            <h3 className="text-md font-semibold">{group.name}</h3>
+            {group.supervisor && (
+              <p className="text-primary text-sm font-semibold">
+                {t("leader")}: {group.supervisor.title}{" "}
+                {group.supervisor.fullName}
+              </p>
+            )}
+          </div>
+          <p className="text-muted-foreground line-clamp-4 text-sm">
+            {group.shortDescription}
+          </p>
         </div>
 
-        <div className="text-primary mt-3 text-xs font-medium">
-          {membersCount} {t("members")}
+        <div className="flex flex-col gap-y-4">
+          <div className="h-[1px] bg-gray-100" />
+          <div className="flex items-center gap-1 text-sm font-medium">
+            <span className="text-primary font-bold">{membersCount}</span>{" "}
+            {t("members")}
+          </div>
         </div>
-      </div>
+      </>
     );
+
+    const styles =
+      "group relative flex flex-col justify-between gap-y-4 border border-gray-200 bg-white p-6 transition-all hover:border-primary/50";
+
+    if (group.siteLink) {
+      return (
+        <CustomLink
+          href={group.siteLink.URL}
+          isExternal={group.siteLink.isExternal}
+          className={styles}
+        >
+          <ArrowUpRight className="group-hover:text-primary absolute top-4 right-4 h-5 w-5 text-gray-400 transition-colors" />
+          {Content}
+        </CustomLink>
+      );
+    }
+
+    return <div className={styles}>{Content}</div>;
   }
 
   return (

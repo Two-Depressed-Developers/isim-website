@@ -8,17 +8,30 @@ const HOMEPAGE_POPULATE = {
     on: {
       "homepage.hero-slider": {
         populate: {
-          images: {
-            fields: ["url", "alternativeText"],
+          slides: {
+            populate: {
+              photo: {
+                fields: ["url", "alternativeText"],
+              },
+              cta: {
+                populate: {
+                  fields: ["URL", "label", "isExternal", "openInNewWindow"],
+                },
+              },
+            },
           },
         },
       },
       "homepage.supervisors": {
         populate: {
-          members: {
+          supervisors: {
             populate: {
-              photo: {
-                fields: ["url", "alternativeText"],
+              member: {
+                populate: {
+                  photo: {
+                    fields: ["url", "alternativeText"],
+                  },
+                },
               },
             },
           },
@@ -58,6 +71,8 @@ const HOMEPAGE_POPULATE = {
           groups: {
             populate: {
               members: true,
+              supervisor: true,
+              siteLink: true,
             },
           },
           conferences: true,

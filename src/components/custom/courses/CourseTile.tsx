@@ -1,50 +1,70 @@
 import { Course } from "@/types";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, ExternalLink, GraduationCap } from "lucide-react";
+import {
+  ArrowUpRight,
+  Calendar,
+  ExternalLink,
+  GraduationCap,
+} from "lucide-react";
 import CustomLink from "@/components/CustomLink";
 import { useTranslations } from "next-intl";
+import { StrapiImage } from "@/components/StrapiImage";
 
 type Props = {
   course: Course;
+  preloadImg?: boolean;
   variant?: "default" | "compact";
 };
 
-export default function CourseTile({ course, variant = "default" }: Props) {
+export default function CourseTile({
+  course,
+  preloadImg,
+  variant = "default",
+}: Props) {
   const t = useTranslations("Courses");
   const isFirstDegree = course.degreeType === "I stopień";
 
-  const theme = isFirstDegree
-    ? {
-        borderL: "border-l-blue-500",
-        iconColor: "text-blue-500",
-        hoverBorder: "group-hover:border-blue-500/30",
-        badge: "bg-blue-50 text-blue-700 hover:bg-blue-100 border-blue-200",
-      }
-    : {
-        borderL: "border-l-purple-500",
-        iconColor: "text-purple-500",
-        hoverBorder: "group-hover:border-purple-500/30",
-        badge:
-          "bg-purple-50 text-purple-700 hover:bg-purple-100 border-purple-200",
-      };
-
   if (variant === "compact") {
     return (
-      <div
-        className={cn(
-          "group bg-card relative flex items-center gap-4 overflow-hidden rounded-md border p-4 transition-all hover:shadow-md",
-          "border-l-4",
-          theme.borderL,
-        )}
-      >
-        <div className="min-w-0 flex-1">
-          <h3 className="text-foreground group-hover:text-primary font-semibold transition-colors">
-            {course.title}
-          </h3>
-          <p className="text-muted-foreground text-xs">
-            {t(course.degreeType)} • {course.semesterCount} {t("semesters")}
-          </p>
+      <div className="hover:border-primary/50 group border-gray-accent flex flex-col border bg-white transition-all">
+        <div className="relative h-64 w-full overflow-hidden">
+          {course.image ? (
+            <StrapiImage
+              imageLink={course.image.url}
+              alt={course.image.alternativeText ?? ""}
+              fill={true}
+              sizes="(max-width: 768px) 100vw, 400px"
+              className="object-cover transition-transform duration-300 group-hover:scale-105"
+              preload={preloadImg}
+            />
+          ) : (
+            <div className="h-full w-full bg-gray-200" />
+          )}
+        </div>
+        <div className="flex grow flex-col justify-between gap-y-6 p-6">
+          <div className="flex flex-col gap-y-3">
+            <div className="flex flex-wrap gap-2">
+              <Badge variant="outline">{t(course.degreeType)}</Badge>
+              <Badge variant="outline">{t(course.format)}</Badge>
+            </div>
+            <h3 className="text-lg font-bold">{course.title}</h3>
+            {course.description && (
+              <p className="line-clamp-3 text-sm text-gray-600">
+                {course.description}
+              </p>
+            )}
+          </div>
+          <div className="flex justify-end">
+            <CustomLink
+              href={course.syllabusLink?.URL || "#"}
+              isExternal={course.syllabusLink?.isExternal || false}
+              className="text-primary flex items-center gap-x-1 text-base font-semibold underline-offset-4 hover:underline"
+            >
+              {t("syllabus")}
+              <ArrowUpRight className="h-4 w-4" />
+            </CustomLink>
+          </div>
         </div>
       </div>
     );
@@ -54,11 +74,9 @@ export default function CourseTile({ course, variant = "default" }: Props) {
     <div
       className={cn(
         "group bg-card relative flex flex-col justify-between overflow-hidden rounded-lg border border-l-4 p-6 transition-all duration-300 hover:shadow-lg",
-        theme.borderL,
-        theme.hoverBorder,
       )}
     >
-      <div className="pointer-events-none absolute -top-8 -right-8 z-0 opacity-[0.07] transition-transform duration-500">
+      {/* <div className="pointer-events-none absolute -top-8 -right-8 z-0 opacity-[0.07] transition-transform duration-500">
         <GraduationCap className={cn("h-48 w-48", theme.iconColor)} />
       </div>
 
@@ -109,7 +127,7 @@ export default function CourseTile({ course, variant = "default" }: Props) {
             <ExternalLink className="h-3.5 w-3.5 opacity-75" />
           </CustomLink>
         )}
-      </div>
+      </div> */}
     </div>
   );
 }

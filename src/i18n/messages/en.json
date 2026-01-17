@@ -18,7 +18,8 @@
     "seeMore": "See more",
     "heroSlider": {
       "prevSlide": "Previous slide",
-      "nextSlide": "Next slide"
+      "nextSlide": "Next slide",
+      "goToSlide": "Go to slide"
     },
     "supervisor": {
       "photoAlt": "Supervisor photo",
@@ -103,7 +104,7 @@
     "firstDegree": "First Cycle Studies (Bachelor/Engineer)",
     "secondDegree": "Second Cycle Studies (Master)",
     "semesters": "semesters",
-    "syllabus": "Syllabus",
+    "syllabus": "View Syllabus",
     "I stopień": "First Cycle",
     "II stopień": "Second Cycle",
     "Stacjonarne": "Full-time",

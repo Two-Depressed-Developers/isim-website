@@ -17,12 +17,12 @@ export function LanguageSwitcher() {
   };
 
   return (
-    <div className="flex items-center gap-1 rounded-md border p-1">
+    <div className="flex items-center gap-1 border p-1">
       <Button
         variant={currentLocale === "pl" ? "default" : "ghost"}
         size="sm"
         onClick={() => switchLocale("pl")}
-        className="h-7 px-3 text-xs"
+        className="h-7 rounded-none px-3 text-xs"
         aria-label={t("changeLanguageToPolish")}
       >
         🇵🇱
@@ -32,7 +32,7 @@ export function LanguageSwitcher() {
         variant={currentLocale === "en" ? "default" : "ghost"}
         size="sm"
         onClick={() => switchLocale("en")}
-        className="h-7 px-3 text-xs"
+        className="h-7 rounded-none px-3 text-xs"
         aria-label={t("changeLanguageToEnglish")}
       >
         🇬🇧

@@ -9,17 +9,17 @@ type Props = {
 
 export default function SupervisorsSection({ data, preloadImg }: Props) {
   return (
-    <section className="flex flex-col gap-y-4">
+    <section className="flex flex-col gap-y-8">
       <SectionHeader
         title={data.title}
+        eyebrow={data.eyebrow}
         description={data.description}
-        className="mb-4"
       />
-      <div className="grid gap-6 md:grid-cols-2">
-        {data.members?.map((member) => (
+      <div className="grid gap-6 xl:grid-cols-2">
+        {data.supervisors?.map((supervisor) => (
           <SupervisorCard
-            key={`member_${member.id}`}
-            member={member}
+            key={`member_${supervisor.id}`}
+            supervisor={supervisor}
             preloadImg={preloadImg}
           />
         ))}

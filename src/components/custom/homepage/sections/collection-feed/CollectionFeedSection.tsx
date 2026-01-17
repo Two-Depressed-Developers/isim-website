@@ -5,6 +5,7 @@ import ResearchGroupTile from "@/components/custom/research-groups/ResearchGroup
 import ResearchOfferTile from "../research-offer/ResearchOfferTile";
 import SectionHeader from "../../SectionHeader";
 import { LAYOUT_COMPONENTS } from "./CollectionLayouts";
+import { OFFER_ICONS } from "@/consts/homepage";
 
 type Props = {
   data: ComponentHomepageCollectionFeed;
@@ -16,8 +17,12 @@ function renderItems(data: ComponentHomepageCollectionFeed) {
 
   switch (sourceType) {
     case "research-offer":
-      return data.research_offers?.map((offer) => (
-        <ResearchOfferTile key={`offer_${offer.id}`} offer={offer} />
+      return data.research_offers?.map((offer, index) => (
+        <ResearchOfferTile
+          key={`offer_${offer.id}`}
+          offer={offer}
+          icons={OFFER_ICONS.slice(index % OFFER_ICONS.length)}
+        />
       ));
 
     case "research-group":
@@ -67,8 +72,12 @@ export default function CollectionFeedSection({ data }: Props) {
   const LayoutComponent = LAYOUT_COMPONENTS[data.layout];
 
   return (
-    <section>
-      <SectionHeader title={data.title} page={data.page} className="mb-8" />
+    <section className="flex flex-col gap-y-8">
+      <SectionHeader
+        title={data.title}
+        page={data.page}
+        eyebrow={data.eyebrow}
+      />
       <LayoutComponent>{renderItems(data)}</LayoutComponent>
     </section>
   );

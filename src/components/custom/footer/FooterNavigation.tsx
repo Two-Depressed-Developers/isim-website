@@ -7,7 +7,7 @@ type Props = {
 
 export default function FooterNavigation({ navigation }: Props) {
   return (
-    <div className="text-gray-text flex h-full flex-col space-y-2">
+    <div className="flex h-full flex-col space-y-2 text-white/75">
       {navigation.title && (
         <h4 className="text-lg font-bold">{navigation.title}</h4>
       )}
@@ -17,7 +17,7 @@ export default function FooterNavigation({ navigation }: Props) {
             <CustomLink
               href={`/${page.slug}`}
               isExternal={false}
-              className="hover:text-primary items-baseline no-underline transition-colors duration-200"
+              className="hover:text-primary items-baseline text-white/50 no-underline transition-colors duration-200"
             >
               {page.name}
             </CustomLink>

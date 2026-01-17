@@ -66,7 +66,9 @@
     "incoming": "Upcoming",
     "cyclic": "Cyclic",
     "eventSite": "Event site",
-    "journalSite": "Journal site"
+    "journalSite": "Journal site",
+    "label": "Knowledge Sharing",
+    "description": "Explore our scientific publications and events organized by the Department of Applied Computer Science and Modelling AGH."
   },
   "Staff": {
     "title": "Staff Directory",
@@ -89,7 +91,10 @@
   "Offer": {
     "title": "Our Offer",
     "error": "Failed to load offer.",
-    "notFound": "Nie znaleziono ofert naukowych."
+    "notFound": "Nie znaleziono ofert naukowych.",
+    "label": "Innovations",
+    "topics": "Topics",
+    "description": "Explore our research offer and innovative solutions created at the Department of Applied Computer Science and Modelling AGH."
   },
   "ResearchGroups": {
     "title": "Research Groups",
@@ -97,7 +102,9 @@
     "notFound": "No research groups found.",
     "members": "members",
     "leader": "Leader",
-    "teamSite": "Team site"
+    "teamSite": "Team site",
+    "label": "Research",
+    "description": "Discover our research groups at the Department of Applied Computer Science and Modelling and learn more about their innovative projects and achievements."
   },
   "Courses": {
     "title": "Study Courses",
@@ -106,11 +113,14 @@
     "firstDegree": "First Cycle Studies (Bachelor/Engineer)",
     "secondDegree": "Second Cycle Studies (Master)",
     "semesters": "semesters",
+    "semesters_v2": "semesters",
     "syllabus": "View Syllabus",
     "I stopień": "First Cycle",
     "II stopień": "Second Cycle",
     "Stacjonarne": "Full-time",
-    "Niestacjonarne": "Part-time"
+    "Niestacjonarne": "Part-time",
+    "label": "Career Development",
+    "description": "Discover our study programs offered by the Department of Applied Computer Science and Modelling AGH and start your journey towards a career in the IT industry."
   },
   "Helpdesk": {
     "title": "Tickets",

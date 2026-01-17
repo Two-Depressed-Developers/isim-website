@@ -46,11 +46,7 @@ function renderItems(data: ComponentHomepageCollectionFeed) {
 
     case "course":
       return data.courses?.map((course) => (
-        <CourseTile
-          key={`course_${course.id}`}
-          course={course}
-          variant="compact"
-        />
+        <CourseTile key={`course_${course.id}`} course={course} />
       ));
 
     case "journal":

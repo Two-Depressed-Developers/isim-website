@@ -5,7 +5,7 @@ import {
   BookOpen,
   Calendar,
   CalendarDays,
-  ExternalLink,
+  ArrowUpRight,
   RefreshCw,
 } from "lucide-react";
 import { format, parseISO, isSameDay, Locale } from "date-fns";
@@ -13,6 +13,8 @@ import { pl, enUS } from "date-fns/locale";
 import CustomLink from "@/components/CustomLink";
 import { useLocale, useTranslations } from "next-intl";
 import CardAsLinkWrapper from "../CardAsLinkWrapper";
+import { Card } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 
 type Props = {
   variant?: "default" | "compact";
@@ -91,96 +93,81 @@ export default function PublicationTile({
   }
 
   return (
-    <div className="group relative flex flex-col overflow-hidden rounded-2xl bg-white shadow-sm transition-all duration-300 hover:shadow-xl">
-      {image?.url ? (
-        <div className="relative h-48 overflow-hidden">
+    <Card className="hover:border-primary/50 group flex flex-col transition-all">
+      <div className="relative h-64 w-full overflow-hidden">
+        {image?.url ? (
           <StrapiImage
             imageLink={image.url}
             alt={item.title}
             width={600}
             height={300}
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-
-          <div className="absolute right-4 bottom-4 left-4">
-            <div className="flex items-center gap-2">
-              {isUpcoming && (
-                <Badge className="bg-primary text-primary-foreground border-0">
-                  {t("incoming")}
-                </Badge>
-              )}
-              {isRecurring && (
-                <Badge
-                  variant="secondary"
-                  className="border-0 bg-white/20 text-white backdrop-blur-sm"
-                >
-                  <RefreshCw className="mr-1 h-3 w-3" />
-                  {t("cyclic")}
-                </Badge>
-              )}
-            </div>
-          </div>
-        </div>
-      ) : (
-        <div className="bg-muted relative h-32">
-          <div className="absolute inset-0 flex items-center justify-center opacity-10">
+        ) : (
+          <div className="bg-muted flex h-full w-full items-center justify-center">
             {isConf ? (
-              <CalendarDays className="h-20 w-20" />
+              <CalendarDays className="text-muted-foreground h-20 w-20 opacity-20" />
             ) : (
-              <BookOpen className="h-20 w-20" />
+              <BookOpen className="text-muted-foreground h-20 w-20 opacity-20" />
             )}
           </div>
+        )}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+      </div>
 
-          <div className="absolute bottom-4 left-4 flex items-center gap-2">
+      <div className="flex grow flex-col justify-between gap-y-6 p-6">
+        <div className="flex flex-col gap-y-3">
+          <h3 className="text-lg font-bold">{item.title}</h3>
+
+          {item.description && (
+            <p className="line-clamp-3 text-sm text-gray-600">
+              {item.description}
+            </p>
+          )}
+        </div>
+
+        {(isUpcoming || isRecurring) && (
+          <div className="flex flex-wrap gap-2">
             {isUpcoming && (
               <Badge className="bg-primary text-primary-foreground border-0">
                 {t("incoming")}
               </Badge>
             )}
             {isRecurring && (
-              <Badge className="bg-secondary text-secondary-foreground border-0">
+              <Badge variant="outline">
                 <RefreshCw className="mr-1 h-3 w-3" />
                 {t("cyclic")}
               </Badge>
             )}
           </div>
-        </div>
-      )}
+        )}
 
-      <div className="flex flex-1 flex-col p-6">
-        {isConf && (
-          <div className="text-muted-foreground mb-3 flex items-center gap-4 text-sm">
-            <span className="flex items-center gap-1">
-              <Calendar className="h-4 w-4" />
-              {formatDateRange(dateFnsLocale, item.startDate, item.endDate)}
-            </span>
+        <div className="flex flex-col gap-4">
+          <Separator className="bg-gray-accent" />
+
+          <div className="flex justify-between">
+            {isConf && (
+              <div className="flex items-center gap-1">
+                <Calendar className="h-3 w-3" />
+                <span className="text-sm text-gray-600">
+                  {formatDateRange(dateFnsLocale, item.startDate, item.endDate)}
+                </span>
+              </div>
+            )}
+
+            {link && (
+              <CustomLink
+                href={link.URL}
+                isExternal={link.isExternal}
+                className="text-primary ml-auto flex items-center gap-x-1 text-sm font-semibold underline-offset-4 hover:underline"
+              >
+                {isConf ? t("eventSite") : t("journalSite")}
+                <ArrowUpRight size={16} />
+              </CustomLink>
+            )}
           </div>
-        )}
-
-        <h3 className="group-hover:text-primary text-foreground mb-2 text-xl font-bold transition-colors">
-          {item.title}
-        </h3>
-
-        {item.description && (
-          <p className="text-muted-foreground mb-4 flex-1">
-            {item.description}
-          </p>
-        )}
-
-        <div className="mt-auto flex w-full items-center gap-2">
-          {link && (
-            <CustomLink
-              href={link.URL}
-              isExternal={link.isExternal}
-              className="border-input bg-muted hover:bg-accent hover:text-accent-foreground flex w-full items-center justify-center gap-3 rounded-md border px-4 py-1.5 text-center text-sm font-medium transition-colors"
-            >
-              {isConf ? t("eventSite") : t("journalSite")}
-              <ExternalLink className="h-3.5 w-3.5" />
-            </CustomLink>
-          )}
         </div>
       </div>
-    </div>
+    </Card>
   );
 }

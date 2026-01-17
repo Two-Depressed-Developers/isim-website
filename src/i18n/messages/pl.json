@@ -66,7 +66,9 @@
     "incoming": "Nadchodzące",
     "cyclic": "Cykliczne",
     "eventSite": "Strona wydarzenia",
-    "journalSite": "Strona czasopisma"
+    "journalSite": "Strona czasopisma",
+    "label": "Zdobywanie wiedzy",
+    "description": "Poznaj nasze publikacje naukowe oraz wydarzenia organizowane przez Katedrę Informatyki Stosowanej i Modelowania AGH."
   },
   "Staff": {
     "title": "Katalog pracowników",
@@ -88,7 +90,10 @@
   "Offer": {
     "title": "Nasza oferta",
     "error": "Nie udało się załadować oferty.",
-    "notFound": "Nie znaleziono ofert naukowych."
+    "notFound": "Nie znaleziono ofert naukowych.",
+    "label": "Innowacje",
+    "topics": "Tematy",
+    "description": "Poznaj naszą ofertę badawczą i innowacyjne rozwiązania, które tworzymy w Katedrze Informatyki Stosowanej i Modelowania AGH."
   },
   "ResearchGroups": {
     "title": "Grupy badawcze",
@@ -96,7 +101,9 @@
     "notFound": "Nie znaleziono grup badawczych.",
     "members": "członków",
     "leader": "Kierownik",
-    "teamSite": "Strona zespołu"
+    "teamSite": "Strona zespołu",
+    "label": "Badania naukowe",
+    "description": "Odkryj nasze grupy badawcze w Katedrze Informatyki Stosowanej i Modelowania AGH i dowiedz się więcej o ich innowacyjnych projektach i osiągnięciach."
   },
   "Courses": {
     "title": "Kierunki studiów",
@@ -104,12 +111,15 @@
     "noResults": "Brak dostępnych kierunków.",
     "firstDegree": "Studia I stopnia (inżynierskie)",
     "secondDegree": "Studia II stopnia (magisterskie)",
-    "semesters": "semestrów",
+    "semesters": "semestry",
+    "semesters_v2": "semestrów",
     "syllabus": "Zobacz Sylabus",
     "I stopień": "I stopień",
     "II stopień": "II stopień",
     "Stacjonarne": "Stacjonarne",
-    "Niestacjonarne": "Niestacjonarne"
+    "Niestacjonarne": "Niestacjonarne",
+    "label": "Rozwój kariery",
+    "description": "Odkryj nasze kierunki studiów oferowane przez Katedrę Informatyki Stosowanej i Modelowania AGH i rozpocznij swoją drogę do kariery w branży IT."
   },
   "Helpdesk": {
     "title": "Zgłoszenia",

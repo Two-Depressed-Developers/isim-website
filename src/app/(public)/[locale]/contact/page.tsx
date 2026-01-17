@@ -29,7 +29,7 @@ export default async function ContactPage({ params }: Props) {
     );
 
   return (
-    <div className="container mx-auto max-w-7xl space-y-12 px-4 py-8">
+    <div className="container mx-auto max-w-7xl space-y-12 px-4 pt-4 pb-8">
       <PageTitle
         label={t("label")}
         title={t("title")}

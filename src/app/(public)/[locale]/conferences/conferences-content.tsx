@@ -1,6 +1,7 @@
 "use client";
 
 import PublicationTile from "@/components/custom/conferences/PublicationTile";
+import IconWithBackground from "@/components/custom/IconWithBackground";
 import PageTitle from "@/components/PageTitle";
 import { getConferences } from "@/data/api/conferences";
 import { useConferences } from "@/data/queries/use-conferences";
@@ -9,6 +10,7 @@ import { queryKeys } from "@/data/query-keys";
 import { usePrefetchLocales } from "@/hooks/use-prefetch-locales";
 import { BookOpen, CalendarDays } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
+import { Separator } from "@/components/ui/separator";
 
 function PublicationsList() {
   const t = useTranslations("Conferences");
@@ -29,11 +31,16 @@ function PublicationsList() {
   return (
     <>
       {journals.length > 0 && (
-        <div className="space-y-6">
-          <div className="flex items-center gap-3">
-            <BookOpen className="text-primary h-6 w-6" />
-            <h2 className="text-2xl font-semibold">{t("journals")}</h2>
+        <div className="flex flex-col space-y-6">
+          <div className="flex items-center gap-4">
+            <IconWithBackground icon={BookOpen} />
+            <h2 className="font-display text-xl font-semibold">
+              {t("journals")}
+            </h2>
           </div>
+
+          <Separator className="bg-gray-accent" />
+
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {journals.map((journal) => (
               <PublicationTile
@@ -47,11 +54,16 @@ function PublicationsList() {
       )}
 
       {conferences.length > 0 && (
-        <div className="space-y-6">
-          <div className="flex items-center gap-3">
-            <CalendarDays className="text-primary h-6 w-6" />
-            <h2 className="text-2xl font-semibold">{t("events")}</h2>
+        <div className="flex flex-col space-y-6">
+          <div className="flex items-center gap-4">
+            <IconWithBackground icon={CalendarDays} />
+            <h2 className="font-display text-xl font-semibold">
+              {t("events")}
+            </h2>
           </div>
+
+          <Separator className="bg-gray-accent" />
+
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {conferences.map((conference) => (
               <PublicationTile
@@ -71,8 +83,12 @@ export default function ConferencesContent() {
   const t = useTranslations("Conferences");
 
   return (
-    <div className="container mx-auto max-w-7xl space-y-12 p-8">
-      <PageTitle title={t("title")} />
+    <div className="container mx-auto max-w-7xl space-y-12 px-4 pt-4 pb-8">
+      <PageTitle
+        title={t("title")}
+        label={t("label")}
+        description={t("description")}
+      />
       <PublicationsList />
     </div>
   );

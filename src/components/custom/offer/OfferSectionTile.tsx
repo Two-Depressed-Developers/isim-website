@@ -1,6 +1,6 @@
+import { Card } from "@/components/ui/card";
 import { OfferSection } from "@/types";
-import { CheckCircle, LucideIcon } from "lucide-react";
-import { useMemo } from "react";
+import { LucideIcon } from "lucide-react";
 
 type Props = {
   section: OfferSection;
@@ -42,19 +42,22 @@ export default function OfferSectionTile({
   }
 
   return (
-    <div className="bg-card hover:border-primary/50 rounded-lg border p-6 transition-colors">
-      <h3 className="mb-4 text-xl font-semibold">{section.sectionTitle}</h3>
-
-      {section.features && section.features.length > 0 && (
-        <ul className="space-y-3">
-          {section.features.map((feature) => (
-            <li key={feature.id} className="flex gap-2">
-              <CheckCircle className="text-primary mt-0.5 h-4 w-4 shrink-0" />
-              <span className="text-sm">{feature.value}</span>
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
+    <Card>
+      <div className="p-6">
+        <h3 className="mb-4 text-base font-semibold">{section.sectionTitle}</h3>
+        {section.features && section.features.length > 0 && (
+          <ul className="space-y-3">
+            {section.features.map((feature) => (
+              <li key={feature.id} className="flex items-start gap-2">
+                <span className="bg-primary my-auto h-1 w-1 shrink-0 rounded-full" />
+                <span className="flex-1 text-xs text-gray-600">
+                  {feature.value}
+                </span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </Card>
   );
 }

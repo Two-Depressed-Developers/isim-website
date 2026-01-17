@@ -72,7 +72,7 @@ const Breadcrumbs = ({ className, pagesData }: Props) => {
 
   return (
     <div className={cn("py-8 font-medium", className)}>
-      <Breadcrumb className="mx-auto max-w-7xl px-8">
+      <Breadcrumb className="mx-auto max-w-7xl px-4">
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink asChild>

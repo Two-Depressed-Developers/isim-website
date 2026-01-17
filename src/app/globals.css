@@ -79,7 +79,7 @@
 @layer base {
   :root {
     --radius: 0.5rem;
-    --background: 0 0% 98%;
+    --background: 0 0% 100%;
     --light-gray-text: 0 0% 42%;
     --gray-text: 0 0% 31%;
     --inactive: 0 0% 89.8%;

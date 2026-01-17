@@ -1,8 +1,9 @@
 import { Group } from "@/types";
 import { Badge } from "@/components/ui/badge";
-import { ArrowUpRight, ExternalLink, Users } from "lucide-react";
+import { ArrowUpRight, Users } from "lucide-react";
 import CustomLink from "@/components/CustomLink";
 import { useTranslations } from "next-intl";
+import CardAsLinkWrapper from "../CardAsLinkWrapper";
 
 type Props = {
   group: Group;
@@ -19,8 +20,11 @@ export default function ResearchGroupTile({
   const keywords = group.keywords?.split(",").map((k) => k.trim()) ?? [];
 
   if (variant === "compact") {
-    const content = (
-      <>
+    return (
+      <CardAsLinkWrapper
+        link={group.siteLink}
+        className="group hover:border-primary/50 relative flex flex-col justify-between gap-y-4 border border-gray-200 bg-white p-6 transition-all"
+      >
         <div className="flex flex-col gap-y-3">
           <div className="flex flex-col gap-y-1">
             <h3 className="text-md font-semibold">{group.name}</h3>
@@ -43,26 +47,8 @@ export default function ResearchGroupTile({
             {t("members")}
           </div>
         </div>
-      </>
+      </CardAsLinkWrapper>
     );
-
-    const styles =
-      "group relative flex flex-col justify-between gap-y-4 border border-gray-200 bg-white p-6 transition-all hover:border-primary/50";
-
-    if (group.siteLink) {
-      return (
-        <CustomLink
-          href={group.siteLink.URL}
-          isExternal={group.siteLink.isExternal}
-          className={styles}
-        >
-          <ArrowUpRight className="group-hover:text-primary absolute top-4 right-4 h-5 w-5 text-gray-400 transition-colors" />
-          {content}
-        </CustomLink>
-      );
-    }
-
-    return <div className={styles}>{content}</div>;
   }
 
   return (
@@ -114,7 +100,7 @@ export default function ResearchGroupTile({
             className="border-input bg-muted hover:bg-accent hover:text-accent-foreground flex w-full items-center justify-center gap-3 rounded-md border px-4 py-1.5 text-center text-sm font-medium transition-colors"
           >
             {t("teamSite")}
-            <ExternalLink className="h-3.5 w-3.5" />
+            <ArrowUpRight className="h-3.5 w-3.5" />
           </CustomLink>
         )}
 
@@ -126,7 +112,7 @@ export default function ResearchGroupTile({
             className="border-input bg-muted hover:bg-accent hover:text-accent-foreground flex w-full items-center justify-center gap-3 rounded-md border px-4 py-1.5 text-center text-sm font-medium transition-colors"
           >
             BADaP
-            <ExternalLink className="h-3.5 w-3.5" />
+            <ArrowUpRight className="h-3.5 w-3.5" />
           </CustomLink>
         )}
       </div>

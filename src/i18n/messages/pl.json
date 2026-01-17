@@ -259,13 +259,20 @@
   "Contact": {
     "metaTitle": "Kontakt - Katedra Informatyki Stosowanej i Modelowania",
     "title": "Kontakt",
+    "label": "Skontaktuj się z nami",
+    "description": "Skontaktuj się z Katedrą Informatyki Stosowanej i Modelowania",
     "addressHeader": "Adres Korespondencyjny",
     "contactHeader": "Dane Kontaktowe",
     "phoneLabel": "Telefon",
     "emailLabel": "E-mail",
     "hoursHeader": "Godziny Otwarcia Sekretariatu",
-    "mapCaption": "Budynek B-4 znajduje się w głównym kampusie AGH.",
-    "notFound": "Nie udało się załadować danych kontaktowych."
+    "findUsHeader": "Jak nas znaleźć",
+    "notFound": "Nie udało się załadować danych kontaktowych.",
+    "lines": "Linie",
+    "tramLabel": "Tramwaj",
+    "busLabel": "Autobus",
+    "carLabel": "Samochód",
+    "parking": "Parking dostępny przy ul. Reymonta (płatny)"
   },
   "Accessibility": {
     "metaTitle": "Deklaracja Dostępności",

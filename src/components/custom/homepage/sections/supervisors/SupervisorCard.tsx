@@ -1,11 +1,10 @@
-import { ComponentHomepageSupervisorCard, Member } from "@/types";
+import { ComponentHomepageSupervisorCard } from "@/types";
 import { StrapiImage } from "@/components/StrapiImage";
 import CustomLink from "@/components/CustomLink";
-import { Separator } from "@/components/ui/separator";
-import { ContactLink } from "@/components/ContactLink";
 import { useTranslations } from "next-intl";
 import SupervisorInfo from "./SupervisorInfo";
 import { ArrowUpRight } from "lucide-react";
+import { Card } from "@/components/ui/card";
 
 type Props = {
   supervisor: ComponentHomepageSupervisorCard;
@@ -16,12 +15,12 @@ export default function SupervisorCard({ supervisor, preloadImg }: Props) {
   const t = useTranslations("HomePage.supervisor");
 
   return (
-    <div className="hover:border-primary/50 group border-border relative flex flex-col border bg-white transition-all sm:max-h-64 sm:flex-row">
+    <Card className="hover:border-primary/50 group relative flex flex-col transition-all sm:max-h-64 sm:flex-row">
       {supervisor.member && (
         <CustomLink
           href={`/staff-members/${supervisor.member.slug}`}
           isExternal={false}
-          className="absolute inset-0 z-20" // Zwiększony z-index
+          className="absolute inset-0 z-20"
           aria-label={`${t("viewProfileOf")} ${supervisor.member.fullName}`}
         >
           <span className="sr-only">{t("viewProfile")}</span>
@@ -78,6 +77,6 @@ export default function SupervisorCard({ supervisor, preloadImg }: Props) {
           )}
         </div>
       </div>
-    </div>
+    </Card>
   );
 }

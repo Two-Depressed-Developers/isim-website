@@ -1,6 +1,6 @@
 "use client";
 
-import HeroSlider from "./sections/HeroSlider";
+import HeroSlider from "./sections/hero-slider/HeroSlider";
 import { HomepageData, HomepageSection } from "@/types";
 import SupervisorsSection from "./sections/supervisors/SupervisorsSection";
 import CollaborationsSection from "./sections/collaborations/CollaborationsSection";

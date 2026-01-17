@@ -1,7 +1,7 @@
 import { ComponentHomepageCollaborationItem } from "@/types";
 import { StrapiImage } from "@/components/StrapiImage";
 import CustomLink from "@/components/CustomLink";
-import { ArrowUpRight, ExternalLink } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 type Props = {
   item: ComponentHomepageCollaborationItem;
@@ -10,7 +10,7 @@ type Props = {
 
 export default function CollaborationItem({ item, preloadImg }: Props) {
   const content = (
-    <div className="group hover:border-primary/50 border-gray-accent relative aspect-[2/1] w-full overflow-hidden border bg-white p-8 transition-all duration-300">
+    <div className="group hover:border-primary/50 border-gray-accent relative aspect-2/1 w-full overflow-hidden border bg-white p-8 transition-all duration-300">
       <div className="relative h-full w-full">
         <StrapiImage
           imageLink={item.logo.url}

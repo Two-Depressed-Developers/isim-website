@@ -16,7 +16,7 @@ export default function SupervisorsSection({ data, preloadImg }: Props) {
         description={data.description}
       />
       <div className="grid gap-6 xl:grid-cols-2">
-        {data.supervisors?.map((supervisor) => (
+        {data.supervisors.map((supervisor) => (
           <SupervisorCard
             key={`member_${supervisor.id}`}
             supervisor={supervisor}

@@ -3,7 +3,6 @@ import { Badge } from "@/components/ui/badge";
 import { ArrowUpRight, ExternalLink, Users } from "lucide-react";
 import CustomLink from "@/components/CustomLink";
 import { useTranslations } from "next-intl";
-import { Separator } from "@/components/ui/separator";
 
 type Props = {
   group: Group;
@@ -20,7 +19,7 @@ export default function ResearchGroupTile({
   const keywords = group.keywords?.split(",").map((k) => k.trim()) ?? [];
 
   if (variant === "compact") {
-    const Content = (
+    const content = (
       <>
         <div className="flex flex-col gap-y-3">
           <div className="flex flex-col gap-y-1">
@@ -58,12 +57,12 @@ export default function ResearchGroupTile({
           className={styles}
         >
           <ArrowUpRight className="group-hover:text-primary absolute top-4 right-4 h-5 w-5 text-gray-400 transition-colors" />
-          {Content}
+          {content}
         </CustomLink>
       );
     }
 
-    return <div className={styles}>{Content}</div>;
+    return <div className={styles}>{content}</div>;
   }
 
   return (

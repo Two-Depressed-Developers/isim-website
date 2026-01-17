@@ -1,7 +1,7 @@
 import { Page } from "@/types";
 import { Separator } from "@/components/ui/separator";
 import CustomLink from "@/components/CustomLink";
-import { ArrowUpRight, ExternalLink } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 

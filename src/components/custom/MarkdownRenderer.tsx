@@ -12,7 +12,7 @@ const markdownComponents: Components = {
       <CustomLink
         href={href ?? "#"}
         isExternal={isExternal && !isSpecial}
-        className="text-foreground hover:text-primary inline-flex items-baseline font-medium no-underline transition-colors duration-200"
+        className="hover:text-primary inline-flex items-baseline font-medium text-slate-400 no-underline transition-colors duration-200"
         {...props}
       >
         {children}
@@ -31,7 +31,11 @@ export const MarkdownRenderer = ({
   <ReactMarkdown
     remarkPlugins={[remarkGfm]}
     components={markdownComponents}
-    className={cn("prose prose-sm prose-a:no-underline max-w-none", className)}
+    className={cn(
+      "prose prose-sm prose-a:no-underline max-w-none",
+      "prose-p:text-inherit prose-headings:text-inherit prose-li:text-inherit",
+      className,
+    )}
   >
     {content}
   </ReactMarkdown>

@@ -12,7 +12,12 @@ const FooterSection = ({ section }: Props) => {
   return (
     <div className="flex h-full flex-col space-y-2 text-white/75">
       {section.title && <h4 className="text-lg font-bold">{section.title}</h4>}
-      {section.text && <MarkdownRenderer content={section.text} />}
+      {section.text && (
+        <MarkdownRenderer
+          content={section.text}
+          className="prose-invert text-slate-400"
+        />
+      )}
       {section.images && section.images.length > 0 && (
         <div className="flex justify-center space-x-2 sm:justify-start">
           {section.images.map((image) => (

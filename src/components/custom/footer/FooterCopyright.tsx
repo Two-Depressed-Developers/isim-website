@@ -6,21 +6,19 @@ type Props = {
 
 const FooterCopyright = ({ copyrightText }: Props) => {
   return (
-    <div className="border-gray-accent mx-auto mb-12 flex min-h-12 max-w-7xl justify-center border-t">
-      <div className="relative flex w-full max-w-7xl items-center justify-center text-center">
-        <span className="mx-20 text-base font-normal text-white/80">
-          {copyrightText.replace(
-            "{currentYear}",
-            new Date().getFullYear().toString(),
-          )}
-        </span>
-        <Link
-          href="/panel"
-          className="absolute right-2 ml-2 rounded-md px-2 py-1 text-white/75 underline-offset-2 hover:underline sm:right-6"
-        >
-          Panel
-        </Link>
-      </div>
+    <div className="mx-auto mb-6 flex min-h-12 max-w-7xl justify-between gap-4 border-t border-white/15 py-6">
+      <span className="text-sm font-semibold text-white/50">
+        {copyrightText.replace(
+          "{currentYear}",
+          new Date().getFullYear().toString(),
+        )}
+      </span>
+      <Link
+        href="/panel"
+        className="px-2 py-1 text-sm font-semibold text-white/50 underline-offset-2 hover:underline"
+      >
+        Panel
+      </Link>
     </div>
   );
 };

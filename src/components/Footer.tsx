@@ -25,7 +25,9 @@ const Footer = async () => {
           <FooterUniversityLogo logo={footerData.universityLogo} />
         </div>
       </div>
-      <FooterCopyright copyrightText={footerData.copyrightText} />
+      <div className="px-8">
+        <FooterCopyright copyrightText={footerData.copyrightText} />
+      </div>
     </footer>
   );
 };

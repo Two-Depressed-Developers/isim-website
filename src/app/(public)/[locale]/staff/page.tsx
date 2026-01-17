@@ -26,7 +26,7 @@ export default async function StaffPage({
   const t = await getTranslations({ locale, namespace: "Staff" });
 
   return (
-    <div className="container mx-auto max-w-7xl space-y-8 px-4 py-8">
+    <div className="container mx-auto max-w-7xl space-y-8 px-4 pt-4 pb-8">
       <PageTitle
         title={t("title")}
         label={t("label")}

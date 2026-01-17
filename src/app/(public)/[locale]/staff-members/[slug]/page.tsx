@@ -51,7 +51,7 @@ export default async function Page({
       <div className="mx-auto max-w-7xl p-8">
         <Link
           href="/staff"
-          className="mb-8 inline-flex items-center gap-2 text-sm text-slate-600 transition-colors hover:text-[#0e759a]"
+          className="hover:text-primary mb-8 inline-flex items-center gap-2 text-sm text-slate-600 transition-colors"
         >
           <ArrowLeft className="h-4 w-4" />
           {t("backToDirectory")}

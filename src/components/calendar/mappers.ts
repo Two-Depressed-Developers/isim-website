@@ -54,11 +54,11 @@ function mapConsultationBookingToCalendarEvent(
 }
 
 export function mapConsultationBookingsToGroupedEvents(
-  bookings: ConsultationBooking[],
+  bookings?: ConsultationBooking[],
 ): IEvent[] {
   const groups: Record<string, ConsultationBooking[]> = {};
 
-  bookings.forEach((booking) => {
+  bookings?.forEach((booking) => {
     const key = `${booking.startTime}_${booking.endTime}`;
     if (!groups[key]) {
       groups[key] = [];

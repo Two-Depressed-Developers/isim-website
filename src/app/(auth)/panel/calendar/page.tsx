@@ -41,7 +41,7 @@ function CalendarContent({ memberSlug }: { memberSlug: string }) {
 
   const acceptedBookings = useMemo(
     () =>
-      bookings.filter((booking) => booking.reservationStatus === "accepted"),
+      bookings?.filter((booking) => booking.reservationStatus === "accepted"),
     [bookings],
   );
 
@@ -105,7 +105,7 @@ function CalendarContent({ memberSlug }: { memberSlug: string }) {
           <h1 className="text-3xl font-bold">Kalendarz konsultacji</h1>
           <p className="text-muted-foreground">Zaakceptowane konsultacje</p>
         </div>
-        {acceptedBookings.length > 0 && (
+        {acceptedBookings && acceptedBookings.length > 0 && (
           <div className="flex gap-2">
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
               <DialogTrigger asChild>

@@ -55,10 +55,7 @@ export function TicketForm({ defaultEmail }: Props) {
   }
 
   return (
-    <Card className="w-full max-w-2xl">
-      <CardHeader>
-        <CardTitle>{t("title")}</CardTitle>
-      </CardHeader>
+    <Card className="w-full max-w-2xl pt-6">
       <CardContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">

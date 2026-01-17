@@ -125,8 +125,9 @@
     "description": "Odkryj nasze kierunki studiów oferowane przez Katedrę Informatyki Stosowanej i Modelowania AGH i rozpocznij swoją drogę do kariery w branży IT."
   },
   "Helpdesk": {
-    "title": "Zgłoszenia",
+    "title": "Nowe zgłoszenie",
     "subtitle": "Zgłoś problem z laboratorium lub sprzętem. Postaramy się rozwiązać go jak najszybciej.",
+    "label": "Wsparcie",
     "back": "Wróć na stronę główną",
     "create": "Utwórz nowe zgłoszenie"
   },

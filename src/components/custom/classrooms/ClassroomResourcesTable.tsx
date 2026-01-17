@@ -98,6 +98,7 @@ export function ClassroomResourcesTable({ classrooms }: Props) {
               <Input
                 id="search-filter"
                 placeholder={t("filters.searchPlaceholder")}
+                rounded={"none"}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -134,6 +135,7 @@ export function ClassroomResourcesTable({ classrooms }: Props) {
                 value={resourceFilter}
                 onChange={(e) => setResourceFilter(e.target.value)}
                 list="resources-list"
+                rounded={"none"}
               />
               <datalist id="resources-list">
                 {allResources.map((resource) => (
@@ -164,13 +166,17 @@ export function ClassroomResourcesTable({ classrooms }: Props) {
         <CardContent className="p-0">
           <div className="overflow-x-auto">
             <Table>
-              <TableHeader>
+              <TableHeader className="bg-second-background">
                 <TableRow>
-                  <TableHead className="w-[150px]">{t("table.room")}</TableHead>
-                  <TableHead className="w-[100px]">
+                  <TableHead className="w-[150px] font-bold text-black">
+                    {t("table.room")}
+                  </TableHead>
+                  <TableHead className="w-[100px] font-bold text-black">
                     {t("table.building")}
                   </TableHead>
-                  <TableHead>{t("table.resources")}</TableHead>
+                  <TableHead className="font-bold text-black">
+                    {t("table.resources")}
+                  </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -186,7 +192,7 @@ export function ClassroomResourcesTable({ classrooms }: Props) {
                 ) : (
                   filteredClassrooms.map((classroom) => (
                     <TableRow key={classroom.id || classroom.fullRoomCode}>
-                      <TableCell className="font-medium">
+                      <TableCell className="text-primary font-medium">
                         {classroom.fullRoomCode}
                       </TableCell>
                       <TableCell>

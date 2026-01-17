@@ -10,8 +10,12 @@ export default function ClassroomsContent() {
   const { data: classrooms } = useClassroomResources();
 
   return (
-    <div className="mx-auto flex w-full max-w-7xl flex-col space-y-8 px-2 py-8">
-      <PageTitle title={t("title")} />
+    <div className="mx-auto flex w-full max-w-7xl flex-col space-y-8 px-4 pt-4 pb-8">
+      <PageTitle
+        title={t("title")}
+        label={t("label")}
+        description={t("description")}
+      />
       <ClassroomResourcesTable classrooms={classrooms || []} />
     </div>
   );

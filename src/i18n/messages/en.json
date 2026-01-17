@@ -264,6 +264,8 @@
   },
   "Classrooms": {
     "title": "Rooms and Resources",
+    "label": "Educational resources",
+    "description": "Explore the available classrooms and their resources at the Department of Applied Computer Science and Modelling AGH.",
     "loading": "Loading classroom data...",
     "error": "Failed to load classroom data.",
     "noData": "No classroom data available.",
